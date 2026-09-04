@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Tool" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/tool.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"mining_pickaxe"
+display_name = "Mining Pickaxe"
+description = "Chips ore free from rock. Wears down with use."
+max_stack = 1
+value = 15
+category = 2
+tool_type = 0
+power = 1
+max_durability = 50
