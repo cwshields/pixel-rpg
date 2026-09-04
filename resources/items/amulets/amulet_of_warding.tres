@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Amulet" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/amulet.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"amulet_of_warding"
+display_name = "Amulet of Warding"
+description = "Etched with old protective runes."
+max_stack = 1
+value = 60
+category = 4
+stat_modifiers = {
+"defense": 2.0
+}
+passive_effect = &""

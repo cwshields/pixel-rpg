@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"iron_sword"
+display_name = "Iron Sword"
+description = "A sturdy blade favored by novice adventurers."
+max_stack = 1
+value = 25
+category = 0
+weapon_type = 0
+damage = 6.0
+attack_speed = 1.0
+crit_bonus = 0.0
+two_handed = false

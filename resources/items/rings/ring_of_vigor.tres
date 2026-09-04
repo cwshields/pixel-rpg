@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Ring" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/ring.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ring_of_vigor"
+display_name = "Ring of Vigor"
+description = "A faint warmth radiates from this band, quickening the wearer's step."
+max_stack = 1
+value = 40
+category = 3
+stat_modifiers = {
+"speed_multiplier": 0.15
+}

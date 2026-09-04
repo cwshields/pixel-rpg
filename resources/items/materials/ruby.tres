@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CraftingMaterial" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/crafting_material.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ruby"
+display_name = "Ruby"
+description = "A deep red gemstone. Sells well, sought by jewelers."
+max_stack = 99
+value = 30
+category = 6
+material_type = 1
+rarity = 2

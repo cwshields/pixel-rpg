@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CraftingMaterial" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/crafting_material.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"wolf_pelt"
+display_name = "Wolf Pelt"
+description = "A thick pelt, good for tanning into leather goods."
+max_stack = 99
+value = 4
+category = 6
+material_type = 3
+rarity = 0

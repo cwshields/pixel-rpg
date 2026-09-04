@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CraftingMaterial" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/crafting_material.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"copper_ore"
+display_name = "Copper Ore"
+description = "Common ore, useful for basic smithing."
+max_stack = 99
+value = 2
+category = 6
+material_type = 0
+rarity = 0

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/consumable.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"cooked_meal"
+display_name = "Cooked Meal"
+description = "A hearty meal. Heals a little and steels your nerve briefly."
+max_stack = 10
+value = 8
+category = 5
+consumable_type = 1
+heal_amount = 8.0
+stamina_amount = 20.0
+buff_stat = &"defense"
+buff_amount = 1.0
+buff_duration = 60.0
