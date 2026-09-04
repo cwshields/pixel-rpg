@@ -1,0 +1,14 @@
+class_name PlayerIdleState
+extends State
+
+func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
+	entity.stop()
+	entity.play_animation("idle")
+
+func process_physics(_delta: float) -> void:
+	var player := entity as Player
+	if Input.is_action_just_pressed("attack"):
+		transition_requested.emit(&"Attack", {})
+		return
+	if player.get_move_input() != Vector2.ZERO:
+		transition_requested.emit(&"Move", {})
