@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bu5w5q6jwikdn"]
+
+[ext_resource type="Texture2D" uid="uid://4vo2nyb8x3fc" path="res://assets/Environment/Props/Static/Trees/Model_02/Size_04.png" id="1"]
+[ext_resource type="Script" uid="uid://bn008yhfxko08" path="res://scripts/world/tree.gd" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tree"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 64, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trunk"]
+size = Vector2(9, 8)
+
+[node name="Tree" type="Node2D" unique_id=591471311]
+script = ExtResource("2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=281834848]
+position = Vector2(0, -56)
+texture = SubResource("AtlasTexture_tree")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=264104722]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=455016265]
+position = Vector2(0.5, -4)
+shape = SubResource("RectangleShape2D_trunk")
