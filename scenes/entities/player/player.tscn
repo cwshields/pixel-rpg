@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://b2bk3idmnmayg"]
+
+[ext_resource type="Script" uid="uid://cce4vrrlnlw2p" path="res://scripts/entities/player/player.gd" id="1"]
+[ext_resource type="Script" uid="uid://cuuncdpcq7okj" path="res://scripts/entities/state_machine.gd" id="2"]
+[ext_resource type="Script" uid="uid://chan8s3cwg2ob" path="res://scripts/entities/player/states/player_idle_state.gd" id="3"]
+[ext_resource type="Script" uid="uid://cpg5m820po745" path="res://scripts/entities/player/states/player_move_state.gd" id="4"]
+[ext_resource type="Script" uid="uid://dmek128wiklk8" path="res://scripts/entities/player/states/player_attack_state.gd" id="5"]
+[ext_resource type="Script" uid="uid://dcvfi5xyo5okf" path="res://scripts/entities/player/states/player_hurt_state.gd" id="6"]
+[ext_resource type="Script" uid="uid://bdw1bwmt348yq" path="res://scripts/entities/player/states/player_dead_state.gd" id="7"]
+[ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
+[ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
+[ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="10"]
+[ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="11"]
+[ext_resource type="SpriteFrames" uid="uid://d4loisxylxe2j" path="res://resources/characters/player_sprite_frames.tres" id="12"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(16, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(20, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(16, 10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 20.0
+
+[node name="Player" type="CharacterBody2D" unique_id=297710763]
+z_index = 10
+script = ExtResource("1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1663619637]
+sprite_frames = ExtResource("12")
+animation = &"idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1915206668]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=2101049054]
+script = ExtResource("8")
+max_health = 30.0
+
+[node name="StatsComponent" type="Node" parent="." unique_id=1715857086]
+script = ExtResource("9")
+
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1903802729]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=205546354]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=718902498]
+collision_layer = 0
+collision_mask = 4
+monitoring = false
+script = ExtResource("11")
+damage = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1813012415]
+position = Vector2(12, 2)
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="InteractionDetector" type="Area2D" parent="." unique_id=1324872926]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionDetector" unique_id=694702353]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_interact")
+
+[node name="StateMachine" type="Node" parent="." unique_id=749978011]
+script = ExtResource("2")
+initial_state = &"Idle"
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1943758075]
+script = ExtResource("3")
+
+[node name="Move" type="Node" parent="StateMachine" unique_id=1042359190]
+script = ExtResource("4")
+
+[node name="Attack" type="Node" parent="StateMachine" unique_id=1772954322]
+script = ExtResource("5")
+
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=906687562]
+script = ExtResource("6")
+
+[node name="Dead" type="Node" parent="StateMachine" unique_id=1115862409]
+script = ExtResource("7")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=706965347]
