@@ -31,6 +31,11 @@ func _ready() -> void:
 func get_move_input() -> Vector2:
 	return Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
+## True while the sprint key (Shift) is held. Movement states use this to
+## pick run speed + run animations; only meaningful when actually moving.
+func wants_to_sprint() -> bool:
+	return Input.is_action_pressed("sprint")
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		_interact_with_nearest()
