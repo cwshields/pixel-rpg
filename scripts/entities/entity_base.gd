@@ -8,9 +8,17 @@ extends CharacterBody2D
 signal died(entity: EntityBase)
 signal facing_changed(direction: Vector2)
 
-@export var move_speed: float = 90.0
-@export var acceleration: float = 900.0
-@export var friction: float = 800.0
+@export var move_speed: float = 65.0
+## Target speed (px/sec) used in place of `move_speed` while `sprinting` is
+## true. The driving state sets `sprinting` each frame from its own input
+## (see PlayerMoveState).
+@export var sprint_speed: float = 110.0
+@export var acceleration: float = 600.0
+@export var friction: float = 500.0
+
+## When true, `move()` targets `sprint_speed` instead of `move_speed`. Not
+## persisted — whichever state is active owns setting and clearing it.
+var sprinting: bool = false
 
 ## Last non-zero movement direction. Useful for aiming an attack or
 ## picking an idle-facing animation when the entity is standing still.
@@ -55,11 +63,15 @@ func _facing_suffix() -> String:
 ## Eases velocity toward `direction * move_speed` and slides. Pass
 ## Vector2.ZERO to decelerate to a stop. `direction` should already be
 ## normalized (or zero) — callers decide how input maps to a direction.
-func move(direction: Vector2, delta: float) -> void:
-	var target_speed: float = move_speed * (stats.speed_multiplier if stats else 1.0)
+## Pass `update_facing = false` to move without re-aiming `facing_direction`
+## (e.g. sidestepping mid-attack while the swing stays committed).
+func move(direction: Vector2, delta: float, update_facing: bool = true) -> void:
+	var base_speed: float = sprint_speed if sprinting else move_speed
+	var target_speed: float = base_speed * (stats.speed_multiplier if stats else 1.0)
 	if direction != Vector2.ZERO:
-		facing_direction = direction
-		facing_changed.emit(direction)
+		if update_facing:
+			facing_direction = direction
+			facing_changed.emit(direction)
 		velocity = velocity.move_toward(direction * target_speed, acceleration * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)

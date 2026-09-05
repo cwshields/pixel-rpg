@@ -2,6 +2,7 @@ class_name PlayerIdleState
 extends State
 
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
+	entity.sprinting = false
 	entity.stop()
 	entity.play_animation("idle")
 
