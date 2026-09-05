@@ -10,9 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://cjrugrinltgy5" path="res://Tilesets/Wall_Tiles.png" id="8_72brb"]
 [ext_resource type="Texture2D" uid="uid://cc4u7p15wcmdn" path="res://Tilesets/Wall_Variations.png" id="9_eijrp"]
 [ext_resource type="PackedScene" uid="uid://b2bk3idmnmayg" path="res://scenes/entities/player/player.tscn" id="10_u2u5e"]
-[ext_resource type="PackedScene" path="res://scenes/world/tree.tscn" id="12_kpsmc"]
+[ext_resource type="PackedScene" uid="uid://bu5w5q6jwikdn" path="res://scenes/world/tree.tscn" id="12_kpsmc"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="14_ctt2g"]
 [ext_resource type="PackedScene" path="res://scenes/ui/inventory_ui.tscn" id="16_dr35k"]
+[ext_resource type="PackedScene" path="res://scenes/world/enemy_spawner.tscn" id="17_spwnr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vteet"]
 texture = ExtResource("2_64qn6")
@@ -1992,10 +1993,14 @@ position = Vector2(30, 100)
 position = Vector2(120, 110)
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=516257331]
-visible = false
 
 [node name="HUD" parent="UILayer" unique_id=241571188 instance=ExtResource("14_ctt2g")]
 
 [node name="InventoryUI" parent="UILayer" unique_id=1598656102 instance=ExtResource("16_dr35k")]
 layout_mode = 3
 anchors_preset = 15
+
+[node name="Spawners" type="Node2D" parent="." unique_id=774193056]
+
+[node name="EnemySpawner" parent="Spawners" unique_id=774193057 instance=ExtResource("17_spwnr")]
+position = Vector2(283, 41)

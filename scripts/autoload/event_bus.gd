@@ -16,3 +16,6 @@ signal dialogue_started(npc: Node)
 signal dialogue_ended
 ## Fired whenever a UI screen registered with UIManager opens or closes.
 signal ui_toggled(screen_name: StringName, is_open: bool)
+## Fired when the player changes the active hotbar slot (number keys or
+## mouse wheel). `item` is null when the newly selected slot is empty.
+signal hotbar_selection_changed(index: int, item: ItemBase)
