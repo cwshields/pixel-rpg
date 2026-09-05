@@ -144,6 +144,12 @@ player's physical body). Layer 2 is free for a future projectile layer.
   `AnimatedSprite2D`'s `Sprite Frames` to one of the `resources/characters/enemies/`
   resources (or a new one), tune the exported stats, and fill in `loot_table`.
   No new script usually needed.
+- **Enemy spawn point**: drop `scenes/world/enemy_spawner.tscn` (an
+  `EnemySpawner` marker) anywhere in a scene. It spawns `spawn_count`
+  copies of `enemy_scene` (defaults to `enemy_base.tscn`) within
+  `spawn_radius` of itself on load; set `max_alive > 0` to have it refill
+  as they die. `main.tscn` has one under `Spawners/EnemySpawner` — move
+  that marker, or add more, to place encounters.
 - **New item**: New Resource → pick `Weapon`/`Armor`/`Tool`/`Ring`/`Amulet`/
   `Consumable`/`CraftingMaterial`, fill in the Inspector fields, save as
   `.tres` under `resources/items/`.
