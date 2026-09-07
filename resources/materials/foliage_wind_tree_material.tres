@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cnikowxrapv4y"]
+
+[ext_resource type="Shader" uid="uid://cyn2362fgrva5" path="res://shaders/foliage_wind.gdshader" id="1"]
+
+[resource]
+resource_name = "FoliageWindTree"
+shader = ExtResource("1")

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Events="*res://scripts/autoload/event_bus.gd"
 GameManager="*res://scripts/autoload/game_manager.gd"
 UIManager="*res://scripts/autoload/ui_manager.gd"
+Foliage="*res://scripts/world/foliage_manager.gd"
 
 [display]
 
@@ -83,3 +84,14 @@ sprint={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+
+[shader_globals]
+
+wind_direction={
+"type": "vec2",
+"value": Vector2(1, 0.25)
+}
+wind_strength={
+"type": "float",
+"value": 1.0
+}

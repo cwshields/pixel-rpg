@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://4vo2nyb8x3fc" path="res://assets/Environment/Props/Static/Trees/Model_02/Size_04.png" id="1"]
 [ext_resource type="Script" uid="uid://bn008yhfxko08" path="res://scripts/world/tree.gd" id="2"]
+[ext_resource type="Material" path="res://resources/materials/foliage_wind_tree_material.tres" id="3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tree"]
 atlas = ExtResource("1")
@@ -14,6 +15,7 @@ size = Vector2(9, 8)
 script = ExtResource("2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=281834848]
+material = ExtResource("3")
 position = Vector2(0, -56)
 texture = SubResource("AtlasTexture_tree")
 
