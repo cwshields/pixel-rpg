@@ -151,9 +151,16 @@ still cheap.
 
 `tree.gd` is `@tool` and exposes an **Art** group (`art_texture`,
 `art_region`, `art_offset`, `swaying`) and a **Trunk Collision** group
-(`trunk_enabled`, `trunk_size`, `trunk_offset`) so one `tree.tscn` can stand
-in for every tileset tree sprite. A plain instance that sets none of these
-behaves exactly as before. The converter fills them in per tree from the
-tileset's atlas source / `TileData.texture_origin`; re-run it (on a fresh
-checkout) with `ADD_TRUNK_COLLISION = true` if the painted trees should
-block movement like the hand-placed ones.
+(`trunk_enabled`, `trunk_polygon`, `trunk_size`, `trunk_offset`) so one
+`tree.tscn` can stand in for every tileset tree sprite. A plain instance
+that sets none of these behaves exactly as before. The converter fills them
+in per tree from the tileset's atlas source, `TileData.texture_origin`, and
+`TileData`'s physics polygon — so a converted tree keeps the exact trunk
+collision it had as a tile (`trunk_polygon` → a `ConvexPolygonShape2D` on
+the instance's CollisionShape2D). `ADD_TRUNK_COLLISION` (default true) turns
+that off if you want purely visual trees.
+
+The converter is safe to re-run: a REPAIR pass rebuilds trunk collision on
+any existing `PaintedTree_*` that's missing it, and a CONVERT pass handles
+any tree tiles still on the layer. Run it once more after pulling if your
+`PaintedTrees` were made before `trunk_polygon` existed.

@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://b2bk3idmnmayg" path="res://scenes/entities/player/player.tscn" id="10_u2u5e"]
 [ext_resource type="PackedScene" uid="uid://bu5w5q6jwikdn" path="res://scenes/world/tree.tscn" id="12_kpsmc"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="14_ctt2g"]
-[ext_resource type="Script" uid="uid://bn008yhfxko08" path="res://scripts/world/tree.gd" id="14_muem4"]
 [ext_resource type="PackedScene" path="res://scenes/ui/inventory_ui.tscn" id="16_dr35k"]
 [ext_resource type="PackedScene" path="res://scenes/world/enemy_spawner.tscn" id="17_spwnr"]
 [ext_resource type="Material" path="res://resources/materials/foliage_wind_material.tres" id="18_flwnd"]
@@ -2044,844 +2043,844 @@ position = Vector2(120, 110)
 
 [node name="PaintedTrees" type="Node2D" parent="Trees" unique_id=1282258801]
 
-[node name="PaintedTree_-2_9" type="Node2D" parent="Trees/PaintedTrees" unique_id=591471311 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-2_9" parent="Trees/PaintedTrees" unique_id=591471311 instance=ExtResource("12_kpsmc")]
 position = Vector2(-24, 160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_4_-3" type="Node2D" parent="Trees/PaintedTrees" unique_id=1894135579 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_4_-3" parent="Trees/PaintedTrees" unique_id=1894135579 instance=ExtResource("12_kpsmc")]
 position = Vector2(72, -32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_22_11" type="Node2D" parent="Trees/PaintedTrees" unique_id=1532526221 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_22_11" parent="Trees/PaintedTrees" unique_id=1532526221 instance=ExtResource("12_kpsmc")]
 position = Vector2(360, 192)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_15_-1" type="Node2D" parent="Trees/PaintedTrees" unique_id=1853770560 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_15_-1" parent="Trees/PaintedTrees" unique_id=1853770560 instance=ExtResource("12_kpsmc")]
 position = Vector2(248, 0)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_26_-7" type="Node2D" parent="Trees/PaintedTrees" unique_id=1401823686 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_26_-7" parent="Trees/PaintedTrees" unique_id=1401823686 instance=ExtResource("12_kpsmc")]
 position = Vector2(424, -96)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_30_-3" type="Node2D" parent="Trees/PaintedTrees" unique_id=867106085 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_30_-3" parent="Trees/PaintedTrees" unique_id=867106085 instance=ExtResource("12_kpsmc")]
 position = Vector2(488, -32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_37_-8" type="Node2D" parent="Trees/PaintedTrees" unique_id=508780729 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_37_-8" parent="Trees/PaintedTrees" unique_id=508780729 instance=ExtResource("12_kpsmc")]
 position = Vector2(600, -112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_34_-2" type="Node2D" parent="Trees/PaintedTrees" unique_id=2028648060 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_34_-2" parent="Trees/PaintedTrees" unique_id=2028648060 instance=ExtResource("12_kpsmc")]
 position = Vector2(552, -16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_21_-5" type="Node2D" parent="Trees/PaintedTrees" unique_id=1168308827 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_21_-5" parent="Trees/PaintedTrees" unique_id=1168308827 instance=ExtResource("12_kpsmc")]
 position = Vector2(344, -64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(192, 0, 16, 32)
 art_offset = Vector2(0, -16)
 swaying = false
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-2_4" type="Node2D" parent="Trees/PaintedTrees" unique_id=1515573914 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-2_4" parent="Trees/PaintedTrees" unique_id=1515573914 instance=ExtResource("12_kpsmc")]
 position = Vector2(-24, 80)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(0, 32, 16, 16)
 art_offset = Vector2(0, -8)
 trunk_enabled = false
 
-[node name="PaintedTree_-8_-7" type="Node2D" parent="Trees/PaintedTrees" unique_id=1596673410 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-8_-7" parent="Trees/PaintedTrees" unique_id=1596673410 instance=ExtResource("12_kpsmc")]
 position = Vector2(-120, -96)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_19_-8" type="Node2D" parent="Trees/PaintedTrees" unique_id=2123848358 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_19_-8" parent="Trees/PaintedTrees" unique_id=2123848358 instance=ExtResource("12_kpsmc")]
 position = Vector2(312, -112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_36_8" type="Node2D" parent="Trees/PaintedTrees" unique_id=1249655070 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_36_8" parent="Trees/PaintedTrees" unique_id=1249655070 instance=ExtResource("12_kpsmc")]
 position = Vector2(584, 144)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_10_6" type="Node2D" parent="Trees/PaintedTrees" unique_id=615924688 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_10_6" parent="Trees/PaintedTrees" unique_id=615924688 instance=ExtResource("12_kpsmc")]
 position = Vector2(168, 112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-14_-3" type="Node2D" parent="Trees/PaintedTrees" unique_id=1040086781 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-14_-3" parent="Trees/PaintedTrees" unique_id=1040086781 instance=ExtResource("12_kpsmc")]
 position = Vector2(-216, -32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-12_-2" type="Node2D" parent="Trees/PaintedTrees" unique_id=750039988 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-12_-2" parent="Trees/PaintedTrees" unique_id=750039988 instance=ExtResource("12_kpsmc")]
 position = Vector2(-184, -16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-11_-11" type="Node2D" parent="Trees/PaintedTrees" unique_id=1729456271 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-11_-11" parent="Trees/PaintedTrees" unique_id=1729456271 instance=ExtResource("12_kpsmc")]
 position = Vector2(-168, -160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-11_-1" type="Node2D" parent="Trees/PaintedTrees" unique_id=216705882 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-11_-1" parent="Trees/PaintedTrees" unique_id=216705882 instance=ExtResource("12_kpsmc")]
 position = Vector2(-168, 0)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-7_-2" type="Node2D" parent="Trees/PaintedTrees" unique_id=697473061 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-7_-2" parent="Trees/PaintedTrees" unique_id=697473061 instance=ExtResource("12_kpsmc")]
 position = Vector2(-104, -16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-4_6" type="Node2D" parent="Trees/PaintedTrees" unique_id=1352496307 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-4_6" parent="Trees/PaintedTrees" unique_id=1352496307 instance=ExtResource("12_kpsmc")]
 position = Vector2(-56, 112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-2_5" type="Node2D" parent="Trees/PaintedTrees" unique_id=959412760 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-2_5" parent="Trees/PaintedTrees" unique_id=959412760 instance=ExtResource("12_kpsmc")]
 position = Vector2(-24, 96)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-1_-3" type="Node2D" parent="Trees/PaintedTrees" unique_id=942767043 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-1_-3" parent="Trees/PaintedTrees" unique_id=942767043 instance=ExtResource("12_kpsmc")]
 position = Vector2(-8, -32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_2_-6" type="Node2D" parent="Trees/PaintedTrees" unique_id=593873917 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_2_-6" parent="Trees/PaintedTrees" unique_id=593873917 instance=ExtResource("12_kpsmc")]
 position = Vector2(40, -80)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_3_0" type="Node2D" parent="Trees/PaintedTrees" unique_id=1311939947 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_3_0" parent="Trees/PaintedTrees" unique_id=1311939947 instance=ExtResource("12_kpsmc")]
 position = Vector2(56, 16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_3_1" type="Node2D" parent="Trees/PaintedTrees" unique_id=492844929 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_3_1" parent="Trees/PaintedTrees" unique_id=492844929 instance=ExtResource("12_kpsmc")]
 position = Vector2(56, 32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_4_9" type="Node2D" parent="Trees/PaintedTrees" unique_id=612225624 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_4_9" parent="Trees/PaintedTrees" unique_id=612225624 instance=ExtResource("12_kpsmc")]
 position = Vector2(72, 160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_7_-11" type="Node2D" parent="Trees/PaintedTrees" unique_id=620050281 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_7_-11" parent="Trees/PaintedTrees" unique_id=620050281 instance=ExtResource("12_kpsmc")]
 position = Vector2(120, -160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_8_-1" type="Node2D" parent="Trees/PaintedTrees" unique_id=40614513 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_8_-1" parent="Trees/PaintedTrees" unique_id=40614513 instance=ExtResource("12_kpsmc")]
 position = Vector2(136, 0)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_10_2" type="Node2D" parent="Trees/PaintedTrees" unique_id=1295970246 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_10_2" parent="Trees/PaintedTrees" unique_id=1295970246 instance=ExtResource("12_kpsmc")]
 position = Vector2(168, 48)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_11_-11" type="Node2D" parent="Trees/PaintedTrees" unique_id=1334396046 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_11_-11" parent="Trees/PaintedTrees" unique_id=1334396046 instance=ExtResource("12_kpsmc")]
 position = Vector2(184, -160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_11_-8" type="Node2D" parent="Trees/PaintedTrees" unique_id=833669543 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_11_-8" parent="Trees/PaintedTrees" unique_id=833669543 instance=ExtResource("12_kpsmc")]
 position = Vector2(184, -112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_11_-6" type="Node2D" parent="Trees/PaintedTrees" unique_id=1897933409 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_11_-6" parent="Trees/PaintedTrees" unique_id=1897933409 instance=ExtResource("12_kpsmc")]
 position = Vector2(184, -80)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_11_0" type="Node2D" parent="Trees/PaintedTrees" unique_id=52429014 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_11_0" parent="Trees/PaintedTrees" unique_id=52429014 instance=ExtResource("12_kpsmc")]
 position = Vector2(184, 16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_11_11" type="Node2D" parent="Trees/PaintedTrees" unique_id=1776245478 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_11_11" parent="Trees/PaintedTrees" unique_id=1776245478 instance=ExtResource("12_kpsmc")]
 position = Vector2(184, 192)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_15_-3" type="Node2D" parent="Trees/PaintedTrees" unique_id=602422573 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_15_-3" parent="Trees/PaintedTrees" unique_id=602422573 instance=ExtResource("12_kpsmc")]
 position = Vector2(248, -32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_16_-2" type="Node2D" parent="Trees/PaintedTrees" unique_id=119738859 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_16_-2" parent="Trees/PaintedTrees" unique_id=119738859 instance=ExtResource("12_kpsmc")]
 position = Vector2(264, -16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_17_-5" type="Node2D" parent="Trees/PaintedTrees" unique_id=113772652 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_17_-5" parent="Trees/PaintedTrees" unique_id=113772652 instance=ExtResource("12_kpsmc")]
 position = Vector2(280, -64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_18_-4" type="Node2D" parent="Trees/PaintedTrees" unique_id=1550913659 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_18_-4" parent="Trees/PaintedTrees" unique_id=1550913659 instance=ExtResource("12_kpsmc")]
 position = Vector2(296, -48)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_18_8" type="Node2D" parent="Trees/PaintedTrees" unique_id=100760241 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_18_8" parent="Trees/PaintedTrees" unique_id=100760241 instance=ExtResource("12_kpsmc")]
 position = Vector2(296, 144)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_19_0" type="Node2D" parent="Trees/PaintedTrees" unique_id=484878115 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_19_0" parent="Trees/PaintedTrees" unique_id=484878115 instance=ExtResource("12_kpsmc")]
 position = Vector2(312, 16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_20_-3" type="Node2D" parent="Trees/PaintedTrees" unique_id=131527580 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_20_-3" parent="Trees/PaintedTrees" unique_id=131527580 instance=ExtResource("12_kpsmc")]
 position = Vector2(328, -32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_20_7" type="Node2D" parent="Trees/PaintedTrees" unique_id=762094945 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_20_7" parent="Trees/PaintedTrees" unique_id=762094945 instance=ExtResource("12_kpsmc")]
 position = Vector2(328, 128)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_22_7" type="Node2D" parent="Trees/PaintedTrees" unique_id=1672890283 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_22_7" parent="Trees/PaintedTrees" unique_id=1672890283 instance=ExtResource("12_kpsmc")]
 position = Vector2(360, 128)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_23_-5" type="Node2D" parent="Trees/PaintedTrees" unique_id=1384010182 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_23_-5" parent="Trees/PaintedTrees" unique_id=1384010182 instance=ExtResource("12_kpsmc")]
 position = Vector2(376, -64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_28_-8" type="Node2D" parent="Trees/PaintedTrees" unique_id=106166292 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_28_-8" parent="Trees/PaintedTrees" unique_id=106166292 instance=ExtResource("12_kpsmc")]
 position = Vector2(456, -112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_34_2" type="Node2D" parent="Trees/PaintedTrees" unique_id=471076435 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_34_2" parent="Trees/PaintedTrees" unique_id=471076435 instance=ExtResource("12_kpsmc")]
 position = Vector2(552, 48)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_35_-4" type="Node2D" parent="Trees/PaintedTrees" unique_id=984463208 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_35_-4" parent="Trees/PaintedTrees" unique_id=984463208 instance=ExtResource("12_kpsmc")]
 position = Vector2(568, -48)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_35_7" type="Node2D" parent="Trees/PaintedTrees" unique_id=1753459066 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_35_7" parent="Trees/PaintedTrees" unique_id=1753459066 instance=ExtResource("12_kpsmc")]
 position = Vector2(568, 128)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_36_-8" type="Node2D" parent="Trees/PaintedTrees" unique_id=1767055087 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_36_-8" parent="Trees/PaintedTrees" unique_id=1767055087 instance=ExtResource("12_kpsmc")]
 position = Vector2(584, -112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_37_-5" type="Node2D" parent="Trees/PaintedTrees" unique_id=460339103 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_37_-5" parent="Trees/PaintedTrees" unique_id=460339103 instance=ExtResource("12_kpsmc")]
 position = Vector2(600, -64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_39_-7" type="Node2D" parent="Trees/PaintedTrees" unique_id=1649491502 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_39_-7" parent="Trees/PaintedTrees" unique_id=1649491502 instance=ExtResource("12_kpsmc")]
 position = Vector2(632, -96)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_42_0" type="Node2D" parent="Trees/PaintedTrees" unique_id=1046830405 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_42_0" parent="Trees/PaintedTrees" unique_id=1046830405 instance=ExtResource("12_kpsmc")]
 position = Vector2(680, 16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_25_-2" type="Node2D" parent="Trees/PaintedTrees" unique_id=433768716 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_25_-2" parent="Trees/PaintedTrees" unique_id=433768716 instance=ExtResource("12_kpsmc")]
 position = Vector2(408, -16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_27_-5" type="Node2D" parent="Trees/PaintedTrees" unique_id=1632597266 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_27_-5" parent="Trees/PaintedTrees" unique_id=1632597266 instance=ExtResource("12_kpsmc")]
 position = Vector2(440, -64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_27_-1" type="Node2D" parent="Trees/PaintedTrees" unique_id=177523564 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_27_-1" parent="Trees/PaintedTrees" unique_id=177523564 instance=ExtResource("12_kpsmc")]
 position = Vector2(440, 0)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-18_-16" type="Node2D" parent="Trees/PaintedTrees" unique_id=562866326 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-18_-16" parent="Trees/PaintedTrees" unique_id=562866326 instance=ExtResource("12_kpsmc")]
 position = Vector2(-280, -240)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-15_-17" type="Node2D" parent="Trees/PaintedTrees" unique_id=1686277538 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-15_-17" parent="Trees/PaintedTrees" unique_id=1686277538 instance=ExtResource("12_kpsmc")]
 position = Vector2(-232, -256)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-10_-11" type="Node2D" parent="Trees/PaintedTrees" unique_id=842730293 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-10_-11" parent="Trees/PaintedTrees" unique_id=842730293 instance=ExtResource("12_kpsmc")]
 position = Vector2(-152, -160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-2_-13" type="Node2D" parent="Trees/PaintedTrees" unique_id=645544159 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-2_-13" parent="Trees/PaintedTrees" unique_id=645544159 instance=ExtResource("12_kpsmc")]
 position = Vector2(-24, -192)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_2_-21" type="Node2D" parent="Trees/PaintedTrees" unique_id=1536939099 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_2_-21" parent="Trees/PaintedTrees" unique_id=1536939099 instance=ExtResource("12_kpsmc")]
 position = Vector2(40, -320)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_9_-17" type="Node2D" parent="Trees/PaintedTrees" unique_id=1149213084 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_9_-17" parent="Trees/PaintedTrees" unique_id=1149213084 instance=ExtResource("12_kpsmc")]
 position = Vector2(152, -256)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_12_-21" type="Node2D" parent="Trees/PaintedTrees" unique_id=2137790876 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_12_-21" parent="Trees/PaintedTrees" unique_id=2137790876 instance=ExtResource("12_kpsmc")]
 position = Vector2(200, -320)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_14_-21" type="Node2D" parent="Trees/PaintedTrees" unique_id=1140523476 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_14_-21" parent="Trees/PaintedTrees" unique_id=1140523476 instance=ExtResource("12_kpsmc")]
 position = Vector2(232, -320)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_18_-20" type="Node2D" parent="Trees/PaintedTrees" unique_id=1226286222 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_18_-20" parent="Trees/PaintedTrees" unique_id=1226286222 instance=ExtResource("12_kpsmc")]
 position = Vector2(296, -304)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_19_-19" type="Node2D" parent="Trees/PaintedTrees" unique_id=798838463 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_19_-19" parent="Trees/PaintedTrees" unique_id=798838463 instance=ExtResource("12_kpsmc")]
 position = Vector2(312, -288)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_23_-13" type="Node2D" parent="Trees/PaintedTrees" unique_id=132356068 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_23_-13" parent="Trees/PaintedTrees" unique_id=132356068 instance=ExtResource("12_kpsmc")]
 position = Vector2(376, -192)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_27_-19" type="Node2D" parent="Trees/PaintedTrees" unique_id=391210553 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_27_-19" parent="Trees/PaintedTrees" unique_id=391210553 instance=ExtResource("12_kpsmc")]
 position = Vector2(440, -288)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_27_-12" type="Node2D" parent="Trees/PaintedTrees" unique_id=1090396373 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_27_-12" parent="Trees/PaintedTrees" unique_id=1090396373 instance=ExtResource("12_kpsmc")]
 position = Vector2(440, -176)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_28_-14" type="Node2D" parent="Trees/PaintedTrees" unique_id=248779440 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_28_-14" parent="Trees/PaintedTrees" unique_id=248779440 instance=ExtResource("12_kpsmc")]
 position = Vector2(456, -208)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_29_-14" type="Node2D" parent="Trees/PaintedTrees" unique_id=1018076185 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_29_-14" parent="Trees/PaintedTrees" unique_id=1018076185 instance=ExtResource("12_kpsmc")]
 position = Vector2(472, -208)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_30_-20" type="Node2D" parent="Trees/PaintedTrees" unique_id=433794277 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_30_-20" parent="Trees/PaintedTrees" unique_id=433794277 instance=ExtResource("12_kpsmc")]
 position = Vector2(488, -304)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_31_-17" type="Node2D" parent="Trees/PaintedTrees" unique_id=1518277939 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_31_-17" parent="Trees/PaintedTrees" unique_id=1518277939 instance=ExtResource("12_kpsmc")]
 position = Vector2(504, -256)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_38_-18" type="Node2D" parent="Trees/PaintedTrees" unique_id=472850927 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_38_-18" parent="Trees/PaintedTrees" unique_id=472850927 instance=ExtResource("12_kpsmc")]
 position = Vector2(616, -272)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_39_-13" type="Node2D" parent="Trees/PaintedTrees" unique_id=1776152389 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_39_-13" parent="Trees/PaintedTrees" unique_id=1776152389 instance=ExtResource("12_kpsmc")]
 position = Vector2(632, -192)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_51_-20" type="Node2D" parent="Trees/PaintedTrees" unique_id=252342657 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_51_-20" parent="Trees/PaintedTrees" unique_id=252342657 instance=ExtResource("12_kpsmc")]
 position = Vector2(824, -304)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_44_-6" type="Node2D" parent="Trees/PaintedTrees" unique_id=188423596 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_44_-6" parent="Trees/PaintedTrees" unique_id=188423596 instance=ExtResource("12_kpsmc")]
 position = Vector2(712, -80)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_45_-7" type="Node2D" parent="Trees/PaintedTrees" unique_id=951984309 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_45_-7" parent="Trees/PaintedTrees" unique_id=951984309 instance=ExtResource("12_kpsmc")]
 position = Vector2(728, -96)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_47_-5" type="Node2D" parent="Trees/PaintedTrees" unique_id=269262495 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_47_-5" parent="Trees/PaintedTrees" unique_id=269262495 instance=ExtResource("12_kpsmc")]
 position = Vector2(760, -64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_50_-4" type="Node2D" parent="Trees/PaintedTrees" unique_id=1915775305 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_50_-4" parent="Trees/PaintedTrees" unique_id=1915775305 instance=ExtResource("12_kpsmc")]
 position = Vector2(808, -48)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_51_-17" type="Node2D" parent="Trees/PaintedTrees" unique_id=1550370077 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_51_-17" parent="Trees/PaintedTrees" unique_id=1550370077 instance=ExtResource("12_kpsmc")]
 position = Vector2(824, -256)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_52_-13" type="Node2D" parent="Trees/PaintedTrees" unique_id=919704883 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_52_-13" parent="Trees/PaintedTrees" unique_id=919704883 instance=ExtResource("12_kpsmc")]
 position = Vector2(840, -192)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_52_-5" type="Node2D" parent="Trees/PaintedTrees" unique_id=263788953 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_52_-5" parent="Trees/PaintedTrees" unique_id=263788953 instance=ExtResource("12_kpsmc")]
 position = Vector2(840, -64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_56_-9" type="Node2D" parent="Trees/PaintedTrees" unique_id=127737891 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_56_-9" parent="Trees/PaintedTrees" unique_id=127737891 instance=ExtResource("12_kpsmc")]
 position = Vector2(904, -128)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_56_-6" type="Node2D" parent="Trees/PaintedTrees" unique_id=1577977091 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_56_-6" parent="Trees/PaintedTrees" unique_id=1577977091 instance=ExtResource("12_kpsmc")]
 position = Vector2(904, -80)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_60_-8" type="Node2D" parent="Trees/PaintedTrees" unique_id=1956795896 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_60_-8" parent="Trees/PaintedTrees" unique_id=1956795896 instance=ExtResource("12_kpsmc")]
 position = Vector2(968, -112)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_57_11" type="Node2D" parent="Trees/PaintedTrees" unique_id=1232738094 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_57_11" parent="Trees/PaintedTrees" unique_id=1232738094 instance=ExtResource("12_kpsmc")]
 position = Vector2(920, 192)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_60_9" type="Node2D" parent="Trees/PaintedTrees" unique_id=1165139711 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_60_9" parent="Trees/PaintedTrees" unique_id=1165139711 instance=ExtResource("12_kpsmc")]
 position = Vector2(968, 160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_61_12" type="Node2D" parent="Trees/PaintedTrees" unique_id=750118385 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_61_12" parent="Trees/PaintedTrees" unique_id=750118385 instance=ExtResource("12_kpsmc")]
 position = Vector2(984, 208)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_49_5" type="Node2D" parent="Trees/PaintedTrees" unique_id=876819796 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_49_5" parent="Trees/PaintedTrees" unique_id=876819796 instance=ExtResource("12_kpsmc")]
 position = Vector2(792, 96)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_52_9" type="Node2D" parent="Trees/PaintedTrees" unique_id=1391104997 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_52_9" parent="Trees/PaintedTrees" unique_id=1391104997 instance=ExtResource("12_kpsmc")]
 position = Vector2(840, 160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_54_9" type="Node2D" parent="Trees/PaintedTrees" unique_id=1704713052 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_54_9" parent="Trees/PaintedTrees" unique_id=1704713052 instance=ExtResource("12_kpsmc")]
 position = Vector2(872, 160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_56_9" type="Node2D" parent="Trees/PaintedTrees" unique_id=1528205268 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_56_9" parent="Trees/PaintedTrees" unique_id=1528205268 instance=ExtResource("12_kpsmc")]
 position = Vector2(904, 160)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-5_-9" type="Node2D" parent="Trees/PaintedTrees" unique_id=1904036129 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-5_-9" parent="Trees/PaintedTrees" unique_id=1904036129 instance=ExtResource("12_kpsmc")]
 position = Vector2(-72, -128)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-17_-9" type="Node2D" parent="Trees/PaintedTrees" unique_id=54336058 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-17_-9" parent="Trees/PaintedTrees" unique_id=54336058 instance=ExtResource("12_kpsmc")]
 position = Vector2(-264, -128)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_-9_-18" type="Node2D" parent="Trees/PaintedTrees" unique_id=645934367 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_-9_-18" parent="Trees/PaintedTrees" unique_id=645934367 instance=ExtResource("12_kpsmc")]
 position = Vector2(-136, -272)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_53_2" type="Node2D" parent="Trees/PaintedTrees" unique_id=1091187371 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_53_2" parent="Trees/PaintedTrees" unique_id=1091187371 instance=ExtResource("12_kpsmc")]
 position = Vector2(856, 48)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_54_1" type="Node2D" parent="Trees/PaintedTrees" unique_id=1659234181 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_54_1" parent="Trees/PaintedTrees" unique_id=1659234181 instance=ExtResource("12_kpsmc")]
 position = Vector2(872, 32)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_58_-1" type="Node2D" parent="Trees/PaintedTrees" unique_id=156859977 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_58_-1" parent="Trees/PaintedTrees" unique_id=156859977 instance=ExtResource("12_kpsmc")]
 position = Vector2(936, 0)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(64, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_58_0" type="Node2D" parent="Trees/PaintedTrees" unique_id=85018623 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_58_0" parent="Trees/PaintedTrees" unique_id=85018623 instance=ExtResource("12_kpsmc")]
 position = Vector2(936, 16)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("5_s0fjr")
 art_region = Rect2i(0, 0, 48, 96)
 art_offset = Vector2(0, -48)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_57_3" type="Node2D" parent="Trees/PaintedTrees" unique_id=622456451 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_57_3" parent="Trees/PaintedTrees" unique_id=622456451 instance=ExtResource("12_kpsmc")]
 position = Vector2(920, 64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_58_3" type="Node2D" parent="Trees/PaintedTrees" unique_id=1888614868 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_58_3" parent="Trees/PaintedTrees" unique_id=1888614868 instance=ExtResource("12_kpsmc")]
 position = Vector2(936, 64)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(32, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_49_-1" type="Node2D" parent="Trees/PaintedTrees" unique_id=905378420 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_49_-1" parent="Trees/PaintedTrees" unique_id=905378420 instance=ExtResource("12_kpsmc")]
 position = Vector2(792, 0)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(96, 0, 32, 64)
 art_offset = Vector2(0, -32)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_47_10" type="Node2D" parent="Trees/PaintedTrees" unique_id=1344986128 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_47_10" parent="Trees/PaintedTrees" unique_id=1344986128 instance=ExtResource("12_kpsmc")]
 position = Vector2(760, 176)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
-[node name="PaintedTree_41_4" type="Node2D" parent="Trees/PaintedTrees" unique_id=1553734907 instance=ExtResource("12_kpsmc")]
+[node name="PaintedTree_41_4" parent="Trees/PaintedTrees" unique_id=1553734907 instance=ExtResource("12_kpsmc")]
 position = Vector2(664, 80)
-script = ExtResource("14_muem4")
 art_texture = ExtResource("6_5r4mb")
 art_region = Rect2i(0, 0, 80, 128)
 art_offset = Vector2(0, -64)
-trunk_enabled = false
+trunk_polygon = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+trunk_offset = Vector2(0, -8)
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=516257331]
 
 [node name="HUD" parent="UILayer" unique_id=241571188 instance=ExtResource("14_ctt2g")]
 
 [node name="InventoryUI" parent="UILayer" unique_id=1598656102 instance=ExtResource("16_dr35k")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 
