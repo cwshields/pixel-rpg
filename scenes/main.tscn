@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/world/enemy_spawner.tscn" id="17_spwnr"]
 [ext_resource type="Material" path="res://resources/materials/foliage_wind_material.tres" id="18_flwnd"]
 [ext_resource type="Material" path="res://resources/materials/static_prop_material.tres" id="19_static"]
+[ext_resource type="PackedScene" path="res://scenes/ui/debug_panel.tscn" id="20_dbg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vteet"]
 texture = ExtResource("2_64qn6")
@@ -2888,3 +2889,5 @@ anchors_preset = 15
 
 [node name="EnemySpawner" parent="Spawners" unique_id=774193057 instance=ExtResource("17_spwnr")]
 position = Vector2(283, 41)
+
+[node name="DebugPanel" parent="." unique_id=650103856 instance=ExtResource("20_dbg")]

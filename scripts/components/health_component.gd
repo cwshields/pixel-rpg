@@ -49,6 +49,16 @@ func heal(amount: float) -> void:
 	health_changed.emit(current_health, max_health)
 	Events.health_changed.emit(get_parent(), current_health, max_health)
 
+## Brings an entity back to `amount` HP — full health by default. Unlike
+## heal(), this works when current_health is already 0, which is what a
+## respawn needs, and it clears any lingering invulnerability.
+func revive(amount: float = -1.0) -> void:
+	current_health = max_health if amount < 0.0 else clampf(amount, 0.0, max_health)
+	_invulnerable_timer = 0.0
+	healed.emit(current_health)
+	health_changed.emit(current_health, max_health)
+	Events.health_changed.emit(get_parent(), current_health, max_health)
+
 func set_max_health(new_max: float, refill: bool = false) -> void:
 	max_health = new_max
 	current_health = max_health if refill else minf(current_health, max_health)
