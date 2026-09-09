@@ -1,6 +1,6 @@
 class_name Hotbar
 extends Control
-## Always-on-screen tool bar pinned to the bottom of the viewport. Shows
+## Always-on-screen tool bar, laid over the bottom-centre bar art. Shows
 ## the first `slot_count` slots of GameManager.player's inventory, with a
 ## highlighted "active" slot the player picks by:
 ##   * pressing a number key (1..9 -> slot 0..8), or
@@ -10,21 +10,30 @@ extends Control
 ##
 ## Hides itself whenever any UIManager screen (inventory, pause...) is
 ## open, and ignores input while not PLAYING.
+##
+## The slot cells, frame and gauges are all painted into the parent
+## TextureRect's art (Hotbar-UI-final.png, authored at 256x41, drawn 3x).
+## This node just drops interactive HotbarSlots on top of the eight baked
+## cells — four either side of the mana orb — and lets the art show
+## through except for the selected slot's highlight.
 
 const SLOT_TEX := "res://assets/UI/kit/slot_hotbar.png"
 const SLOT_TEX_SELECTED := "res://assets/UI/kit/slot_hotbar_selected.png"
-## Nine-patch border of slot_hotbar.png, in texture pixels (see README_UIKIT.md).
-const SLOT_PATCH_MARGIN := 5
+## Nine-patch border of the slot textures, in texture pixels (see README_UIKIT.md).
+const SLOT_PATCH_MARGIN := 0
 
-@export var slot_count: int = 8
-@export var slot_size: int = 44
-@export var separation: int = 4
-## Gap between the bar and the bottom edge of the screen, in pixels.
-@export var bottom_margin: int = 10
+## Scale the parent art is drawn at, and the native slot-frame texture size.
+const ART_SCALE := 2.0
+const SLOT_PX := 17.5
+## Centre X of each baked cell in source-art pixels (cols 0..3 left of the
+## orb, 4..7 right of it); centre Y is shared. Measured from the art.
+const CELL_CENTERS_X := [7.5, 24.25, 41.5, 58, 99, 116, 133, 150]
+const CELL_CENTER_Y := 9
+
+@export_range(1, 8) var slot_count: int = 8
 ## Flip if wheel-up should advance instead of go back.
 @export var invert_scroll: bool = false
 
-var _box: HBoxContainer
 var _slots: Array[HotbarSlot] = []
 var _selected: int = 0
 
@@ -35,25 +44,15 @@ func _ready() -> void:
 	var tex_normal := _try_load(SLOT_TEX)
 	var tex_selected := _try_load(SLOT_TEX_SELECTED)
 
-	_box = HBoxContainer.new()
-	_box.add_theme_constant_override("separation", separation)
-	_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_box)
-	for i in slot_count:
-		var s := HotbarSlot.new(slot_size, i + 1, tex_normal, tex_selected, SLOT_PATCH_MARGIN)
-		_box.add_child(s)
+	var count: int = mini(slot_count, CELL_CENTERS_X.size())
+	var slot_screen_px := int(SLOT_PX * ART_SCALE)
+	for i in count:
+		var s := HotbarSlot.new(slot_screen_px, i + 1, tex_normal, tex_selected, SLOT_PATCH_MARGIN)
+		s.position = Vector2(
+			(float(CELL_CENTERS_X[i]) - SLOT_PX / 2.0) * ART_SCALE,
+			(CELL_CENTER_Y - SLOT_PX / 2.0) * ART_SCALE)
+		add_child(s)
 		_slots.append(s)
-
-	# Pin the row centred along the bottom edge.
-	_box.anchor_left = 0.5
-	_box.anchor_right = 0.5
-	_box.anchor_top = 1.0
-	_box.anchor_bottom = 1.0
-	var row_w: float = slot_count * slot_size + (slot_count - 1) * separation
-	_box.offset_left = -row_w / 2.0
-	_box.offset_right = row_w / 2.0
-	_box.offset_top = -slot_size - bottom_margin
-	_box.offset_bottom = -bottom_margin
 
 	Events.inventory_changed.connect(refresh)
 	Events.player_spawned.connect(func(_p: Node) -> void: refresh())

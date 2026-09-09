@@ -9,6 +9,11 @@ extends Node
 
 signal player_spawned(player: Node)
 signal health_changed(entity: Node, current: float, max: float)
+## Player stamina / mana pools, consumed by the HUD bar shader. Nothing
+## emits these yet — the bar treats "never fired" as full. Wire them up
+## when those pools get a backing component.
+signal stamina_changed(entity: Node, current: float, max: float)
+signal mana_changed(entity: Node, current: float, max: float)
 signal entity_died(entity: Node)
 signal item_picked_up(item: Resource, amount: int)
 signal inventory_changed

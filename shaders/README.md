@@ -94,6 +94,43 @@ and the grass/flower tiles still sway. If a tile is mislabelled, clear its
 per-tile Material in the TileSet editor to put it back under the layer's
 wind, or assign `static_prop_material.tres` to one that was missed.
 
+## `hotbar_gauges.gdshader`
+
+A `canvas_item` **fragment** shader on the HUD bar's `TextureRect`
+(`%BarArt` in `scenes/ui/hud.tscn`). The health / stamina / mana fills are
+painted straight into `assets/UI/Hotbar-UI-final.png`; this shader dims
+those pixels back down as each pool drains, so no separate bar textures,
+`TextureProgressBar` nodes, or animation frames are needed.
+
+### Parameters
+
+| uniform         | meaning                                                        |
+| --------------- | ------------------------------------------------------------- |
+| `health_fill`   | `0..1` (current / max). Red band, drains **toward the orb**.  |
+| `stamina_fill`  | `0..1`. Green band, mirror image, drains toward the orb.     |
+| `mana_fill`     | `0..1`. Blue orb, surface **falls straight down** as it empties. |
+| `empty_dim`     | how dark a drained pixel goes (`0` = near-black, `1` = untouched). |
+
+`scripts/ui/hud.gd` listens on `Events.health_changed` /
+`Events.stamina_changed` / `Events.mana_changed` (only the first is
+emitted by anything today — the other two default to full) and pushes the
+ratio with `set_shader_parameter()`. It never edits the texture.
+
+### Re-measuring after an art change
+
+The three regions are hard-coded in the shader in **source-art pixels**
+(the art is 256×41): `HEALTH_X/Y`, `STAMINA_X/Y`, `MANA_X` +
+`MANA_TOP_BOTTOM`. The fills are picked out by loose hue tests
+(`is_reddish` / `is_greenish` / `is_bluish`) so the frame, gold ring and
+gauntlet skin are left alone. If the bar is redrawn, re-measure those
+constants; the slot-cell centres in `scripts/ui/hotbar.gd`
+(`CELL_CENTERS_X`, `CELL_CENTER_Y`) and the `3×` draw scale
+(`ART_SCALE`, and the `%BarArt` offsets in `hud.tscn`) need to match too.
+
+Drain direction is one comparison in the shader — `frac < 1.0 - *_fill`
+empties the outer tip first (toward the orb); flip it to `frac > *_fill`
+to empty from the orb outward instead.
+
 ## Tree proximity fade — *not* a shader
 
 The "tree goes transparent when the player walks behind it" effect is
