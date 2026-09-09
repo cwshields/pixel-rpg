@@ -9,6 +9,10 @@ extends EntityBase
 @export var loot_table: Array[LootEntry] = []
 @export var xp_reward: int = 5
 
+## How far from the death spot dropped pickups land, in pixels. Keeps a
+## multi-item drop from stacking into a single invisible pile.
+const LOOT_SCATTER: float = 8.0
+
 @onready var state_machine: StateMachine = $StateMachine
 @onready var detection_area: Area2D = get_node_or_null("DetectionArea")
 @onready var hitbox: HitboxComponent = get_node_or_null("HitboxComponent")
@@ -42,9 +46,21 @@ func _drop_loot() -> void:
 		return
 	var pickup_scene: PackedScene = load("res://scenes/world/item_pickup.tscn")
 	for entry in loot_table:
-		if entry.item and randf() <= entry.chance:
-			var amount: int = randi_range(entry.min_amount, entry.max_amount)
-			var pickup: ItemPickup = pickup_scene.instantiate()
-			get_tree().current_scene.add_child(pickup)
-			pickup.global_position = global_position
-			pickup.setup(entry.item, amount)
+		if not entry.item or randf() > entry.chance:
+			continue
+		var amount: int = randi_range(entry.min_amount, entry.max_amount)
+		if amount <= 0:
+			continue
+		if entry.drop_individually:
+			for _i in amount:
+				_spawn_pickup(pickup_scene, entry.item, 1)
+		else:
+			_spawn_pickup(pickup_scene, entry.item, amount)
+
+func _spawn_pickup(pickup_scene: PackedScene, item: ItemBase, amount: int) -> void:
+	var pickup: ItemPickup = pickup_scene.instantiate()
+	get_tree().current_scene.add_child(pickup)
+	pickup.global_position = global_position + Vector2(
+		randf_range(-LOOT_SCATTER, LOOT_SCATTER),
+		randf_range(-LOOT_SCATTER, LOOT_SCATTER))
+	pickup.setup(item, amount)

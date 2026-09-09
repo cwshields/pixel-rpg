@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CraftingMaterial" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c8pfqw48q0pq4" path="res://assets/RPG_Items_Retro_Itchio/Misc/Bone.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"bone"
+display_name = "Bone"
+description = "A bleached bone from a fallen skeleton. A common crafting material."
+icon = ExtResource("2")
+max_stack = 99
+value = 2
+category = 6
+material_type = 7
+rarity = 0
