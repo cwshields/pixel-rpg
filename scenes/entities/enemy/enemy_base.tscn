@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/entities/state_machine.gd" id="2"]
@@ -12,6 +12,16 @@
 [ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="10"]
 [ext_resource type="Script" path="res://scripts/components/hitbox_component.gd" id="11"]
 [ext_resource type="SpriteFrames" path="res://resources/characters/enemies/skeleton_warrior_sprite_frames.tres" id="12"]
+[ext_resource type="Script" path="res://scripts/entities/enemy/loot_entry.gd" id="13"]
+[ext_resource type="Resource" path="res://resources/items/materials/bone.tres" id="14"]
+
+[sub_resource type="Resource" id="LootEntry_bone"]
+script = ExtResource("13")
+item = ExtResource("14")
+min_amount = 1
+max_amount = 3
+chance = 1.0
+drop_individually = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(12, 10)
@@ -29,6 +39,7 @@ radius = 64.0
 collision_layer = 1
 collision_mask = 1
 script = ExtResource("1")
+loot_table = Array[ExtResource("13")]([SubResource("LootEntry_bone")])
 xp_reward = 5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
