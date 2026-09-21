@@ -1,0 +1,138 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1"]
+
+[node name="PauseMenu" type="Control"]
+process_mode = 3
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1")
+screen_name = &"pause"
+close_action = &""
+pause_game = true
+
+[node name="Dim" type="ColorRect" parent="."]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0.55)
+
+[node name="MainPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -75.0
+offset_right = 70.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="MainPanel"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MainPanel/Layout"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Paused"
+
+[node name="Spacer" type="Control" parent="MainPanel/Layout"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="MainPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="OptionsButton" type="Button" parent="MainPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Options"
+
+[node name="ExitButton" type="Button" parent="MainPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Exit"
+
+[node name="OptionsPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -80.0
+offset_right = 90.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="OptionsPanel"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="OptionsPanel/Layout"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Options"
+
+[node name="Spacer" type="Control" parent="OptionsPanel/Layout"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="VolumeLabel" type="Label" parent="OptionsPanel/Layout"]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="VolumeSlider" type="HSlider" parent="OptionsPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="FullscreenCheck" type="CheckButton" parent="OptionsPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="Spacer2" type="Control" parent="OptionsPanel/Layout"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="OptionsPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"

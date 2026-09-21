@@ -12,6 +12,10 @@ enum GameState { PLAYING, PAUSED, MENU, DIALOGUE, CUTSCENE }
 var state: GameState = GameState.PLAYING
 var player: Node = null
 
+## Debug-only: while true, EntityBase.take_damage() and StaminaComponent
+## skip all effects on the player. Set by the debug panel's God Mode button.
+var god_mode: bool = false
+
 func register_player(p: Node) -> void:
 	player = p
 	Events.player_spawned.emit(p)

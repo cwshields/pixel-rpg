@@ -81,6 +81,8 @@ func stop() -> void:
 	velocity = Vector2.ZERO
 
 func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector2.ZERO) -> void:
+	if GameManager.god_mode and self == GameManager.player:
+		return
 	var final_amount: float = stats.compute_incoming_damage(amount) if stats else amount
 	if health:
 		health.take_damage(final_amount, source)

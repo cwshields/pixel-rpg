@@ -27,7 +27,7 @@ const ART_SCALE := 2.0
 const SLOT_PX := 17.5
 ## Centre X of each baked cell in source-art pixels (cols 0..3 left of the
 ## orb, 4..7 right of it); centre Y is shared. Measured from the art.
-const CELL_CENTERS_X := [7.5, 24.25, 41.5, 58, 99, 116, 133, 150]
+const CELL_CENTERS_X := [7.5, 24.5, 41.45, 58, 99, 116, 133, 150]
 const CELL_CENTER_Y := 9
 
 @export_range(1, 8) var slot_count: int = 8
@@ -101,11 +101,11 @@ func get_selected_item() -> ItemBase:
 func refresh() -> void:
 	var player := GameManager.player as Player
 	for i in _slots.size():
-		var inv_slot: Inventory.Slot = null
-		if player and i < player.inventory.slots.size():
-			inv_slot = player.inventory.slots[i]
-		if inv_slot:
-			_slots[i].set_item(inv_slot.item, inv_slot.quantity)
+		var placed: Inventory.PlacedItem = null
+		if player and i < player.inventory.items.size():
+			placed = player.inventory.items[i]
+		if placed:
+			_slots[i].set_item(placed.item, placed.quantity)
 		else:
 			_slots[i].set_item(null, 0)
 
@@ -115,8 +115,8 @@ func _apply_selection() -> void:
 
 func _current_item() -> ItemBase:
 	var player := GameManager.player as Player
-	if player and _selected < player.inventory.slots.size():
-		return player.inventory.slots[_selected].item
+	if player and _selected < player.inventory.items.size():
+		return player.inventory.items[_selected].item
 	return null
 
 func _on_ui_toggled(_screen_name: StringName, _is_open: bool) -> void:
