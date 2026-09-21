@@ -1,0 +1,106 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cf4b5n0f8vae1" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
+[ext_resource type="Script" uid="uid://cuuncdpcq7okj" path="res://scripts/entities/state_machine.gd" id="2"]
+[ext_resource type="Script" uid="uid://d324biwxpimlp" path="res://scripts/entities/enemy/states/enemy_idle_state.gd" id="3"]
+[ext_resource type="Script" uid="uid://f2rcsfjhy8lf" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
+[ext_resource type="Script" uid="uid://dxwqkjyxwc5to" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
+[ext_resource type="Script" uid="uid://dyrcoiarvb47" path="res://scripts/entities/enemy/states/enemy_hurt_state.gd" id="6"]
+[ext_resource type="Script" uid="uid://diihkk2b82te4" path="res://scripts/entities/enemy/states/enemy_dead_state.gd" id="7"]
+[ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
+[ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
+[ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="10"]
+[ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="11"]
+[ext_resource type="SpriteFrames" path="res://resources/characters/enemies/wolf_sprite_frames.tres" id="12"]
+[ext_resource type="Script" uid="uid://d3xws6xsnn76g" path="res://scripts/entities/enemy/loot_entry.gd" id="13"]
+[ext_resource type="Resource" path="res://resources/items/materials/wolf_pelt.tres" id="14"]
+[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_growl_state.gd" id="15"]
+
+[sub_resource type="Resource" id="LootEntry_wolf_pelt"]
+script = ExtResource("13")
+item = ExtResource("14")
+min_amount = 1
+max_amount = 2
+chance = 0.75
+drop_individually = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(24, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(30, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(16, 10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 110.0
+
+[node name="Wolf" type="CharacterBody2D"]
+script = ExtResource("1")
+loot_table = Array[ExtResource("13")]([SubResource("LootEntry_wolf_pelt")])
+xp_reward = 8
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("12")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("8")
+max_health = 18.0
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("9")
+base_attack = 4.0
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+position = Vector2(0, 4)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+position = Vector2(16, 4)
+collision_layer = 0
+collision_mask = 4
+monitoring = false
+script = ExtResource("11")
+damage = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2")
+initial_state = &"Idle"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3")
+
+[node name="Growl" type="Node" parent="StateMachine"]
+script = ExtResource("15")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("4")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("5")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("6")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("7")
