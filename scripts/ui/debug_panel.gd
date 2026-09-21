@@ -16,6 +16,23 @@ extends CanvasLayer
 ##
 ## "Heal Player" is enabled while the player is alive and below full HP;
 ## it tops their health back up to max.
+##
+## "Teleport to Spawn" instantly moves the player to World/PlayerSpawn,
+## regardless of life state — unlike Respawn it doesn't touch health or the
+## state machine.
+##
+## "God Mode" toggles GameManager.god_mode, which EntityBase.take_damage()
+## and StaminaComponent check to skip damage and stamina costs for the
+## player.
+##
+## "Free Camera" detaches the view from the player's own Camera2D onto a
+## standalone one panned with WASD, freezing the player's StateMachine the
+## same way enemy placement does, and reattaches on toggle-off.
+##
+## "Item Spawner" toggles the item_spawner UI screen (see item_spawner_ui.gd)
+## — a window listing every item in the game next to the player's live
+## inventory, so items can be picked up onto the cursor and dropped straight
+## into a slot.
 
 ## Enemy scene to drop. Any scene whose root extends EnemyBase works.
 @export var enemy_scene: PackedScene = preload("res://scenes/entities/enemy/enemy_base.tscn")
@@ -24,13 +41,22 @@ extends CanvasLayer
 ## under. Falls back to the scene root when it can't be found.
 @export var spawn_into_path: NodePath = ^"Entities"
 
+## Pan speed (px/sec) for the free camera while Free Camera mode is active.
+@export var free_camera_speed: float = 400.0
+
 @onready var _spawn_button: Button = %SpawnEnemyButton
 @onready var _respawn_button: Button = %RespawnPlayerButton
 @onready var _heal_button: Button = %HealPlayerButton
+@onready var _teleport_button: Button = %TeleportSpawnButton
+@onready var _god_mode_button: Button = %GodModeButton
+@onready var _free_camera_button: Button = %FreeCameraButton
+@onready var _item_spawner_button: Button = %ItemSpawnerButton
 @onready var _hint: Label = %Hint
 
 var _placing: bool = false
 var _ghost: Node2D = null
+var _free_cam_active: bool = false
+var _free_camera: Camera2D = null
 
 func _ready() -> void:
 	if not OS.is_debug_build():
@@ -39,6 +65,10 @@ func _ready() -> void:
 	_spawn_button.pressed.connect(_toggle_placing)
 	_respawn_button.pressed.connect(_respawn_player)
 	_heal_button.pressed.connect(_heal_player)
+	_teleport_button.pressed.connect(_teleport_to_spawn)
+	_god_mode_button.pressed.connect(_toggle_god_mode)
+	_free_camera_button.pressed.connect(_toggle_free_camera)
+	_item_spawner_button.pressed.connect(_toggle_item_spawner)
 	Events.entity_died.connect(_on_player_state_maybe_changed)
 	Events.health_changed.connect(func(entity: Node, _c: float, _m: float) -> void:
 		_on_player_state_maybe_changed(entity))
@@ -46,9 +76,12 @@ func _ready() -> void:
 	_hint.hide()
 	_refresh_buttons()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if _placing and is_instance_valid(_ghost):
 		_ghost.global_position = _ghost.get_global_mouse_position().round()
+	if _free_cam_active and is_instance_valid(_free_camera):
+		var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		_free_camera.global_position += input * free_camera_speed * delta
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _placing:
@@ -84,7 +117,7 @@ func _start_placing() -> void:
 		_ghost.global_position = _ghost.get_global_mouse_position().round()
 	_spawn_button.text = "Stop Placing"
 	_hint.show()
-	_set_player_frozen(true)
+	_update_player_frozen()
 
 func _stop_placing() -> void:
 	if not _placing:
@@ -95,7 +128,7 @@ func _stop_placing() -> void:
 	_ghost = null
 	_spawn_button.text = "Spawn Enemy"
 	_hint.hide()
-	_set_player_frozen(false)
+	_update_player_frozen()
 
 func _spawn_enemy_at(world_pos: Vector2) -> void:
 	var enemy := enemy_scene.instantiate() as Node2D
@@ -147,6 +180,11 @@ func _set_player_frozen(frozen: bool) -> void:
 	if frozen:
 		player.velocity = Vector2.ZERO
 
+## Recomputes the frozen state from every mode that needs it, so one mode
+## turning off doesn't unfreeze the player while another is still active.
+func _update_player_frozen() -> void:
+	_set_player_frozen(_placing or _free_cam_active)
+
 # --- Player respawn ------------------------------------------------------
 
 func _respawn_player() -> void:
@@ -177,6 +215,53 @@ func _heal_player() -> void:
 		return
 	player.health.revive()  # revive() tops up to max and works even at 0 HP
 	_refresh_buttons()
+
+# --- Teleport to spawn ----------------------------------------------------
+
+func _teleport_to_spawn() -> void:
+	var player := GameManager.player as Player
+	if not player:
+		return
+	var spawn := get_tree().current_scene.get_node_or_null(^"World/PlayerSpawn") as Node2D
+	if not spawn:
+		return
+	player.global_position = spawn.global_position
+	player.velocity = Vector2.ZERO
+
+# --- God mode --------------------------------------------------------------
+
+func _toggle_god_mode() -> void:
+	GameManager.god_mode = not GameManager.god_mode
+	_god_mode_button.text = "God Mode: %s" % ("On" if GameManager.god_mode else "Off")
+
+# --- Free camera -------------------------------------------------------
+
+## Toggles between the player's own Camera2D and a standalone free-roaming
+## one panned with WASD in _process(). The free camera is created lazily on
+## first use and added to the current scene, mirroring how _build_ghost()
+## adds its preview node rather than predeclaring it in the panel's scene.
+func _toggle_free_camera() -> void:
+	_free_cam_active = not _free_cam_active
+	var player := GameManager.player as Player
+	var player_camera := player.get_node_or_null("Camera2D") as Camera2D if player else null
+	if _free_cam_active:
+		if not _free_camera:
+			_free_camera = Camera2D.new()
+			get_tree().current_scene.add_child(_free_camera)
+		if player_camera:
+			_free_camera.global_position = player_camera.global_position
+		_free_camera.make_current()
+		_free_camera_button.text = "Free Camera: On"
+	else:
+		if player_camera:
+			player_camera.make_current()
+		_free_camera_button.text = "Free Camera: Off"
+	_update_player_frozen()
+
+# --- Item spawner -----------------------------------------------------
+
+func _toggle_item_spawner() -> void:
+	UIManager.toggle_screen(&"item_spawner")
 
 func _on_player_state_maybe_changed(entity: Node) -> void:
 	if entity == GameManager.player:
