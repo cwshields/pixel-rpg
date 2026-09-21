@@ -1,14 +1,13 @@
-[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Armor" format=3 uid="uid://c6usilosebvrm"]
 
-[ext_resource type="Script" path="res://scripts/items/armor.gd" id="1"]
+[ext_resource type="Script" uid="uid://nfocvp4pkad0" path="res://scripts/items/armor.gd" id="1"]
 
 [resource]
 script = ExtResource("1")
+defense = 3.0
 id = &"leather_armor"
 display_name = "Leather Armor"
 description = "Simple hardened-leather chestwear. Better than nothing."
-max_stack = 1
 value = 18
 category = 1
-armor_slot = 1
-defense = 3.0
+shape = ["##", "##", "##"]
