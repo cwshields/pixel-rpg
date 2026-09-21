@@ -21,6 +21,8 @@ var _was_sprinting: bool = false
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	_timer = 0.0
 	var player := entity as Player
+	if player.stamina:
+		player.stamina.spend_attack()
 	var aim := player.get_global_mouse_position() - player.global_position
 	if aim != Vector2.ZERO:
 		player.facing_direction = aim.normalized()

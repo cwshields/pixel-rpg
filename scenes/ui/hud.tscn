@@ -7,10 +7,14 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hud"]
 shader = ExtResource("4")
-shader_parameter/health_fill = 1.0
-shader_parameter/stamina_fill = 1.0
+shader_parameter/health_fill = 0.6550000311125
+shader_parameter/stamina_fill = 0.83600003971
 shader_parameter/mana_fill = 1.0
-shader_parameter/empty_dim = 0.16
+shader_parameter/empty_dim = 0.0
+shader_parameter/empty_health = Color(0.16470589, 0.0627451, 0.047058824, 1)
+shader_parameter/empty_stamina = Color(0.05, 0.14, 0.07, 1)
+shader_parameter/empty_mana = Color(0.05, 0.08, 0.17, 1)
+shader_parameter/empty_detail = 0.2800000133
 
 [node name="HUD" type="CanvasLayer" unique_id=1786383420]
 script = ExtResource("1")
@@ -24,6 +28,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(0.74954987, 0.74954987)
 mouse_filter = 2
 
 [node name="BarArt" type="TextureRect" parent="Bar" unique_id=770818950]
