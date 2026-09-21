@@ -1,0 +1,87 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/item_spawner_ui.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/inventory_grid.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/UI/kit/panel_titled.png" id="3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+texture = ExtResource("3")
+texture_margin_left = 15.0
+texture_margin_top = 20.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[node name="ItemSpawnerUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+screen_name = &"item_spawner"
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.0
+offset_top = -140.0
+offset_right = 162.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Palette" type="VBoxContainer" parent="Panel/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Panel/Margin/HBox/Palette"]
+layout_mode = 2
+text = "Items"
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/Margin/HBox/Palette"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 220)
+horizontal_scroll_mode = 0
+
+[node name="ItemGrid" type="GridContainer" parent="Panel/Margin/HBox/Palette/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 6
+
+[node name="Inv" type="VBoxContainer" parent="Panel/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Panel/Margin/HBox/Inv"]
+layout_mode = 2
+text = "Inventory"
+
+[node name="Grid" type="Control" parent="Panel/Margin/HBox/Inv"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("2")
+
+[node name="TrashRow" type="HBoxContainer" parent="Panel/Margin/HBox/Inv"]
+layout_mode = 2
+alignment = 2
+
+[node name="Trash" type="Button" parent="Panel/Margin/HBox/Inv/TrashRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(20, 20)
+text = "X"
+tooltip_text = "Drag an item here to delete it"
