@@ -1,17 +1,20 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://doqi8a55mmmla"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="1"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cfjfta7b6mvt4" path="res://assets/Weapons/Iron/Iron.png" id="1_miq1x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsjtc"]
+atlas = ExtResource("1_miq1x")
+region = Rect2(50, 44, 12, 39)
 
 [resource]
 script = ExtResource("1")
+damage = 6.0
+attack_speed = 1.0
 id = &"iron_sword"
 display_name = "Iron Sword"
 description = "A sturdy blade favored by novice adventurers."
-max_stack = 1
+icon = SubResource("AtlasTexture_hsjtc")
 value = 25
 category = 0
-weapon_type = 0
-damage = 6.0
-attack_speed = 1.0
-crit_bonus = 0.0
-two_handed = false
+shape = ["#", "#", "#"]

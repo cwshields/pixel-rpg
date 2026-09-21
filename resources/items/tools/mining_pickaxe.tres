@@ -1,15 +1,18 @@
-[gd_resource type="Resource" script_class="Tool" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Tool" format=3 uid="uid://cxftt3hc0ugxw"]
 
-[ext_resource type="Script" path="res://scripts/items/tool.gd" id="1"]
+[ext_resource type="Script" uid="uid://wuj5ase15eew" path="res://scripts/items/tool.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cfjfta7b6mvt4" path="res://assets/Weapons/Iron/Iron.png" id="1_kkmfm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_miq1x"]
+atlas = ExtResource("1_kkmfm")
+region = Rect2(13, 153, 22, 34)
 
 [resource]
 script = ExtResource("1")
 id = &"mining_pickaxe"
 display_name = "Mining Pickaxe"
 description = "Chips ore free from rock. Wears down with use."
-max_stack = 1
+icon = SubResource("AtlasTexture_miq1x")
 value = 15
 category = 2
-tool_type = 0
-power = 1
-max_durability = 50
+shape = ["##", "##", "##"]
