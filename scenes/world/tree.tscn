@@ -1,27 +1,46 @@
 [gd_scene format=3 uid="uid://bu5w5q6jwikdn"]
 
-[ext_resource type="Texture2D" uid="uid://4vo2nyb8x3fc" path="res://assets/Environment/Props/Static/Trees/Model_02/Size_04.png" id="1"]
 [ext_resource type="Script" uid="uid://bn008yhfxko08" path="res://scripts/world/tree.gd" id="2"]
-[ext_resource type="Material" path="res://resources/materials/foliage_wind_tree_material.tres" id="3"]
+[ext_resource type="Material" uid="uid://cnikowxrapv4y" path="res://resources/materials/foliage_wind_tree_material.tres" id="3"]
+[ext_resource type="Texture2D" uid="uid://c1bpxviwpbam2" path="res://Tilesets/Size_03.png" id="3_gvg74"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tree"]
-atlas = ExtResource("1")
-region = Rect2(0, 0, 64, 112)
+atlas = ExtResource("3_gvg74")
+region = Rect2(0, 0, 48, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trunk"]
-size = Vector2(9, 8)
+size = Vector2(9, 11)
 
 [node name="Tree" type="Node2D" unique_id=591471311]
+z_index = 3
 script = ExtResource("2")
+fade_polygon = PackedVector2Array()
+trunk_polygon = PackedVector2Array()
+hover_polygon = PackedVector2Array()
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=281834848]
 material = ExtResource("3")
-position = Vector2(0, -56)
+position = Vector2(1, -32)
 texture = SubResource("AtlasTexture_tree")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=264104722]
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=455016265]
-position = Vector2(0.5, -4)
+position = Vector2(1, 6.5)
 shape = SubResource("RectangleShape2D_trunk")
+
+[node name="HoverArea" type="Area2D" parent="." unique_id=738193042]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HoverArea" unique_id=984571123]
+position = Vector2(1.0630608, 16.099998)
+polygon = PackedVector2Array(-13.063061, -93.1, 14.936939, -90.1, 21.93694, -66.1, 19.93694, -35.1, 3.9369392, -26.099998, 3.9369392, -5.0999985, -4.0630608, -5.0999985, -4.0630608, -26.099998, -22.06306, -37.1, -22.06306, -70.1)
+
+[node name="FadeArea" type="Area2D" parent="." unique_id=1020617105]
+collision_layer = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea" unique_id=1353001223]
+position = Vector2(1, -6)
+polygon = PackedVector2Array(-15, -69, 17, -67, 24, -45, 23, 4, 4, 11, 3.9369392, 16.900002, -4.0630608, 16.900002, -4, 11, -24, 2, -24, -49)
