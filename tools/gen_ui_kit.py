@@ -389,8 +389,9 @@ regenerate. `preview_x3.png` shows every piece assembled.
   mock, or build a real `HBoxContainer` of `TextureButton`/`Panel` nodes each
   using `slot_hotbar.png`, swapping the selected one to
   `slot_hotbar_selected.png`.
-* **Inventory**: `panel_titled.png` for the window, `slot_inventory.png` for
-  each `GridContainer` cell (matches `scripts/ui/inventory_ui.gd`'s SlotGrid).
+* **Inventory**: `panel_titled.png` for the window, `slot_inventory.png` drawn
+  per cell via `draw_style_box()` (matches `scripts/ui/inventory_grid.gd`'s
+  Tetris-style grid — items can span multiple cells and rotate).
 * **Minimap**: `minimap_frame_round.png` / `minimap_frame_square.png` over a
   `SubViewportContainer` or map `TextureRect`; centre is transparent.
 
