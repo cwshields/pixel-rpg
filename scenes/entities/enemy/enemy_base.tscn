@@ -1,27 +1,45 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene format=3 uid="uid://ccyaos6a1amcg"]
 
-[ext_resource type="Script" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/entities/state_machine.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_idle_state.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_hurt_state.gd" id="6"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_dead_state.gd" id="7"]
-[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="8"]
-[ext_resource type="Script" path="res://scripts/components/stats_component.gd" id="9"]
-[ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="10"]
-[ext_resource type="Script" path="res://scripts/components/hitbox_component.gd" id="11"]
-[ext_resource type="SpriteFrames" path="res://resources/characters/enemies/skeleton_warrior_sprite_frames.tres" id="12"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/loot_entry.gd" id="13"]
+[ext_resource type="Script" uid="uid://cf4b5n0f8vae1" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
+[ext_resource type="Script" uid="uid://cuuncdpcq7okj" path="res://scripts/entities/state_machine.gd" id="2"]
+[ext_resource type="Script" uid="uid://d324biwxpimlp" path="res://scripts/entities/enemy/states/enemy_idle_state.gd" id="3"]
+[ext_resource type="Script" uid="uid://f2rcsfjhy8lf" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
+[ext_resource type="Script" uid="uid://dxwqkjyxwc5to" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
+[ext_resource type="Script" uid="uid://dyrcoiarvb47" path="res://scripts/entities/enemy/states/enemy_hurt_state.gd" id="6"]
+[ext_resource type="Script" uid="uid://diihkk2b82te4" path="res://scripts/entities/enemy/states/enemy_dead_state.gd" id="7"]
+[ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
+[ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
+[ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="10"]
+[ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="11"]
+[ext_resource type="SpriteFrames" uid="uid://bht5vans4cnm6" path="res://resources/characters/enemies/skeleton_warrior_sprite_frames.tres" id="12"]
+[ext_resource type="Script" uid="uid://d3xws6xsnn76g" path="res://scripts/entities/enemy/loot_entry.gd" id="13"]
 [ext_resource type="Resource" path="res://resources/items/materials/bone.tres" id="14"]
+[ext_resource type="Texture2D" uid="uid://bbi7rfmqhqdk5" path="res://assets/Weapons/Hands/Hands.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://d0met1v3s73fj" path="res://assets/Weapons/Wood/Wood.png" id="16"]
+[ext_resource type="Resource" path="res://resources/items/weapons/wooden_sword.tres" id="17"]
 
 [sub_resource type="Resource" id="LootEntry_bone"]
 script = ExtResource("13")
 item = ExtResource("14")
-min_amount = 1
 max_amount = 3
-chance = 1.0
 drop_individually = true
+
+[sub_resource type="Resource" id="LootEntry_wooden_sword"]
+script = ExtResource("13")
+item = ExtResource("17")
+chance = 0.25
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hand_offhand"]
+atlas = ExtResource("15")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hand_mainhand"]
+atlas = ExtResource("15")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wood_sword"]
+atlas = ExtResource("16")
+region = Rect2(3, 6, 10, 41)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(12, 10)
@@ -33,72 +51,88 @@ size = Vector2(14, 16)
 size = Vector2(14, 8)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
-radius = 64.0
+radius = 136.28236
 
-[node name="EnemyBase" type="CharacterBody2D"]
-collision_layer = 1
-collision_mask = 1
+[node name="EnemyBase" type="CharacterBody2D" unique_id=219544981]
 script = ExtResource("1")
-loot_table = Array[ExtResource("13")]([SubResource("LootEntry_bone")])
-xp_reward = 5
+loot_table = Array[ExtResource("13")]([SubResource("LootEntry_bone"), SubResource("LootEntry_wooden_sword")])
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=925163347]
 sprite_frames = ExtResource("12")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Equipment" type="Node2D" parent="." unique_id=1277959473]
+
+[node name="HandOffhand" type="Sprite2D" parent="Equipment" unique_id=1629179912]
+y_sort_enabled = true
+position = Vector2(12, 5)
+texture = SubResource("AtlasTexture_hand_offhand")
+
+[node name="HandMain" type="Sprite2D" parent="Equipment" unique_id=248686037]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(-16, 5)
+texture = SubResource("AtlasTexture_hand_mainhand")
+
+[node name="Sword" type="Sprite2D" parent="Equipment/HandMain" unique_id=1600260988]
+position = Vector2(0, -12)
+texture = SubResource("AtlasTexture_wood_sword")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=323023496]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" type="Node" parent="." unique_id=380721666]
 script = ExtResource("8")
 max_health = 15.0
 
-[node name="StatsComponent" type="Node" parent="."]
+[node name="StatsComponent" type="Node" parent="." unique_id=1068269892]
 script = ExtResource("9")
 base_attack = 3.0
 
-[node name="HurtboxComponent" type="Area2D" parent="."]
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1059738094]
+position = Vector2(-2, 1)
+scale = Vector2(1.1199993, 1.8)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("10")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1303407823]
 shape = SubResource("RectangleShape2D_hurt")
 
-[node name="HitboxComponent" type="Area2D" parent="."]
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=659454677]
 collision_layer = 0
 collision_mask = 4
 monitoring = false
 script = ExtResource("11")
 damage = 3.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=443038982]
 position = Vector2(9, 0)
 shape = SubResource("RectangleShape2D_hit")
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=793506889]
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1421886114]
+scale = Vector2(1.0531048, 0.82754856)
 shape = SubResource("CircleShape2D_detect")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." unique_id=902136283]
 script = ExtResource("2")
 initial_state = &"Idle"
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=2002524606]
 script = ExtResource("3")
 
-[node name="Chase" type="Node" parent="StateMachine"]
+[node name="Chase" type="Node" parent="StateMachine" unique_id=2107172648]
 script = ExtResource("4")
 
-[node name="Attack" type="Node" parent="StateMachine"]
+[node name="Attack" type="Node" parent="StateMachine" unique_id=708353228]
 script = ExtResource("5")
 
-[node name="Hurt" type="Node" parent="StateMachine"]
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=1190217505]
 script = ExtResource("6")
 
-[node name="Dead" type="Node" parent="StateMachine"]
+[node name="Dead" type="Node" parent="StateMachine" unique_id=520123513]
 script = ExtResource("7")
