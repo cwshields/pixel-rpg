@@ -781,7 +781,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_62")
 }],
-"loop": 0,
+"loop": 1,
 "name": &"hurt_side",
 "speed": 10.0
 }, {
@@ -803,55 +803,55 @@ animations = [{
 "speed": 10.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("frame_1")
 }, {
-"duration": 1.0,
+"duration": 1.2,
 "texture": SubResource("frame_2")
 }, {
-"duration": 1.0,
+"duration": 1.2,
 "texture": SubResource("frame_3")
 }, {
-"duration": 1.0,
+"duration": 2.4,
 "texture": SubResource("frame_4")
 }],
 "loop": 1,
 "name": &"idle_down",
-"speed": 6.0
+"speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("frame_5")
 }, {
-"duration": 1.0,
+"duration": 1.2,
 "texture": SubResource("frame_6")
 }, {
-"duration": 1.0,
+"duration": 1.2,
 "texture": SubResource("frame_7")
 }, {
-"duration": 1.0,
+"duration": 2.4,
 "texture": SubResource("frame_8")
 }],
 "loop": 1,
 "name": &"idle_side",
-"speed": 6.0
+"speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("frame_9")
 }, {
-"duration": 1.0,
+"duration": 1.2,
 "texture": SubResource("frame_10")
 }, {
-"duration": 1.0,
+"duration": 1.2,
 "texture": SubResource("frame_11")
 }, {
-"duration": 1.0,
+"duration": 2.4,
 "texture": SubResource("frame_12")
 }],
 "loop": 1,
 "name": &"idle_up",
-"speed": 6.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -874,7 +874,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"run_down",
-"speed": 14.0
+"speed": 13.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -897,7 +897,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"run_side",
-"speed": 14.0
+"speed": 13.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -920,7 +920,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"run_up",
-"speed": 14.0
+"speed": 13.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -943,7 +943,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_down",
-"speed": 10.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -966,7 +966,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_side",
-"speed": 10.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -989,5 +989,5 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_up",
-"speed": 10.0
+"speed": 9.0
 }]
