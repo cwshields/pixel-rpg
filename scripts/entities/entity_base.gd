@@ -16,6 +16,16 @@ signal facing_changed(direction: Vector2)
 @export var acceleration: float = 600.0
 @export var friction: float = 500.0
 
+@export_group("Obstacle Avoidance")
+## How far ahead `steer_direction()` looks for an obstacle, in pixels. 0
+## disables steering entirely (movement still slides along walls via
+## move_and_slide, it just won't pick a smarter heading beforehand).
+@export var obstacle_look_ahead: float = 20.0
+## Physics layers `steer_direction()` treats as obstacles to route
+## around — defaults to layer 1, the world's static geometry (walls,
+## trees, buildings).
+@export_flags_2d_physics var obstacle_avoidance_mask: int = 1
+
 ## When true, `move()` targets `sprint_speed` instead of `move_speed`. Not
 ## persisted — whichever state is active owns setting and clearing it.
 var sprinting: bool = false
@@ -27,6 +37,10 @@ var facing_direction: Vector2 = Vector2.DOWN
 @onready var health: HealthComponent = get_node_or_null("HealthComponent")
 @onready var stats: StatsComponent = get_node_or_null("StatsComponent")
 @onready var animated_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
+## The entity's own physical collision shape — used by `steer_direction()`
+## to cast the entity's actual footprint (not a zero-width line) when
+## feeling for obstacles. See `_direction_blocked()`.
+@onready var _body_shape: CollisionShape2D = get_node_or_null("CollisionShape2D")
 
 func _ready() -> void:
 	if health:
@@ -79,6 +93,67 @@ func move(direction: Vector2, delta: float, update_facing: bool = true) -> void:
 
 func stop() -> void:
 	velocity = Vector2.ZERO
+
+## A cheap local steering check for AI movement (wandering, fleeing,
+## chasing) — NOT used by the player, who's driven by direct input.
+## Feels `obstacle_look_ahead` pixels along `desired_direction`; if it's
+## clear, returns it unchanged. If it's blocked, fans outward in both
+## directions (30°, 60°, 90°, 120°, 150°) and returns the first clear
+## heading it finds, so a wandering/fleeing mob steers around a wall or
+## tree instead of grinding face-first into it over and over. Returns
+## Vector2.ZERO if every direction it tried is blocked (better to stop
+## than shove into a corner). Reusable as-is by any EntityBase subclass —
+## no extra nodes required beyond the body's own "CollisionShape2D", since
+## it queries physics space directly.
+##
+## Pass `ignore_bodies` when steering toward/away from a specific body
+## (a chase target, a flee threat) — otherwise, since mobs share the same
+## physics layer as the world's static geometry, that body itself would
+## start reading as a "wall" the moment it's within `obstacle_look_ahead`,
+## and the mob would swerve off just as it closes the distance.
+func steer_direction(desired_direction: Vector2, ignore_bodies: Array[Node2D] = []) -> Vector2:
+	if obstacle_look_ahead <= 0.0 or desired_direction == Vector2.ZERO:
+		return desired_direction
+	var exclude: Array[RID] = [get_rid()]
+	for body in ignore_bodies:
+		if body is PhysicsBody2D:
+			exclude.append((body as PhysicsBody2D).get_rid())
+	if not _direction_blocked(desired_direction, exclude):
+		return desired_direction
+	for degrees in [30.0, 60.0, 90.0, 120.0, 150.0]:
+		for side in [1.0, -1.0]:
+			var candidate: Vector2 = desired_direction.rotated(deg_to_rad(degrees * side))
+			if not _direction_blocked(candidate, exclude):
+				return candidate
+	return Vector2.ZERO
+
+## Checks whether the entity's own body would fit `obstacle_look_ahead`
+## pixels along `direction` — a shape cast using the entity's actual
+## CollisionShape2D, not a zero-width ray. A ray from the node origin can
+## slip past obstacles narrower than the body itself (the fox threading a
+## tree's slim trunk box) or, near a jagged wall, read as newly "blocked"
+## just because it starts flush against geometry the body is already
+## touching (a fleeing hare pinned against a cliff edge) — both explained
+## by the ray not matching the body's real footprint or offset. Casting
+## the actual shape at the candidate point sidesteps both: it tests "would
+## I fit there", not "is there anything along this thin line from here".
+## Falls back to the old point-ray behavior if there's no CollisionShape2D
+## to cast (rare — every current EntityBase subclass has one).
+func _direction_blocked(direction: Vector2, exclude: Array[RID]) -> bool:
+	var space_state := get_world_2d().direct_space_state
+	if _body_shape == null or _body_shape.shape == null:
+		var ray_query := PhysicsRayQueryParameters2D.create(
+			global_position, global_position + direction.normalized() * obstacle_look_ahead)
+		ray_query.collision_mask = obstacle_avoidance_mask
+		ray_query.exclude = exclude
+		return not space_state.intersect_ray(ray_query).is_empty()
+	var destination: Vector2 = global_position + _body_shape.position + direction.normalized() * obstacle_look_ahead
+	var shape_query := PhysicsShapeQueryParameters2D.new()
+	shape_query.shape = _body_shape.shape
+	shape_query.transform = Transform2D(_body_shape.global_rotation, destination)
+	shape_query.collision_mask = obstacle_avoidance_mask
+	shape_query.exclude = exclude
+	return not space_state.intersect_shape(shape_query, 1).is_empty()
 
 func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector2.ZERO) -> void:
 	var final_amount: float = stats.compute_incoming_damage(amount) if stats else amount
