@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/critter_spawner.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/entities/critter/hare.tscn" id="2"]
+
+[node name="CritterSpawner" type="Marker2D"]
+script = ExtResource("1")
+critter_scene = ExtResource("2")
