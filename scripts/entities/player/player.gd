@@ -39,8 +39,6 @@ func wants_to_sprint() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		_interact_with_nearest()
-	elif event.is_action_pressed("toggle_inventory"):
-		UIManager.toggle_screen(&"inventory")
 
 func _interact_with_nearest() -> void:
 	for area in _nearby_interactables:

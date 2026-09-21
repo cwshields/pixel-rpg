@@ -25,9 +25,10 @@ func open_screen(screen_name: StringName) -> void:
 		return
 	if _open_stack.has(screen_name):
 		return
-	_screens[screen_name].open()
+	var screen: MenuBase = _screens[screen_name]
+	screen.open()
 	_open_stack.append(screen_name)
-	GameManager.set_state(GameManager.GameState.MENU)
+	_update_state()
 	Events.ui_toggled.emit(screen_name, true)
 
 func close_screen(screen_name: StringName) -> void:
@@ -35,9 +36,24 @@ func close_screen(screen_name: StringName) -> void:
 		return
 	_screens[screen_name].close()
 	_open_stack.erase(screen_name)
-	if _open_stack.is_empty():
-		GameManager.set_state(GameManager.GameState.PLAYING)
+	_update_state()
 	Events.ui_toggled.emit(screen_name, false)
 
 func is_any_open() -> bool:
 	return not _open_stack.is_empty()
+
+## Re-derives GameManager's state from whatever's left in `_open_stack`,
+## rather than just reacting to the stack going empty. Without this, closing
+## a pause_game screen (pause menu) while a lighter MENU screen (inventory)
+## is still open underneath left the tree stuck paused forever — nothing
+## short of PauseMenu's own ALWAYS process_mode could still get input to
+## unpause it.
+func _update_state() -> void:
+	if _open_stack.is_empty():
+		GameManager.set_state(GameManager.GameState.PLAYING)
+		return
+	for screen_name in _open_stack:
+		if (_screens[screen_name] as MenuBase).pause_game:
+			GameManager.set_state(GameManager.GameState.PAUSED)
+			return
+	GameManager.set_state(GameManager.GameState.MENU)
