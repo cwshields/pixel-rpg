@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://dskva42w2rap7"]
+
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d0met1v3s73fj" path="res://assets/Weapons/Wood/Wood.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("2")
+region = Rect2(1, 6, 14, 41)
+
+[resource]
+script = ExtResource("1")
+damage = 2.0
+attack_speed = 0.8
+min_damage = 1.0
+max_damage = 4.0
+max_durability = 100
+id = &"wooden_sword"
+display_name = "Wooden Sword"
+description = "A crude training blade, little more than a carved plank. Better than fists."
+icon = SubResource("AtlasTexture_icon")
+value = 4
+category = 0
+shape = ["#", "#", "#"]
