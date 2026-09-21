@@ -12,5 +12,5 @@ func process_physics(delta: float) -> void:
 	if to_target.length() <= attack_range:
 		transition_requested.emit(&"Attack", {})
 		return
-	entity.move(to_target.normalized(), delta)
+	entity.move(entity.steer_direction(to_target.normalized(), [enemy.target]), delta)
 	entity.play_animation("walk")
