@@ -18,10 +18,12 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	entity.stop()
 	var critter := entity as CritterBase
 	var target := critter.pursuit_target()
-	if critter.hitbox and target:
-		var to_target: Vector2 = target.global_position - entity.global_position
-		if to_target.length() > 0.001:
-			critter.hitbox.position = to_target.normalized() * hitbox_reach
+	if critter.hitbox:
+		critter.hitbox.damage = critter.stats.compute_outgoing_damage() if critter.stats else critter.hitbox.damage
+		if target:
+			var to_target: Vector2 = target.global_position - entity.global_position
+			if to_target.length() > 0.001:
+				critter.hitbox.position = to_target.normalized() * hitbox_reach
 	entity.play_animation("attack")
 
 func process_physics(delta: float) -> void:
