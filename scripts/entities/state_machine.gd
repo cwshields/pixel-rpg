@@ -21,17 +21,9 @@ func _ready() -> void:
 	if initial_state != &"" and states.has(initial_state):
 		_change_state(initial_state, {})
 
-func _process(delta: float) -> void:
-	if current_state:
-		current_state.process_frame(delta)
-
 func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.process_physics(delta)
-
-func _unhandled_input(event: InputEvent) -> void:
-	if current_state:
-		current_state.process_input(event)
 
 func transition_to(state_name: StringName, data: Dictionary = {}) -> void:
 	_change_state(state_name, data)
