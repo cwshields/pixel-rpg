@@ -16,7 +16,6 @@ signal stamina_changed(entity: Node, current: float, max: float)
 signal mana_changed(entity: Node, current: float, max: float)
 signal entity_died(entity: Node)
 signal item_picked_up(item: Resource, amount: int)
-signal inventory_changed
 signal dialogue_started(npc: Node)
 signal dialogue_ended
 ## Fired whenever a UI screen registered with UIManager opens or closes.

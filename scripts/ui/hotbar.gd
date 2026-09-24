@@ -36,6 +36,10 @@ const CELL_CENTER_Y := 9
 
 var _slots: Array[HotbarSlot] = []
 var _selected: int = 0
+## Whichever Inventory's `changed` signal Hotbar is currently bound to —
+## tracked so a respawn (a new Player/Inventory instance) can rebind
+## instead of leaking a connection to the old one.
+var _connected_inventory: Inventory
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -54,11 +58,10 @@ func _ready() -> void:
 		add_child(s)
 		_slots.append(s)
 
-	Events.inventory_changed.connect(refresh)
-	Events.player_spawned.connect(func(_p: Node) -> void: refresh())
+	Events.player_spawned.connect(_on_player_spawned)
 	Events.ui_toggled.connect(_on_ui_toggled)
 
-	refresh()
+	_on_player_spawned(GameManager.player)
 	_apply_selection()
 	Events.hotbar_selection_changed.emit(_selected, _current_item())
 	visible = not UIManager.is_any_open()
@@ -121,6 +124,21 @@ func _current_item() -> ItemBase:
 
 func _on_ui_toggled(_screen_name: StringName, _is_open: bool) -> void:
 	visible = not UIManager.is_any_open()
+
+## Binds `refresh()` to the current player's own Inventory.changed signal
+## instead of a global broadcast — Inventory no longer emits one, since a
+## payload-less global signal can't say *which* Inventory changed, which
+## would misfire the moment a second Inventory (a chest, a shop) exists.
+## Re-binds on every player_spawned in case a respawn swapped in a new
+## Player/Inventory instance.
+func _on_player_spawned(p: Node) -> void:
+	if _connected_inventory and _connected_inventory.changed.is_connected(refresh):
+		_connected_inventory.changed.disconnect(refresh)
+	var player := p as Player
+	_connected_inventory = player.inventory if player else null
+	if _connected_inventory:
+		_connected_inventory.changed.connect(refresh)
+	refresh()
 
 func _try_load(path: String) -> Texture2D:
 	if ResourceLoader.exists(path):
