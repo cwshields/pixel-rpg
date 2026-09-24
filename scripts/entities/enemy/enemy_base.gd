@@ -21,6 +21,9 @@ const EQUIPMENT_SPIN_RANGE: float = 8.0
 ## the hand it's parented to (see enemy_base.tscn's Equipment/HandMain/Sword).
 const SWORD_BREAKS_FREE_CHANCE: float = 0.5
 
+const _PICKUP_SCENE: PackedScene = preload("res://scenes/world/item_pickup.tscn")
+const _LOOSE_EQUIPMENT_PIECE_SCENE: PackedScene = preload("res://scenes/world/loose_equipment_piece.tscn")
+
 @onready var state_machine: StateMachine = $StateMachine
 @onready var detection_area: Area2D = get_node_or_null("DetectionArea")
 @onready var hitbox: HitboxComponent = get_node_or_null("HitboxComponent")
@@ -62,7 +65,7 @@ func _on_body_exited_detection(body: Node2D) -> void:
 func _drop_loot() -> void:
 	if loot_table.is_empty():
 		return
-	var pickup_scene: PackedScene = load("res://scenes/world/item_pickup.tscn")
+	var pickup_scene: PackedScene = _PICKUP_SCENE
 	for entry in loot_table:
 		if not entry.item or randf() > entry.chance:
 			continue
@@ -103,7 +106,7 @@ func _break_loose_equipment() -> void:
 ## Detaches `sprite` onto its own LooseEquipmentPiece so it survives and
 ## tumbles independently of this enemy's own eventual queue_free().
 func _launch_piece(sprite: Node2D) -> void:
-	var piece: LooseEquipmentPiece = load("res://scenes/world/loose_equipment_piece.tscn").instantiate()
+	var piece: LooseEquipmentPiece = _LOOSE_EQUIPMENT_PIECE_SCENE.instantiate()
 	get_tree().current_scene.add_child(piece)
 	piece.global_position = sprite.global_position
 	piece.global_rotation = sprite.global_rotation
