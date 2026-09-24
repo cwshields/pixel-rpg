@@ -18,11 +18,11 @@ func _init() -> void:
 	category = Category.CONSUMABLE
 
 func use(user: Node) -> bool:
-	var health: HealthComponent = user.get_node_or_null("HealthComponent")
-	if health and heal_amount > 0.0:
-		health.heal(heal_amount)
-	if buff_stat != &"" and user is EntityBase and (user as EntityBase).stats:
-		_apply_timed_buff(user as EntityBase)
+	var entity := user as EntityBase
+	if entity and entity.health and heal_amount > 0.0:
+		entity.health.heal(heal_amount)
+	if buff_stat != &"" and entity and entity.stats:
+		_apply_timed_buff(entity)
 	return true
 
 func _apply_timed_buff(entity: EntityBase) -> void:
