@@ -41,12 +41,6 @@ extends OccluderProp
 ## other implementation, sharing nothing but the interface and the Foliage
 ## registration.
 
-## Player.tscn's root z_index is set to this same value — a tree needs a
-## shared baseline to sit exactly one step above or below the player.
-## RockProp's own PLAYER_Z_INDEX (rock.gd) must match this too. Change all
-## three together if you ever retune it.
-const PLAYER_Z_INDEX := 4
-
 const _DEFAULT_TRUNK_SIZE := Vector2(9, 8)
 const _DEFAULT_TRUNK_OFFSET := Vector2(0.5, -4)
 
