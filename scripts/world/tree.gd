@@ -32,14 +32,24 @@ extends OccluderProp
 ## player actually crosses into it. Dropping a Tree anywhere in the world
 ## (regardless of what it's parented under) is still all that's required.
 ##
-## The script is `@tool` only so the Art / Trunk overrides below preview
-## live in the editor — this is what lets a single `tree.tscn` stand in for
-## every tree sprite in the tileset. The player-relative effects never run
-## in the editor (guarded by `Engine.is_editor_hint()`).
+## Tree variations live as inherited scenes in `VARIANT_DIR`
+## (`scenes/world/trees/`), each setting its own sprite and collision
+## shapes directly on the child nodes. Place trees by instancing those —
+## editing a variant scene's shapes once updates every tree that uses it.
+## The Art / Trunk / Fade / Hover exports below are the older per-instance
+## override path (only a few one-off trees still use it).
+##
+## The script is `@tool` so those overrides preview live in the editor and
+## the "Randomize Variant" button works. The player-relative effects never
+## run in the editor (guarded by `Engine.is_editor_hint()`).
 ##
 ## Extends `OccluderProp` purely for typing — `RockProp` (rock.gd) is the
 ## other implementation, sharing nothing but the interface and the Foliage
 ## registration.
+
+## Folder of tree variant scenes (each inherits tree.tscn) that "Randomize
+## Variant" picks from.
+const VARIANT_DIR := "res://scenes/world/trees/"
 
 const _DEFAULT_TRUNK_SIZE := Vector2(9, 8)
 const _DEFAULT_TRUNK_OFFSET := Vector2(0.5, -4)
@@ -115,19 +125,14 @@ static var _trunk_shape_cache: Dictionary = {}
 		swaying = value
 		_apply_art()
 
-## Pool of alternate `art_region` crops (from the same `art_texture` sheet)
-## to choose between. Leave empty to just use `art_region` as typed above.
-## Fill this in with a few regions cropped from the same sheet, then press
-## "Randomize Art" below to bake one pick into `art_region`. The pick only
+## Inspector button: swaps this tree for an instance of a different,
+## randomly picked variant scene from `VARIANT_DIR`, keeping its name,
+## transform and place in the parent. Undoable with Ctrl+Z. The pick only
 ## ever happens when you press the button — never in `_ready()` — so the
 ## editor and the running game can never disagree about which one a tree
-## ended up with.
-@export var art_variants: Array[Rect2i] = []
-
-## Inspector button: assigns `art_region` a random entry from `art_variants`
-## and re-applies the art immediately. No-op (with a warning) if
-## `art_variants` is empty.
-@export_tool_button("Randomize Art") var _randomize_art_button = _randomize_art
+## ended up with. Adding a variation is just saving another inherited scene
+## into that folder.
+@export_tool_button("Randomize Variant") var _randomize_variant_button = _randomize_variant
 
 @export_group("Trunk Collision")
 ## When false the trunk StaticBody2D's shape is disabled, so the tree is
@@ -217,17 +222,9 @@ func _on_fade_area_body_exited(body: Node) -> void:
 	if body == GameManager.player:
 		_player_in_fade_area = false
 
-## Bakes a random pick from `art_variants` into `art_region` (whose setter
-## reapplies the art). Called only from the "Randomize Art" inspector
-## button — deliberately not from `_ready()` — so the result is a one-time,
-## saved decision rather than something that could differ on every reload.
-func _randomize_art() -> void:
-	if art_variants.is_empty():
-		push_warning("TreeProp '%s': art_variants is empty, nothing to randomize." % name)
-		return
-	art_region = art_variants.pick_random()
-	if Engine.is_editor_hint():
-		EditorInterface.mark_scene_as_unsaved()
+## "Randomize Variant" button target — see OccluderProp.swap_for_random_variant.
+func _randomize_variant() -> void:
+	swap_for_random_variant(VARIANT_DIR)
 
 ## Rebuilds the Sprite2D from the Art overrides. No-op when `art_texture`
 ## is unset, so a plain `tree.tscn` instance keeps its shipped sprite.
@@ -284,7 +281,8 @@ func _apply_hover_shape() -> void:
 	if sprite == null or sprite.texture == null:
 		return
 	var half: Vector2 = sprite.texture.get_size() * 0.5
-	var center: Vector2 = sprite.position
+	# Polygon points are local to poly_node, which may itself be offset.
+	var center: Vector2 = sprite.position - poly_node.position
 	poly_node.polygon = PackedVector2Array([
 		center + Vector2(-half.x, -half.y),
 		center + Vector2(half.x, -half.y),
@@ -310,7 +308,8 @@ func _apply_fade_shape() -> void:
 	if sprite == null or sprite.texture == null:
 		return
 	var half: Vector2 = sprite.texture.get_size() * 0.5
-	var center: Vector2 = sprite.position
+	# Polygon points are local to poly_node, which may itself be offset.
+	var center: Vector2 = sprite.position - poly_node.position
 	poly_node.polygon = PackedVector2Array([
 		center + Vector2(-half.x, -half.y),
 		center + Vector2(half.x, -half.y),

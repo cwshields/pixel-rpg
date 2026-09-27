@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" uid="uid://t6fkmppxl61v" path="res://scenes/world/rock.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://rxkfcslljpn3" path="res://assets/Environment/Props/Static/Rock-ruins.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_art"]
+atlas = ExtResource("2")
+region = Rect2(192, 48, 48, 48)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_collision"]
+points = PackedVector2Array(22.285215, 3.0468082, 15.495188, 5.6583576, -9.749783, 9.140421, -20.370079, 4.091425, -18.629047, -4.787838, 1.3928261, -8, 20.718287, -5.484251)
+
+[node name="RockMossy" instance=ExtResource("1")]
+
+[node name="Sprite2D" parent="."]
+position = Vector2(0, -13)
+texture = SubResource("AtlasTexture_art")
+
+[node name="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -8)
+shape = SubResource("ConvexPolygonShape2D_collision")
