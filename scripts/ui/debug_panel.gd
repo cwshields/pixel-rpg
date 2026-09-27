@@ -33,6 +33,9 @@ extends CanvasLayer
 ## — a window listing every item in the game next to the player's live
 ## inventory, so items can be picked up onto the cursor and dropped straight
 ## into a slot.
+##
+## Ctrl+Shift+D (the "toggle_debug_panel" action) shows/hides the panel
+## itself without tearing it down, so it stays wired up in the background.
 
 ## Enemy scene to drop. Any scene whose root extends EnemyBase works.
 @export var enemy_scene: PackedScene = preload("res://scenes/entities/enemy/enemy_base.tscn")
@@ -84,6 +87,10 @@ func _process(delta: float) -> void:
 		_free_camera.global_position += input * free_camera_speed * delta
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"toggle_debug_panel"):
+		_toggle_visible()
+		get_viewport().set_input_as_handled()
+		return
 	if not _placing:
 		return
 	if event.is_action_pressed(&"pause"):
@@ -97,6 +104,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			_stop_placing()
 			get_viewport().set_input_as_handled()
+
+# --- Visibility --------------------------------------------------------
+
+func _toggle_visible() -> void:
+	$Root.visible = not $Root.visible
 
 # --- Enemy placement -------------------------------------------------------
 
