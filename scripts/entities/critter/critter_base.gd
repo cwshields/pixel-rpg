@@ -56,7 +56,7 @@ func _ready() -> void:
 func _on_body_entered_detection(body: Node2D) -> void:
 	if body is Player:
 		threat = body
-	elif body is CritterBase and (body as CritterBase).hunt_target == self:
+	elif body.get(&"hunt_target") == self: # a predator critter or enemy (see HunterComponent)
 		threat = body
 
 func _on_body_exited_detection(body: Node2D) -> void:
@@ -69,6 +69,12 @@ func _on_body_exited_detection(body: Node2D) -> void:
 ## to flee/chase.
 func is_threat_active() -> bool:
 	if not threat:
+		return false
+	if not is_instance_valid(threat) or (not threat is Player and threat.get(&"hunt_target") != self):
+		# A predator that's given up on (or finished) hunting this critter
+		# stops being a threat — otherwise its lingering reference would
+		# spook this critter every time it moved anywhere on the map.
+		threat = null
 		return false
 	if is_hostile:
 		return true

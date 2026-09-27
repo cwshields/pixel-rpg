@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bjdgjrmfpvgbh"]
 
 [ext_resource type="Script" uid="uid://cf4b5n0f8vae1" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
 [ext_resource type="Script" uid="uid://cuuncdpcq7okj" path="res://scripts/entities/state_machine.gd" id="2"]
@@ -6,20 +6,23 @@
 [ext_resource type="Script" uid="uid://f2rcsfjhy8lf" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
 [ext_resource type="Script" uid="uid://dxwqkjyxwc5to" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
 [ext_resource type="Script" uid="uid://dyrcoiarvb47" path="res://scripts/entities/enemy/states/enemy_hurt_state.gd" id="6"]
-[ext_resource type="Script" uid="uid://diihkk2b82te4" path="res://scripts/entities/enemy/states/enemy_dead_state.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/entities/dead_state.gd" id="7"]
 [ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
 [ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
 [ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="10"]
 [ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="11"]
-[ext_resource type="SpriteFrames" path="res://resources/characters/enemies/wolf_sprite_frames.tres" id="12"]
+[ext_resource type="SpriteFrames" uid="uid://cpaxwi2mbo6et" path="res://resources/characters/enemies/wolf_sprite_frames.tres" id="12"]
 [ext_resource type="Script" uid="uid://d3xws6xsnn76g" path="res://scripts/entities/enemy/loot_entry.gd" id="13"]
-[ext_resource type="Resource" path="res://resources/items/materials/wolf_pelt.tres" id="14"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_growl_state.gd" id="15"]
+[ext_resource type="Resource" uid="uid://dkgrm3fk4t2os" path="res://resources/items/materials/wolf_pelt.tres" id="14"]
+[ext_resource type="Script" uid="uid://cs4jijjyl8ye0" path="res://scripts/entities/enemy/states/enemy_growl_state.gd" id="15"]
+[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_howl_state.gd" id="16"]
+[ext_resource type="Script" path="res://scripts/components/ambient_action_component.gd" id="17"]
+[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_wander_state.gd" id="18"]
+[ext_resource type="Script" uid="uid://c5xs2l0uo1qdy" path="res://scripts/components/hunter_component.gd" id="19"]
 
 [sub_resource type="Resource" id="LootEntry_wolf_pelt"]
 script = ExtResource("13")
 item = ExtResource("14")
-min_amount = 1
 max_amount = 2
 chance = 0.75
 drop_individually = true
@@ -36,37 +39,45 @@ size = Vector2(16, 10)
 [sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
 radius = 110.0
 
-[node name="Wolf" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_alert"]
+radius = 158.0
+
+[node name="Wolf" type="CharacterBody2D" unique_id=1572607028]
 script = ExtResource("1")
+sprint_speed = 145.0
 loot_table = Array[ExtResource("13")]([SubResource("LootEntry_wolf_pelt")])
 xp_reward = 8
+wander_radius = 110.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1962286079]
 sprite_frames = ExtResource("12")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1571453347]
+visible = false
 position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" type="Node" parent="." unique_id=235833411]
 script = ExtResource("8")
 max_health = 18.0
 
-[node name="StatsComponent" type="Node" parent="."]
+[node name="StatsComponent" type="Node" parent="." unique_id=150724768]
 script = ExtResource("9")
 base_attack = 4.0
 
-[node name="HurtboxComponent" type="Area2D" parent="."]
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=180345074]
+visible = false
 position = Vector2(0, 4)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("10")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1168079646]
 shape = SubResource("RectangleShape2D_hurt")
 
-[node name="HitboxComponent" type="Area2D" parent="."]
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=710020036]
+visible = false
 position = Vector2(16, 4)
 collision_layer = 0
 collision_mask = 4
@@ -74,33 +85,65 @@ monitoring = false
 script = ExtResource("11")
 damage = 4.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=797875022]
 shape = SubResource("RectangleShape2D_hit")
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=963967006]
+visible = false
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=39358731]
 shape = SubResource("CircleShape2D_detect")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="AlertArea" type="Area2D" parent="." unique_id=1469966826]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AlertArea" unique_id=1262995538]
+shape = SubResource("CircleShape2D_alert")
+
+[node name="AmbientActionComponent" type="Node" parent="."]
+script = ExtResource("17")
+action_state = &"Howl"
+interval_min = 30.0
+interval_max = 90.0
+
+[node name="HunterComponent" type="Node" parent="."]
+script = ExtResource("19")
+prey_group = &"deer"
+search_radius = 700.0
+urge_min = 25.0
+urge_max = 60.0
+alert_prey = false
+
+[node name="StateMachine" type="Node" parent="." unique_id=1625186175]
 script = ExtResource("2")
 initial_state = &"Idle"
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=240476806]
 script = ExtResource("3")
 
-[node name="Growl" type="Node" parent="StateMachine"]
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("18")
+
+[node name="Growl" type="Node" parent="StateMachine" unique_id=1956172932]
 script = ExtResource("15")
 
-[node name="Chase" type="Node" parent="StateMachine"]
-script = ExtResource("4")
+[node name="Howl" type="Node" parent="StateMachine"]
+script = ExtResource("16")
 
-[node name="Attack" type="Node" parent="StateMachine"]
+[node name="Chase" type="Node" parent="StateMachine" unique_id=372911869]
+script = ExtResource("4")
+attack_range = 26.0
+stalk_distance = 90.0
+giveup_time = 7.0
+
+[node name="Attack" type="Node" parent="StateMachine" unique_id=1096423874]
 script = ExtResource("5")
 
-[node name="Hurt" type="Node" parent="StateMachine"]
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=1186114813]
 script = ExtResource("6")
 
-[node name="Dead" type="Node" parent="StateMachine"]
+[node name="Dead" type="Node" parent="StateMachine" unique_id=214559046]
 script = ExtResource("7")
+linger_time = 14.0
