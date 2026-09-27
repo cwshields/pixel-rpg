@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_miq1x"]
 atlas = ExtResource("1_kkmfm")
-region = Rect2(13, 153, 22, 34)
+region = Rect2(16, 154, 16, 32)
 
 [resource]
 script = ExtResource("1")
@@ -15,4 +15,4 @@ description = "Chips ore free from rock. Wears down with use."
 icon = SubResource("AtlasTexture_miq1x")
 value = 15
 category = 2
-shape = ["##", "##", "##"]
+shape = ["#", "#"]

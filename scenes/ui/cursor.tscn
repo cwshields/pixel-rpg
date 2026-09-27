@@ -20,9 +20,12 @@ region = Rect2(98, 301, 12, 12)
 atlas = ExtResource("3_gbfun")
 region = Rect2(64, 258, 12, 12)
 
-[node name="Cursor" type="CanvasLayer" unique_id=866562569]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mine"]
+atlas = ExtResource("3_gbfun")
+region = Rect2(82, 258, 12, 12)
+
+[node name="Cursor" type="Node" unique_id=866562569]
 process_mode = 3
-layer = 128
 script = ExtResource("1")
 default_texture = SubResource("AtlasTexture_arrow")
 hotspot = Vector2(1, 1)
@@ -31,5 +34,5 @@ attack_hotspot = Vector2(1, 1)
 interact_texture = SubResource("AtlasTexture_interact")
 interact_hotspot = Vector2(2, 1)
 cut_texture = SubResource("AtlasTexture_gbfun")
+mine_texture = SubResource("AtlasTexture_mine")
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=1559320432]
