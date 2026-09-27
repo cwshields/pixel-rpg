@@ -70,9 +70,17 @@ func play_animation(base_name: String) -> bool:
 	return true
 
 func _facing_suffix() -> String:
-	if absf(facing_direction.y) >= absf(facing_direction.x):
-		return "up" if facing_direction.y < 0.0 else "down"
-	return "side"
+	var cardinal := cardinal_name(facing_direction)
+	return "side" if cardinal == "left" or cardinal == "right" else cardinal
+
+## Snaps a direction to "up"/"down"/"left"/"right" — the same split
+## play_animation() uses to pick which directional sprite to show (vertical
+## wins ties), so anything keyed off it (e.g. HitboxComponent's per-direction
+## shapes) always lines up with the art on screen.
+static func cardinal_name(direction: Vector2) -> String:
+	if absf(direction.y) >= absf(direction.x):
+		return "up" if direction.y < 0.0 else "down"
+	return "left" if direction.x < 0.0 else "right"
 
 ## Eases velocity toward `direction * move_speed` and slides. Pass
 ## Vector2.ZERO to decelerate to a stop. `direction` should already be

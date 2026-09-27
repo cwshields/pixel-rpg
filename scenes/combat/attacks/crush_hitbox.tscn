@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_up"]
+size = Vector2(10, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_down"]
+size = Vector2(10, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_left"]
+size = Vector2(16, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_right"]
+size = Vector2(16, 10)
+
+[node name="CrushHitbox" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+monitoring = false
+script = ExtResource("1")
+knockback_force = 0.0
+metadata/notes = "Untagged: mining loops, so these are live during AttackDefinition's active window each cycle."
+
+[node name="Up" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_up")
+
+[node name="Down" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+shape = SubResource("RectangleShape2D_down")
+
+[node name="Left" type="CollisionShape2D" parent="."]
+position = Vector2(-12, 2)
+shape = SubResource("RectangleShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="."]
+position = Vector2(12, 2)
+shape = SubResource("RectangleShape2D_right")

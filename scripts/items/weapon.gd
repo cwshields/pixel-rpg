@@ -15,7 +15,26 @@ const TYPE_DEFAULT_APS := {
 	WeaponType.STAFF: 0.8,
 }
 
+## Fallback attack motion per WeaponType, used whenever a weapon leaves
+## `attack` unset. Hitbox shapes belong to the motion (see AttackDefinition),
+## so every weapon of a type shares one tuned layout. AXE/STAFF/BOW reuse
+## the slash until they get their own animations.
+const TYPE_DEFAULT_ATTACK := {
+	WeaponType.SWORD: preload("res://resources/combat/attacks/slash.tres"),
+	WeaponType.DAGGER: preload("res://resources/combat/attacks/stab.tres"),
+	WeaponType.AXE: preload("res://resources/combat/attacks/slash.tres"),
+	WeaponType.SPEAR: preload("res://resources/combat/attacks/stab.tres"),
+	WeaponType.BOW: preload("res://resources/combat/attacks/slash.tres"),
+	WeaponType.STAFF: preload("res://resources/combat/attacks/slash.tres"),
+}
+
 @export var weapon_type: WeaponType = WeaponType.SWORD
+## Overrides this weapon_type's TYPE_DEFAULT_ATTACK entry — e.g. a sword
+## that stabs. Leave empty to use the type default. See get_attack().
+@export var attack: AttackDefinition
+## Stretches the attack's hitbox outward along the facing axis (1.2 = 20%
+## more reach), so a longer blade can reuse the shared layout.
+@export var reach_scale: float = 1.0
 @export var damage: float = 5.0
 ## 0 (default) means "use this weapon_type's TYPE_DEFAULT_APS entry" —
 ## see get_effective_attack_speed(). Set explicitly only to override that
@@ -48,6 +67,10 @@ func apply_modifiers(stats: StatsComponent, source_id: StringName) -> void:
 ## entry; anything explicitly set on the resource wins.
 func get_effective_attack_speed() -> float:
 	return attack_speed if attack_speed > 0.0 else TYPE_DEFAULT_APS.get(weapon_type, 1.0)
+
+## `attack` if set, else this weapon_type's TYPE_DEFAULT_ATTACK entry.
+func get_attack() -> AttackDefinition:
+	return attack if attack else TYPE_DEFAULT_ATTACK.get(weapon_type)
 
 func get_stat_lines() -> Array[String]:
 	var lines: Array[String] = []
