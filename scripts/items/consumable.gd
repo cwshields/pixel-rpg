@@ -21,6 +21,10 @@ func use(user: Node) -> bool:
 	var entity := user as EntityBase
 	if entity and entity.health and heal_amount > 0.0:
 		entity.health.heal(heal_amount)
+	if entity and stamina_amount > 0.0:
+		var stamina := entity.get_node_or_null("StaminaComponent") as StaminaComponent
+		if stamina:
+			stamina.restore(stamina_amount)
 	if buff_stat != &"" and entity and entity.stats:
 		_apply_timed_buff(entity)
 	return true

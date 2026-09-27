@@ -1,15 +1,20 @@
-[gd_resource type="Resource" script_class="Ring" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Ring" format=3 uid="uid://cta6kpxd62c2"]
 
-[ext_resource type="Script" path="res://scripts/items/ring.gd" id="1"]
+[ext_resource type="Script" uid="uid://b1lw1xiuqju7x" path="res://scripts/items/ring.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b2jkh3t1ee71y" path="res://assets/Icons/Rings-Amulets.png" id="1_lt7xu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymd5q"]
+atlas = ExtResource("1_lt7xu")
+region = Rect2(334, 46, 32, 32)
 
 [resource]
 script = ExtResource("1")
-id = &"ring_of_vigor"
-display_name = "Ring of Vigor"
-description = "A faint warmth radiates from this band, quickening the wearer's step."
-max_stack = 1
-value = 40
-category = 3
 stat_modifiers = {
 "speed_multiplier": 0.15
 }
+id = &"ring_of_vigor"
+display_name = "Ring of Vigor"
+description = "A faint warmth radiates from this band, quickening the wearer's step."
+icon = SubResource("AtlasTexture_ymd5q")
+value = 40
+category = 3

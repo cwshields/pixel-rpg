@@ -1,14 +1,17 @@
-[gd_resource type="Resource" script_class="CraftingMaterial" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="CraftingMaterial" format=3 uid="uid://dsuqgnq043bcq"]
 
-[ext_resource type="Script" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Script" uid="uid://cml0ycfyu4kx6" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Icons/Resources.png" id="1_ha1ov"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drsq2"]
+atlas = ExtResource("1_ha1ov")
+region = Rect2(17, 32, 16, 16)
 
 [resource]
 script = ExtResource("1")
 id = &"copper_ore"
 display_name = "Copper Ore"
 description = "Common ore, useful for basic smithing."
+icon = SubResource("AtlasTexture_drsq2")
 max_stack = 99
 value = 2
-category = 6
-material_type = 0
-rarity = 0

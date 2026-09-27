@@ -7,8 +7,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hud"]
 shader = ExtResource("4")
-shader_parameter/health_fill = 0.6550000311125
-shader_parameter/stamina_fill = 0.83600003971
+shader_parameter/health_fill = 1.0
+shader_parameter/stamina_fill = 1.0
 shader_parameter/mana_fill = 1.0
 shader_parameter/empty_dim = 0.0
 shader_parameter/empty_health = Color(0.16470589, 0.0627451, 0.047058824, 1)

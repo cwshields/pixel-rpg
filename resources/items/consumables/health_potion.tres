@@ -1,18 +1,15 @@
-[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Consumable" format=3 uid="uid://bcjgdddkehxmt"]
 
-[ext_resource type="Script" path="res://scripts/items/consumable.gd" id="1"]
+[ext_resource type="Script" uid="uid://bfwiay0m1knqx" path="res://scripts/items/consumable.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cwoambqacmy3a" path="res://assets/RPG_Items_Retro_Itchio/Potions/Potion_26.png" id="1_qx3e6"]
 
 [resource]
 script = ExtResource("1")
+heal_amount = 15.0
 id = &"health_potion"
 display_name = "Health Potion"
 description = "Restores a modest amount of health when drunk."
+icon = ExtResource("1_qx3e6")
 max_stack = 10
 value = 10
 category = 5
-consumable_type = 0
-heal_amount = 15.0
-stamina_amount = 0.0
-buff_stat = &""
-buff_amount = 0.0
-buff_duration = 0.0

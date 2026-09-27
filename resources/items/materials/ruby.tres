@@ -1,14 +1,19 @@
-[gd_resource type="Resource" script_class="CraftingMaterial" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="CraftingMaterial" format=3 uid="uid://dne34k5bb1gco"]
 
-[ext_resource type="Script" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Script" uid="uid://cml0ycfyu4kx6" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Icons/Resources.png" id="1_6mxwo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xa5n5"]
+atlas = ExtResource("1_6mxwo")
+region = Rect2(32, 128, 16, 16)
 
 [resource]
 script = ExtResource("1")
+material_type = 1
+rarity = 2
 id = &"ruby"
 display_name = "Ruby"
 description = "A deep red gemstone. Sells well, sought by jewelers."
+icon = SubResource("AtlasTexture_xa5n5")
 max_stack = 99
 value = 30
-category = 6
-material_type = 1
-rarity = 2

@@ -31,7 +31,7 @@ var items: Array[PlacedItem] = []
 ## covering it, or null. Kept in lockstep with `items` by _paint().
 var _grid: Array[PlacedItem] = []
 
-func _init(p_width: int = 7, p_height: int = 12) -> void:
+func _init(p_width: int = 6, p_height: int = 10) -> void:
 	width = p_width
 	height = p_height
 	_grid.resize(width * height)
@@ -101,7 +101,6 @@ func place_item(item: ItemBase, pos: Vector2i, rotation: int, quantity: int) -> 
 	items.append(placed)
 	_paint(placed, placed)
 	changed.emit()
-	Events.inventory_changed.emit()
 	return placed
 
 func remove_placed(placed: PlacedItem) -> void:
@@ -110,7 +109,6 @@ func remove_placed(placed: PlacedItem) -> void:
 	_paint(placed, null)
 	items.erase(placed)
 	changed.emit()
-	Events.inventory_changed.emit()
 
 ## Moves an already-placed stack to a new position/rotation. Returns false
 ## (leaving it untouched) if it doesn't fit there.
@@ -122,7 +120,6 @@ func move_item(placed: PlacedItem, pos: Vector2i, rotation: int) -> bool:
 	placed.rotation = rotation
 	_paint(placed, placed)
 	changed.emit()
-	Events.inventory_changed.emit()
 	return true
 
 ## Rotates a placed stack 90 degrees clockwise in place; false (no-op) if
@@ -156,7 +153,6 @@ func add_item(item: ItemBase, amount: int = 1) -> int:
 		remaining -= to_add
 	if stacked:
 		changed.emit()
-		Events.inventory_changed.emit()
 	return remaining
 
 ## Tops off an already-placed stack with up to `amount` more, capped at its
@@ -165,7 +161,6 @@ func merge_into(placed: PlacedItem, amount: int) -> int:
 	var added := _stack_onto(placed, amount)
 	if added > 0:
 		changed.emit()
-		Events.inventory_changed.emit()
 	return amount - added
 
 ## Raw stacking arithmetic shared by add_item and merge_into — no signal
@@ -196,7 +191,6 @@ func remove_item(item_id: StringName, amount: int = 1) -> bool:
 			_paint(placed, null)
 			items.remove_at(i)
 	changed.emit()
-	Events.inventory_changed.emit()
 	return true
 
 func count_item(item_id: StringName) -> int:
