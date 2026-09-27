@@ -10,21 +10,20 @@
 [ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
 [ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
 [ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="10"]
-[ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="11"]
 [ext_resource type="SpriteFrames" uid="uid://d4loisxylxe2j" path="res://resources/characters/player_sprite_frames.tres" id="12"]
 [ext_resource type="Script" uid="uid://cetq4br7yjdov" path="res://scripts/components/stamina_component.gd" id="13"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(8, 11)
+size = Vector2(10, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
 size = Vector2(14, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
-size = Vector2(16, 10)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 27.073973
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mine"]
+radius = 24.0
 
 [node name="Player" type="CharacterBody2D" unique_id=297710763]
 z_index = 4
@@ -36,8 +35,7 @@ animation = &"idle_down"
 frame_progress = 0.12640361
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1915206668]
-visible = false
-position = Vector2(0, 10.5)
+position = Vector2(0, 11)
 shape = SubResource("RectangleShape2D_body")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=2101049054]
@@ -59,18 +57,6 @@ script = ExtResource("10")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=205546354]
 shape = SubResource("RectangleShape2D_hurt")
 
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=718902498]
-visible = false
-collision_layer = 0
-collision_mask = 4
-monitoring = false
-script = ExtResource("11")
-damage = 4.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1813012415]
-position = Vector2(12, 2)
-shape = SubResource("RectangleShape2D_hit")
-
 [node name="InteractionDetector" type="Area2D" parent="." unique_id=1324872926]
 visible = false
 collision_layer = 0
@@ -79,6 +65,14 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionDetector" unique_id=694702353]
 position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_interact")
+
+[node name="MineDetector" type="Area2D" parent="." unique_id=1638274805]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MineDetector" unique_id=1638274806]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_mine")
 
 [node name="StateMachine" type="Node" parent="." unique_id=749978011]
 script = ExtResource("2")

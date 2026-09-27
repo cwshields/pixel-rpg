@@ -11,6 +11,10 @@ enum GameState { PLAYING, PAUSED, MENU, DIALOGUE, CUTSCENE }
 
 var state: GameState = GameState.PLAYING
 var player: Node = null
+## The in-game cursor (see scripts/ui/cursor.gd) — read by Player to check
+## what's currently under the mouse (e.g. "am I actually pointed at the
+## rock I'm standing next to") without a scene-tree search.
+var cursor: Cursor = null
 
 ## Debug-only: while true, EntityBase.take_damage() and StaminaComponent
 ## skip all effects on the player. Set by the debug panel's God Mode button.
@@ -19,6 +23,9 @@ var god_mode: bool = false
 func register_player(p: Node) -> void:
 	player = p
 	Events.player_spawned.emit(p)
+
+func register_cursor(c: Cursor) -> void:
+	cursor = c
 
 func set_state(new_state: GameState) -> void:
 	if state == new_state:

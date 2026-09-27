@@ -134,18 +134,20 @@ canvas isn't square (rare — currently only Orc Warrior's Death animation).
 | 3     | 4     | Hurtboxes (things that can be hit) |
 | 4     | 8     | Interactables (NPCs, chests, signs) |
 | 5     | 16    | Choppable-tree hover area (`TreeProp`'s `HoverArea`, cursor-only) |
+| 6     | 32    | Mineable-rock hover area (`RockProp`'s `HoverArea`, cursor-only) |
 
 Hitboxes mask onto layer 3 (hurtboxes); the player's `InteractionDetector`
 masks onto layer 4; enemy `DetectionArea`s mask onto layer 1 (to spot the
-player's physical body). `Cursor`'s hover query masks onto layers 3+4+5 to
-pick the right hover cursor. `TreeProp`'s `HoverArea` sits only on layer 5
-with no collision_mask, so it's purely a cursor target and never blocks
-movement — the trunk's `StaticBody2D` (layer 1) is what actually collides.
-`TreeProp`'s `FadeArea` also masks onto layer 1 (to detect the player's
-physical body overlapping the canopy, driving the tree's occlusion fade —
-see `scripts/world/tree.gd`) but sits on no layer of its own, so it's
-likewise invisible to everything else and never blocks movement. Layer 2
-is free for a future projectile layer.
+player's physical body). `Cursor`'s hover query masks onto layers 3+4+5+6
+to pick the right hover cursor. `TreeProp`'s `HoverArea` sits only on layer
+5 and `RockProp`'s `HoverArea` only on layer 6, each with no
+collision_mask, so both are purely cursor targets and never block
+movement — the trunk/boulder's `StaticBody2D` (layer 1) is what actually
+collides. `TreeProp`'s `FadeArea` also masks onto layer 1 (to detect the
+player's physical body overlapping the canopy, driving the tree's
+occlusion fade — see `scripts/world/tree.gd`) but sits on no layer of its
+own, so it's likewise invisible to everything else and never blocks
+movement. Layer 2 is free for a future projectile layer.
 
 ### Extending it
 
