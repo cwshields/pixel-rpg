@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AttackDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/attack_definition.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/combat/attacks/crush_hitbox.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+animation = &"crush"
+hitbox_scene = ExtResource("2")
+duration = 0.6
+active_start = 0.2
+active_end = 0.4
+move_speed_multiplier = 0.0

@@ -4,6 +4,9 @@ extends RefCounted
 ## stat modifiers on the linked StatsComponent. One instance per entity
 ## (set `owner_stats` right after creating it — see Player._ready()).
 
+## Emitted after `slot`'s contents change (equip or unequip).
+signal changed(slot: Slot)
+
 enum Slot { WEAPON, HEAD, CHEST, LEGS, FEET, SHIELD, RING_1, RING_2, AMULET }
 
 var owner_stats: StatsComponent
@@ -17,6 +20,7 @@ func equip(slot: Slot, item: ItemBase) -> ItemBase:
 	slots[slot] = item
 	if owner_stats and item:
 		item.apply_modifiers(owner_stats, _source_id(slot))
+	changed.emit(slot)
 	return previous
 
 func unequip(slot: Slot) -> ItemBase:
@@ -26,6 +30,7 @@ func unequip(slot: Slot) -> ItemBase:
 	slots.erase(slot)
 	if owner_stats:
 		owner_stats.remove_all_from_source(_source_id(slot))
+	changed.emit(slot)
 	return item
 
 func get_equipped(slot: Slot) -> ItemBase:

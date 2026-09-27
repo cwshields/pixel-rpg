@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_up_3"]
+size = Vector2(18, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_up_4_5"]
+size = Vector2(20, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_down_3"]
+size = Vector2(20, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_down_4_5"]
+size = Vector2(20, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_left_3"]
+size = Vector2(32, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_left_4_5"]
+size = Vector2(22, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_right_3"]
+size = Vector2(32, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_right_4_5"]
+size = Vector2(22, 16)
+
+[node name="SlashHitbox" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+monitoring = false
+script = ExtResource("1")
+knockback_force = 150.0
+metadata/notes = "Frame-tagged to the Slice sheets: frame 3 is the smear arc, 4-5 the blade landing. Shape names: <Dir>, <Dir>_<frame>, <Dir>_<from>-<to>."
+
+[node name="Up_3" type="CollisionShape2D" parent="."]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_up_3")
+
+[node name="Up_4-5" type="CollisionShape2D" parent="."]
+position = Vector2(-2, -20)
+shape = SubResource("RectangleShape2D_up_4_5")
+
+[node name="Down_3" type="CollisionShape2D" parent="."]
+position = Vector2(-12, 8)
+shape = SubResource("RectangleShape2D_down_3")
+
+[node name="Down_4-5" type="CollisionShape2D" parent="."]
+position = Vector2(0, 20)
+shape = SubResource("RectangleShape2D_down_4_5")
+
+[node name="Left_3" type="CollisionShape2D" parent="."]
+position = Vector2(-10, 12)
+shape = SubResource("RectangleShape2D_left_3")
+
+[node name="Left_4-5" type="CollisionShape2D" parent="."]
+position = Vector2(-19, 6)
+shape = SubResource("RectangleShape2D_left_4_5")
+
+[node name="Right_3" type="CollisionShape2D" parent="."]
+position = Vector2(10, 12)
+shape = SubResource("RectangleShape2D_right_3")
+
+[node name="Right_4-5" type="CollisionShape2D" parent="."]
+position = Vector2(19, 6)
+shape = SubResource("RectangleShape2D_right_4_5")
