@@ -1,23 +1,24 @@
 class_name HunterComponent
 extends Node
-## Gives its owning critter an unprovoked predator urge: every so often,
-## scan `prey_group` for the nearest live CritterBase within
-## search_radius and, if the owner is free to act (idling/wandering, not
-## already hunting or scared), break off to hunt it — sets
-## CritterBase.hunt_target and transitions the owner's StateMachine to
-## "Chase". CritterChaseState/CritterAttackState (which drive off
-## CritterBase.pursuit_target()) do the actual chase-and-strike; this
-## only decides when to start one and against whom. Getting spooked
-## (CritterFleeState) or landing the kill both end the hunt on their own.
+## Gives its owner an unprovoked predator urge: every so often, scan
+## `prey_group` for the nearest live CritterBase within search_radius and,
+## if the owner is free to act (idling/wandering, not already hunting,
+## scared, or dealing with the player), break off to hunt it — sets the
+## owner's `hunt_target` and transitions its StateMachine to "Chase". The
+## owner's Chase/Attack states (which drive off its pursuit_target()) do
+## the actual chase-and-strike; this only decides when to start one and
+## against whom. Landing the kill or giving up ends the hunt on its own.
 ##
-## Drop as a child of any critter that should occasionally go hunt
-## something — see fox.tscn hunting hares. The owner needs a
-## HitboxComponent and Chase/Attack state nodes to actually catch and
-## strike prey (critter_base.tscn doesn't include these by default — add
-## them as inherited-scene overrides the same way boar.tscn/fox.tscn do).
+## Works on either a CritterBase (fox.tscn hunting hares — getting spooked
+## into CritterFleeState also ends the hunt) or an EnemyBase (wolf.tscn
+## hunting deer — the player coming into range ends it, see
+## EnemyChaseState). The owner needs a HitboxComponent and Chase/Attack
+## state nodes to actually catch and strike prey (critter_base.tscn
+## doesn't include these by default — add them as inherited-scene
+## overrides the same way boar.tscn/fox.tscn do).
 
 ## Group name of potential prey to scan for. Empty disables hunting —
-## set this per critter (e.g. "hares" on a fox).
+## set this per predator (e.g. "hares" on a fox, "deer" on a wolf).
 @export var prey_group: StringName = &""
 ## How far to scan for prey when the urge fires. Needs to reach past the
 ## owner's own wander_radius if predator and prey roam around separate
@@ -26,14 +27,19 @@ extends Node
 ## Random range (seconds) between hunting urges.
 @export var urge_min: float = 20.0
 @export var urge_max: float = 50.0
+## Alert the prey the instant the hunt starts, even from across the map
+## (the fox). Off, the prey only notices once the hunter enters its own
+## DetectionArea — pair with EnemyChaseState.stalk_distance so the hunter
+## creeps up first (the wolf).
+@export var alert_prey: bool = true
 
-@onready var _owner: CritterBase = get_parent() as CritterBase
+@onready var _owner: EntityBase = get_parent() as EntityBase
 
 var _urge_timer: Timer
 
 func _ready() -> void:
-	if not _owner:
-		push_warning("HunterComponent must be a child of a CritterBase.")
+	if not (_owner is CritterBase or _owner is EnemyBase):
+		push_warning("HunterComponent must be a child of a CritterBase or EnemyBase.")
 		return
 	_urge_timer = Timer.new()
 	_urge_timer.one_shot = true
@@ -43,17 +49,27 @@ func _ready() -> void:
 
 func _restart_and_try_hunt() -> void:
 	_urge_timer.start(randf_range(urge_min, urge_max))
-	if prey_group == &"" or _owner.is_dead() or _owner.hunt_target or _owner.is_threat_active():
+	if prey_group == &"" or _owner.is_dead() or _owner.get(&"hunt_target") or _is_otherwise_engaged():
 		return
-	var current: State = _owner.state_machine.current_state
+	var state_machine: StateMachine = _owner.get(&"state_machine")
+	var current: State = state_machine.current_state
 	if not current or (current.name != &"Idle" and current.name != &"Wander"):
 		return
 	var prey := _find_nearby_prey()
 	if not prey:
 		return
-	_owner.hunt_target = prey
-	prey.threat = _owner # wake the prey immediately even if it's already in range
-	_owner.state_machine.transition_to(&"Chase")
+	_owner.set(&"hunt_target", prey)
+	if alert_prey:
+		prey.threat = _owner # wake the prey immediately even if it's already in range
+	state_machine.transition_to(&"Chase")
+
+## Whether the owner has something more pressing than hunting — a critter
+## spooked by a live threat, or an enemy with the player in range.
+func _is_otherwise_engaged() -> bool:
+	if _owner is CritterBase:
+		return (_owner as CritterBase).is_threat_active()
+	var enemy := _owner as EnemyBase
+	return enemy.target != null or enemy.alert_target != null
 
 func _find_nearby_prey() -> CritterBase:
 	var best: CritterBase = null

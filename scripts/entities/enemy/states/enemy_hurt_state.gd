@@ -14,4 +14,4 @@ func process_physics(delta: float) -> void:
 	entity.move(Vector2.ZERO, delta)
 	if _timer >= hurt_duration:
 		var enemy := entity as EnemyBase
-		transition_requested.emit(&"Chase" if enemy.target else &"Idle", {})
+		transition_requested.emit(&"Chase" if enemy.pursuit_target() else &"Idle", {})
