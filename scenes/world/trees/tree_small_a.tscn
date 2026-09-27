@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dhaj1cdp2b3g8"]
+
+[ext_resource type="PackedScene" uid="uid://bu5w5q6jwikdn" path="res://scenes/world/tree.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://cwwmosywg3e7t" path="res://Tilesets/Size_02.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_art"]
+atlas = ExtResource("2")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_trunk"]
+points = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
+
+[node name="TreeSmallA" unique_id=834074555 instance=ExtResource("1")]
+
+[node name="Sprite2D" parent="." index="0" unique_id=281834848]
+position = Vector2(0, -32)
+texture = SubResource("AtlasTexture_art")
+
+[node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(264104722) index="0" unique_id=455016265]
+position = Vector2(0, -8)
+shape = SubResource("ConvexPolygonShape2D_trunk")
+
+[node name="HoverArea" parent="." index="2" unique_id=738193042]
+visible = false
+
+[node name="CollisionPolygon2D" parent="HoverArea" index="0" unique_id=984571123]
+position = Vector2(0, 0)
+polygon = PackedVector2Array(-14, -54, -2, -61, 12, -58, 15, -25, 3, -17, 3, -1, -4, -1, -4, -16, -15, -19)
+
+[node name="FadeArea" parent="." index="3" unique_id=1020617105]
+visible = false
+
+[node name="CollisionPolygon2D" parent="FadeArea" index="0" unique_id=1353001223]
+position = Vector2(0, 5)
+polygon = PackedVector2Array(-13, -56, -1, -62, 11, -60, 15, -20, 3, -14, 3, -9, -4, -9, -4, -14, -14, -17)

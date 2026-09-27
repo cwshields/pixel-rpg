@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" uid="uid://t6fkmppxl61v" path="res://scenes/world/rock.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://rxkfcslljpn3" path="res://assets/Environment/Props/Static/Rock-ruins.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_art"]
+atlas = ExtResource("2")
+region = Rect2(151, 5, 34, 40)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_collision"]
+points = PackedVector2Array(-17, -14, 16, -14, 16, -7, 14, 0, 12, 2, 4, 2, -9, 1, -16, -4)
+
+[node name="RockCairn" instance=ExtResource("1")]
+
+[node name="Sprite2D" parent="."]
+position = Vector2(0, -18)
+scale = Vector2(1, 1)
+texture = SubResource("AtlasTexture_art")
+
+[node name="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 0)
+shape = SubResource("ConvexPolygonShape2D_collision")
+
+[node name="CollisionPolygon2D" parent="HoverArea"]
+polygon = PackedVector2Array(-17, -19, -7, -39, -2, -43, 2, -43, 11, -31, 16, -20, 16, -12, 12, -3, -9, -4, -16, -9)
+
+[node name="CollisionPolygon2D" parent="FadeArea"]
+polygon = PackedVector2Array(-17, -18, -7, -38, -2, -42, 2, -42, 11, -30, 16, -19, 16, -11, 13, -3, -9, -3, -16, -8)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent"]
+polygon = PackedVector2Array(-17, -19, -7, -39, -2, -43, 2, -43, 11, -31, 16, -20, 16, -12, 12, -3, -9, -4, -16, -9)
