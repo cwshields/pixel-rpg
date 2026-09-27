@@ -1,14 +1,18 @@
-[gd_resource type="Resource" script_class="CraftingMaterial" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="CraftingMaterial" format=3 uid="uid://dkgrm3fk4t2os"]
 
-[ext_resource type="Script" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Script" uid="uid://cml0ycfyu4kx6" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Icons/Resources.png" id="1_6p4e6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7c82"]
+atlas = ExtResource("1_6p4e6")
+region = Rect2(144, 16, 16, 16)
 
 [resource]
 script = ExtResource("1")
+material_type = 3
 id = &"wolf_pelt"
 display_name = "Wolf Pelt"
 description = "A thick pelt, good for tanning into leather goods."
+icon = SubResource("AtlasTexture_g7c82")
 max_stack = 99
 value = 4
-category = 6
-material_type = 3
-rarity = 0

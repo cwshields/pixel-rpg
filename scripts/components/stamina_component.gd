@@ -94,6 +94,17 @@ func spend(amount: float) -> bool:
 func spend_attack() -> bool:
 	return spend(attack_cost)
 
+## Adds stamina back, clamped to `max_stamina`. Clears the exhaustion
+## latch if the pool climbs above the resume threshold.
+func restore(amount: float) -> void:
+	if amount <= 0.0:
+		return
+	current_stamina = minf(current_stamina + amount, max_stamina)
+	if _exhausted and current_stamina >= minf(sprint_resume_threshold, max_stamina):
+		_exhausted = false
+		recovered.emit()
+	_emit_changed()
+
 ## Runtime setter that keeps `current_stamina` in range. `refill` tops the
 ## pool back off; otherwise it's only clamped down to the new maximum.
 func set_max_stamina(new_max: float, refill: bool = false) -> void:
