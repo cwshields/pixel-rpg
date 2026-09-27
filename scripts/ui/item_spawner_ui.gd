@@ -12,8 +12,6 @@ extends MenuBase
 ## resources/items/ in a release build.
 
 const ITEMS_DIR := "res://resources/items"
-const SLOT_TEX := "res://assets/UI/kit/slot_inventory.png"
-const SLOT_PATCH_MARGIN := 5
 const CELL_SIZE := 20
 
 @onready var _item_grid: GridContainer = %ItemGrid
@@ -27,7 +25,7 @@ func _ready() -> void:
 		queue_free()
 		return
 	super._ready()
-	_slot_style = _make_slot_style()
+	_slot_style = InventoryGrid.make_slot_style()
 	_populate_items()
 	_trash.add_theme_stylebox_override("normal", _slot_style)
 	_trash.add_theme_stylebox_override("hover", _slot_style)
@@ -92,11 +90,3 @@ func _make_item_button(item: ItemBase) -> Button:
 
 func _on_item_pressed(item: ItemBase) -> void:
 	_inventory_grid.pick_up_new(item, 1)
-
-func _make_slot_style() -> StyleBoxTexture:
-	var style := StyleBoxTexture.new()
-	if ResourceLoader.exists(SLOT_TEX):
-		style.texture = load(SLOT_TEX) as Texture2D
-	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-		style.set_texture_margin(side, SLOT_PATCH_MARGIN)
-	return style

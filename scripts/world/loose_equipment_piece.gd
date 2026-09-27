@@ -7,10 +7,10 @@ extends RigidBody2D
 ## bumps off walls instead of sliding through them. gravity_scale is 0 —
 ## this is a top-down game, "falling" just means flung out and damped to
 ## a stop — so it tumbles briefly, lingers, then fades away like the
-## corpse it fell off of (mirrors EnemyDeadState's linger-then-fade).
+## corpse it fell off of (mirrors DeadState's linger-then-fade).
 
-@export var linger_time: float = 8.0
-@export var fade_time: float = 2.0
+@export var linger_time: float = 16.0
+@export var fade_time: float = 3.0
 
 func _ready() -> void:
 	_settle_and_fade()

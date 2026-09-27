@@ -8,6 +8,9 @@ extends Area2D
 ## toward them, accelerating as the gap closes, and is collected on
 ## contact.
 
+const _SCENE: PackedScene = preload("res://scenes/world/item_pickup.tscn")
+const DEFAULT_SCATTER: float = 8.0
+
 @export var item: ItemBase
 @export var amount: int = 1
 
@@ -15,7 +18,7 @@ extends Area2D
 ## The player starts dragging this pickup in once they're within a random
 ## distance in this range (px). Randomised per drop so a scattered pile
 ## doesn't all leap at once.
-@export var attract_radius_min: float = 16.0
+@export var attract_radius_min: float = 20.0
 @export var attract_radius_max: float = 24.0
 ## Collected once the pickup closes to within this distance of the player (px).
 @export var collect_radius: float = 3.0
@@ -36,6 +39,30 @@ var _player: Player = null
 func _ready() -> void:
 	_attract_radius = randf_range(attract_radius_min, attract_radius_max)
 	_refresh_sprite()
+
+static func drop_loot(
+		loot_table: Array[LootEntry], origin: Vector2,
+		scatter: float = DEFAULT_SCATTER) -> void:
+	for entry in loot_table:
+		if not entry.item or randf() > entry.chance:
+			continue
+		var qty: int = randi_range(entry.min_amount, entry.max_amount)
+		if qty <= 0:
+			continue
+		if entry.drop_individually:
+			for _i in qty:
+				_spawn(entry.item, 1, origin, scatter)
+		else:
+			_spawn(entry.item, qty, origin, scatter)
+
+static func _spawn(
+		item: ItemBase, qty: int, origin: Vector2, scatter: float) -> void:
+	var pickup: ItemPickup = _SCENE.instantiate()
+	var tree := Engine.get_main_loop() as SceneTree
+	tree.current_scene.add_child(pickup)
+	pickup.global_position = origin + Vector2(
+		randf_range(-scatter, scatter), randf_range(-scatter, scatter))
+	pickup.setup(item, qty)
 
 func setup(p_item: ItemBase, p_amount: int = 1) -> void:
 	item = p_item
