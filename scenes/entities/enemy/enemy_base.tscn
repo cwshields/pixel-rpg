@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://f2rcsfjhy8lf" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
 [ext_resource type="Script" uid="uid://dxwqkjyxwc5to" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
 [ext_resource type="Script" uid="uid://dyrcoiarvb47" path="res://scripts/entities/enemy/states/enemy_hurt_state.gd" id="6"]
-[ext_resource type="Script" uid="uid://diihkk2b82te4" path="res://scripts/entities/enemy/states/enemy_dead_state.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/entities/dead_state.gd" id="7"]
 [ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
 [ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
 [ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="10"]
@@ -16,7 +16,7 @@
 [ext_resource type="Resource" path="res://resources/items/materials/bone.tres" id="14"]
 [ext_resource type="Texture2D" uid="uid://bbi7rfmqhqdk5" path="res://assets/Weapons/Hands/Hands.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://d0met1v3s73fj" path="res://assets/Weapons/Wood/Wood.png" id="16"]
-[ext_resource type="Resource" path="res://resources/items/weapons/wooden_sword.tres" id="17"]
+[ext_resource type="Resource" uid="uid://dskva42w2rap7" path="res://resources/items/weapons/wooden_sword.tres" id="17"]
 
 [sub_resource type="Resource" id="LootEntry_bone"]
 script = ExtResource("13")
@@ -136,3 +136,4 @@ script = ExtResource("6")
 
 [node name="Dead" type="Node" parent="StateMachine" unique_id=520123513]
 script = ExtResource("7")
+linger_time = 14.0

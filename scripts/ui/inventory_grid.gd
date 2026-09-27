@@ -12,10 +12,10 @@ extends Control
 ## screen while holding something is consumed rather than leaking through
 ## to gameplay underneath.
 
-const CELL_SIZE := 20
+const CELL_SIZE := 24
 const SLOT_TEX := "res://assets/UI/kit/slot_inventory.png"
 const SLOT_PATCH_MARGIN := 5
-const PICKUP_SCENE_PATH := "res://scenes/world/item_pickup.tscn"
+const PICKUP_SCENE: PackedScene = preload("res://scenes/world/item_pickup.tscn")
 const VALID_COLOR := Color(0.45, 1.0, 0.45, 0.35)
 const INVALID_COLOR := Color(1.0, 0.35, 0.35, 0.35)
 const ITEM_FILL_COLOR := Color(1, 1, 1, 0.07)
@@ -55,7 +55,7 @@ var _tooltip_magic: Label
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	_slot_style = _make_slot_style()
+	_slot_style = InventoryGrid.make_slot_style()
 
 	_held_icon = TextureRect.new()
 	_held_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -161,7 +161,7 @@ func _drop_in_world() -> void:
 	var player := GameManager.player as Player
 	if not player:
 		return
-	var pickup: ItemPickup = load(PICKUP_SCENE_PATH).instantiate()
+	var pickup: ItemPickup = PICKUP_SCENE.instantiate()
 	get_tree().current_scene.add_child(pickup)
 	pickup.global_position = player.global_position
 	pickup.setup(_held_item, _held_quantity)
@@ -419,7 +419,7 @@ func _draw_item(item: ItemBase, pos: Vector2i, rot: int, quantity: int) -> void:
 		draw_string(font, text_pos, text, HORIZONTAL_ALIGNMENT_RIGHT, box_width, font_size,
 			Color(0.95, 0.92, 0.85))
 
-func _make_slot_style() -> StyleBoxTexture:
+static func make_slot_style() -> StyleBoxTexture:
 	var style := StyleBoxTexture.new()
 	if ResourceLoader.exists(SLOT_TEX):
 		style.texture = load(SLOT_TEX) as Texture2D
