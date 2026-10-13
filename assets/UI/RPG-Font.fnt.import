@@ -1,0 +1,17 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://bgkgdwjvhqmlq"
+path="res://.godot/imported/RPG-Font.fnt-0c775324ed146feec57c521a7077ec4e.fontdata"
+
+[deps]
+
+source_file="res://assets/UI/RPG-Font.fnt"
+dest_files=["res://.godot/imported/RPG-Font.fnt-0c775324ed146feec57c521a7077ec4e.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=2
