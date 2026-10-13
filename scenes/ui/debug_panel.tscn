@@ -49,77 +49,77 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -96.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = 248.0
+offset_left = -192.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 496.0
 grow_horizontal = 0
 
 [node name="Margin" type="MarginContainer" parent="Root/Panel" unique_id=122530928]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
 [node name="VBox" type="VBoxContainer" parent="Root/Panel/Margin" unique_id=105127193]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="Root/Panel/Margin/VBox" unique_id=39680227]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontFile_llx2y")
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 16
 text = "DEBUG PANEL"
 horizontal_alignment = 1
 
 [node name="SpawnEnemyButton" type="Button" parent="Root/Panel/Margin/VBox" unique_id=1369984013]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 7
+theme_override_font_sizes/font_size = 14
 text = "Spawn Enemy"
 
 [node name="RespawnPlayerButton" type="Button" parent="Root/Panel/Margin/VBox" unique_id=1079560811]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 7
+theme_override_font_sizes/font_size = 14
 disabled = true
 text = "Respawn Player"
 
 [node name="HealPlayerButton" type="Button" parent="Root/Panel/Margin/VBox" unique_id=1079560812]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 7
+theme_override_font_sizes/font_size = 14
 text = "Heal Player"
 
 [node name="TeleportSpawnButton" type="Button" parent="Root/Panel/Margin/VBox" unique_id=1079560813]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 7
+theme_override_font_sizes/font_size = 14
 text = "Teleport to Spawn"
 
 [node name="GodModeButton" type="Button" parent="Root/Panel/Margin/VBox" unique_id=1079560814]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 7
+theme_override_font_sizes/font_size = 14
 text = "God Mode: Off"
 
 [node name="FreeCameraButton" type="Button" parent="Root/Panel/Margin/VBox" unique_id=1079560815]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 7
+theme_override_font_sizes/font_size = 14
 text = "Free Camera: Off"
 
 [node name="ItemSpawnerButton" type="Button" parent="Root/Panel/Margin/VBox" unique_id=1079560816]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 7
+theme_override_font_sizes/font_size = 14
 text = "Item Spawner"
 
 [node name="Hint" type="Label" parent="Root/Panel/Margin/VBox" unique_id=1231197193]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 6
+theme_override_font_sizes/font_size = 12
 text = "Left-click: place enemy
 Right-click / Esc: cancel"
 autowrap_mode = 2
