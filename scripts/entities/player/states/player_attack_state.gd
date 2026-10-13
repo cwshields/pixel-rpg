@@ -34,7 +34,18 @@ func process_physics(delta: float) -> void:
 		_apply_attack_visuals(player, moving)
 	_update_hitbox(player)
 	if _timer >= player.attack.duration:
-		transition_requested.emit(&"Move" if moving else &"Idle", {})
+		if Input.is_action_pressed("attack") and not player.is_mouse_over_gui() and player.can_attack():
+			_timer = 0.0
+			player.face_toward_mouse()
+			if player.stamina:
+				player.stamina.spend_attack()
+			if player.hitbox:
+				player.hitbox.damage = player.stats.compute_outgoing_damage() if player.stats else player.hitbox.damage
+				player.hitbox.reset_hits()
+			_apply_attack_visuals(player, moving)
+			_update_hitbox(player)
+		else:
+			transition_requested.emit(&"Move" if moving else &"Idle", {})
 
 func exit() -> void:
 	var player := entity as Player

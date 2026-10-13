@@ -9,7 +9,13 @@ func exit() -> void:
 
 func process_physics(delta: float) -> void:
 	var player := entity as Player
-	if Input.is_action_just_pressed("attack"):
+	if not GameManager.is_playing():
+		transition_requested.emit(&"Idle", {})
+		return
+	if Input.is_action_pressed("attack") and not player.is_mouse_over_gui():
+		if player.wants_to_mine_rock() or player.wants_to_chop_tree():
+			transition_requested.emit(&"Idle", {})
+			return
 		if player.can_attack():
 			transition_requested.emit(&"Attack", {})
 			return

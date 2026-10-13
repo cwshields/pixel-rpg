@@ -20,6 +20,8 @@ extends Area2D
 ## Whoever is dealing this damage. Set by the owning entity so hitboxes
 ## don't hurt their own source and so death credit/loot can be attributed.
 var source: Node = null
+var is_mining: bool = false
+var is_chopping: bool = false
 
 ## Stretches a directional layout outward along the facing axis — e.g. 1.2
 ## for a longer sword reusing the standard slash shapes. Set by the owner
@@ -114,4 +116,4 @@ func _on_area_entered(area: Area2D) -> void:
 	if source and source is Node2D and hurtbox.get_parent() is Node2D:
 		var away: Vector2 = hurtbox.get_parent().global_position - (source as Node2D).global_position
 		knockback = away.normalized() * knockback_force if away.length() > 0.0 else Vector2.ZERO
-	hurtbox.receive_hit(damage, source, knockback)
+	hurtbox.receive_hit(damage, source, knockback, self)
