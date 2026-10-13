@@ -1,0 +1,1152 @@
+[gd_scene format=3 uid="uid://b4r0vlw588srj"]
+
+[ext_resource type="Script" uid="uid://drth7jvnub5d2" path="res://scripts/ui/item_detail_panel.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://iu226rnlkd7n" path="res://assets/UI/inventory/info_divider.png" id="divider"]
+[ext_resource type="Texture2D" uid="uid://d1o6rj0h8n1xq" path="res://assets/UI/inventory/stat_experience_lg.png" id="exp_icon"]
+[ext_resource type="Texture2D" uid="uid://bnhirxk25rrl1" path="res://assets/UI/inventory/stat_arcana_power.png" id="ic_arcana_dmg"]
+[ext_resource type="Texture2D" uid="uid://bntowv4a0kllk" path="res://assets/UI/inventory/stat_arcana_resistance.png" id="ic_arcana_res"]
+[ext_resource type="Texture2D" uid="uid://ctdsfgsqj3eyb" path="res://assets/UI/inventory/stat_atk_speed.png" id="ic_aspd"]
+[ext_resource type="Texture2D" uid="uid://coxbe6gtreh4y" path="res://assets/UI/inventory/stat_block_chance.png" id="ic_blk"]
+[ext_resource type="Texture2D" uid="uid://byhduxbwu1ygr" path="res://assets/UI/inventory/stat_charisma.png" id="ic_cha"]
+[ext_resource type="Texture2D" uid="uid://bsccp1a67wy3w" path="res://assets/UI/inventory/stat_constitution.png" id="ic_con"]
+[ext_resource type="Texture2D" uid="uid://ch0l3gf3e80j8" path="res://assets/UI/inventory/stat_defence.png" id="ic_def"]
+[ext_resource type="Texture2D" uid="uid://bnvy1xl556asf" path="res://assets/UI/inventory/stat_dexterity.png" id="ic_dex"]
+[ext_resource type="Texture2D" uid="uid://c7pwo3yydh0xe" path="res://assets/UI/inventory/stat_damage.png" id="ic_dmg"]
+[ext_resource type="Texture2D" uid="uid://dnnswalt8dkux" path="res://assets/UI/inventory/stat_dodge_chance.png" id="ic_evasion"]
+[ext_resource type="Texture2D" uid="uid://bqtoby8d0cdha" path="res://assets/UI/inventory/stat_fire.png" id="ic_fire_dmg"]
+[ext_resource type="Texture2D" uid="uid://ds8jal0p70gli" path="res://assets/UI/inventory/stat_fire_resistance.png" id="ic_fire_res"]
+[ext_resource type="Texture2D" uid="uid://dtu2lcwqdgmaa" path="res://assets/UI/inventory/stat_cold.png" id="ic_ice_dmg"]
+[ext_resource type="Texture2D" uid="uid://dung2edka7ara" path="res://assets/UI/inventory/stat_cold_resistance.png" id="ic_ice_res"]
+[ext_resource type="Texture2D" uid="uid://c6pd7pcbr5vqw" path="res://assets/UI/inventory/stat_intelligence.png" id="ic_int"]
+[ext_resource type="Texture2D" uid="uid://bguak1pvqi56m" path="res://assets/UI/inventory/stat_lifesteal.png" id="ic_lifesteal"]
+[ext_resource type="Texture2D" uid="uid://d21ostny0se2j" path="res://assets/UI/inventory/stat_lightning.png" id="ic_light_dmg"]
+[ext_resource type="Texture2D" uid="uid://uee2srcu6il4" path="res://assets/UI/inventory/stat_lightning_resistance.png" id="ic_light_res"]
+[ext_resource type="Texture2D" uid="uid://crdwyu8nf6o3b" path="res://assets/UI/inventory/stat_luck.png" id="ic_luck"]
+[ext_resource type="Texture2D" uid="uid://bi02obhmkgmp4" path="res://assets/UI/inventory/stat_move_speed.png" id="ic_mspd"]
+[ext_resource type="Texture2D" uid="uid://cb8sm1avi6bdr" path="res://assets/UI/inventory/stat_phys_resistance.png" id="ic_phys_res"]
+[ext_resource type="Texture2D" uid="uid://cmw2u02jec6um" path="res://assets/UI/inventory/stat_regeneration.png" id="ic_regen"]
+[ext_resource type="Texture2D" uid="uid://dy23l2d581wyg" path="res://assets/UI/inventory/stat_strength.png" id="ic_str"]
+[ext_resource type="Texture2D" uid="uid://djt7hlfjo0uba" path="res://assets/UI/inventory/stat_venom.png" id="ic_venom_dmg"]
+[ext_resource type="Texture2D" uid="uid://dkl033j0mw483" path="res://assets/UI/inventory/stat_venom_resistance.png" id="ic_venom_res"]
+[ext_resource type="Texture2D" uid="uid://dcluhnpfgqiag" path="res://assets/UI/inventory/stat_level_lg.png" id="level_icon"]
+
+[sub_resource type="StyleBoxFlat" id="header_style"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.08, 0.07, 0.06, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.45, 0.3, 1)
+
+[node name="ItemDetailPanel" type="Control" unique_id=1312606092]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1")
+
+[node name="DetailVBox" type="VBoxContainer" parent="." unique_id=1908649100]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="SummaryVBox" type="VBoxContainer" parent="." unique_id=1567498951]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="HeaderRow" type="HBoxContainer" parent="SummaryVBox" unique_id=884780669]
+custom_maximum_size = Vector2(420, -1)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="LevelBox" type="PanelContainer" parent="SummaryVBox/HeaderRow" unique_id=1177462912]
+custom_maximum_size = Vector2(160, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("header_style")
+
+[node name="LevelHBox" type="HBoxContainer" parent="SummaryVBox/HeaderRow/LevelBox" unique_id=284377509]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="LevelIcon" type="TextureRect" parent="SummaryVBox/HeaderRow/LevelBox/LevelHBox" unique_id=1873510000]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("level_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelValue" type="Label" parent="SummaryVBox/HeaderRow/LevelBox/LevelHBox" unique_id=78154721]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "1"
+
+[node name="ExpBox" type="PanelContainer" parent="SummaryVBox/HeaderRow" unique_id=1603552990]
+custom_maximum_size = Vector2(160, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("header_style")
+
+[node name="ExpHBox" type="HBoxContainer" parent="SummaryVBox/HeaderRow/ExpBox" unique_id=188703929]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="ExpIcon" type="TextureRect" parent="SummaryVBox/HeaderRow/ExpBox/ExpHBox" unique_id=657708254]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("exp_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ExpValue" type="Label" parent="SummaryVBox/HeaderRow/ExpBox/ExpHBox" unique_id=1477133140]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "0"
+
+[node name="MainGrid" type="GridContainer" parent="SummaryVBox" unique_id=50246140]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 2
+columns = 2
+
+[node name="ConstitutionCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=270484010]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/ConstitutionCell" unique_id=1076326364]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_con")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/ConstitutionCell" unique_id=1607499163]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/ConstitutionCell/Text" unique_id=1051345698]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Constitution"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/ConstitutionCell/Text" unique_id=969431559]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="DamageCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1377251090]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/DamageCell" unique_id=59474353]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_dmg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/DamageCell" unique_id=944323482]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/DamageCell/Text" unique_id=1903759425]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Damage"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/DamageCell/Text" unique_id=287790218]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="StrengthCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1933321080]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/StrengthCell" unique_id=6057184]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_str")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/StrengthCell" unique_id=41847321]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/StrengthCell/Text" unique_id=1584552931]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Strength"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/StrengthCell/Text" unique_id=693659038]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="DefenceCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1156380346]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/DefenceCell" unique_id=787429265]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_def")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/DefenceCell" unique_id=1368962290]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/DefenceCell/Text" unique_id=502426603]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Defence"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/DefenceCell/Text" unique_id=2117539143]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="DexterityCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=152436008]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/DexterityCell" unique_id=1857227469]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_dex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/DexterityCell" unique_id=1410195475]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/DexterityCell/Text" unique_id=240141202]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Dexterity"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/DexterityCell/Text" unique_id=1065822622]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="BlockChanceCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1719215406]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/BlockChanceCell" unique_id=386234618]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_blk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/BlockChanceCell" unique_id=374370758]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/BlockChanceCell/Text" unique_id=561865133]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Block Chance"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/BlockChanceCell/Text" unique_id=1140677924]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0%"
+
+[node name="CharismaCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1969210746]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/CharismaCell" unique_id=1994168092]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_cha")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/CharismaCell" unique_id=1856268237]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/CharismaCell/Text" unique_id=754612678]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Charisma"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/CharismaCell/Text" unique_id=458310986]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="AtkSpeedCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1140331223]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/AtkSpeedCell" unique_id=1918681449]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_aspd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/AtkSpeedCell" unique_id=500501996]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/AtkSpeedCell/Text" unique_id=486146066]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Attack Speed"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/AtkSpeedCell/Text" unique_id=1086894475]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="IntelligenceCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1323149884]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/IntelligenceCell" unique_id=678589479]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_int")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/IntelligenceCell" unique_id=1544119257]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/IntelligenceCell/Text" unique_id=1617882715]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Intelligence"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/IntelligenceCell/Text" unique_id=974922140]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="MoveSpeedCell" type="HBoxContainer" parent="SummaryVBox/MainGrid" unique_id=1915947221]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/MainGrid/MoveSpeedCell" unique_id=283035093]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_mspd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/MainGrid/MoveSpeedCell" unique_id=124648019]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/MainGrid/MoveSpeedCell/Text" unique_id=112940480]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Move Speed"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/MainGrid/MoveSpeedCell/Text" unique_id=1652025953]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="Divider" type="TextureRect" parent="SummaryVBox" unique_id=490628125]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("divider")
+stretch_mode = 3
+
+[node name="RecoveryGrid" type="GridContainer" parent="SummaryVBox" unique_id=403286527]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 2
+columns = 3
+
+[node name="RegenerationCell" type="HBoxContainer" parent="SummaryVBox/RecoveryGrid" unique_id=1226130830]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/RecoveryGrid/RegenerationCell" unique_id=673228447]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_regen")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/RecoveryGrid/RegenerationCell" unique_id=363922853]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/RecoveryGrid/RegenerationCell/Text" unique_id=1713077168]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Regeneration"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/RecoveryGrid/RegenerationCell/Text" unique_id=1740316499]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="LifestealCell" type="HBoxContainer" parent="SummaryVBox/RecoveryGrid" unique_id=1287117870]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/RecoveryGrid/LifestealCell" unique_id=223351344]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_lifesteal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/RecoveryGrid/LifestealCell" unique_id=1472212142]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/RecoveryGrid/LifestealCell/Text" unique_id=939743029]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Lifesteal"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/RecoveryGrid/LifestealCell/Text" unique_id=1357313516]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="LuckCell" type="HBoxContainer" parent="SummaryVBox/RecoveryGrid" unique_id=621004073]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/RecoveryGrid/LuckCell" unique_id=1217170304]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_luck")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/RecoveryGrid/LuckCell" unique_id=811245198]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/RecoveryGrid/LuckCell/Text" unique_id=1982890777]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Luck"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/RecoveryGrid/LuckCell/Text" unique_id=705885652]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0%"
+
+[node name="ResistGrid" type="GridContainer" parent="SummaryVBox" unique_id=631424756]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 2
+columns = 3
+
+[node name="FireResistCell" type="HBoxContainer" parent="SummaryVBox/ResistGrid" unique_id=1211922871]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/ResistGrid/FireResistCell" unique_id=1219027634]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_fire_res")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/ResistGrid/FireResistCell" unique_id=1166019282]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/ResistGrid/FireResistCell/Text" unique_id=778641976]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Fire Resist"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/ResistGrid/FireResistCell/Text" unique_id=373863765]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="IceResistCell" type="HBoxContainer" parent="SummaryVBox/ResistGrid" unique_id=938398428]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/ResistGrid/IceResistCell" unique_id=816507450]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_ice_res")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/ResistGrid/IceResistCell" unique_id=745832606]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/ResistGrid/IceResistCell/Text" unique_id=260330467]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Ice Resist"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/ResistGrid/IceResistCell/Text" unique_id=396223878]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="PhysResistCell" type="HBoxContainer" parent="SummaryVBox/ResistGrid" unique_id=1687884945]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/ResistGrid/PhysResistCell" unique_id=1866676862]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_phys_res")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/ResistGrid/PhysResistCell" unique_id=1506863979]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/ResistGrid/PhysResistCell/Text" unique_id=1145498590]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Physical Resist"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/ResistGrid/PhysResistCell/Text" unique_id=275405798]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="VenomResistCell" type="HBoxContainer" parent="SummaryVBox/ResistGrid" unique_id=1049897256]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/ResistGrid/VenomResistCell" unique_id=1845611756]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_venom_res")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/ResistGrid/VenomResistCell" unique_id=911912007]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/ResistGrid/VenomResistCell/Text" unique_id=364720331]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Venom Resist"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/ResistGrid/VenomResistCell/Text" unique_id=742968555]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="LightningResistCell" type="HBoxContainer" parent="SummaryVBox/ResistGrid" unique_id=1835824333]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/ResistGrid/LightningResistCell" unique_id=235375146]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_light_res")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/ResistGrid/LightningResistCell" unique_id=1857645722]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/ResistGrid/LightningResistCell/Text" unique_id=700667645]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Lightning Res."
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/ResistGrid/LightningResistCell/Text" unique_id=86086126]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="HolyArcanaResistCell" type="HBoxContainer" parent="SummaryVBox/ResistGrid" unique_id=1293896491]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/ResistGrid/HolyArcanaResistCell" unique_id=1146494354]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_arcana_res")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/ResistGrid/HolyArcanaResistCell" unique_id=1418386099]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/ResistGrid/HolyArcanaResistCell/Text" unique_id=1426665714]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Holy Arcana Res."
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/ResistGrid/HolyArcanaResistCell/Text" unique_id=416139055]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="DamageGrid" type="GridContainer" parent="SummaryVBox" unique_id=1882702186]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 2
+columns = 3
+
+[node name="FireDamageCell" type="HBoxContainer" parent="SummaryVBox/DamageGrid" unique_id=1729781373]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/DamageGrid/FireDamageCell" unique_id=773084373]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_fire_dmg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/DamageGrid/FireDamageCell" unique_id=21358134]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/DamageGrid/FireDamageCell/Text" unique_id=1078773293]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Fire Dmg"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/DamageGrid/FireDamageCell/Text" unique_id=512653697]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="IceDamageCell" type="HBoxContainer" parent="SummaryVBox/DamageGrid" unique_id=1769010212]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/DamageGrid/IceDamageCell" unique_id=1098984775]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_ice_dmg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/DamageGrid/IceDamageCell" unique_id=62361804]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/DamageGrid/IceDamageCell/Text" unique_id=1325301970]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Ice Dmg"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/DamageGrid/IceDamageCell/Text" unique_id=1059856357]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="EvasionCell" type="HBoxContainer" parent="SummaryVBox/DamageGrid" unique_id=188010954]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/DamageGrid/EvasionCell" unique_id=58954981]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_evasion")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/DamageGrid/EvasionCell" unique_id=1353280996]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/DamageGrid/EvasionCell/Text" unique_id=1259609110]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Evasion"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/DamageGrid/EvasionCell/Text" unique_id=1060319491]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="VenomDamageCell" type="HBoxContainer" parent="SummaryVBox/DamageGrid" unique_id=1119901051]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/DamageGrid/VenomDamageCell" unique_id=836233853]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_venom_dmg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/DamageGrid/VenomDamageCell" unique_id=1896225248]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/DamageGrid/VenomDamageCell/Text" unique_id=1452955323]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Venom Dmg"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/DamageGrid/VenomDamageCell/Text" unique_id=1797447853]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="LightningDamageCell" type="HBoxContainer" parent="SummaryVBox/DamageGrid" unique_id=1065075513]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/DamageGrid/LightningDamageCell" unique_id=1178017719]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_light_dmg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/DamageGrid/LightningDamageCell" unique_id=1619309409]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/DamageGrid/LightningDamageCell/Text" unique_id=929804236]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Lightning Dmg"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/DamageGrid/LightningDamageCell/Text" unique_id=895185645]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="HolyArcanaDamageCell" type="HBoxContainer" parent="SummaryVBox/DamageGrid" unique_id=1729488866]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="SummaryVBox/DamageGrid/HolyArcanaDamageCell" unique_id=1692365212]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ic_arcana_dmg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="SummaryVBox/DamageGrid/HolyArcanaDamageCell" unique_id=828059155]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SummaryVBox/DamageGrid/HolyArcanaDamageCell/Text" unique_id=649334912]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Holy Arcana Dmg"
+clip_text = true
+
+[node name="Value" type="Label" parent="SummaryVBox/DamageGrid/HolyArcanaDamageCell/Text" unique_id=1655809986]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "0"

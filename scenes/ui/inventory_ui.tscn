@@ -2,16 +2,21 @@
 
 [ext_resource type="Script" uid="uid://dh2qlvnpcbw54" path="res://scripts/ui/inventory_ui.gd" id="1"]
 [ext_resource type="Script" uid="uid://bmc4f3f00bij" path="res://scripts/ui/inventory_grid.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://bdffrvlfbu1g0" path="res://assets/UI/kit/panel_titled.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://b48r1xqcd38q4" path="res://assets/UI/inventory/inventory_full.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cksc0rglv7ef3" path="res://assets/UI/inventory/close_btn.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://cygvgr8dhevu2" path="res://assets/UI/inventory/weight_icon.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://8mnndcw50tw8" path="res://assets/UI/inventory/coin_icon.png" id="6"]
+[ext_resource type="PackedScene" uid="uid://de8wp60dfpn3m" path="res://scenes/ui/status_panel.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/ui/equipment_panel.tscn" id="9"]
+[ext_resource type="Script" uid="uid://cmhn3n4vqst7d" path="res://scripts/ui/category_tab_bar.gd" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/ui/page_controls.tscn" id="11"]
+[ext_resource type="Script" uid="uid://coy7wgf2y4f8v" path="res://scripts/ui/hotbar_strip.gd" id="12"]
+[ext_resource type="PackedScene" uid="uid://b4r0vlw588srj" path="res://scenes/ui/item_detail_panel.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://scenes/ui/controls_panel.tscn" id="14"]
+[ext_resource type="Texture2D" uid="uid://dm7ki0ss2ngo1" path="res://assets/UI/inventory/icon_inventory.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://b3gmxsalrrd80" path="res://assets/UI/inventory/search_border.png" id="16"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
-texture = ExtResource("3")
-texture_margin_left = 15.0
-texture_margin_top = 20.0
-texture_margin_right = 15.0
-texture_margin_bottom = 15.0
-
-[node name="InventoryUI" type="Control" unique_id=378060400]
+[node name="InventoryUI" type="Control" unique_id=1239144696]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,23 +27,179 @@ script = ExtResource("1")
 screen_name = &"inventory"
 toggle_action = &"toggle_inventory"
 
-[node name="Panel" type="Panel" parent="." unique_id=486000743]
-layout_mode = 0
+[node name="Layout" type="Control" parent="." unique_id=290401945]
+anchors_preset = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -86.0
-offset_top = -138.0
-offset_right = 86.0
-offset_bottom = 138.0
+offset_left = -842.5
+offset_top = -477.0
+offset_right = 842.5
+offset_bottom = 477.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
 
-[node name="Grid" type="Control" parent="Panel" unique_id=971582529]
+[node name="Background" type="TextureRect" parent="Layout" unique_id=2099639923]
+layout_mode = 0
+offset_right = 1685.0
+offset_bottom = 954.0
+texture = ExtResource("3")
+
+[node name="Grid" type="Control" parent="Layout" unique_id=1078500855]
 unique_name_in_owner = true
 anchors_preset = 0
-offset_left = 16.0
-offset_top = 20.0
+offset_left = 534.0
+offset_top = 222.0
+offset_right = 1206.0
+offset_bottom = 726.0
 script = ExtResource("2")
+
+[node name="EquipmentPanel" parent="Layout" unique_id=734386221 instance=ExtResource("9")]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 18.0
+offset_top = 112.0
+offset_right = 492.0
+offset_bottom = 692.0
+
+[node name="StatusPanel" parent="Layout" unique_id=930750646 instance=ExtResource("8")]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 718.0
+offset_right = 488.0
+offset_bottom = 938.0
+
+[node name="TabBar" type="Control" parent="Layout" unique_id=739730915]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 524.0
+offset_top = 106.0
+offset_right = 1216.0
+offset_bottom = 184.0
+script = ExtResource("10")
+
+[node name="PageControls" parent="Layout" unique_id=531854763 instance=ExtResource("11")]
+anchors_preset = 0
+offset_left = 758.0
+offset_top = 748.0
+offset_right = 974.0
+offset_bottom = 814.0
+
+[node name="HotbarStrip" type="Control" parent="Layout" unique_id=887487950]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 520.0
+offset_top = 838.0
+offset_right = 1224.0
+offset_bottom = 926.0
+script = ExtResource("12")
+
+[node name="InfoPanel" parent="Layout" unique_id=1373696300 instance=ExtResource("13")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1248.0
+offset_top = 108.0
+offset_right = 1668.0
+offset_bottom = 680.0
+
+[node name="ControlsPanel" parent="Layout" unique_id=1597846038 instance=ExtResource("14")]
+anchors_preset = 0
+offset_left = 1254.0
+offset_top = 704.0
+offset_right = 1664.0
+offset_bottom = 932.0
+
+[node name="InventoryIcon" type="TextureRect" parent="Layout" unique_id=1204002629]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 76.0
+offset_bottom = 80.0
+texture = ExtResource("15")
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="Layout" unique_id=881714008]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 28.0
+offset_right = 280.0
+offset_bottom = 76.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_font_sizes/font_size = 24
+text = "INVENTORY"
+vertical_alignment = 1
+
+[node name="SearchBorder" type="TextureRect" parent="Layout" unique_id=1934676034]
+layout_mode = 0
+offset_left = 860.0
+offset_top = 24.0
+offset_right = 1236.0
+offset_bottom = 80.0
+texture = ExtResource("16")
+stretch_mode = 6
+
+[node name="SearchInput" type="LineEdit" parent="Layout" unique_id=1884291931]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 872.0
+offset_top = 28.0
+offset_right = 1228.0
+offset_bottom = 76.0
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_placeholder_color = Color(0.55, 0.48, 0.4, 0.7)
+theme_override_font_sizes/font_size = 18
+placeholder_text = "Search..."
+flat = true
+
+[node name="CloseBtn" type="TextureButton" parent="Layout" unique_id=1521233181]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1594.0
+offset_top = 22.0
+offset_right = 1658.0
+offset_bottom = 86.0
+texture_normal = ExtResource("4")
+stretch_mode = 0
+
+[node name="WeightIcon" type="TextureRect" parent="Layout" unique_id=905745389]
+layout_mode = 0
+offset_left = 1262.0
+offset_top = 42.0
+offset_right = 1286.0
+offset_bottom = 66.0
+texture = ExtResource("5")
+stretch_mode = 5
+
+[node name="WeightLabel" type="Label" parent="Layout" unique_id=885452519]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1304.0
+offset_top = 36.0
+offset_right = 1444.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_font_sizes/font_size = 20
+text = "0 / 120"
+vertical_alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="Layout" unique_id=472011973]
+layout_mode = 0
+offset_left = 1460.0
+offset_top = 42.0
+offset_right = 1484.0
+offset_bottom = 66.0
+texture = ExtResource("6")
+stretch_mode = 5
+
+[node name="GoldLabel" type="Label" parent="Layout" unique_id=988859153]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1504.0
+offset_top = 36.0
+offset_right = 1584.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_font_sizes/font_size = 20
+text = "0"
+vertical_alignment = 1

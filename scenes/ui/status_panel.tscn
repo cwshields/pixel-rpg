@@ -1,0 +1,241 @@
+[gd_scene format=3 uid="uid://de8wp60dfpn3m"]
+
+[ext_resource type="Script" uid="uid://d3khu8x4xaf3l" path="res://scripts/ui/status_panel.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cqd5rmjrf5l27" path="res://assets/UI/inventory/status-bar_background.png" id="bar_bg"]
+[ext_resource type="Texture2D" uid="uid://c22pf0pw8q3l0" path="res://assets/UI/inventory/bar_health.png" id="bar_health"]
+[ext_resource type="Texture2D" uid="uid://q0gxu2y8c6jv" path="res://assets/UI/inventory/bar_hunger.png" id="bar_hunger"]
+[ext_resource type="Texture2D" uid="uid://ia2sgmdan6hr" path="res://assets/UI/inventory/bar_mana.png" id="bar_mana"]
+[ext_resource type="Texture2D" uid="uid://cclwbg62xvmlf" path="res://assets/UI/inventory/bar_stamina.png" id="bar_stamina"]
+[ext_resource type="Texture2D" uid="uid://b7bkk0k3d1bwk" path="res://assets/UI/inventory/status_icon-health.png" id="icon_health"]
+[ext_resource type="Texture2D" uid="uid://clf6cd3bjl35g" path="res://assets/UI/inventory/status_icon-hunger.png" id="icon_hunger"]
+[ext_resource type="Texture2D" uid="uid://w4hsyaudaa66" path="res://assets/UI/inventory/status_icon-mana.png" id="icon_mana"]
+[ext_resource type="Texture2D" uid="uid://c68ht520ykyky" path="res://assets/UI/inventory/status_icon-stamina.png" id="icon_stamina"]
+
+[node name="StatusPanel" type="Control" unique_id=793178748]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1")
+
+[node name="HealthRow" type="Control" parent="." unique_id=1333241453]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 30.0
+offset_right = 460.0
+offset_bottom = 78.0
+
+[node name="Icon" type="TextureRect" parent="HealthRow" unique_id=891460373]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 6.0
+offset_right = 57.0
+offset_bottom = 46.0
+texture = ExtResource("icon_health")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Bar" type="TextureProgressBar" parent="HealthRow" unique_id=431306639]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 144.0
+offset_top = 11.0
+offset_right = 334.0
+offset_bottom = 41.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 6
+stretch_margin_top = 6
+stretch_margin_right = 6
+stretch_margin_bottom = 6
+texture_under = ExtResource("bar_bg")
+texture_progress = ExtResource("bar_health")
+
+[node name="NameLabel" type="Label" parent="HealthRow" unique_id=1033439144]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 12.0
+offset_right = 143.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "HEALTH"
+
+[node name="ValueLabel" type="Label" parent="HealthRow" unique_id=1389793069]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 340.0
+offset_top = 10.0
+offset_right = 420.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "100/100"
+
+[node name="StaminaRow" type="Control" parent="." unique_id=1888834386]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 74.0
+offset_right = 460.0
+offset_bottom = 122.0
+
+[node name="Icon" type="TextureRect" parent="StaminaRow" unique_id=36231822]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 3.0
+offset_right = 57.0
+offset_bottom = 43.0
+texture = ExtResource("icon_stamina")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Bar" type="TextureProgressBar" parent="StaminaRow" unique_id=1309185140]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 8.0
+offset_right = 334.0
+offset_bottom = 38.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 6
+stretch_margin_top = 6
+stretch_margin_right = 6
+stretch_margin_bottom = 6
+texture_under = ExtResource("bar_bg")
+texture_progress = ExtResource("bar_stamina")
+
+[node name="NameLabel" type="Label" parent="StaminaRow" unique_id=927862066]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 10.0
+offset_right = 154.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "STAMINA"
+
+[node name="ValueLabel" type="Label" parent="StaminaRow" unique_id=1301198334]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 7.0
+offset_right = 420.0
+offset_bottom = 37.0
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "100/100"
+
+[node name="HungerRow" type="Control" parent="." unique_id=2089602595]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 116.0
+offset_right = 460.0
+offset_bottom = 164.0
+
+[node name="Icon" type="TextureRect" parent="HungerRow" unique_id=423024961]
+layout_mode = 0
+offset_left = 17.0
+offset_right = 57.0
+offset_bottom = 40.0
+texture = ExtResource("icon_hunger")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Bar" type="TextureProgressBar" parent="HungerRow" unique_id=1302990723]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 7.0
+offset_right = 334.0
+offset_bottom = 37.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 6
+stretch_margin_top = 6
+stretch_margin_right = 6
+stretch_margin_bottom = 6
+texture_under = ExtResource("bar_bg")
+texture_progress = ExtResource("bar_hunger")
+
+[node name="NameLabel" type="Label" parent="HungerRow" unique_id=1247204882]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 8.0
+offset_right = 146.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "HUNGER"
+
+[node name="ValueLabel" type="Label" parent="HungerRow" unique_id=367472212]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 4.0
+offset_right = 420.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "100/100"
+
+[node name="ManaRow" type="Control" parent="." unique_id=1482660819]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 161.0
+offset_right = 460.0
+offset_bottom = 209.0
+
+[node name="Icon" type="TextureRect" parent="ManaRow" unique_id=1674059902]
+layout_mode = 0
+offset_left = 17.0
+offset_top = -3.0
+offset_right = 57.0
+offset_bottom = 37.0
+texture = ExtResource("icon_mana")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Bar" type="TextureProgressBar" parent="ManaRow" unique_id=1076141748]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 2.0
+offset_right = 334.0
+offset_bottom = 32.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 6
+stretch_margin_top = 6
+stretch_margin_right = 6
+stretch_margin_bottom = 6
+texture_under = ExtResource("bar_bg")
+texture_progress = ExtResource("bar_mana")
+
+[node name="NameLabel" type="Label" parent="ManaRow" unique_id=1079058015]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 4.0
+offset_right = 122.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "MANA"
+
+[node name="ValueLabel" type="Label" parent="ManaRow" unique_id=724746242]
+layout_mode = 0
+offset_left = 340.0
+offset_right = 420.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "100/100"
