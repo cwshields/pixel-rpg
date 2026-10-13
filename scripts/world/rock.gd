@@ -42,7 +42,6 @@ const _DEFAULT_COLLISION_OFFSET := Vector2(0, -5)
 # the same sheet region (or share a collision outline) reuse one resource
 # instead of each allocating (and serialising) its own.
 static var _atlas_cache: Dictionary = {}
-static var _collision_shape_cache: Dictionary = {}
 
 @export_group("Depth Sorting")
 ## Vertical distance from the player's node origin down to their visual
@@ -98,10 +97,9 @@ static var _collision_shape_cache: Dictionary = {}
 		collision_enabled = value
 		_apply_collision()
 ## Explicit collision outline (points relative to `collision_offset`). When
-## non-empty this wins: the CollisionShape2D becomes a
-## ConvexPolygonShape2D with these points. The converter fills it from each
-## tileset rock tile's own physics polygon so converted rocks keep exactly
-## the collision they had as tiles.
+## non-empty this wins: the CollisionPolygon2D uses these points directly.
+## The converter fills it from each tileset rock tile's own physics polygon
+## so converted rocks keep exactly the collision they had as tiles.
 @export var collision_polygon: PackedVector2Array = PackedVector2Array():
 	set(value):
 		collision_polygon = value
@@ -143,6 +141,10 @@ static var _collision_shape_cache: Dictionary = {}
 ## the same pattern; RockProp doesn't extend EntityBase so it can't just
 ## inherit that logic, but _drop_loot()/_spawn_pickup() below mirror it.
 @export var loot_table: Array[LootEntry] = []
+## Damage multiplier applied to non-mining hits (combat swings). Mining
+## (crush) hits deal full damage; everything else is scaled down so a
+## sword doesn't break rocks as fast as a pickaxe.
+@export var swing_damage_scale: float = 0.25
 ## Explicit outline (points relative to the node origin) for the
 ## HurtboxComponent's hit region — same idea as `hover_polygon` above,
 ## kept as a separate export (rather than reusing `hover_polygon` for
@@ -170,6 +172,9 @@ var _target_alpha: float = 1.0
 ## Whether the player's physical body currently overlaps `FadeArea` — see
 ## TreeProp._player_in_fade_area.
 var _player_in_fade_area: bool = false
+var _shake_tween: Tween
+var _sprite_rest_pos: Vector2
+var _hit_particles: CPUParticles2D
 
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
@@ -187,6 +192,9 @@ func _ready() -> void:
 	_apply_collision()
 	if not Engine.is_editor_hint() and health:
 		health.died.connect(_on_died)
+		health.damaged.connect(_on_damaged)
+	if not Engine.is_editor_hint():
+		_setup_hit_particles()
 	if not Engine.is_editor_hint() and fade_area:
 		fade_area.body_entered.connect(_on_fade_area_body_entered)
 		fade_area.body_exited.connect(_on_fade_area_body_exited)
@@ -324,32 +332,28 @@ func _apply_fade_shape() -> void:
 	])
 
 ## Applies the Collision overrides. With no overrides set, the shipped
-## rectangle in `rock.tscn` is left completely untouched (shared resource
-## included), so a plain instance is unchanged.
+## polygon in `rock.tscn` is left untouched, so a plain instance is unchanged.
 func _apply_collision() -> void:
-	var shape_node: CollisionShape2D = get_node_or_null("StaticBody2D/CollisionShape2D")
-	if shape_node == null:
+	var poly_node: CollisionPolygon2D = get_node_or_null("StaticBody2D/CollisionPolygon2D")
+	if poly_node == null:
 		return
 
 	if not collision_polygon.is_empty():
-		var key := var_to_str(collision_polygon)
-		var poly: ConvexPolygonShape2D = _collision_shape_cache.get(key)
-		if poly == null:
-			poly = ConvexPolygonShape2D.new()
-			poly.points = collision_polygon
-			_collision_shape_cache[key] = poly
-		if shape_node.shape != poly:
-			shape_node.shape = poly
-		shape_node.position = collision_offset
-		shape_node.disabled = false
+		poly_node.polygon = collision_polygon
+		poly_node.position = collision_offset
+		poly_node.disabled = false
 		return
 
-	shape_node.disabled = not collision_enabled
+	poly_node.disabled = not collision_enabled
 	if collision_size != _DEFAULT_COLLISION_SIZE or collision_offset != _DEFAULT_COLLISION_OFFSET:
-		shape_node.position = collision_offset
-		var rect := RectangleShape2D.new()
-		rect.size = collision_size
-		shape_node.shape = rect
+		poly_node.position = collision_offset
+		var half := collision_size * 0.5
+		poly_node.polygon = PackedVector2Array([
+			Vector2(-half.x, -half.y),
+			Vector2(half.x, -half.y),
+			Vector2(half.x, half.y),
+			Vector2(-half.x, half.y),
+		])
 
 ## Called every frame by the Foliage autoload while the player is within
 ## Foliage.ACTIVE_RADIUS. Flips draw order against the player and eases the
@@ -378,12 +382,141 @@ func reset_proximity() -> void:
 func is_proximity_active() -> bool:
 	return _active
 
-## HealthComponent.died — drop loot, then remove the rock. _exit_tree()
-## (above) already unregisters from Foliage as part of the free, same as
-## walking a rock out of the loaded world.
 func _on_died() -> void:
 	_drop_loot()
-	queue_free()
+	_detach_from_tilemap()
+	_play_death_effect()
+
+## If this rock is a scene tile inside a TileMapLayer, reparent it out so
+## the death tween can play, then erase the cell so it won't respawn.
+func _detach_from_tilemap() -> void:
+	var layer := get_parent()
+	if not layer is TileMapLayer:
+		return
+	var cell: Vector2i = layer.local_to_map(position)
+	var gpos := global_position
+	Foliage.unregister_prop(self)
+	layer.remove_child(self)
+	layer.get_parent().add_child(self)
+	global_position = gpos
+	layer.erase_cell(cell)
 
 func _drop_loot() -> void:
 	ItemPickup.drop_loot(loot_table, global_position)
+
+func _play_death_effect() -> void:
+	Foliage.unregister_prop(self)
+	var hurtbox := get_node_or_null("HurtboxComponent") as Area2D
+	if hurtbox:
+		hurtbox.set_deferred("monitoring", false)
+		hurtbox.set_deferred("monitorable", false)
+	var hover := get_node_or_null("HoverArea") as Area2D
+	if hover:
+		hover.set_deferred("monitoring", false)
+		hover.set_deferred("monitorable", false)
+	if fade_area:
+		fade_area.set_deferred("monitoring", false)
+		fade_area.set_deferred("monitorable", false)
+	var shape := get_node_or_null("StaticBody2D/CollisionPolygon2D") as CollisionPolygon2D
+	if shape:
+		shape.set_deferred("disabled", true)
+	_spawn_break_fragments()
+	if sprite:
+		var tween := create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(sprite, "modulate:a", 0.0, 0.25)
+		tween.tween_property(sprite, "scale", sprite.scale * 0.6, 0.25).set_ease(Tween.EASE_IN)
+		tween.set_parallel(false)
+		tween.tween_callback(queue_free)
+	else:
+		queue_free()
+
+func _spawn_break_fragments() -> void:
+	if not get_parent():
+		return
+	var frags := CPUParticles2D.new()
+	frags.emitting = true
+	frags.one_shot = true
+	frags.amount = 14
+	frags.explosiveness = 0.9
+	frags.lifetime = 0.5
+	frags.direction = Vector2.UP
+	frags.spread = 180.0
+	frags.initial_velocity_min = 35.0
+	frags.initial_velocity_max = 75.0
+	frags.gravity = Vector2(0, 220.0)
+	frags.scale_amount_min = 1.0
+	frags.scale_amount_max = 2.5
+	frags.color = Color(0.65, 0.6, 0.5)
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color.WHITE)
+	gradient.set_color(1, Color(1, 1, 1, 0))
+	frags.color_ramp = gradient
+	var img := Image.create(3, 3, false, Image.FORMAT_RGBA8)
+	img.fill(Color.WHITE)
+	frags.texture = ImageTexture.create_from_image(img)
+	frags.position = position + (sprite.position if sprite else Vector2.ZERO)
+	frags.z_index = z_index
+	get_parent().add_child(frags)
+	get_tree().create_timer(frags.lifetime + 0.1).timeout.connect(frags.queue_free)
+
+func filter_incoming_damage(amount: float, _source: Node, hitbox: HitboxComponent) -> float:
+	if hitbox == null or hitbox.is_mining:
+		return amount
+	return amount * swing_damage_scale
+
+func _on_damaged(amount: float, source: Node) -> void:
+	_shake(amount)
+	_emit_hit_particles(source)
+
+func _shake(damage: float) -> void:
+	if not sprite:
+		return
+	if _shake_tween and _shake_tween.is_valid():
+		_shake_tween.kill()
+		sprite.position = _sprite_rest_pos
+	_sprite_rest_pos = sprite.position
+	var intensity := clampf(damage / 4.0, 0.3, 1.5)
+	var offset := intensity * 1.5
+	var count := 3 if intensity < 0.6 else 5
+	_shake_tween = create_tween()
+	for i in count:
+		var dir := 1.0 if i % 2 == 0 else -1.0
+		_shake_tween.tween_property(sprite, "position:x",
+				_sprite_rest_pos.x + offset * dir, 0.03)
+	_shake_tween.tween_property(sprite, "position", _sprite_rest_pos, 0.03)
+
+func _setup_hit_particles() -> void:
+	_hit_particles = CPUParticles2D.new()
+	_hit_particles.emitting = false
+	_hit_particles.one_shot = true
+	_hit_particles.amount = 8
+	_hit_particles.explosiveness = 0.9
+	_hit_particles.lifetime = 0.45
+	_hit_particles.direction = Vector2.UP
+	_hit_particles.spread = 55.0
+	_hit_particles.initial_velocity_min = 28.0
+	_hit_particles.initial_velocity_max = 58.0
+	_hit_particles.gravity = Vector2(0, 180.0)
+	_hit_particles.scale_amount_min = 0.5
+	_hit_particles.scale_amount_max = 1.5
+	_hit_particles.color = Color(0.72, 0.66, 0.56)
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color.WHITE)
+	gradient.set_color(1, Color(1, 1, 1, 0))
+	_hit_particles.color_ramp = gradient
+	var img := Image.create(2, 2, false, Image.FORMAT_RGBA8)
+	img.fill(Color.WHITE)
+	_hit_particles.texture = ImageTexture.create_from_image(img)
+	_hit_particles.position = sprite.position if sprite else Vector2.ZERO
+	add_child(_hit_particles)
+
+func _emit_hit_particles(source: Node) -> void:
+	if not _hit_particles or not source is Node2D:
+		return
+	var to_source := (source as Node2D).global_position - global_position
+	if to_source != Vector2.ZERO:
+		_hit_particles.position = (sprite.position if sprite else Vector2.ZERO) \
+				+ to_source.normalized() * 6.0
+	_hit_particles.restart()
+	_hit_particles.emitting = true

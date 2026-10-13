@@ -38,6 +38,7 @@ const ADD_COLLISION := true
 
 const ROCKS_LAYER_PATH := "World/Rocks"
 const CONTAINER_NAME := "RockProps"
+const VARIANT_DIR := "res://scenes/world/rocks/"
 
 func _run() -> void:
 	var root := EditorInterface.get_edited_scene_root()
@@ -56,9 +57,10 @@ func _run() -> void:
 		return
 
 	var container := _ensure_container(root)
+	var variant_map := _build_variant_map()
 
 	var repaired := _repair_existing(container, tile_set)
-	var converted := _convert_cells(root, rocks, tile_set, container)
+	var converted := _convert_cells(root, rocks, tile_set, container, variant_map)
 
 	if EditorInterface.has_method("mark_scene_as_unsaved"):
 		EditorInterface.mark_scene_as_unsaved()
@@ -81,8 +83,8 @@ func _repair_existing(container: Node, tile_set: TileSet) -> int:
 		if rock.art_texture == null:
 			continue
 
-		var shape_node := rock.get_node_or_null("StaticBody2D/CollisionShape2D") as CollisionShape2D
-		var already_fixed := shape_node and shape_node.shape is ConvexPolygonShape2D and not shape_node.disabled
+		var poly_node := rock.get_node_or_null("StaticBody2D/CollisionPolygon2D") as CollisionPolygon2D
+		var already_fixed := poly_node and not poly_node.polygon.is_empty() and not poly_node.disabled
 		if already_fixed:
 			continue
 
@@ -102,11 +104,14 @@ func _repair_existing(container: Node, tile_set: TileSet) -> int:
 
 
 ## CONVERT pass — turn every remaining rock tile on the layer into an
-## instance, then erase the tile.
-func _convert_cells(root: Node, rocks: TileMapLayer, tile_set: TileSet, container: Node) -> int:
+## instance, then erase the tile. Tiles whose atlas region matches a variant
+## scene get that variant directly; unmatched tiles fall back to the base
+## rock.tscn with per-instance art/collision overrides.
+func _convert_cells(root: Node, rocks: TileMapLayer, tile_set: TileSet, container: Node, variant_map: Dictionary) -> int:
 	var half := tile_set.tile_size.y / 2.0
 	var to_erase: Array[Vector2i] = []
 	var count := 0
+	var variant_count := 0
 	var oddities: Array[String] = []
 
 	for coords in rocks.get_used_cells():
@@ -122,27 +127,33 @@ func _convert_cells(root: Node, rocks: TileMapLayer, tile_set: TileSet, containe
 		var atlas_coords := rocks.get_cell_atlas_coords(coords)
 		var tile_data := rocks.get_cell_tile_data(coords)
 		var region := src.get_tile_texture_region(atlas_coords, 0)
-		var origin := tile_data.texture_origin
 
-		var rock := ROCK_SCENE.instantiate() as RockProp
-		rock.name = "PaintedRock_%d_%d" % [coords.x, coords.y]
-		rock.art_region = region
-		# Node origin sits at the rock's base (cell bottom edge). The tile is
-		# drawn centered on the cell then shifted by -texture_origin, so the
-		# sprite's local offset is -origin - half a tile.
-		rock.art_offset = Vector2(-origin.x, -origin.y - half)
+		var rock: Node2D
+		var variant_scene: PackedScene = variant_map.get(Rect2i(region))
 
-		var points := PackedVector2Array()
-		if ADD_COLLISION:
-			points = _polygon_from_tile_data(tile_data)
-		if points.is_empty():
-			rock.collision_enabled = false
+		if variant_scene:
+			rock = variant_scene.instantiate()
+			rock.name = "PaintedRock_%d_%d" % [coords.x, coords.y]
+			variant_count += 1
 		else:
-			rock.collision_offset = Vector2(0, -half)  # tile polygons are measured from the cell center
+			var origin := tile_data.texture_origin
+			var base_rock := ROCK_SCENE.instantiate() as RockProp
+			base_rock.name = "PaintedRock_%d_%d" % [coords.x, coords.y]
+			base_rock.art_region = region
+			base_rock.art_offset = Vector2(-origin.x, -origin.y - half)
 
-		rock.art_texture = src.texture
-		if not points.is_empty():
-			rock.collision_polygon = points
+			var points := PackedVector2Array()
+			if ADD_COLLISION:
+				points = _polygon_from_tile_data(tile_data)
+			if points.is_empty():
+				base_rock.collision_enabled = false
+			else:
+				base_rock.collision_offset = Vector2(0, -half)
+
+			base_rock.art_texture = src.texture
+			if not points.is_empty():
+				base_rock.collision_polygon = points
+			rock = base_rock
 
 		container.add_child(rock)
 		rock.owner = root
@@ -156,6 +167,8 @@ func _convert_cells(root: Node, rocks: TileMapLayer, tile_set: TileSet, containe
 
 	for line in oddities:
 		print("  * " + line)
+	if variant_count > 0:
+		print("  %d of %d matched a variant scene." % [variant_count, count])
 	return count
 
 
@@ -181,3 +194,33 @@ func _collision_points(tile_set: TileSet, source_id: int, atlas_coords: Vector2i
 	if src == null or not src.has_tile(atlas_coords):
 		return PackedVector2Array()
 	return _polygon_from_tile_data(src.get_tile_data(atlas_coords, 0))
+
+
+func _build_variant_map() -> Dictionary:
+	var map: Dictionary = {}
+	_scan_variants(VARIANT_DIR, map)
+	print("[convert_painted_rocks] found %d variant scene(s)." % map.size())
+	return map
+
+
+func _scan_variants(dir_path: String, map: Dictionary) -> void:
+	var dir := DirAccess.open(dir_path)
+	if not dir:
+		return
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if dir.current_is_dir() and file_name != "." and file_name != "..":
+			_scan_variants(dir_path.path_join(file_name), map)
+		elif file_name.ends_with(".tscn"):
+			var path := dir_path.path_join(file_name)
+			var scene := load(path) as PackedScene
+			if scene:
+				var inst := scene.instantiate()
+				var sprite := inst.get_node_or_null("Sprite2D") as Sprite2D
+				if sprite and sprite.texture is AtlasTexture:
+					var region := Rect2i((sprite.texture as AtlasTexture).region)
+					map[region] = scene
+				inst.free()
+		file_name = dir.get_next()
+	dir.list_dir_end()

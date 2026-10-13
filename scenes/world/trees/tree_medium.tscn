@@ -8,7 +8,7 @@ atlas = ExtResource("2")
 region = Rect2(0, 0, 48, 96)
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_trunk"]
-points = PackedVector2Array(-4.569868, -8, 4.7664223, -8, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
+points = PackedVector2Array(-5, -5, 5, -5, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
 
 [node name="TreeMedium" unique_id=269687677 instance=ExtResource("1")]
 
@@ -20,16 +20,14 @@ texture = SubResource("AtlasTexture_art")
 position = Vector2(0, -8)
 shape = SubResource("ConvexPolygonShape2D_trunk")
 
-[node name="HoverArea" parent="." index="2" unique_id=738193042]
-visible = false
-
-[node name="CollisionPolygon2D" parent="HoverArea" index="0" unique_id=984571123]
+[node name="CollisionPolygon2D" parent="HoverArea" parent_id_path=PackedInt32Array(738193042) index="0" unique_id=984571123]
 position = Vector2(0, 0)
 polygon = PackedVector2Array(-13, -93, 15, -90, 22, -66, 20, -35, 4, -26, 4, -5, -4, -5, -4, -26, -22, -37, -22, -70)
 
-[node name="FadeArea" parent="." index="3" unique_id=1020617105]
-visible = false
-
-[node name="CollisionPolygon2D" parent="FadeArea" index="0" unique_id=1353001223]
+[node name="CollisionPolygon2D" parent="FadeArea" parent_id_path=PackedInt32Array(1020617105) index="0" unique_id=1353001223]
 position = Vector2(0, 0)
 polygon = PackedVector2Array(-15, -91, 17, -89, 24, -67, 23, -18, 4, -11, 3.937, -5.1, -4.063, -5.1, -4, -11, -24, -20, -24, -71)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(591471401) index="0" unique_id=591471402]
+position = Vector2(0, 0)
+polygon = PackedVector2Array(5, -19, 6, -2, -6, -2, -5, -19)

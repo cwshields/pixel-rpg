@@ -2,6 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://bu5w5q6jwikdn" path="res://scenes/world/tree.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://cwwmosywg3e7t" path="res://Tilesets/Size_02.png" id="2"]
+[ext_resource type="Script" uid="uid://d3xws6xsnn76g" path="res://scripts/entities/enemy/loot_entry.gd" id="3"]
+[ext_resource type="Resource" uid="uid://cula5yg1lmiht" path="res://resources/items/materials/oak_wood.tres" id="4"]
+
+[sub_resource type="Resource" id="LootEntry_wood"]
+script = ExtResource("3")
+item = ExtResource("4")
+min_amount = 2
+max_amount = 4
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_art"]
 atlas = ExtResource("2")
@@ -11,6 +19,7 @@ region = Rect2(64, 0, 32, 64)
 points = PackedVector2Array(-2.70261, 3.3905478, 1.6215658, 3.3905478, 1.6215658, 7.026787, -2.70261, 7.026787)
 
 [node name="TreeSmallB" unique_id=748280141 instance=ExtResource("1")]
+loot_table = Array[ExtResource("3")]([SubResource("LootEntry_wood")])
 
 [node name="Sprite2D" parent="." index="0" unique_id=281834848]
 position = Vector2(0, -32)
@@ -20,17 +29,20 @@ texture = SubResource("AtlasTexture_art")
 position = Vector2(0, -8)
 shape = SubResource("ConvexPolygonShape2D_trunk")
 
-[node name="HoverArea" parent="." index="2" unique_id=738193042]
-visible = false
-
-[node name="CollisionPolygon2D" parent="HoverArea" index="0" unique_id=984571123]
+[node name="CollisionPolygon2D" parent="HoverArea" parent_id_path=PackedInt32Array(738193042) index="0" unique_id=984571123]
 position = Vector2(0, 0)
 polygon = PackedVector2Array(-14, -54, -2, -61, 12, -58, 15, -25, 3, -17, 3, -1, -4, -1, -4, -16, -15, -19)
 
 [node name="FadeArea" parent="." index="3" unique_id=1020617105]
-visible = false
 position = Vector2(0, 3)
 
 [node name="CollisionPolygon2D" parent="FadeArea" index="0" unique_id=1353001223]
 position = Vector2(0, 2)
 polygon = PackedVector2Array(-13, -55, -1, -61, 11, -57, 15, -24, 3, -17, 3, -9, -4, -9, -4, -16, -14, -19)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(591471401) index="0" unique_id=591471402]
+position = Vector2(0, 0)
+polygon = PackedVector2Array(3, -12, 3, -1, -4, -1, -4, -12)
+
+[node name="HealthComponent" parent="." index="4" unique_id=591471400]
+max_health = 12.0
