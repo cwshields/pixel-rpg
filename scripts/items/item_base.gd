@@ -8,7 +8,16 @@ extends Resource
 ## scripts — that way designers can add/tune items without touching
 ## GDScript, and items serialize cleanly for save files.
 
-enum Category { WEAPON, ARMOR, TOOL, RING, AMULET, CONSUMABLE, MATERIAL, QUEST }
+enum Category { WEAPON, ARMOR, TOOL, RING, AMULET, CONSUMABLE, MATERIAL, QUEST, RUNE_STONE }
+enum Rarity { COMMON, MAGIC, RARE, SET, UNIQUE }
+
+const RARITY_COLORS := {
+	Rarity.COMMON: Color("e4ba85"),
+	Rarity.MAGIC: Color("3d8be3"),
+	Rarity.RARE: Color("f1c71e"),
+	Rarity.SET: Color("3cf11e"),
+	Rarity.UNIQUE: Color("ec5715"),
+}
 
 @export var id: StringName
 @export var display_name: String = "Item"
@@ -18,6 +27,8 @@ enum Category { WEAPON, ARMOR, TOOL, RING, AMULET, CONSUMABLE, MATERIAL, QUEST }
 ## Base buy/sell value; shops can apply their own markup/markdown on top.
 @export var value: int = 0
 @export var category: Category = Category.MATERIAL
+@export var rarity: Rarity = Rarity.COMMON
+@export var weight: float = 0.0
 
 ## Grid footprint for the Tetris-style inventory: rows top-to-bottom,
 ## '#' marks an occupied cell and anything else is empty. Rows don't need
@@ -91,6 +102,9 @@ func _effective_shape() -> PackedStringArray:
 ## Override in subclasses that do something when used from the
 ## inventory (potions, food, scrolls...). Return true if the item was
 ## consumed and should be removed from the stack.
+func get_rarity_color() -> Color:
+	return RARITY_COLORS.get(rarity, RARITY_COLORS[Rarity.COMMON])
+
 func use(_user: Node) -> bool:
 	return false
 

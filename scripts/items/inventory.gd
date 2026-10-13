@@ -24,6 +24,9 @@ class PlacedItem:
 
 var width: int
 var height: int
+## How many rows (from the top) the player can use. Rows at y >= this
+## are drawn locked and reject placement. Call unlock_rows() to expand.
+var unlocked_rows: int
 ## Insertion-ordered list of everything placed in the grid. Hotbar (and
 ## anything else that wants "the first N items") reads this directly.
 var items: Array[PlacedItem] = []
@@ -31,10 +34,20 @@ var items: Array[PlacedItem] = []
 ## covering it, or null. Kept in lockstep with `items` by _paint().
 var _grid: Array[PlacedItem] = []
 
-func _init(p_width: int = 6, p_height: int = 10) -> void:
+func _init(p_width: int = 12, p_height: int = 9) -> void:
 	width = p_width
 	height = p_height
+	unlocked_rows = p_height
 	_grid.resize(width * height)
+
+func get_total_weight() -> float:
+	var total := 0.0
+	for placed in items:
+		total += placed.item.weight * placed.quantity
+	return total
+
+func unlock_rows(count: int) -> void:
+	unlocked_rows = clampi(count, 1, height)
 
 ## `item`'s footprint cells (relative to its own top-left corner) after
 ## rotating `rotation` quarter-turns clockwise.
@@ -62,6 +75,8 @@ func get_world_cells(item: ItemBase, pos: Vector2i, rotation: int) -> Array[Vect
 func can_place_at(item: ItemBase, pos: Vector2i, rotation: int = 0, ignore: PlacedItem = null) -> bool:
 	for cell in get_world_cells(item, pos, rotation):
 		if cell.x < 0 or cell.y < 0 or cell.x >= width or cell.y >= height:
+			return false
+		if cell.y >= unlocked_rows:
 			return false
 		var occupant := _grid[cell.y * width + cell.x]
 		if occupant != null and occupant != ignore:

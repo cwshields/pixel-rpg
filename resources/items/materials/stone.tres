@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CraftingMaterial" format=3 uid="uid://c15smy8opxtq8"]
 
 [ext_resource type="Script" uid="uid://cml0ycfyu4kx6" path="res://scripts/items/crafting_material.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Icons/Resources.png" id="1_stone"]
+[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Items/Resources.png" id="1_stone"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_stone"]
 atlas = ExtResource("1_stone")

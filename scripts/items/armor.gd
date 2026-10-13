@@ -1,7 +1,7 @@
 class_name Armor
 extends ItemBase
 
-enum ArmorSlot { HEAD, CHEST, LEGS, FEET, SHIELD }
+enum ArmorSlot { HEAD, CHEST, FEET, GAUNTLETS }
 
 @export var armor_slot: ArmorSlot = ArmorSlot.CHEST
 @export var defense: float = 2.0

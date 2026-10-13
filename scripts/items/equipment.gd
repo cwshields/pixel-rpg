@@ -7,7 +7,7 @@ extends RefCounted
 ## Emitted after `slot`'s contents change (equip or unequip).
 signal changed(slot: Slot)
 
-enum Slot { WEAPON, HEAD, CHEST, LEGS, FEET, SHIELD, RING_1, RING_2, AMULET }
+enum Slot { PRIMARY_HAND, HEAD, CHEST, FEET, OFF_HAND, RING_1, RING_2, AMULET, RUNE_STONE, GAUNTLETS }
 
 var owner_stats: StatsComponent
 var slots: Dictionary = {}   # Slot -> ItemBase
@@ -16,10 +16,14 @@ var slots: Dictionary = {}   # Slot -> ItemBase
 ## (or null). Swap the previous item back into the inventory yourself —
 ## Equipment doesn't know about Inventory to keep the two decoupled.
 func equip(slot: Slot, item: ItemBase) -> ItemBase:
+	if slot == Slot.OFF_HAND and is_two_handed():
+		return item
 	var previous: ItemBase = unequip(slot)
 	slots[slot] = item
 	if owner_stats and item:
 		item.apply_modifiers(owner_stats, _source_id(slot))
+	if slot == Slot.PRIMARY_HAND and item is Weapon and (item as Weapon).two_handed:
+		unequip(Slot.OFF_HAND)
 	changed.emit(slot)
 	return previous
 
@@ -35,6 +39,32 @@ func unequip(slot: Slot) -> ItemBase:
 
 func get_equipped(slot: Slot) -> ItemBase:
 	return slots.get(slot)
+
+## True when the primary hand holds a two-handed weapon, blocking the
+## off-hand slot.
+func is_two_handed() -> bool:
+	var weapon := get_equipped(Slot.PRIMARY_HAND) as Weapon
+	return weapon != null and weapon.two_handed
+
+static func slot_accepts(slot: Slot, item: ItemBase) -> bool:
+	match slot:
+		Slot.PRIMARY_HAND, Slot.OFF_HAND:
+			return item is Weapon
+		Slot.HEAD:
+			return item is Armor and (item as Armor).armor_slot == Armor.ArmorSlot.HEAD
+		Slot.CHEST:
+			return item is Armor and (item as Armor).armor_slot == Armor.ArmorSlot.CHEST
+		Slot.FEET:
+			return item is Armor and (item as Armor).armor_slot == Armor.ArmorSlot.FEET
+		Slot.GAUNTLETS:
+			return item is Armor and (item as Armor).armor_slot == Armor.ArmorSlot.GAUNTLETS
+		Slot.RING_1, Slot.RING_2:
+			return item is Ring
+		Slot.AMULET:
+			return item is Amulet
+		Slot.RUNE_STONE:
+			return item is RuneStone
+	return false
 
 func _source_id(slot: Slot) -> StringName:
 	return StringName("equip_slot_%d" % slot)
