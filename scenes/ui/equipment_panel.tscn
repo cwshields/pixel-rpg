@@ -1,0 +1,413 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" uid="uid://c68f0iw28gauy" path="res://scripts/ui/equipment_panel.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0p31upex0our" path="res://assets/UI/inventory/equip_slot_small.png" id="small"]
+[ext_resource type="Texture2D" uid="uid://p5kw7go6j14y" path="res://assets/UI/inventory/equip_slot_head.png" id="head"]
+[ext_resource type="Texture2D" uid="uid://tg2dms07pgfi" path="res://assets/UI/inventory/equip_slot_torso.png" id="torso"]
+[ext_resource type="Texture2D" uid="uid://bni0sbst5jm3g" path="res://assets/UI/inventory/equip_primary_hand.png" id="primary"]
+[ext_resource type="Texture2D" uid="uid://b2q6w6rxmp6jt" path="res://assets/UI/inventory/equip_secondary_hand.png" id="secondary"]
+[ext_resource type="Texture2D" uid="uid://d0ubu7w2egrlh" path="res://assets/UI/inventory/equip_gloves.png" id="gloves"]
+[ext_resource type="Texture2D" uid="uid://cqop8ueuexps2" path="res://assets/UI/inventory/equip_slot_feet.png" id="feet"]
+
+[node name="EquipmentPanel" type="Control"]
+script = ExtResource("1")
+
+[node name="RuneStone" type="Control" parent="."]
+offset_left = 78.0
+offset_top = 52.0
+offset_right = 162.0
+offset_bottom = 136.0
+
+[node name="Border" type="TextureRect" parent="RuneStone"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("small")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="RuneStone"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="RuneStone"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="Head" type="Control" parent="."]
+offset_left = 168.0
+offset_top = 52.0
+offset_right = 306.0
+offset_bottom = 188.0
+
+[node name="Border" type="TextureRect" parent="Head"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("head")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="Head"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="Head"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="Amulet" type="Control" parent="."]
+offset_left = 310.0
+offset_top = 52.0
+offset_right = 394.0
+offset_bottom = 136.0
+
+[node name="Border" type="TextureRect" parent="Amulet"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("small")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="Amulet"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="Amulet"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="PrimaryHand" type="Control" parent="."]
+offset_left = 12.0
+offset_top = 164.0
+offset_right = 146.0
+offset_bottom = 420.0
+
+[node name="Border" type="TextureRect" parent="PrimaryHand"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("primary")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="PrimaryHand"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="PrimaryHand"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="Chest" type="Control" parent="."]
+offset_left = 150.0
+offset_top = 194.0
+offset_right = 322.0
+offset_bottom = 450.0
+
+[node name="Border" type="TextureRect" parent="Chest"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("torso")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="Chest"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="Chest"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="OffHand" type="Control" parent="."]
+offset_left = 330.0
+offset_top = 164.0
+offset_right = 464.0
+offset_bottom = 420.0
+
+[node name="Border" type="TextureRect" parent="OffHand"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("secondary")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="OffHand"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="OffHand"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="Gauntlets" type="Control" parent="."]
+offset_left = 12.0
+offset_top = 426.0
+offset_right = 146.0
+offset_bottom = 562.0
+
+[node name="Border" type="TextureRect" parent="Gauntlets"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("gloves")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="Gauntlets"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="Gauntlets"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="Ring1" type="Control" parent="."]
+offset_left = 150.0
+offset_top = 454.0
+offset_right = 234.0
+offset_bottom = 538.0
+
+[node name="Border" type="TextureRect" parent="Ring1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("small")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="Ring1"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="Ring1"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="Ring2" type="Control" parent="."]
+offset_left = 238.0
+offset_top = 454.0
+offset_right = 322.0
+offset_bottom = 538.0
+
+[node name="Border" type="TextureRect" parent="Ring2"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("small")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="Ring2"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="Ring2"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+
+[node name="Feet" type="Control" parent="."]
+offset_left = 328.0
+offset_top = 426.0
+offset_right = 462.0
+offset_bottom = 562.0
+
+[node name="Border" type="TextureRect" parent="Feet"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("feet")
+stretch_mode = 0
+texture_filter = 0
+
+[node name="Icon" type="TextureRect" parent="Feet"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+expand_mode = 1
+texture_filter = 0
+
+[node name="Hover" type="ColorRect" parent="Feet"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)

@@ -12,23 +12,29 @@ extends Control
 ## screen while holding something is consumed rather than leaking through
 ## to gameplay underneath.
 
-const CELL_SIZE := 24
-const SLOT_TEX := "res://assets/UI/kit/slot_inventory.png"
-const SLOT_PATCH_MARGIN := 5
+const CELL_SIZE := 56
+const SLOT_TEX := "res://assets/UI/inventory/grid_cell.png"
+const SLOT_PATCH_MARGIN := 8
 const PICKUP_SCENE: PackedScene = preload("res://scenes/world/item_pickup.tscn")
 const VALID_COLOR := Color(0.45, 1.0, 0.45, 0.35)
 const INVALID_COLOR := Color(1.0, 0.35, 0.35, 0.35)
 const ITEM_FILL_COLOR := Color(1, 1, 1, 0.07)
 const ITEM_OUTLINE_COLOR := Color(1, 1, 1, 0.4)
 const HOVER_COLOR := Color(1, 1, 1, 0.18)
+const LOCKED_COLOR := Color(0.15, 0.13, 0.1, 0.65)
+const TRASH_HOVER_TINT := Color(1.5, 1.5, 1.5)
 const TOOLTIP_PANEL_TEX := "res://assets/UI/kit/panel.png"
-const TOOLTIP_PANEL_MARGIN := 6
-const TOOLTIP_MAX_WIDTH := 112
-const TOOLTIP_OFFSET := Vector2(10, 10)
+const TOOLTIP_PANEL_MARGIN := 12
+const TOOLTIP_MAX_WIDTH := 224
+const TOOLTIP_OFFSET := Vector2(20, 20)
 
 var inventory: Inventory
+## When set, only items whose ItemBase passes this check are drawn and
+## interactable. Cleared (set to Callable()) to show everything.
+var item_filter: Callable
 
 var _slot_style: StyleBoxTexture
+var _slot_tex: Texture2D
 ## The item currently riding the cursor, or null when nothing's held. Not
 ## registered anywhere in `inventory` while held — picking it up removes it
 ## outright, so the grid is always fully consistent.
@@ -41,6 +47,7 @@ var _held_icon: TextureRect
 ## hover highlight and the tooltip; cleared as soon as it stops being
 ## valid (picked up, or removed/moved elsewhere by an inventory change).
 var _hovered: Inventory.PlacedItem = null
+var _trash_highlighted := false
 
 ## Optional external drop target: when set, clicking to place a held item
 ## while the cursor is over this control's global rect discards it instead
@@ -55,7 +62,10 @@ var _tooltip_magic: Label
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_slot_style = InventoryGrid.make_slot_style()
+	if ResourceLoader.exists(SLOT_TEX):
+		_slot_tex = load(SLOT_TEX) as Texture2D
 
 	_held_icon = TextureRect.new()
 	_held_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -63,6 +73,7 @@ func _ready() -> void:
 	_held_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_held_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_held_icon.modulate.a = 0.85
+	_held_icon.top_level = true
 	_held_icon.visible = false
 	add_child(_held_icon)
 
@@ -87,14 +98,14 @@ func _build_tooltip() -> void:
 
 	var vbox := VBoxContainer.new()
 	vbox.custom_minimum_size = Vector2(TOOLTIP_MAX_WIDTH - TOOLTIP_PANEL_MARGIN * 2, 0)
-	vbox.add_theme_constant_override("separation", 3)
+	vbox.add_theme_constant_override("separation", 6)
 	_tooltip.add_child(vbox)
 
-	_tooltip_name = _make_tooltip_label(8)
-	_tooltip_desc = _make_tooltip_label(7)
+	_tooltip_name = _make_tooltip_label(16)
+	_tooltip_desc = _make_tooltip_label(14)
 	_tooltip_desc.modulate.a = 0.8
-	_tooltip_stats = _make_tooltip_label(7)
-	_tooltip_magic = _make_tooltip_label(7)
+	_tooltip_stats = _make_tooltip_label(14)
+	_tooltip_magic = _make_tooltip_label(14)
 	for label in [_tooltip_name, _tooltip_desc, _tooltip_stats, _tooltip_magic]:
 		vbox.add_child(label)
 
@@ -169,12 +180,26 @@ func _drop_in_world() -> void:
 func _clear_held() -> void:
 	_held_item = null
 	_held_icon.visible = false
+	_set_trash_highlight(false)
 	queue_redraw()
 
 func _clear_hover() -> void:
 	_hovered = null
 	if _tooltip:
 		_tooltip.visible = false
+
+func _update_trash_highlight() -> void:
+	if not trash_control or not trash_control.is_visible_in_tree():
+		_set_trash_highlight(false)
+		return
+	_set_trash_highlight(trash_control.get_global_rect().has_point(get_global_mouse_position()))
+
+func _set_trash_highlight(on: bool) -> void:
+	if on == _trash_highlighted:
+		return
+	_trash_highlighted = on
+	if trash_control:
+		trash_control.self_modulate = TRASH_HOVER_TINT if on else Color.WHITE
 
 func _on_inventory_changed() -> void:
 	if _hovered and not inventory.items.has(_hovered):
@@ -191,9 +216,11 @@ func _input(event: InputEvent) -> void:
 				if _pick_up_at(get_local_mouse_position()):
 					get_viewport().set_input_as_handled()
 			else:
-				if not _try_discard_at_trash():
+				if _try_discard_at_trash():
+					get_viewport().set_input_as_handled()
+				elif _is_in_grid(get_local_mouse_position()):
 					_try_place_held()
-				get_viewport().set_input_as_handled()
+					get_viewport().set_input_as_handled()
 			if _held_item:
 				_clear_hover()
 			else:
@@ -204,7 +231,8 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventMouseMotion:
 		var local_pos := get_local_mouse_position()
 		if _held_item:
-			_held_icon.position = local_pos - _held_icon.size / 2.0
+			_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
+			_update_trash_highlight()
 			queue_redraw()
 		else:
 			_update_hover(local_pos)
@@ -219,7 +247,9 @@ func _update_hover(local_pos: Vector2) -> void:
 	var cell := Vector2i(floori(local_pos.x / CELL_SIZE), floori(local_pos.y / CELL_SIZE))
 	var new_hovered: Inventory.PlacedItem = null
 	if cell.x >= 0 and cell.y >= 0 and cell.x < inventory.width and cell.y < inventory.height:
-		new_hovered = _placed_at(cell)
+		var candidate := _placed_at(cell)
+		if candidate and _passes_filter(candidate.item):
+			new_hovered = candidate
 	if new_hovered == _hovered:
 		if _hovered:
 			_position_tooltip()
@@ -229,8 +259,10 @@ func _update_hover(local_pos: Vector2) -> void:
 	if _hovered:
 		_show_tooltip(_hovered)
 		_position_tooltip()
+		Events.inventory_item_hovered.emit(_hovered.item)
 	else:
 		_tooltip.visible = false
+		Events.inventory_item_hovered.emit(null)
 
 func _show_tooltip(placed: Inventory.PlacedItem) -> void:
 	var item := placed.item
@@ -279,7 +311,7 @@ func _pick_up_at(local_pos: Vector2) -> bool:
 	_held_rotation = placed.rotation
 	inventory.remove_placed(placed)
 	_update_held_icon()
-	_held_icon.position = local_pos - _held_icon.size / 2.0
+	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
 	_held_icon.visible = true
 	queue_redraw()
 	return true
@@ -295,8 +327,7 @@ func pick_up_new(item: ItemBase, quantity: int = 1) -> void:
 	_held_quantity = quantity
 	_held_rotation = 0
 	_update_held_icon()
-	var local_pos := get_local_mouse_position()
-	_held_icon.position = local_pos - _held_icon.size / 2.0
+	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
 	_held_icon.visible = true
 	_clear_hover()
 	queue_redraw()
@@ -306,7 +337,7 @@ func _rotate_held() -> void:
 		return
 	_held_rotation = (_held_rotation + 1) % 4
 	_update_held_icon()
-	_held_icon.position = get_local_mouse_position() - _held_icon.size / 2.0
+	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
 	queue_redraw()
 
 ## Attempts to place the held item at the cursor's target cell: a direct
@@ -345,7 +376,7 @@ func _try_place_held() -> void:
 	_held_quantity = occupant.quantity
 	_held_rotation = occupant.rotation
 	_update_held_icon()
-	_held_icon.position = get_local_mouse_position() - _held_icon.size / 2.0
+	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
 	queue_redraw()
 
 func _held_target_pos() -> Vector2i:
@@ -372,14 +403,41 @@ func _shape_dims(cells: Array[Vector2i]) -> Vector2i:
 		h = maxi(h, c.y + 1)
 	return Vector2i(w, h)
 
+func _passes_filter(item: ItemBase) -> bool:
+	return not item_filter.is_valid() or item_filter.call(item)
+
+func _is_in_grid(local_pos: Vector2) -> bool:
+	return Rect2(Vector2.ZERO, size).has_point(local_pos)
+
+func has_held_item() -> bool:
+	return _held_item != null
+
+func get_held_item() -> ItemBase:
+	return _held_item
+
+func get_held_quantity() -> int:
+	return _held_quantity
+
+func take_held_item() -> Dictionary:
+	if not _held_item:
+		return {}
+	var result := {"item": _held_item, "quantity": _held_quantity}
+	_clear_held()
+	return result
+
 func _draw() -> void:
 	if not inventory:
 		return
 	for y in inventory.height:
 		for x in inventory.width:
-			draw_style_box(_slot_style, Rect2(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+			if _slot_tex:
+				draw_texture_rect(_slot_tex, Rect2(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE), false)
+	for y in range(inventory.unlocked_rows, inventory.height):
+		for x in inventory.width:
+			draw_rect(Rect2(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE), LOCKED_COLOR, true)
 	for placed in inventory.items:
-		_draw_item(placed.item, placed.pos, placed.rotation, placed.quantity)
+		if _passes_filter(placed.item):
+			_draw_item(placed.item, placed.pos, placed.rotation, placed.quantity)
 	if _hovered and not _held_item:
 		for cell in inventory.get_world_cells(_hovered.item, _hovered.pos, _hovered.rotation):
 			draw_rect(Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE), HOVER_COLOR, true)
@@ -410,12 +468,12 @@ func _draw_item(item: ItemBase, pos: Vector2i, rot: int, quantity: int) -> void:
 		draw_texture_rect(item.icon, Rect2(origin + Vector2.ONE * 2, footprint - Vector2.ONE * 4), false)
 	if quantity > 1:
 		var font := get_theme_default_font()
-		var font_size := 7
+		var font_size := 14
 		var text := str(quantity)
-		var box_width := footprint.x - 2
-		var text_pos := Vector2(origin.x + 1, origin.y + footprint.y - 2)
+		var box_width := footprint.x - 4
+		var text_pos := Vector2(origin.x + 2, origin.y + footprint.y - 4)
 		draw_string_outline(font, text_pos, text, HORIZONTAL_ALIGNMENT_RIGHT, box_width, font_size,
-			1, Color(0.05, 0.05, 0.08))
+			2, Color(0.05, 0.05, 0.08))
 		draw_string(font, text_pos, text, HORIZONTAL_ALIGNMENT_RIGHT, box_width, font_size,
 			Color(0.95, 0.92, 0.85))
 
