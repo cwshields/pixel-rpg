@@ -12,7 +12,7 @@ extends MenuBase
 ## resources/items/ in a release build.
 
 const ITEMS_DIR := "res://resources/items"
-const CELL_SIZE := 20
+const CELL_SIZE := 40
 
 @onready var _item_grid: GridContainer = %ItemGrid
 @onready var _inventory_grid: InventoryGrid = %Grid

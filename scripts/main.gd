@@ -10,5 +10,8 @@ extends Node2D
 ## starting position. World/PlayerSpawn is kept as a reference marker
 ## (handy for wiring up a respawn point later) but isn't used by code.
 
+const UI_LAYER := preload("res://scenes/ui/ui_layer.tscn")
+
 func _ready() -> void:
+	add_child(UI_LAYER.instantiate())
 	GameManager.set_state(GameManager.GameState.PLAYING)

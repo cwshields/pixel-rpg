@@ -28,7 +28,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(0.74954987, 0.74954987)
+scale = Vector2(1.686, 1.686)
 mouse_filter = 2
 
 [node name="BarArt" type="TextureRect" parent="Bar" unique_id=770818950]

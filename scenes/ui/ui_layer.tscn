@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bp7o43ngg5gbl"]
+
+[ext_resource type="PackedScene" uid="uid://cr0w6hbxty2xv" path="res://scenes/ui/debug_panel.tscn" id="1_d4ycy"]
+[ext_resource type="PackedScene" uid="uid://dtkarjiqahvss" path="res://scenes/ui/hud.tscn" id="2_jqcis"]
+[ext_resource type="PackedScene" uid="uid://cqus2wnwx6no5" path="res://scenes/ui/inventory_ui.tscn" id="3_3s0y6"]
+[ext_resource type="PackedScene" uid="uid://cb5rhbtk161xp" path="res://scenes/ui/item_spawner_ui.tscn" id="4_yg43r"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="5_42r3o"]
+
+[node name="UILayer" type="CanvasLayer" unique_id=79373571]
+
+[node name="DebugPanel" parent="." unique_id=1354893006 instance=ExtResource("1_d4ycy")]
+
+[node name="HUD" parent="." unique_id=1786383420 instance=ExtResource("2_jqcis")]
+
+[node name="InventoryUI" parent="." unique_id=1239144696 instance=ExtResource("3_3s0y6")]
+
+[node name="ItemSpawnerUI" parent="." unique_id=141970308 instance=ExtResource("4_yg43r")]
+
+[node name="PauseMenu" parent="." unique_id=472383004 instance=ExtResource("5_42r3o")]
+layout_mode = 3
+anchors_preset = 15
+pause_game = false
