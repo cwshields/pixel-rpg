@@ -5,10 +5,8 @@ extends ItemBase
 ## check `material_type`/`rarity` against a recipe's requirements.
 
 enum MaterialType { ORE, GEM, WOOD, LEATHER, FEATHER, CLOTH, HERB, BONE }
-enum Rarity { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
 
 @export var material_type: MaterialType = MaterialType.ORE
-@export var rarity: Rarity = Rarity.COMMON
 
 func _init() -> void:
 	category = Category.MATERIAL
