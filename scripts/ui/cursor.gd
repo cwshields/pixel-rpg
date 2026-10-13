@@ -37,6 +37,7 @@ extends Node
 ## layer 5 (choppable trees, value 16) | layer 6 (mineable rocks, value 32)
 ## — see the collision layer legend in README.md.
 const HOVER_MASK := 0b111100
+const CURSOR_SCALE := 2
 
 ## Captured in _ready() so _update_hover() can restore it — set_cursor()
 ## overwrites `hotspot` itself to track whichever art is currently shown.
@@ -47,6 +48,9 @@ var _default_hotspot: Vector2
 ## to tell "clicking near a rock" from "actually clicking on the rock",
 ## since the "attack" input is shared with the sword swing.
 var hovered_rock: RockProp = null
+## The TreeProp currently under the mouse, or null — same pattern as
+## hovered_rock but for choppable trees.
+var hovered_tree: TreeProp = null
 
 ## Art/hotspot currently installed, so set_cursor() can skip the (costly)
 ## OS cursor upload when _update_hover() re-requests the same one each frame.
@@ -70,10 +74,12 @@ func _process(_delta: float) -> void:
 	_update_hover()
 
 ## Point-queries the physics world at the mouse position and swaps the
-## cursor art to match what's there: a HurtboxComponent (attackable) beats
-## an InteractionComponent (talk/open/read), which beats a TreeProp's
-## cursor-only HoverArea (choppable), which beats a RockProp's cursor-only
-## HoverArea (mineable), which beats the plain arrow.
+## cursor art to match what's there: a RockProp (mineable) beats a
+## HurtboxComponent (attackable), which beats an InteractionComponent
+## (talk/open/read), which beats a TreeProp's cursor-only HoverArea
+## (choppable), which beats the plain arrow. Rock is checked first across
+## ALL intersect_point results because a rock's own HurtboxComponent sits
+## on the attack layer and can win the single-result race otherwise.
 ## Skipped whenever a UI screen (inventory, pause menu...) has the mouse's
 ## attention instead of the game world, so hovering a menu never shows a
 ## sword cursor for whatever happens to sit behind it.
@@ -81,36 +87,58 @@ func _update_hover() -> void:
 	if UIManager.is_any_open():
 		set_cursor(default_texture, _default_hotspot)
 		hovered_rock = null
+		hovered_tree = null
 		return
-	var hovered: Object = _hovered_collider()
+	var colliders := _hovered_colliders()
 	hovered_rock = null
-	if hovered is HurtboxComponent:
-		set_cursor(attack_texture, attack_hotspot)
-	elif hovered is InteractionComponent:
-		set_cursor(interact_texture, interact_hotspot)
-	elif hovered is CollisionObject2D and hovered.get_parent() is TreeProp:
-		set_cursor(cut_texture, cut_hotspot)
-	elif hovered is CollisionObject2D and hovered.get_parent() is RockProp:
-		hovered_rock = hovered.get_parent()
-		set_cursor(mine_texture, mine_hotspot)
-	else:
-		set_cursor(default_texture, _default_hotspot)
+	hovered_tree = null
+	var best := 0
+	var rock_hit: RockProp = null
+	var tree_hit: TreeProp = null
+	for c in colliders:
+		if c is CollisionObject2D and c.get_parent() is RockProp:
+			rock_hit = c.get_parent() as RockProp
+			best = 4
+			break
+		elif c is HurtboxComponent and best < 3:
+			best = 3
+		elif c is InteractionComponent and best < 2:
+			best = 2
+		elif c is CollisionObject2D and c.get_parent() is TreeProp and best < 1:
+			tree_hit = c.get_parent() as TreeProp
+			best = 1
+	match best:
+		4:
+			hovered_rock = rock_hit
+			set_cursor(mine_texture, mine_hotspot)
+		3:
+			set_cursor(attack_texture, attack_hotspot)
+		2:
+			set_cursor(interact_texture, interact_hotspot)
+		1:
+			hovered_tree = tree_hit
+			set_cursor(cut_texture, cut_hotspot)
+		_:
+			set_cursor(default_texture, _default_hotspot)
 
-## First collider under the mouse on HOVER_MASK, or null if none. Uses the
-## player's world position to resolve the mouse to world space — Cursor
-## itself lives in a separate always-on-top CanvasLayer, so it has no
-## camera-relative transform of its own to convert screen -> world with.
-func _hovered_collider() -> Object:
+## All colliders under the mouse on HOVER_MASK. Uses the player's world
+## position to resolve the mouse to world space — Cursor itself lives in a
+## separate always-on-top CanvasLayer, so it has no camera-relative
+## transform of its own to convert screen -> world with.
+func _hovered_colliders() -> Array:
 	var player := GameManager.player as Node2D
 	if not player:
-		return null
+		return []
 	var query := PhysicsPointQueryParameters2D.new()
 	query.position = player.get_global_mouse_position()
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
 	query.collision_mask = HOVER_MASK
 	var results := get_viewport().world_2d.direct_space_state.intersect_point(query, 8)
-	return results[0]["collider"] if not results.is_empty() else null
+	var out: Array = []
+	for r in results:
+		out.append(r["collider"])
+	return out
 
 ## Swap the cursor's look. `new_hotspot` is the pixel in the texture that
 ## sits exactly on the mouse position (e.g. an arrow's tip), measured from
@@ -129,21 +157,28 @@ func _install_current() -> void:
 	if not _current_texture:
 		Input.set_custom_mouse_cursor(null)
 		return
+	var hs := (_current_hotspot * CURSOR_SCALE * _scale).round()
 	Input.set_custom_mouse_cursor(_scaled_image(_current_texture),
-			Input.CURSOR_ARROW, (_current_hotspot * _scale).floor())
+			Input.CURSOR_ARROW, hs)
 
-## `texture` resized (nearest-neighbour, to keep pixel art crisp) by the
-## current stretch scale, cached until the next resize. The OS caps custom
-## cursors at 256x256.
 func _scaled_image(texture: Texture2D) -> Image:
 	if _scaled_images.has(texture):
 		return _scaled_images[texture]
-	var image := texture.get_image()
-	if image.is_compressed():
-		image.decompress()
-	var size := (Vector2(image.get_size()) * _scale).round()
-	size = size.clamp(Vector2.ONE, Vector2(256, 256))
-	image.resize(int(size.x), int(size.y), Image.INTERPOLATE_NEAREST)
+	var image: Image
+	if texture is AtlasTexture:
+		image = texture.atlas.get_image()
+		if image.is_compressed():
+			image.decompress()
+		image = image.get_region(Rect2i(texture.region))
+	else:
+		image = texture.get_image()
+		if image.is_compressed():
+			image.decompress()
+	var base := image.get_size()
+	var scaled := base * CURSOR_SCALE
+	var final_size := (Vector2(scaled) * _scale).round()
+	final_size = final_size.clamp(Vector2.ONE, Vector2(256, 256))
+	image.resize(int(final_size.x), int(final_size.y), Image.INTERPOLATE_NEAREST)
 	_scaled_images[texture] = image
 	return image
 

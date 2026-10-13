@@ -23,3 +23,6 @@ signal ui_toggled(screen_name: StringName, is_open: bool)
 ## Fired when the player changes the active hotbar slot (number keys or
 ## mouse wheel). `item` is null when the newly selected slot is empty.
 signal hotbar_selection_changed(index: int, item: ItemBase)
+signal inventory_item_hovered(item: Resource)
+signal gold_changed(amount: int)
+signal hunger_changed(entity: Node, current: float, max_value: float)
