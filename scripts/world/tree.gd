@@ -184,9 +184,6 @@ static var _trunk_shape_cache: Dictionary = {}
 
 @export_group("Combat")
 @export var loot_table: Array[LootEntry] = []
-## Damage multiplier applied to non-chopping hits (combat swings).
-## Chopping hits deal full damage; everything else is scaled down.
-@export var swing_damage_scale: float = 0.25
 ## Explicit outline (points relative to the node origin) for the
 ## HurtboxComponent's hit region — same idea as `hover_polygon`.
 @export var hurt_polygon: PackedVector2Array = PackedVector2Array():
@@ -402,10 +399,8 @@ func reset_proximity() -> void:
 func is_proximity_active() -> bool:
 	return _active
 
-func filter_incoming_damage(amount: float, _source: Node, hitbox: HitboxComponent) -> float:
-	if hitbox == null or hitbox.is_chopping:
-		return amount
-	return amount * swing_damage_scale
+func filter_incoming_damage(amount: float, _source: Node, _hitbox: HitboxComponent) -> float:
+	return amount
 
 func _on_died() -> void:
 	_drop_loot()
@@ -445,6 +440,9 @@ func _play_death_effect() -> void:
 		shape.set_deferred("disabled", true)
 	_spawn_break_fragments()
 	if sprite:
+		if _shake_tween and _shake_tween.is_valid():
+			_shake_tween.kill()
+			sprite.position = _sprite_rest_pos
 		var fall_dir := 1.0 if randf() < 0.5 else -1.0
 		if sprite.texture:
 			var half_h := sprite.texture.get_size().y * 0.5
@@ -452,12 +450,12 @@ func _play_death_effect() -> void:
 			sprite.position.y += half_h
 		var tween := create_tween()
 		tween.set_parallel(true)
-		tween.tween_property(sprite, "rotation", fall_dir * deg_to_rad(80.0), 0.6) \
+		tween.tween_property(sprite, "rotation", fall_dir * deg_to_rad(80.0), 1.2) \
 				.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 		tween.tween_property(sprite, "position:x",
-				sprite.position.x + fall_dir * 12.0, 0.6) \
+				sprite.position.x + fall_dir * 12.0, 1.2) \
 				.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-		tween.tween_property(sprite, "modulate:a", 0.0, 0.3).set_delay(0.35)
+		tween.tween_property(sprite, "modulate:a", 0.0, 0.4).set_delay(0.85)
 		tween.set_parallel(false)
 		tween.tween_callback(queue_free)
 	else:
