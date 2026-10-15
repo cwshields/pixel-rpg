@@ -60,3 +60,5 @@ giveup_time = 15.0
 
 [node name="Attack" type="Node" parent="StateMachine" index="6"]
 script = ExtResource("5")
+hitbox_reach = 16.0
+lunge_at_prey = true

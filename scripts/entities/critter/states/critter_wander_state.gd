@@ -25,6 +25,9 @@ func process_physics(delta: float) -> void:
 		transition_requested.emit(&"Chase" if critter.is_hostile else &"Flee", {})
 		return
 	_timer += delta
+	if entity.is_stuck():
+		transition_requested.emit(&"Idle", {})
+		return
 	var to_destination: Vector2 = _destination - entity.global_position
 	if to_destination.length() <= arrival_distance or _timer >= max_travel_time:
 		transition_requested.emit(&"Idle", {})

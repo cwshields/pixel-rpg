@@ -34,6 +34,11 @@ var sprinting: bool = false
 ## picking an idle-facing animation when the entity is standing still.
 var facing_direction: Vector2 = Vector2.DOWN
 
+const STUCK_DISTANCE := 3.0
+const STUCK_TIME := 1.5
+var _stuck_time: float = 0.0
+var _stuck_sample_pos: Vector2
+
 @onready var health: HealthComponent = get_node_or_null("HealthComponent")
 @onready var stats: StatsComponent = get_node_or_null("StatsComponent")
 @onready var animated_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
@@ -43,6 +48,7 @@ var facing_direction: Vector2 = Vector2.DOWN
 @onready var _body_shape: CollisionShape2D = get_node_or_null("CollisionShape2D")
 
 func _ready() -> void:
+	_stuck_sample_pos = global_position
 	if health:
 		health.died.connect(_on_died)
 
@@ -98,9 +104,21 @@ func move(direction: Vector2, delta: float, update_facing: bool = true) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	move_and_slide()
+	if direction != Vector2.ZERO:
+		if global_position.distance_to(_stuck_sample_pos) >= STUCK_DISTANCE:
+			_stuck_time = 0.0
+			_stuck_sample_pos = global_position
+		else:
+			_stuck_time += delta
+	else:
+		_stuck_time = 0.0
+		_stuck_sample_pos = global_position
 
 func stop() -> void:
 	velocity = Vector2.ZERO
+
+func is_stuck() -> bool:
+	return _stuck_time >= STUCK_TIME
 
 ## A cheap local steering check for AI movement (wandering, fleeing,
 ## chasing) — NOT used by the player, who's driven by direct input.
@@ -133,6 +151,9 @@ func steer_direction(desired_direction: Vector2, ignore_bodies: Array[Node2D] = 
 			var candidate: Vector2 = desired_direction.rotated(deg_to_rad(degrees * side))
 			if not _direction_blocked(candidate, exclude):
 				return candidate
+	var reversal: Vector2 = desired_direction.rotated(PI)
+	if not _direction_blocked(reversal, exclude):
+		return reversal
 	return Vector2.ZERO
 
 ## Checks whether the entity's own body would fit `obstacle_look_ahead`
