@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://h3u3j1vbasud"]
+
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cfjfta7b6mvt4" path="res://assets/Items/Weapons/Iron/Iron.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dagger"]
+atlas = ExtResource("1_atlas")
+region = Rect2(63, 52, 16, 32)
+
+[resource]
+script = ExtResource("1")
+weapon_type = 1
+damage = 4.0
+attack_speed = 1.4
+id = &"iron_dagger"
+display_name = "Iron Dagger"
+description = "A swift blade for those who favor speed over power."
+icon = SubResource("AtlasTexture_dagger")
+value = 15
+category = 0
+shape = ["#", "#"]

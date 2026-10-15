@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Consumable" format=3 uid="uid://bdk7iwrybhn33"]
+
+[ext_resource type="Script" uid="uid://bfwiay0m1knqx" path="res://scripts/items/consumable.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cag78hx72qxlf" path="res://assets/Items/potions-pack.png" id="1_cvnwg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14bfw"]
+atlas = ExtResource("1_cvnwg")
+region = Rect2(110, 74, 24, 24)
+
+[resource]
+script = ExtResource("1")
+heal_amount = 75.0
+id = &"grand_health_potion"
+display_name = "Grand Health Potion"
+description = "A masterwork elixir that restores a massive amount of health."
+icon = SubResource("AtlasTexture_14bfw")
+max_stack = 10
+value = 50
+category = 5

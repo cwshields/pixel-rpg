@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Armor" format=3 uid="uid://b8s0d4min806v"]
+
+[ext_resource type="Script" uid="uid://nfocvp4pkad0" path="res://scripts/items/armor.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dg1pji7isouyj" path="res://assets/Items/Armor/helms.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_helm"]
+atlas = ExtResource("1_atlas")
+region = Rect2(253, 74, 32, 32)
+
+[resource]
+script = ExtResource("1")
+armor_slot = 0
+id = &"iron_helm"
+display_name = "Iron Helm"
+description = "A solid iron helm. Keeps your head in one piece."
+icon = SubResource("AtlasTexture_helm")
+value = 12
+category = 1
+shape = ["##", "##"]

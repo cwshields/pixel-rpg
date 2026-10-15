@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Consumable" format=3 uid="uid://davwanycwuru8"]
+
+[ext_resource type="Script" uid="uid://bfwiay0m1knqx" path="res://scripts/items/consumable.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cag78hx72qxlf" path="res://assets/Items/potions-pack.png" id="1_60feo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv21b"]
+atlas = ExtResource("1_60feo")
+region = Rect2(14, 41, 24, 24)
+
+[resource]
+script = ExtResource("1")
+stamina_amount = 20.0
+id = &"stamina_potion"
+display_name = "Stamina Potion"
+description = "Restores a burst of stamina when quaffed."
+icon = SubResource("AtlasTexture_fv21b")
+max_stack = 10
+value = 8
+category = 5

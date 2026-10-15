@@ -29,6 +29,18 @@ func use(user: Node) -> bool:
 		_apply_timed_buff(entity)
 	return true
 
+func get_stat_lines() -> Array[String]:
+	var lines: Array[String] = []
+	if heal_amount > 0.0:
+		lines.append("Restores %d Health" % roundi(heal_amount))
+	if stamina_amount > 0.0:
+		lines.append("Restores %d Stamina" % roundi(stamina_amount))
+	if buff_stat != &"" and buff_amount != 0.0:
+		var sign_str := "+" if buff_amount > 0.0 else ""
+		var dur_str := " (%ds)" % roundi(buff_duration) if buff_duration > 0.0 else ""
+		lines.append("%s%d %s%s" % [sign_str, roundi(buff_amount), buff_stat, dur_str])
+	return lines
+
 func _apply_timed_buff(entity: EntityBase) -> void:
 	var stats: StatsComponent = entity.stats
 	var source_id := StringName("consumable_%s_%d" % [id, Time.get_ticks_msec()])

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Consumable" format=3 uid="uid://cgd6s3aatqha1"]
+
+[ext_resource type="Script" uid="uid://bfwiay0m1knqx" path="res://scripts/items/consumable.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cag78hx72qxlf" path="res://assets/Items/potions-pack.png" id="1_i615k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jp2fr"]
+atlas = ExtResource("1_i615k")
+region = Rect2(79, 74, 24, 24)
+
+[resource]
+script = ExtResource("1")
+heal_amount = 45.0
+id = &"greater_health_potion"
+display_name = "Greater Health Potion"
+description = "A potent brew that restores a large amount of health."
+icon = SubResource("AtlasTexture_jp2fr")
+max_stack = 10
+value = 30
+category = 5
