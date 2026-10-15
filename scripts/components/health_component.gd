@@ -63,3 +63,4 @@ func set_max_health(new_max: float, refill: bool = false) -> void:
 	max_health = new_max
 	current_health = max_health if refill else minf(current_health, max_health)
 	health_changed.emit(current_health, max_health)
+	Events.health_changed.emit(get_parent(), current_health, max_health)

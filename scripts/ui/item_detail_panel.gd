@@ -20,12 +20,17 @@ var _stat_values: Dictionary = {}
 @onready var _exp_value: Label = %ExpValue
 @onready var _level_value: Label = %LevelValue
 
+var _stat_points_label: Button
+
 func _ready() -> void:
 	_collect_values($SummaryVBox/MainGrid)
 	_collect_values($SummaryVBox/RecoveryGrid)
 	_collect_values($SummaryVBox/ResistGrid)
 	_collect_values($SummaryVBox/DamageGrid)
 	Events.inventory_item_hovered.connect(_on_item_hovered)
+	Events.stats_changed.connect(_on_stats_changed)
+	Events.level_up.connect(_on_level_up)
+	_build_stat_points_badge()
 	_update_summary()
 
 func _collect_values(grid: Control) -> void:
@@ -95,8 +100,9 @@ func _update_summary() -> void:
 
 	var s := player.stats
 
-	_exp_value.text = "1"
-	_level_value.text = "1"
+	_level_value.text = str(s.level) if s else "1"
+	_exp_value.text = "%d/%d" % [s.current_xp, s.xp_for_next_level()] if s else "0/0"
+	_update_stat_points_badge(s)
 
 	_set_val("ConstitutionCell", "%d" % roundi(s.constitution))
 	_set_val("DamageCell", "%d" % roundi(s.attack))
@@ -194,3 +200,36 @@ func _clear_children(node: Node) -> void:
 	for child in node.get_children():
 		node.remove_child(child)
 		child.queue_free()
+
+func _build_stat_points_badge() -> void:
+	_stat_points_label = Button.new()
+	_stat_points_label.flat = true
+	_stat_points_label.add_theme_font_size_override("font_size", 14)
+	_stat_points_label.add_theme_color_override("font_color", Color(0.82, 0.65, 0.24))
+	_stat_points_label.add_theme_color_override("font_outline_color", OUTLINE_COLOR)
+	_stat_points_label.add_theme_constant_override("outline_size", 4)
+	_stat_points_label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_stat_points_label.pressed.connect(func() -> void:
+		UIManager.close_screen(&"inventory")
+		UIManager.open_screen(&"level_up"))
+	_stat_points_label.hide()
+	var level_box := _level_value.get_parent() if _level_value else null
+	if level_box:
+		level_box.add_child(_stat_points_label)
+
+func _update_stat_points_badge(s: StatsComponent) -> void:
+	if not _stat_points_label:
+		return
+	if s and s.stat_points > 0:
+		_stat_points_label.text = "+%d pts [L]" % s.stat_points
+		_stat_points_label.show()
+	else:
+		_stat_points_label.hide()
+
+func _on_stats_changed(entity: Node) -> void:
+	if entity == GameManager.player and _summary_vbox and _summary_vbox.visible:
+		_update_summary()
+
+func _on_level_up(_entity: Node, _new_level: int, _pts: int) -> void:
+	if _entity == GameManager.player and _summary_vbox and _summary_vbox.visible:
+		_update_summary()

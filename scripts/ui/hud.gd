@@ -21,6 +21,9 @@ extends CanvasLayer
 # Bar-fill regions in source-art pixels (Hotbar-UI-final.png is 256x41),
 # mirrored from shaders/hotbar_gauges.gdshader (HEALTH_X/Y, STAMINA_X/Y,
 # MANA_X / MANA_TOP_BOTTOM).
+const XP_BAR_HEIGHT := 3.0
+const XP_BG_COLOR := Color(0.06, 0.05, 0.08, 0.92)
+const XP_FILL_COLOR := Color(0.82, 0.65, 0.24)
 const ART_SIZE := Vector2(256.0, 41.0)
 const HEALTH_REGION := Rect2(76.0, 10.0, 56.0, 8.0)
 const STAMINA_REGION := Rect2(122.0, 9.0, 56.0, 10.0)
@@ -36,6 +39,7 @@ var _mana := Vector2(1.0, 1.0)
 var _health_readout: Label
 var _stamina_readout: Label
 var _mana_readout: Label
+var _xp_fill: ColorRect
 
 func _ready() -> void:
 	_health_readout = _build_readout(HEALTH_REGION, func() -> Vector2: return _health)
@@ -44,10 +48,14 @@ func _ready() -> void:
 	Events.health_changed.connect(_on_health_changed)
 	Events.stamina_changed.connect(_on_stamina_changed)
 	Events.mana_changed.connect(_on_mana_changed)
+	Events.xp_changed.connect(_on_xp_changed)
+	Events.level_up.connect(_on_level_up)
 	Events.player_spawned.connect(_on_player_spawned)
 	_push(&"health_fill", _health)
 	_push(&"stamina_fill", _stamina)
 	_push(&"mana_fill", _mana)
+	_build_xp_bar()
+	_build_level_up_label()
 	if GameManager.player:
 		_on_player_spawned(GameManager.player)
 
@@ -62,6 +70,8 @@ func _on_player_spawned(player: Node) -> void:
 	var pl := player as Player
 	if pl and pl.stamina:
 		_on_stamina_changed(player, pl.stamina.current_stamina, pl.stamina.max_stamina)
+	if entity and entity.stats:
+		_update_xp_bar(entity.stats.current_xp, entity.stats.xp_for_next_level())
 
 func _on_health_changed(entity: Node, current: float, max_value: float) -> void:
 	if entity == GameManager.player:
@@ -126,3 +136,63 @@ func _refresh_readout(lbl: Label, cur_max: Vector2) -> void:
 
 func _fmt(cur_max: Vector2) -> String:
 	return "%d/%d" % [roundi(cur_max.x), roundi(cur_max.y)]
+
+func _build_xp_bar() -> void:
+	var bar_art := %BarArt as TextureRect
+	bar_art.offset_top -= XP_BAR_HEIGHT
+	bar_art.offset_bottom = -XP_BAR_HEIGHT
+
+	var bar := bar_art.get_parent() as Control
+	var bg := ColorRect.new()
+	bg.color = XP_BG_COLOR
+	bg.offset_left = bar_art.offset_left
+	bg.offset_right = bar_art.offset_right
+	bg.offset_top = -XP_BAR_HEIGHT
+	bg.offset_bottom = 0.0
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(bg)
+
+	_xp_fill = ColorRect.new()
+	_xp_fill.color = XP_FILL_COLOR
+	_xp_fill.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_xp_fill.anchor_right = 0.0
+	_xp_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bg.add_child(_xp_fill)
+
+func _update_xp_bar(current: int, needed: int) -> void:
+	if _xp_fill:
+		_xp_fill.anchor_right = clampf(float(current) / float(needed), 0.0, 1.0) if needed > 0 else 0.0
+
+func _on_xp_changed(entity: Node, current: int, needed: int) -> void:
+	if entity == GameManager.player:
+		_update_xp_bar(current, needed)
+
+func _on_level_up(entity: Node, _new_level: int, _pts: int) -> void:
+	if entity == GameManager.player:
+		_flash_level_up()
+
+var _level_up_label: Label
+
+func _build_level_up_label() -> void:
+	_level_up_label = Label.new()
+	_level_up_label.text = "Level Up!  Press [L] to allocate points"
+	_level_up_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_level_up_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_level_up_label.offset_top = 80.0
+	_level_up_label.add_theme_font_size_override("font_size", 28)
+	_level_up_label.add_theme_color_override("font_color", XP_FILL_COLOR)
+	_level_up_label.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.06))
+	_level_up_label.add_theme_constant_override("outline_size", 6)
+	_level_up_label.modulate.a = 0.0
+	add_child(_level_up_label)
+
+func _flash_level_up() -> void:
+	if not _level_up_label:
+		return
+	var tw := create_tween()
+	_level_up_label.modulate.a = 0.0
+	_level_up_label.offset_top = 80.0
+	tw.tween_property(_level_up_label, "modulate:a", 1.0, 0.25)
+	tw.parallel().tween_property(_level_up_label, "offset_top", 60.0, 0.25).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(1.2)
+	tw.tween_property(_level_up_label, "modulate:a", 0.0, 0.5)
