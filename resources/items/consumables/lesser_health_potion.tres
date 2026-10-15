@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Consumable" format=3 uid="uid://bcjgdddkehxmt"]
+
+[ext_resource type="Texture2D" uid="uid://cag78hx72qxlf" path="res://assets/Items/potions-pack.png" id="1_v5534"]
+[ext_resource type="Script" uid="uid://bfwiay0m1knqx" path="res://scripts/items/consumable.gd" id="2_5v7cq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tnxf"]
+atlas = ExtResource("1_v5534")
+region = Rect2(14, 74, 24, 24)
+
+[resource]
+script = ExtResource("2_5v7cq")
+heal_amount = 15.0
+id = &"lesser_health_potion"
+display_name = "Lesser Health Potion"
+description = "A small vial that restores a modest amount of health."
+icon = SubResource("AtlasTexture_5tnxf")
+max_stack = 10
+value = 10
+category = 5
