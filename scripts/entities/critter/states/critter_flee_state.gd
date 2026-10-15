@@ -15,15 +15,33 @@ extends State
 ## back instead of fleeing. 0 disables this — it just runs forever, like
 ## ordinary prey.
 @export var fight_back_after: float = 0.0
+## Hard cap on flee duration — if the critter has been fleeing this long
+## (stuck in a corner, looping, etc.), give up and return to Idle.
+@export var max_flee_time: float = 10.0
+
+@export_group("Stumble")
+## Probability (0–1) of tripping each stumble check while sprinting. 0
+## disables stumbling (default for most critters).
+@export var stumble_chance: float = 0.0
+## Seconds between stumble checks.
+@export var stumble_interval: float = 1.5
+## How long the critter stalls when it trips.
+@export var stumble_duration: float = 0.4
 
 var _time_without_threat: float = 0.0
 var _time_with_threat: float = 0.0
+var _total_flee_time: float = 0.0
+var _stumble_check_timer: float = 0.0
+var _stumble_timer: float = 0.0
 var _last_direction: Vector2 = Vector2.RIGHT
 
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	entity.sprinting = true
 	_time_without_threat = 0.0
 	_time_with_threat = 0.0
+	_total_flee_time = 0.0
+	_stumble_check_timer = 0.0
+	_stumble_timer = 0.0
 	var critter := entity as CritterBase
 	critter.hunt_target = null # getting spooked drops any hunt this critter was on
 	_last_direction = _away_from(critter.threat) if critter.threat else Vector2.RIGHT.rotated(randf() * TAU)
@@ -33,6 +51,10 @@ func exit() -> void:
 
 func process_physics(delta: float) -> void:
 	var critter := entity as CritterBase
+	_total_flee_time += delta
+	if _total_flee_time >= max_flee_time:
+		transition_requested.emit(&"Idle", {})
+		return
 	if critter.is_threat_active():
 		_time_without_threat = 0.0
 		_time_with_threat += delta
@@ -46,6 +68,22 @@ func process_physics(delta: float) -> void:
 		if _time_without_threat >= flee_linger_time:
 			transition_requested.emit(&"Idle", {})
 			return
+	if entity.is_stuck():
+		_last_direction = _last_direction.rotated(PI * 0.5 * (1.0 if randf() < 0.5 else -1.0))
+	if stumble_chance > 0.0:
+		if _stumble_timer > 0.0:
+			_stumble_timer -= delta
+			entity.move(Vector2.ZERO, delta)
+			entity.play_animation("flee")
+			return
+		_stumble_check_timer += delta
+		if _stumble_check_timer >= stumble_interval:
+			_stumble_check_timer = 0.0
+			if randf() < stumble_chance:
+				_stumble_timer = stumble_duration
+				entity.move(Vector2.ZERO, delta)
+				entity.play_animation("flee")
+				return
 	var ignore: Array[Node2D] = []
 	if critter.threat:
 		ignore.append(critter.threat)

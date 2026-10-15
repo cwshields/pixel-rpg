@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://bv5cy6n6y0dyy"]
 
 [ext_resource type="PackedScene" path="res://scenes/entities/critter/critter_base.tscn" id="1"]
-[ext_resource type="SpriteFrames" path="res://resources/characters/animals/deer_sprite_frames.tres" id="2"]
+[ext_resource type="SpriteFrames" uid="uid://c3boufmt5mojx" path="res://resources/characters/animals/deer_sprite_frames.tres" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_deer_body"]
 size = Vector2(13, 15)
@@ -12,23 +12,26 @@ size = Vector2(15, 20)
 [sub_resource type="CircleShape2D" id="CircleShape2D_deer_detect"]
 radius = 110.0
 
-[node name="Deer" instance=ExtResource("1") groups=["deer"]]
+[node name="Deer" unique_id=1353273993 groups=["deer"] instance=ExtResource("1")]
+wander_radius = 90.0
 move_speed = 45.0
 sprint_speed = 130.0
-wander_radius = 90.0
 
-[node name="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = ExtResource("2")
-animation = &"idle_down"
+animation = &"idle_side"
 
-[node name="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" parent="." index="1"]
+visible = false
 shape = SubResource("RectangleShape2D_deer_body")
 
-[node name="HealthComponent" parent="."]
+[node name="HealthComponent" parent="." index="2"]
 max_health = 12.0
 
-[node name="CollisionShape2D" parent="HurtboxComponent"]
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+visible = false
 shape = SubResource("RectangleShape2D_deer_hurt")
 
-[node name="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" parent="DetectionArea" index="0"]
+visible = false
 shape = SubResource("CircleShape2D_deer_detect")

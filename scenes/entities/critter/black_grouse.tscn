@@ -19,9 +19,10 @@ sprint_speed = 160.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = ExtResource("2")
-animation = &"death_down"
+animation = &"idle_side"
 
 [node name="CollisionShape2D" parent="." index="1"]
+visible = false
 position = Vector2(-0.5, 3.25)
 shape = SubResource("RectangleShape2D_grouse_body")
 
@@ -29,6 +30,7 @@ shape = SubResource("RectangleShape2D_grouse_body")
 max_health = 6.0
 
 [node name="HurtboxComponent" parent="." index="3"]
+visible = false
 position = Vector2(0, -2.3841858e-07)
 scale = Vector2(1.2629879, 1.4257487)
 
