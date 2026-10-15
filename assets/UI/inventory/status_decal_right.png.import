@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8i6jpq3332mh"
-path="res://.godot/imported/info_decal.png-9ba5962c600d004e2bde344eed18c46c.ctex"
+uid="uid://bkbw4acexse55"
+path="res://.godot/imported/status_decal_right.png-ebd825715fa217bb81331c7f03337788.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/inventory/info_decal.png"
-dest_files=["res://.godot/imported/info_decal.png-9ba5962c600d004e2bde344eed18c46c.ctex"]
+source_file="res://assets/UI/inventory/status_decal_right.png"
+dest_files=["res://.godot/imported/status_decal_right.png-ebd825715fa217bb81331c7f03337788.ctex"]
 
 [params]
 
