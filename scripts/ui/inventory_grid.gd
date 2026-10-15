@@ -54,6 +54,9 @@ var _trash_highlighted := false
 ## (see discard_held_item()). Left null for ordinary inventory screens;
 ## ItemSpawnerUI wires up its trash slot here.
 var trash_control: Control = null
+## Called with (InputEventMouseButton) before processing a left-click.
+## Return true to consume the event (grid skips its own handling).
+var input_filter: Callable
 var _tooltip: PanelContainer
 var _tooltip_name: Label
 var _tooltip_desc: Label
@@ -212,6 +215,9 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
+			if input_filter.is_valid() and input_filter.call(mb):
+				get_viewport().set_input_as_handled()
+				return
 			if not _held_item:
 				if _pick_up_at(get_local_mouse_position()):
 					get_viewport().set_input_as_handled()
@@ -225,9 +231,13 @@ func _input(event: InputEvent) -> void:
 				_clear_hover()
 			else:
 				_update_hover(get_local_mouse_position())
-		elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed and _held_item:
-			_rotate_held()
-			get_viewport().set_input_as_handled()
+		elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
+			if _held_item:
+				_rotate_held()
+				get_viewport().set_input_as_handled()
+			elif _pick_up_one_at(get_local_mouse_position()):
+				_clear_hover()
+				get_viewport().set_input_as_handled()
 	elif event is InputEventMouseMotion:
 		var local_pos := get_local_mouse_position()
 		if _held_item:
@@ -236,10 +246,13 @@ func _input(event: InputEvent) -> void:
 			queue_redraw()
 		else:
 			_update_hover(local_pos)
-	elif event is InputEventKey and event.pressed and not event.echo \
-			and event.keycode == KEY_R and _held_item:
-		_rotate_held()
-		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_R and _held_item:
+			_rotate_held()
+			get_viewport().set_input_as_handled()
+	if not _held_item and event.is_action_pressed("interact"):
+		if _try_use_hovered():
+			get_viewport().set_input_as_handled()
 
 ## Updates `_hovered` from a local-space cursor position and shows/hides/
 ## repositions the tooltip accordingly. Only called while nothing's held.
@@ -310,6 +323,24 @@ func _pick_up_at(local_pos: Vector2) -> bool:
 	_held_quantity = placed.quantity
 	_held_rotation = placed.rotation
 	inventory.remove_placed(placed)
+	_update_held_icon()
+	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
+	_held_icon.visible = true
+	queue_redraw()
+	return true
+
+func _pick_up_one_at(local_pos: Vector2) -> bool:
+	var cell := Vector2i(floori(local_pos.x / CELL_SIZE), floori(local_pos.y / CELL_SIZE))
+	if cell.x < 0 or cell.y < 0 or cell.x >= inventory.width or cell.y >= inventory.height:
+		return false
+	var placed := _placed_at(cell)
+	if not placed or placed.quantity < 2:
+		return false
+	placed.quantity -= 1
+	inventory.changed.emit()
+	_held_item = placed.item
+	_held_quantity = 1
+	_held_rotation = placed.rotation
 	_update_held_icon()
 	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
 	_held_icon.visible = true
@@ -408,6 +439,23 @@ func _passes_filter(item: ItemBase) -> bool:
 
 func _is_in_grid(local_pos: Vector2) -> bool:
 	return Rect2(Vector2.ZERO, size).has_point(local_pos)
+
+func _try_use_hovered() -> bool:
+	if not _hovered or not _hovered.item is Consumable:
+		return false
+	var player := GameManager.player as Player
+	if not player:
+		return false
+	var consumable := _hovered.item as Consumable
+	if not consumable.use(player):
+		return false
+	if _hovered.quantity > 1:
+		_hovered.quantity -= 1
+		inventory.changed.emit()
+	else:
+		inventory.remove_placed(_hovered)
+		_clear_hover()
+	return true
 
 func has_held_item() -> bool:
 	return _held_item != null

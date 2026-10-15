@@ -27,11 +27,14 @@ static func _build_category_filters() -> Dictionary:
 @onready var weight_label: Label = %WeightLabel
 @onready var gold_label: Label = %GoldLabel
 @onready var close_btn: TextureButton = %CloseBtn
+@onready var character_label: Label = %CharacterLabel
 
 var _active_tab: StringName = &"all"
 var _search_text: String = ""
 
 func _on_open() -> void:
+	UIManager.close_screen(&"shop")
+	UIManager.close_screen(&"level_up")
 	UIManager.close_screen(&"item_spawner")
 	var player: Player = GameManager.player
 	if player:
@@ -39,7 +42,7 @@ func _on_open() -> void:
 		if equip_panel:
 			equip_panel.setup(player.equipment, grid)
 		if hotbar_strip:
-			hotbar_strip.setup(player.inventory)
+			hotbar_strip.setup(player.inventory, grid)
 		if info_panel:
 			info_panel.refresh_summary()
 		_refresh_header(player)
@@ -73,6 +76,7 @@ func _ready() -> void:
 		tab_bar.tab_changed.connect(set_category)
 	if search_input:
 		search_input.text_changed.connect(_on_search_changed)
+	Events.inventory_item_hovered.connect(_on_item_hovered)
 	Events.gold_changed.connect(func(amount: int) -> void:
 		if gold_label and visible:
 			gold_label.text = str(amount))
@@ -94,6 +98,10 @@ func set_category(category: StringName) -> void:
 func _on_search_changed(text: String) -> void:
 	_search_text = text.strip_edges().to_lower()
 	_update_filter()
+
+func _on_item_hovered(item: ItemBase) -> void:
+	if character_label:
+		character_label.text = "ITEM DETAILS" if item else "CHARACTER"
 
 func _update_filter() -> void:
 	var cat_filter: Callable = _category_filters.get(_active_tab, Callable())

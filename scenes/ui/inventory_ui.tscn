@@ -7,13 +7,21 @@
 [ext_resource type="Texture2D" uid="uid://cygvgr8dhevu2" path="res://assets/UI/inventory/weight_icon.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://8mnndcw50tw8" path="res://assets/UI/inventory/coin_icon.png" id="6"]
 [ext_resource type="PackedScene" uid="uid://de8wp60dfpn3m" path="res://scenes/ui/status_panel.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://scenes/ui/equipment_panel.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://befxil7ux4a7s" path="res://scenes/ui/equipment_panel.tscn" id="9"]
 [ext_resource type="Script" uid="uid://cmhn3n4vqst7d" path="res://scripts/ui/category_tab_bar.gd" id="10"]
 [ext_resource type="PackedScene" path="res://scenes/ui/page_controls.tscn" id="11"]
 [ext_resource type="Script" uid="uid://coy7wgf2y4f8v" path="res://scripts/ui/hotbar_strip.gd" id="12"]
+[ext_resource type="Texture2D" uid="uid://pk50ja311v57" path="res://assets/UI/inventory/status_decal_left.png" id="12_an4jt"]
+[ext_resource type="Texture2D" uid="uid://cxbesum8fh5ft" path="res://assets/UI/inventory/icon_inventory_diamond.png" id="12_jsywp"]
 [ext_resource type="PackedScene" uid="uid://b4r0vlw588srj" path="res://scenes/ui/item_detail_panel.tscn" id="13"]
+[ext_resource type="Texture2D" uid="uid://cg6xjrhhbyhd3" path="res://assets/UI/inventory/Cha_Sum_Decal_Left.png" id="13_4mu0n"]
+[ext_resource type="Texture2D" uid="uid://bkbw4acexse55" path="res://assets/UI/inventory/status_decal_right.png" id="13_g1qdc"]
+[ext_resource type="Texture2D" uid="uid://c81hvbqdr30qp" path="res://assets/UI/inventory/Search Icon.png" id="13_jwuib"]
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_panel.tscn" id="14"]
+[ext_resource type="Texture2D" uid="uid://bn5n405flmxeq" path="res://assets/UI/inventory/equipment_decal_left.png" id="14_4mu0n"]
 [ext_resource type="Texture2D" uid="uid://dm7ki0ss2ngo1" path="res://assets/UI/inventory/icon_inventory.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://rh4r78merapb" path="res://assets/UI/inventory/Cha_Sum_Decal_Left-2-Cha Sum Decal Right.png" id="15_1w7j3"]
+[ext_resource type="Texture2D" uid="uid://b47ap7cmhra57" path="res://assets/UI/inventory/equipment_decal_right.png" id="15_s2mmi"]
 [ext_resource type="Texture2D" uid="uid://b3gmxsalrrd80" path="res://assets/UI/inventory/search_border.png" id="16"]
 
 [node name="InventoryUI" type="Control" unique_id=1239144696]
@@ -28,7 +36,8 @@ screen_name = &"inventory"
 toggle_action = &"toggle_inventory"
 
 [node name="Layout" type="Control" parent="." unique_id=290401945]
-anchors_preset = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -57,7 +66,7 @@ script = ExtResource("2")
 
 [node name="EquipmentPanel" parent="Layout" unique_id=734386221 instance=ExtResource("9")]
 unique_name_in_owner = true
-anchors_preset = 0
+layout_mode = 0
 offset_left = 18.0
 offset_top = 112.0
 offset_right = 492.0
@@ -65,9 +74,9 @@ offset_bottom = 692.0
 
 [node name="StatusPanel" parent="Layout" unique_id=930750646 instance=ExtResource("8")]
 layout_mode = 0
-offset_left = 20.0
+offset_left = 24.0
 offset_top = 718.0
-offset_right = 488.0
+offset_right = 485.5
 offset_bottom = 938.0
 
 [node name="TabBar" type="Control" parent="Layout" unique_id=739730915]
@@ -99,9 +108,9 @@ script = ExtResource("12")
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 1248.0
-offset_top = 108.0
+offset_top = 155.0
 offset_right = 1668.0
-offset_bottom = 680.0
+offset_bottom = 652.0
 
 [node name="ControlsPanel" parent="Layout" unique_id=1597846038 instance=ExtResource("14")]
 anchors_preset = 0
@@ -110,42 +119,185 @@ offset_top = 704.0
 offset_right = 1664.0
 offset_bottom = 932.0
 
+[node name="EquipmentLabel" type="Label" parent="Layout" unique_id=518719112]
+layout_mode = 0
+offset_left = 180.5
+offset_top = 120.0
+offset_right = 326.5
+offset_bottom = 154.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "Equipmet"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Layout" unique_id=1715332904]
+layout_mode = 0
+offset_left = 203.5
+offset_top = 720.0
+offset_right = 300.0
+offset_bottom = 750.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 21
+text = "STATUS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CharacterLabel" type="Label" parent="Layout" unique_id=915822963]
+layout_mode = 0
+offset_left = 1338.5
+offset_top = 130.0
+offset_right = 1580.5
+offset_bottom = 161.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = "CHARACTER SUMMARY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlsLabel" type="Label" parent="Layout" unique_id=863723178]
+layout_mode = 0
+offset_left = 1258.0
+offset_top = 680.0
+offset_right = 1664.0
+offset_bottom = 704.0
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "CONTROLS"
+vertical_alignment = 1
+
 [node name="InventoryIcon" type="TextureRect" parent="Layout" unique_id=1204002629]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 76.0
-offset_bottom = 80.0
+offset_left = 37.0
+offset_top = 27.0
+offset_right = 89.0
+offset_bottom = 83.0
 texture = ExtResource("15")
+stretch_mode = 5
+
+[node name="Decal1" type="TextureRect" parent="Layout" unique_id=372245890]
+layout_mode = 0
+offset_left = 44.5
+offset_top = 723.0
+offset_right = 201.5
+offset_bottom = 749.0
+texture = ExtResource("12_an4jt")
+stretch_mode = 5
+
+[node name="Decal6" type="TextureRect" parent="Layout" unique_id=969104547]
+layout_mode = 0
+offset_left = 1253.4615
+offset_top = 138.0
+offset_right = 1356.1154
+offset_bottom = 155.0
+texture = ExtResource("13_4mu0n")
+stretch_mode = 5
+
+[node name="Decal2" type="TextureRect" parent="Layout" unique_id=1171978974]
+layout_mode = 0
+offset_left = 303.5
+offset_top = 723.0
+offset_right = 457.5
+offset_bottom = 749.0
+texture = ExtResource("13_g1qdc")
+stretch_mode = 5
+
+[node name="Decal5" type="TextureRect" parent="Layout" unique_id=893705028]
+layout_mode = 0
+offset_left = 1564.5
+offset_top = 138.0
+offset_right = 1664.5
+offset_bottom = 155.0
+texture = ExtResource("15_1w7j3")
+stretch_mode = 5
+
+[node name="Decal3" type="TextureRect" parent="Layout" unique_id=1595251440]
+layout_mode = 0
+offset_left = 38.5
+offset_top = 127.0
+offset_right = 189.46153
+offset_bottom = 152.0
+texture = ExtResource("14_4mu0n")
+stretch_mode = 5
+
+[node name="Decal4" type="TextureRect" parent="Layout" unique_id=514205077]
+layout_mode = 0
+offset_left = 321.4231
+offset_top = 127.0
+offset_right = 469.5
+offset_bottom = 152.0
+texture = ExtResource("15_s2mmi")
 stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="Layout" unique_id=881714008]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 28.0
-offset_right = 280.0
-offset_bottom = 76.0
+offset_left = 109.5
+offset_top = 37.0
+offset_right = 256.5
+offset_bottom = 73.0
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 26
 text = "INVENTORY"
 vertical_alignment = 1
 
-[node name="SearchBorder" type="TextureRect" parent="Layout" unique_id=1934676034]
+[node name="InvDiamondIcon" type="TextureRect" parent="Layout" unique_id=1584533931]
 layout_mode = 0
-offset_left = 860.0
-offset_top = 24.0
-offset_right = 1236.0
-offset_bottom = 80.0
+offset_left = 273.5
+offset_top = 36.0
+offset_right = 311.5
+offset_bottom = 74.0
+texture = ExtResource("12_jsywp")
+stretch_mode = 5
+
+[node name="Search" type="Control" parent="Layout" unique_id=1520308652]
+layout_mode = 1
+anchor_left = 0.202
+anchor_top = 0.025
+anchor_right = 0.42900002
+anchor_bottom = 0.09200001
+offset_left = 0.31497192
+offset_top = 0.14999962
+offset_right = 0.63494873
+offset_bottom = 0.23199463
+
+[node name="SearchIcon" type="TextureRect" parent="Layout/Search" unique_id=1804099246]
+layout_mode = 0
+offset_left = 16.5
+offset_top = 13.3076935
+offset_right = 49.5
+offset_bottom = 48.84616
+texture = ExtResource("13_jwuib")
+stretch_mode = 5
+
+[node name="SearchBorder" type="TextureRect" parent="Layout/Search" unique_id=1934676034]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.98200005
+anchor_bottom = 0.93700004
+offset_left = 0.81500244
+offset_top = 1.0
+offset_right = -0.10934448
+offset_bottom = 0.03199768
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("16")
 stretch_mode = 6
 
-[node name="SearchInput" type="LineEdit" parent="Layout" unique_id=1884291931]
+[node name="SearchInput" type="LineEdit" parent="Layout/Search" unique_id=1884291931]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 872.0
-offset_top = 28.0
-offset_right = 1228.0
-offset_bottom = 76.0
+offset_left = 55.815002
+offset_top = 7.0
+offset_right = 368.5
+offset_bottom = 55.0
 theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
 theme_override_colors/font_placeholder_color = Color(0.55, 0.48, 0.4, 0.7)
 theme_override_font_sizes/font_size = 18

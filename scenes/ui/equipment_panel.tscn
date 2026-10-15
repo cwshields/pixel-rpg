@@ -1,36 +1,42 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3 uid="uid://befxil7ux4a7s"]
 
 [ext_resource type="Script" uid="uid://c68f0iw28gauy" path="res://scripts/ui/equipment_panel.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b0p31upex0our" path="res://assets/UI/inventory/equip_slot_small.png" id="small"]
+[ext_resource type="Texture2D" uid="uid://cqop8ueuexps2" path="res://assets/UI/inventory/equip_slot_feet.png" id="feet"]
+[ext_resource type="Texture2D" uid="uid://d0ubu7w2egrlh" path="res://assets/UI/inventory/equip_gloves.png" id="gloves"]
 [ext_resource type="Texture2D" uid="uid://p5kw7go6j14y" path="res://assets/UI/inventory/equip_slot_head.png" id="head"]
-[ext_resource type="Texture2D" uid="uid://tg2dms07pgfi" path="res://assets/UI/inventory/equip_slot_torso.png" id="torso"]
 [ext_resource type="Texture2D" uid="uid://bni0sbst5jm3g" path="res://assets/UI/inventory/equip_primary_hand.png" id="primary"]
 [ext_resource type="Texture2D" uid="uid://b2q6w6rxmp6jt" path="res://assets/UI/inventory/equip_secondary_hand.png" id="secondary"]
-[ext_resource type="Texture2D" uid="uid://d0ubu7w2egrlh" path="res://assets/UI/inventory/equip_gloves.png" id="gloves"]
-[ext_resource type="Texture2D" uid="uid://cqop8ueuexps2" path="res://assets/UI/inventory/equip_slot_feet.png" id="feet"]
+[ext_resource type="Texture2D" uid="uid://b0p31upex0our" path="res://assets/UI/inventory/equip_slot_small.png" id="small"]
+[ext_resource type="Texture2D" uid="uid://tg2dms07pgfi" path="res://assets/UI/inventory/equip_slot_torso.png" id="torso"]
 
-[node name="EquipmentPanel" type="Control"]
+[node name="EquipmentPanel" type="Control" unique_id=1834225908]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1")
 
-[node name="RuneStone" type="Control" parent="."]
+[node name="RuneStone" type="Control" parent="." unique_id=1545651406]
+anchors_preset = 0
 offset_left = 78.0
 offset_top = 52.0
 offset_right = 162.0
 offset_bottom = 136.0
 
-[node name="Border" type="TextureRect" parent="RuneStone"]
+[node name="Border" type="TextureRect" parent="RuneStone" unique_id=210674410]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 12.0
+offset_right = 2.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("small")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="RuneStone"]
+[node name="Icon" type="TextureRect" parent="RuneStone" unique_id=732701780]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -39,38 +45,48 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="RuneStone"]
+[node name="Hover" type="ColorRect" parent="RuneStone" unique_id=1109115431]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.10700001
+anchor_top = 0.238
+anchor_right = 0.929
+anchor_bottom = 1.0480001
+offset_left = 0.01199913
+offset_top = 0.00799942
+offset_right = -0.036003113
+offset_bottom = -0.03200531
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="Head" type="Control" parent="."]
+[node name="Head" type="Control" parent="." unique_id=2037185844]
+anchors_preset = 0
 offset_left = 168.0
 offset_top = 52.0
 offset_right = 306.0
 offset_bottom = 188.0
 
-[node name="Border" type="TextureRect" parent="Head"]
+[node name="Border" type="TextureRect" parent="Head" unique_id=1504301775]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 6.088234
+offset_top = -2.0
+offset_right = -9.132355
+offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("head")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="Head"]
+[node name="Icon" type="TextureRect" parent="Head" unique_id=750533712]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -79,38 +95,46 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="Head"]
+[node name="Hover" type="ColorRect" parent="Head" unique_id=1382841748]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.094000004
+anchor_top = 0.037
+anchor_right = 0.88400006
+anchor_bottom = 0.83100003
+offset_left = 0.027999878
+offset_top = -0.032000065
+offset_right = 0.007987976
+offset_bottom = -0.01600647
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="Amulet" type="Control" parent="."]
+[node name="Amulet" type="Control" parent="." unique_id=1637576359]
+anchors_preset = 0
 offset_left = 310.0
 offset_top = 52.0
 offset_right = 394.0
 offset_bottom = 136.0
 
-[node name="Border" type="TextureRect" parent="Amulet"]
+[node name="Border" type="TextureRect" parent="Amulet" unique_id=1404538324]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("small")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="Amulet"]
+[node name="Icon" type="TextureRect" parent="Amulet" unique_id=885291820]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -119,38 +143,47 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="Amulet"]
+[node name="Hover" type="ColorRect" parent="Amulet" unique_id=2196786]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.095000006
+anchor_top = 0.22600001
+anchor_right = 0.90500003
+anchor_bottom = 1.036
+offset_left = 0.019999504
+offset_top = 0.01599884
+offset_right = -0.020004272
+offset_bottom = -0.024002075
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="PrimaryHand" type="Control" parent="."]
+[node name="PrimaryHand" type="Control" parent="." unique_id=839835297]
+anchors_preset = 0
 offset_left = 12.0
 offset_top = 164.0
 offset_right = 146.0
 offset_bottom = 420.0
 
-[node name="Border" type="TextureRect" parent="PrimaryHand"]
+[node name="Border" type="TextureRect" parent="PrimaryHand" unique_id=1551696640]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 11.462692
+offset_right = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("primary")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="PrimaryHand"]
+[node name="Icon" type="TextureRect" parent="PrimaryHand" unique_id=1369618525]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -159,38 +192,46 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="PrimaryHand"]
+[node name="Hover" type="ColorRect" parent="PrimaryHand" unique_id=1689469715]
 visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = 18.0
+offset_right = -1.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="Chest" type="Control" parent="."]
+[node name="Chest" type="Control" parent="." unique_id=360863756]
+anchors_preset = 0
 offset_left = 150.0
 offset_top = 194.0
 offset_right = 322.0
 offset_bottom = 450.0
 
-[node name="Border" type="TextureRect" parent="Chest"]
+[node name="Border" type="TextureRect" parent="Chest" unique_id=566502586]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -0.5813904
+offset_right = -7.0
+offset_bottom = -16.953491
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("torso")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="Chest"]
+[node name="Icon" type="TextureRect" parent="Chest" unique_id=1844167127]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -199,38 +240,45 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="Chest"]
+[node name="Hover" type="ColorRect" parent="Chest" unique_id=1345910688]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.09900001
+anchor_top = 0.023000002
+anchor_right = 0.924
+anchor_bottom = 0.91
+offset_left = -0.028001785
+offset_top = 0.11199951
+offset_right = 0.07199097
+offset_bottom = 0.039993286
 color = Color(1, 1, 1, 0.18)
 
-[node name="OffHand" type="Control" parent="."]
+[node name="OffHand" type="Control" parent="." unique_id=1855979093]
+anchors_preset = 0
 offset_left = 330.0
 offset_top = 164.0
 offset_right = 464.0
 offset_bottom = 420.0
 
-[node name="Border" type="TextureRect" parent="OffHand"]
+[node name="Border" type="TextureRect" parent="OffHand" unique_id=1502216595]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = 8.0
+offset_right = -13.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("secondary")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="OffHand"]
+[node name="Icon" type="TextureRect" parent="OffHand" unique_id=1291156486]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -239,38 +287,46 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="OffHand"]
+[node name="Hover" type="ColorRect" parent="OffHand" unique_id=464888270]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.062000003
+anchor_right = 0.84300005
+anchor_bottom = 0.96900004
+offset_top = 0.1279993
+offset_right = 0.037994385
+offset_bottom = -0.06401062
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="Gauntlets" type="Control" parent="."]
+[node name="Gauntlets" type="Control" parent="." unique_id=657963229]
+anchors_preset = 0
 offset_left = 12.0
 offset_top = 426.0
 offset_right = 146.0
 offset_bottom = 562.0
 
-[node name="Border" type="TextureRect" parent="Gauntlets"]
+[node name="Border" type="TextureRect" parent="Gauntlets" unique_id=1101952216]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 2.0298462
+offset_right = 6.0
+offset_bottom = -4.0597076
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("gloves")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="Gauntlets"]
+[node name="Icon" type="TextureRect" parent="Gauntlets" unique_id=1431325406]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -279,38 +335,48 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="Gauntlets"]
+[node name="Hover" type="ColorRect" parent="Gauntlets" unique_id=31661971]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.142
+anchor_top = 0.066
+anchor_right = 0.99300003
+anchor_bottom = 0.919
+offset_left = -0.027999878
+offset_top = 0.024000168
+offset_right = -0.06201172
+offset_bottom = 0.01599884
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="Ring1" type="Control" parent="."]
+[node name="Ring1" type="Control" parent="." unique_id=980602227]
+anchors_preset = 0
 offset_left = 150.0
 offset_top = 454.0
 offset_right = 234.0
 offset_bottom = 538.0
 
-[node name="Border" type="TextureRect" parent="Ring1"]
+[node name="Border" type="TextureRect" parent="Ring1" unique_id=479379542]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -3.0
+offset_right = -1.0
+offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("small")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="Ring1"]
+[node name="Icon" type="TextureRect" parent="Ring1" unique_id=521602008]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -319,38 +385,47 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="Ring1"]
+[node name="Hover" type="ColorRect" parent="Ring1" unique_id=307332689]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.202
+anchor_top = 0.048
+anchor_right = 0.90500003
+anchor_bottom = 0.75000006
+offset_left = 0.031999588
+offset_top = -0.032000065
+offset_right = -0.020004272
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="Ring2" type="Control" parent="."]
+[node name="Ring2" type="Control" parent="." unique_id=2092183591]
+anchors_preset = 0
 offset_left = 238.0
 offset_top = 454.0
 offset_right = 322.0
 offset_bottom = 538.0
 
-[node name="Border" type="TextureRect" parent="Ring2"]
+[node name="Border" type="TextureRect" parent="Ring2" unique_id=305227699]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -3.0
+offset_right = -9.0
+offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("small")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="Ring2"]
+[node name="Icon" type="TextureRect" parent="Ring2" unique_id=146941507]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -359,38 +434,48 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="Ring2"]
+[node name="Hover" type="ColorRect" parent="Ring2" unique_id=477755145]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.095000006
+anchor_top = 0.048
+anchor_right = 0.82100004
+anchor_bottom = 0.762
+offset_left = 0.019999504
+offset_top = -0.032000065
+offset_right = 0.035995483
+offset_bottom = -0.008003235
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
 
-[node name="Feet" type="Control" parent="."]
+[node name="Feet" type="Control" parent="." unique_id=1953108762]
+anchors_preset = 0
 offset_left = 328.0
 offset_top = 426.0
 offset_right = 462.0
 offset_bottom = 562.0
 
-[node name="Border" type="TextureRect" parent="Feet"]
+[node name="Border" type="TextureRect" parent="Feet" unique_id=239314638]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = 2.0298462
+offset_right = -11.0
+offset_bottom = -3.0447845
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("feet")
-stretch_mode = 0
-texture_filter = 0
 
-[node name="Icon" type="TextureRect" parent="Feet"]
+[node name="Icon" type="TextureRect" parent="Feet" unique_id=2044099056]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -399,15 +484,21 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 5
 expand_mode = 1
-texture_filter = 0
+stretch_mode = 5
 
-[node name="Hover" type="ColorRect" parent="Feet"]
+[node name="Hover" type="ColorRect" parent="Feet" unique_id=705971850]
 visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.015000001
+anchor_top = 0.074
+anchor_right = 0.85800004
+anchor_bottom = 0.919
+offset_left = -0.00999999
+offset_top = -0.06400013
+offset_right = 0.027992249
+offset_bottom = 0.01599884
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.18)
