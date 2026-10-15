@@ -21,10 +21,7 @@ polygon = PackedVector2Array(-2, -15, 19, -6, 10, 1, -13, 1, -21, -5)
 [node name="CollisionPolygon2D" parent="HoverArea" parent_id_path=PackedInt32Array(1802839217) index="0" unique_id=1147296405]
 polygon = PackedVector2Array(-21, -16, -12, -24, -5, -26, 1, -26, 14, -22, 20, -18, 20, -10, 10, -3, -13, -3, -21, -8)
 
-[node name="FadeArea" parent="." index="3" unique_id=1996582106]
-visible = true
-
-[node name="CollisionPolygon2D" parent="FadeArea" index="0" unique_id=1996582107]
+[node name="CollisionPolygon2D" parent="FadeArea" parent_id_path=PackedInt32Array(1996582106) index="0" unique_id=1996582107]
 polygon = PackedVector2Array(-21, -9, -16, -15, -2, -23, 16, -16, 19, -10)
 
 [node name="CollisionPolygon2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(1996582104) index="0" unique_id=1996582105]

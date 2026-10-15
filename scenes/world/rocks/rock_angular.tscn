@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://cgjt1h80i8x72"]
 
 [ext_resource type="PackedScene" uid="uid://t6fkmppxl61v" path="res://scenes/world/rock.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://rxkfcslljpn3" path="res://assets/Environment/Props/Static/Rock-ruins.png" id="2"]
@@ -7,22 +7,22 @@
 atlas = ExtResource("2")
 region = Rect2(50, 58, 46, 34)
 
-[node name="RockAngular" instance=ExtResource("1")]
+[node name="RockAngular" unique_id=1712749918 instance=ExtResource("1")]
 
-[node name="Sprite2D" parent="."]
+[node name="Sprite2D" parent="." index="0" unique_id=1813067117]
 position = Vector2(0, -15)
 scale = Vector2(1, 1)
 texture = SubResource("AtlasTexture_art")
 
-[node name="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="CollisionPolygon2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(1277448644) index="0" unique_id=1524186549]
 position = Vector2(0, 0)
 polygon = PackedVector2Array(-23, -8, -19, -13, 17, -13, 22, -6, 22, -3, 12, 2, 6, 2, -20, -3)
 
-[node name="CollisionPolygon2D" parent="HoverArea"]
+[node name="CollisionPolygon2D" parent="HoverArea" parent_id_path=PackedInt32Array(1802839217) index="0" unique_id=1147296405]
 polygon = PackedVector2Array(-23, -13, -17, -28, -13, -32, -2, -37, 9, -37, 15, -32, 22, -8, 12, -3, 6, -3, -20, -8)
 
-[node name="CollisionPolygon2D" parent="FadeArea"]
-polygon = PackedVector2Array(-23, -12, -17, -27, -13, -31, -2, -36, 9, -36, 15, -31, 22, -7, 14, -3, 0, -3, -20, -7)
+[node name="CollisionPolygon2D" parent="FadeArea" parent_id_path=PackedInt32Array(1996582106) index="0" unique_id=1996582107]
+polygon = PackedVector2Array(-20, -14, -15, -19, -13, -26, -7, -28, 0, -32, 8, -32, 12, -23, 17, -14)
 
-[node name="CollisionPolygon2D" parent="HurtboxComponent"]
+[node name="CollisionPolygon2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(1996582104) index="0" unique_id=1996582105]
 polygon = PackedVector2Array(-23, -13, -17, -28, -13, -32, -2, -37, 9, -37, 15, -32, 22, -8, 12, -3, 6, -3, -20, -8)
