@@ -1,21 +1,15 @@
 class_name Hotbar
 extends Control
-## Always-on-screen tool bar, laid over the bottom-centre bar art. Shows
-## the first `slot_count` slots of GameManager.player's inventory, with a
-## highlighted "active" slot the player picks by:
+## Always-on-screen consumable/ability bar, laid over the bottom-centre
+## bar art. Each slot is manually assigned by the player from the inventory
+## screen (no autofill). Shows the assigned item's icon and the quantity
+## available in inventory. The highlighted "active" slot is picked by:
 ##   * pressing a number key (1..9 -> slot 0..8), or
 ##   * scrolling the mouse wheel (wraps around).
-## The active slot is broadcast on Events.hotbar_selection_changed so a
-## future "use held tool" system can react without knowing about this UI.
+## The active slot is broadcast on Events.hotbar_selection_changed.
 ##
 ## Hides itself whenever any UIManager screen (inventory, pause...) is
 ## open, and ignores input while not PLAYING.
-##
-## The slot cells, frame and gauges are all painted into the parent
-## TextureRect's art (Hotbar-UI-final.png, authored at 256x41, drawn 3x).
-## This node just drops interactive HotbarSlots on top of the eight baked
-## cells — four either side of the mana orb — and lets the art show
-## through except for the selected slot's highlight.
 
 const SLOT_TEX := "res://assets/UI/kit/slot_hotbar.png"
 const SLOT_TEX_SELECTED := "res://assets/UI/kit/slot_hotbar_selected.png"
@@ -60,6 +54,7 @@ func _ready() -> void:
 
 	Events.player_spawned.connect(_on_player_spawned)
 	Events.ui_toggled.connect(_on_ui_toggled)
+	Events.hotbar_slot_changed.connect(_on_hotbar_slot_changed)
 
 	_on_player_spawned(GameManager.player)
 	_apply_selection()
@@ -104,13 +99,13 @@ func get_selected_item() -> ItemBase:
 func refresh() -> void:
 	var player := GameManager.player as Player
 	for i in _slots.size():
-		var placed: Inventory.PlacedItem = null
-		if player and i < player.inventory.items.size():
-			placed = player.inventory.items[i]
-		if placed:
-			_slots[i].set_item(placed.item, placed.quantity)
-		else:
-			_slots[i].set_item(null, 0)
+		var item: ItemBase = null
+		var qty := 0
+		if player and i < player.hotbar_slots.size():
+			item = player.hotbar_slots[i]
+			if item:
+				qty = player.inventory.count_item(item.id)
+		_slots[i].set_item(item, qty)
 
 func _apply_selection() -> void:
 	for i in _slots.size():
@@ -118,12 +113,15 @@ func _apply_selection() -> void:
 
 func _current_item() -> ItemBase:
 	var player := GameManager.player as Player
-	if player and _selected < player.inventory.items.size():
-		return player.inventory.items[_selected].item
+	if player and _selected < player.hotbar_slots.size():
+		return player.hotbar_slots[_selected]
 	return null
 
 func _on_ui_toggled(_screen_name: StringName, _is_open: bool) -> void:
 	visible = not UIManager.is_any_open()
+
+func _on_hotbar_slot_changed(_index: int, _item: ItemBase) -> void:
+	refresh()
 
 ## Binds `refresh()` to the current player's own Inventory.changed signal
 ## instead of a global broadcast — Inventory no longer emits one, since a
