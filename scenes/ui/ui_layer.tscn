@@ -5,6 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cqus2wnwx6no5" path="res://scenes/ui/inventory_ui.tscn" id="3_3s0y6"]
 [ext_resource type="PackedScene" uid="uid://cb5rhbtk161xp" path="res://scenes/ui/item_spawner_ui.tscn" id="4_yg43r"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="5_42r3o"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_ui.tscn" id="6_dlg"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_ui.tscn" id="7_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/level_up_ui.tscn" id="8_lvlup"]
 
 [node name="UILayer" type="CanvasLayer" unique_id=79373571]
 
@@ -19,4 +22,9 @@
 [node name="PauseMenu" parent="." unique_id=472383004 instance=ExtResource("5_42r3o")]
 layout_mode = 3
 anchors_preset = 15
-pause_game = false
+
+[node name="DialogueUI" parent="." instance=ExtResource("6_dlg")]
+
+[node name="ShopUI" parent="." instance=ExtResource("7_shop")]
+
+[node name="LevelUpUI" parent="." instance=ExtResource("8_lvlup")]

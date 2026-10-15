@@ -4,13 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://cwwmosywg3e7t" path="res://Tilesets/Size_02.png" id="4_gfkxl"]
 [ext_resource type="PackedScene" uid="uid://b2bk3idmnmayg" path="res://scenes/entities/player/player.tscn" id="10_u2u5e"]
 [ext_resource type="PackedScene" uid="uid://bu5w5q6jwikdn" path="res://scenes/world/tree.tscn" id="12_kpsmc"]
-[ext_resource type="PackedScene" path="res://scenes/entities/critter/critter_base.tscn" id="14_fv21b"]
-[ext_resource type="SpriteFrames" uid="uid://ccmgupmxl0p83" path="res://resources/characters/animals/fox_sprite_frames.tres" id="15_tel4y"]
-[ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="16_qkpxi"]
-[ext_resource type="Script" uid="uid://c5xs2l0uo1qdy" path="res://scripts/components/hunter_component.gd" id="17_5q0nq"]
+[ext_resource type="PackedScene" path="res://scenes/entities/critter/fox.tscn" id="15_fox"]
 [ext_resource type="PackedScene" path="res://scenes/world/enemy_spawner.tscn" id="17_spwnr"]
-[ext_resource type="Script" uid="uid://d42ocvu8fh7h" path="res://scripts/entities/critter/states/critter_chase_state.gd" id="18_dgi5k"]
-[ext_resource type="Script" uid="uid://cf1f7im7176bi" path="res://scripts/entities/critter/states/critter_attack_state.gd" id="19_j8jky"]
 [ext_resource type="PackedScene" uid="uid://bjdgjrmfpvgbh" path="res://scenes/entities/enemy/wolf.tscn" id="20_tel4y"]
 [ext_resource type="Texture2D" uid="uid://ce58sknk7lgwi" path="res://assets/Environment/Structures/Buildings/aNwLIs_frames/aNwLIs_frame00_isolated_cropped.png" id="21_jscy8"]
 [ext_resource type="PackedScene" uid="uid://clpj3qb3ba2r1" path="res://scenes/ui/cursor.tscn" id="22_cursor"]
@@ -24,39 +19,12 @@
 [ext_resource type="PackedScene" uid="uid://c8jthip8ikdkl" path="res://scenes/entities/critter/black_grouse.tscn" id="30_grouse"]
 [ext_resource type="TileSet" uid="uid://c06lwb023nreq" path="res://resources/tilesets/rock_scenes.tres" id="37_fuf3a"]
 [ext_resource type="PackedScene" uid="uid://r0b70hcst82n" path="res://scenes/world/world.scn" id="40_world"]
+[ext_resource type="PackedScene" uid="uid://c5d53qcuhid5e" path="res://scenes/entities/npc/merchant_peasant.tscn" id="merchant_peasant"]
 [ext_resource type="PackedScene" uid="uid://b5wrhol0b8hfj" path="res://scenes/world/trees/tree_large.tscn" id="tv_large"]
 [ext_resource type="PackedScene" uid="uid://bhhpmuo8st1pc" path="res://scenes/world/trees/tree_medium.tscn" id="tv_medium"]
 [ext_resource type="PackedScene" uid="uid://dhaj1cdp2b3g8" path="res://scenes/world/trees/tree_small_a.tscn" id="tv_small_a"]
 [ext_resource type="PackedScene" uid="uid://yxp2j2w0xdkx" path="res://scenes/world/trees/tree_small_b.tscn" id="tv_small_b"]
 [ext_resource type="PackedScene" uid="uid://wjumdwb2gk1m" path="res://scenes/world/trees/tree_small_c.tscn" id="tv_small_c"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fox_body"]
-size = Vector2(12, 10)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fox_hurt"]
-size = Vector2(14, 14)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_fox_detect"]
-radius = 90.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fox_hit"]
-size = Vector2(12, 9)
-
-[sub_resource type="PackedScene" id="PackedScene_kmb1v"]
-_bundled = {
-"base_scene": 0,
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"id_paths": [PackedInt32Array(), PackedInt32Array(), PackedInt32Array(), PackedInt32Array(), PackedInt32Array(), PackedInt32Array(), PackedInt32Array(), PackedInt32Array(), PackedInt32Array(), PackedInt32Array()],
-"names": PackedStringArray("Fox", "move_speed", "sprint_speed", "wander_radius", "AnimatedSprite2D", "sprite_frames", "animation", "CollisionShape2D", "shape", "HealthComponent", "max_health", "CollisionShape2D", "shape", "CollisionShape2D", "shape", "HitboxComponent", "Area2D", "collision_layer", "collision_mask", "monitoring", "script", "damage", "CollisionShape2D", "CollisionShape2D", "shape", "HunterComponent", "Node", "script", "prey_group", "Chase", "Node", "script", "giveup_time", "Attack", "Node", "script"),
-"node_count": 11,
-"node_ids": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"node_paths": [NodePath("."), NodePath("."), NodePath("."), NodePath("./HurtboxComponent"), NodePath("./DetectionArea"), NodePath("."), NodePath("./HitboxComponent"), NodePath("."), NodePath("./StateMachine"), NodePath("./StateMachine")],
-"nodes": PackedInt32Array(-1, -1, 2147483647, 0, -1, 3, 1, 1, 2, 2, 3, 3, 0, 1073741824, -1, 2147483647, 4, -1, 2, 5, 4, 6, 5, 0, 1073741825, -1, 2147483647, 7, -1, 1, 8, 6, 0, 1073741826, -1, 2147483647, 9, -1, 1, 10, 7, 0, 1073741827, -1, 2147483647, 11, -1, 1, 12, 8, 0, 1073741828, -1, 2147483647, 13, -1, 1, 14, 9, 0, 1073741829, 0, 16, 1835023, -1, 5, 17, 10, 18, 11, 19, 12, 20, 13, 21, 14, 0, 1073741830, 0, 23, 22, -1, 1, 24, 15, 0, 1073741831, 0, 26, 2097177, -1, 2, 27, 16, 28, 17, 0, 1073741832, 0, 30, 1572893, -1, 2, 31, 18, 32, 19, 0, 1073741833, 0, 34, 1835041, -1, 1, 35, 20, 0),
-"variants": [ExtResource("14_fv21b"), 40.0, 140.0, 70.0, ExtResource("15_tel4y"), &"idle_down", SubResource("RectangleShape2D_fox_body"), 10.0, SubResource("RectangleShape2D_fox_hurt"), SubResource("CircleShape2D_fox_detect"), 0, 4, false, ExtResource("16_qkpxi"), 8.0, SubResource("RectangleShape2D_fox_hit"), ExtResource("17_5q0nq"), &"hares", ExtResource("18_dgi5k"), 15.0, ExtResource("19_j8jky")],
-"version": 3
-}
 
 [node name="Main" type="Node2D" unique_id=816002242]
 script = ExtResource("1_w0ke7")
@@ -66,7 +34,11 @@ script = ExtResource("1_w0ke7")
 [node name="Entities" type="Node2D" parent="." unique_id=583179709]
 
 [node name="Player" parent="Entities" unique_id=1087868956 instance=ExtResource("10_u2u5e")]
-position = Vector2(-343, -105)
+position = Vector2(-76, -562)
+
+[node name="Merchant" parent="Entities" unique_id=244868271 instance=ExtResource("merchant_peasant")]
+z_index = 1
+position = Vector2(-50, -662)
 
 [node name="Trees" type="Node2D" parent="." unique_id=775827253]
 y_sort_enabled = true
@@ -108,7 +80,7 @@ position = Vector2(536, 0)
 position = Vector2(163, -213)
 
 [node name="PaintedTree_-2_4" parent="Trees/PaintedTrees" unique_id=1515573914 instance=ExtResource("12_kpsmc")]
-position = Vector2(-19, 57)
+position = Vector2(30, 40)
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(0, 32, 16, 16)
 art_offset = Vector2(0, -8)
@@ -361,15 +333,21 @@ position = Vector2(1268, -405)
 
 [node name="EnemySpawner2" parent="Spawners" unique_id=211162856 instance=ExtResource("17_spwnr")]
 position = Vector2(-633, -123)
-max_alive = 1
+spawn_count = 2
+max_alive = 2
+respawn_delay = 4.0
 
 [node name="EnemySpawner3" parent="Spawners" unique_id=518608302 instance=ExtResource("17_spwnr")]
 position = Vector2(-634, -176)
-max_alive = 1
+spawn_count = 2
+max_alive = 2
+respawn_delay = 4.0
 
 [node name="EnemySpawner" parent="Spawners" unique_id=774193057 instance=ExtResource("17_spwnr")]
 position = Vector2(-656, -217)
-max_alive = 1
+spawn_count = 2
+max_alive = 2
+respawn_delay = 4.0
 
 [node name="HareSpawner" parent="Spawners" unique_id=1374904734 instance=ExtResource("30_crspwn")]
 position = Vector2(150, 220)
@@ -378,7 +356,7 @@ max_alive = 2
 
 [node name="FoxSpawner" parent="Spawners" unique_id=1309299265 instance=ExtResource("30_crspwn")]
 position = Vector2(-150, 100)
-entity_scene = SubResource("PackedScene_kmb1v")
+entity_scene = ExtResource("15_fox")
 max_alive = 1
 
 [node name="WolfSpawner" parent="Spawners" unique_id=1062465215 instance=ExtResource("30_crspwn")]
@@ -447,8 +425,8 @@ collision_layer = 0
 monitorable = false
 
 [node name="@CollisionPolygon2D@34152" type="CollisionPolygon2D" parent="Buildings/Cottage2/FadeArea" unique_id=579846423]
-position = Vector2(-12.320158, -13.325049)
-polygon = PackedVector2Array(-76.139595, 64.28556, -76.139595, -17.443542, -52.101616, -28.981812, -52.101616, -59.750366, -34.794273, -59.750366, -34.794273, -37.635437, 12.320168, -59.750366, 97.89537, -17.443542, 98.856895, 65.24707, 84.434105, 57.55493, -59.79377, 52.74729)
+position = Vector2(-12.32, -13.325)
+polygon = PackedVector2Array(-76.139595, 65.24707, -76.139595, -17.443542, -52.101616, -28.981812, -52.101616, -59.750366, -34.794273, -59.750366, -34.794273, -37.635437, 12.320168, -59.750366, 97.89537, -17.443542, 98.856895, 65.24707, 84.434105, 55.631897, -60.755287, 55.631897)
 
 [node name="Cottage3" type="Sprite2D" parent="Buildings" unique_id=1440174255]
 position = Vector2(309, -842)
@@ -491,5 +469,5 @@ polygon = PackedVector2Array(-71.93707, 67.766785, -86.53302, 82.36273, -86.5330
 
 [node name="RockTiles" type="TileMapLayer" parent="." unique_id=521094306]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AADV/wIAAAAAAAAAAgDd/wQAAAAAAAAABgDk/wwAAAAAAAAADADZ/w0AAAAAAAAABADM/wgAAAAAAAAAAQDG/woAAAAAAAAAAwD7//X/AAAAAAAADADN//X/AAAAAAAABQADAA4AAAAAAAAABQA=")
+tile_map_data = PackedByteArray("AADV/wIAAAAAAAAAAgDk/wwAAAAAAAAADAADAA4AAAAAAAAABQAcAPb/AAAAAAAAAQDb/w0AAAAAAAAABADH/+D/AAAAAAAABQAtAPD/AAAAAAAAAwAWAOX/AAAAAAAAAQAPAAAAAAAAAAAABgAGAPj/AAAAAAAADAA=")
 tile_set = ExtResource("37_fuf3a")

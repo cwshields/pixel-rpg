@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c5d53qcuhid5e"]
+
+[ext_resource type="PackedScene" path="res://scenes/entities/npc/npc_base.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://dbtnup0wl7e7h" path="res://scripts/entities/npc/merchant_npc.gd" id="2_script"]
+[ext_resource type="SpriteFrames" uid="uid://b5l5a7m0xx1kc" path="res://resources/characters/npcs/citizen_peasant_a_sprite_frames.tres" id="3_frames"]
+[ext_resource type="Script" uid="uid://bajen3r37gg2d" path="res://scripts/items/item_base.gd" id="4_item_base"]
+[ext_resource type="Resource" uid="uid://doqi8a55mmmla" path="res://resources/items/weapons/iron_sword.tres" id="5_iron_sword"]
+[ext_resource type="Resource" uid="uid://h3u3j1vbasud" path="res://resources/items/weapons/iron_dagger.tres" id="6_iron_dagger"]
+[ext_resource type="Resource" uid="uid://c6usilosebvrm" path="res://resources/items/armor/leather_armor.tres" id="7_leather_armor"]
+[ext_resource type="Resource" uid="uid://b8s0d4min806v" path="res://resources/items/armor/iron_helm.tres" id="8_iron_helm"]
+[ext_resource type="Resource" uid="uid://bcjgdddkehxmt" path="res://resources/items/consumables/lesser_health_potion.tres" id="9_health_potion"]
+[ext_resource type="Resource" uid="uid://davwanycwuru8" path="res://resources/items/consumables/stamina_potion.tres" id="10_stamina_potion"]
+[ext_resource type="Resource" uid="uid://bwfmgt60pymy4" path="res://resources/items/consumables/light_health_potion.tres" id="11_light_hp"]
+[ext_resource type="Resource" uid="uid://cgd6s3aatqha1" path="res://resources/items/consumables/greater_health_potion.tres" id="12_greater_hp"]
+
+[node name="MerchantPeasant" unique_id=624067566 instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+shop_items = Array[ExtResource("4_item_base")]([ExtResource("5_iron_sword"), ExtResource("6_iron_dagger"), ExtResource("7_leather_armor"), ExtResource("8_iron_helm"), ExtResource("9_health_potion"), ExtResource("9_health_potion"), ExtResource("9_health_potion"), ExtResource("11_light_hp"), ExtResource("11_light_hp"), ExtResource("12_greater_hp"), ExtResource("10_stamina_potion"), ExtResource("10_stamina_potion"), ExtResource("10_stamina_potion")])
+buy_markup = 1.0
+npc_name = "Elara"
+dialogue_lines = Array[String](["Welcome, traveler! Take a look at my wares."])
+gossip_lines = Array[String](["They say wolves have been seen closer to town lately.", "The blacksmith's been busy forging blades for the guard.", "I heard a strange noise from the old ruins last night.", "Trade's been slow since the roads got dangerous.", "A merchant from the east brought rare spices last week."])
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = ExtResource("3_frames")
+
+[node name="CollisionShape2D" parent="." index="1"]
+visible = false
+position = Vector2(0, 10)
+scale = Vector2(1, 1.2)
+
+[node name="InteractionComponent" parent="." index="2"]
+visible = false
+
+[node name="CollisionShape2D" parent="InteractionComponent" index="0"]
+scale = Vector2(1.2176517, 1.2176517)
