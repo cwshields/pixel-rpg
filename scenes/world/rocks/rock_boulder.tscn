@@ -16,9 +16,3 @@ texture = SubResource("AtlasTexture_art")
 [node name="CollisionPolygon2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(1277448644) index="0" unique_id=1524186549]
 position = Vector2(0, -8)
 polygon = PackedVector2Array(17.118, 1.696, 8, 8, -8, 8, -19.585594, 1.3879547, -18.968727, -6.631344, -5.397606, -8, 16.192814, -6.9397774)
-
-[node name="HoverArea" parent="." index="2" unique_id=1802839217]
-visible = false
-
-[node name="HurtboxComponent" parent="." index="5" unique_id=1996582104]
-visible = false

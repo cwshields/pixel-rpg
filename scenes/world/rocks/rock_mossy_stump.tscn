@@ -13,7 +13,10 @@ region = Rect2(0, 128, 48, 48)
 position = Vector2(0, -15)
 texture = SubResource("AtlasTexture_art")
 
-[node name="CollisionPolygon2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(1277448644) index="0" unique_id=1524186549]
+[node name="StaticBody2D" parent="." index="1" unique_id=1277448644]
+visible = false
+
+[node name="CollisionPolygon2D" parent="StaticBody2D" index="0" unique_id=1524186549]
 position = Vector2(0, -8)
 polygon = PackedVector2Array(17, 6, 9.749781, 8.966318, -10.272093, 8.444006, -18, 5, -14.45057, -2.8727036, -0.17410278, -3.3950138, 15.843393, -2.6986008)
 
@@ -24,10 +27,8 @@ polygon = PackedVector2Array(-13, -30, -4, -35, 9, -34, 14, -28, 15, -17, 17, -8
 visible = true
 
 [node name="CollisionPolygon2D" parent="FadeArea" index="0" unique_id=1996582107]
+visible = false
 polygon = PackedVector2Array(-13, -29, -4, -34, 7, -34, 14, -30, 16, -14, -16, -14, -14, -22)
 
-[node name="HurtboxComponent" parent="." index="5" unique_id=1996582104]
-visible = false
-
-[node name="CollisionPolygon2D" parent="HurtboxComponent" index="0" unique_id=1996582105]
+[node name="CollisionPolygon2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(1996582104) index="0" unique_id=1996582105]
 polygon = PackedVector2Array(9, -34, 13, -30, 15, -17, 17, -8, 7, -5, -7, -5, -18, -8, -15, -16, -13, -30, -4, -35)
