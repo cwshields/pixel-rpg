@@ -46,6 +46,10 @@ extends CanvasLayer
 
 ## Pan speed (px/sec) for the free camera while Free Camera mode is active.
 @export var free_camera_speed: float = 400.0
+## How much each scroll tick multiplies the zoom (>1 = zoom in).
+@export var free_camera_zoom_step: float = 1.15
+@export var free_camera_zoom_min: float = 0.25
+@export var free_camera_zoom_max: float = 6.0
 
 @onready var _spawn_button: Button = %SpawnEnemyButton
 @onready var _respawn_button: Button = %RespawnPlayerButton
@@ -53,6 +57,7 @@ extends CanvasLayer
 @onready var _teleport_button: Button = %TeleportSpawnButton
 @onready var _god_mode_button: Button = %GodModeButton
 @onready var _free_camera_button: Button = %FreeCameraButton
+@onready var _level_up_button: Button = %LevelUpButton
 @onready var _item_spawner_button: Button = %ItemSpawnerButton
 @onready var _hint: Label = %Hint
 
@@ -60,6 +65,7 @@ var _placing: bool = false
 var _ghost: Node2D = null
 var _free_cam_active: bool = false
 var _free_camera: Camera2D = null
+var _dragging_camera: bool = false
 
 func _ready() -> void:
 	if not OS.is_debug_build():
@@ -71,6 +77,7 @@ func _ready() -> void:
 	_teleport_button.pressed.connect(_teleport_to_spawn)
 	_god_mode_button.pressed.connect(_toggle_god_mode)
 	_free_camera_button.pressed.connect(_toggle_free_camera)
+	_level_up_button.pressed.connect(_level_up_player)
 	_item_spawner_button.pressed.connect(_toggle_item_spawner)
 	Events.entity_died.connect(_on_player_state_maybe_changed)
 	Events.health_changed.connect(func(entity: Node, _c: float, _m: float) -> void:
@@ -85,6 +92,24 @@ func _process(delta: float) -> void:
 	if _free_cam_active and is_instance_valid(_free_camera):
 		var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		_free_camera.global_position += input * free_camera_speed * delta
+
+func _input(event: InputEvent) -> void:
+	if not _free_cam_active:
+		return
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			_dragging_camera = event.pressed
+			get_viewport().set_input_as_handled()
+		elif event.pressed:
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				_zoom_free_camera(free_camera_zoom_step)
+				get_viewport().set_input_as_handled()
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				_zoom_free_camera(1.0 / free_camera_zoom_step)
+				get_viewport().set_input_as_handled()
+	elif event is InputEventMouseMotion and _dragging_camera and is_instance_valid(_free_camera):
+		_free_camera.global_position -= event.relative / _free_camera.zoom
+		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"toggle_debug_panel"):
@@ -246,6 +271,16 @@ func _toggle_god_mode() -> void:
 	GameManager.god_mode = not GameManager.god_mode
 	_god_mode_button.text = "God Mode: %s" % ("On" if GameManager.god_mode else "Off")
 
+# --- Level up ------------------------------------------------------------
+
+func _level_up_player() -> void:
+	var player := GameManager.player as Player
+	if not player or not player.stats:
+		return
+	var needed := player.stats.xp_for_next_level() - player.stats.current_xp
+	player.stats.add_xp(needed)
+	_refresh_buttons()
+
 # --- Free camera -------------------------------------------------------
 
 ## Toggles between the player's own Camera2D and a standalone free-roaming
@@ -256,19 +291,35 @@ func _toggle_free_camera() -> void:
 	_free_cam_active = not _free_cam_active
 	var player := GameManager.player as Player
 	var player_camera := player.get_node_or_null("Camera2D") as Camera2D if player else null
+	var hud := get_parent().get_node_or_null("HUD")
 	if _free_cam_active:
 		if not _free_camera:
 			_free_camera = Camera2D.new()
 			get_tree().current_scene.add_child(_free_camera)
 		if player_camera:
 			_free_camera.global_position = player_camera.global_position
+		_free_camera.zoom = Vector2(2.0, 2.0)
 		_free_camera.make_current()
+		if hud:
+			hud.visible = false
 		_free_camera_button.text = "Free Camera: On"
 	else:
+		_dragging_camera = false
+		if _free_camera:
+			_free_camera.zoom = Vector2.ONE
 		if player_camera:
 			player_camera.make_current()
+		if hud:
+			hud.visible = true
 		_free_camera_button.text = "Free Camera: Off"
 	_update_player_frozen()
+
+func _zoom_free_camera(factor: float) -> void:
+	if not _free_camera:
+		return
+	var z := _free_camera.zoom.x * factor
+	z = clampf(z, free_camera_zoom_min, free_camera_zoom_max)
+	_free_camera.zoom = Vector2(z, z)
 
 # --- Item spawner -----------------------------------------------------
 
@@ -285,3 +336,4 @@ func _refresh_buttons() -> void:
 	var health := player.health if player else null
 	_heal_button.disabled = health == null or health.is_dead() \
 		or health.current_health >= health.max_health
+	_level_up_button.disabled = player == null or player.is_dead()
