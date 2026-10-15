@@ -1,7 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=13 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://b5l5a7m0xx1kc"]
 
-[ext_resource type="Texture2D" path="res://assets/Entities/Npc's/Citizen_F/Peasant_A/Idle/Idle-Sheet.png" id="tex_1"]
-[ext_resource type="Texture2D" path="res://assets/Entities/Npc's/Citizen_F/Peasant_A/Walk/Walk-Sheet.png" id="tex_2"]
+[ext_resource type="Texture2D" uid="uid://djreoie7xxey" path="res://assets/Entities/Npc's/Citizen_F/Peasant_A/Idle/Idle-Sheet.png" id="tex_1"]
+[ext_resource type="Texture2D" uid="uid://be1f0w6yba1yi" path="res://assets/Entities/Npc's/Citizen_F/Peasant_A/Walk/Walk-Sheet.png" id="tex_2"]
 
 [sub_resource type="AtlasTexture" id="frame_1"]
 atlas = ExtResource("tex_1")
@@ -58,7 +58,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_4")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 6.0
 }, {
@@ -81,7 +81,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_10")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 10.0
 }]
