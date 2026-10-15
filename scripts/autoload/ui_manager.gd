@@ -42,6 +42,9 @@ func close_screen(screen_name: StringName) -> void:
 func is_any_open() -> bool:
 	return not _open_stack.is_empty()
 
+func get_screen(screen_name: StringName) -> MenuBase:
+	return _screens.get(screen_name)
+
 ## Re-derives GameManager's state from whatever's left in `_open_stack`,
 ## rather than just reacting to the stack going empty. Without this, closing
 ## a pause_game screen (pause menu) while a lighter MENU screen (inventory)

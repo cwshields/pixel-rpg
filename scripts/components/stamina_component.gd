@@ -24,9 +24,9 @@ signal recovered
 ## Stamina refilled per second while not sprinting.
 @export var regen_rate: float = 5.0
 ## Stamina drained per second while sprinting.
-@export var sprint_cost: float = 10.0
+@export var sprint_cost: float = 5.0
 ## Stamina spent per attack swing (a flat, one-off cost, not per second).
-@export var attack_cost: float = 15.0
+@export var attack_cost: float = 5.0
 ## After the pool bottoms out at 0, sprinting stays locked until it
 ## regenerates back up to this value — this stops a 1-frame flicker
 ## between run and walk when holding sprint on an empty bar. Set to 0 for

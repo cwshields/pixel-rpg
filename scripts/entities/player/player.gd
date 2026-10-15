@@ -6,8 +6,17 @@ extends EntityBase
 
 var inventory: Inventory = Inventory.new(12, 9)
 var equipment: Equipment = Equipment.new()
-var gold: int = 0
-@export var max_carry_weight: float = 120.0
+var gold: int = 100
+
+const BASE_CARRY_WEIGHT := 80.0
+const BASE_HEALTH := 30.0
+const BASE_STAMINA := 100.0
+
+var max_carry_weight: float:
+	get: return BASE_CARRY_WEIGHT + (stats.strength * 2.0 if stats else 0.0)
+
+const HOTBAR_SIZE := 8
+var hotbar_slots: Array = []
 
 @onready var state_machine: StateMachine = $StateMachine
 @onready var stamina: StaminaComponent = get_node_or_null("StaminaComponent")
@@ -44,11 +53,14 @@ var _nearby_interactables: Array[InteractionComponent] = []
 var _nearby_rocks: Array[RockProp] = []
 var _nearby_trees: Array[TreeProp] = []
 var _exhausted_flash: Tween
+var _hotbar_index: int = 0
 
 func _ready() -> void:
 	super._ready()
 	z_index = OccluderProp.PLAYER_Z_INDEX
 	inventory.unlocked_rows = 5
+	hotbar_slots.resize(HOTBAR_SIZE)
+	hotbar_slots.fill(null)
 	equipment.owner_stats = stats
 	equipment.changed.connect(func(slot: Equipment.Slot) -> void:
 		if slot == Equipment.Slot.PRIMARY_HAND:
@@ -62,6 +74,7 @@ func _ready() -> void:
 	if chop_hitbox:
 		chop_hitbox.damage = chop_damage
 		chop_hitbox.is_chopping = true
+	Events.hotbar_selection_changed.connect(func(idx: int, _item: ItemBase) -> void: _hotbar_index = idx)
 	if interaction_detector:
 		interaction_detector.area_entered.connect(_on_interactable_entered)
 		interaction_detector.area_exited.connect(_on_interactable_exited)
@@ -71,6 +84,9 @@ func _ready() -> void:
 	if health:
 		health.damaged.connect(func(_amount: float, _source: Node) -> void: state_machine.transition_to(&"Hurt"))
 		health.died.connect(func() -> void: state_machine.transition_to(&"Dead"))
+	Events.entity_died.connect(_on_entity_died)
+	Events.stats_changed.connect(_on_stats_changed)
+	_sync_pools(true)
 	GameManager.register_player(self)
 
 ## Swaps in the equipped weapon's attack (DEFAULT_ATTACK if unarmed) and
@@ -139,13 +155,39 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_playing():
 		return
 	if event.is_action_pressed("interact"):
-		_interact_with_nearest()
+		if not _interact_with_nearest():
+			_use_hotbar_consumable()
 
-func _interact_with_nearest() -> void:
+func _interact_with_nearest() -> bool:
 	for area in _nearby_interactables:
 		if is_instance_valid(area) and area.can_interact(self):
 			area.interact(self)
-			return
+			return true
+	return false
+
+func assign_hotbar_slot(index: int, item: ItemBase) -> void:
+	if index < 0 or index >= HOTBAR_SIZE:
+		return
+	hotbar_slots[index] = item
+	Events.hotbar_slot_changed.emit(index, item)
+
+func clear_hotbar_slot(index: int) -> void:
+	if index < 0 or index >= HOTBAR_SIZE:
+		return
+	hotbar_slots[index] = null
+	Events.hotbar_slot_changed.emit(index, null)
+
+func _use_hotbar_consumable() -> void:
+	if _hotbar_index < 0 or _hotbar_index >= HOTBAR_SIZE:
+		return
+	var item: ItemBase = hotbar_slots[_hotbar_index]
+	if not item or not item is Consumable:
+		return
+	if not inventory.has_item(item.id):
+		return
+	var consumable := item as Consumable
+	if consumable.use(self):
+		inventory.remove_item(item.id, 1)
 
 func _on_interactable_entered(area: Area2D) -> void:
 	if area is InteractionComponent:
@@ -237,6 +279,22 @@ func _on_mine_body_exited(body: Node2D) -> void:
 		_nearby_rocks.erase(parent)
 	elif parent is TreeProp:
 		_nearby_trees.erase(parent)
+
+func _on_entity_died(entity: Node) -> void:
+	if entity is EnemyBase and stats:
+		stats.add_xp(entity.xp_reward)
+
+func _on_stats_changed(entity: Node) -> void:
+	if entity == self:
+		_sync_pools()
+
+func _sync_pools(refill: bool = false) -> void:
+	if not stats:
+		return
+	if health:
+		health.set_max_health(BASE_HEALTH + stats.max_health_bonus, refill)
+	if stamina:
+		stamina.set_max_stamina(BASE_STAMINA + stats.max_stamina_bonus, refill)
 
 ## Adds an item to the inventory and broadcasts the pickup. Returns
 ## whatever didn't fit (0 if it all fit), same contract as Inventory.add_item.
