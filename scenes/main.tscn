@@ -13,9 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://b4a2ln63i3c8w" path="res://assets/Environment/Structures/Buildings/aNwLIs_frames/aNwLIs_frame03_isolated_cropped.png" id="27_fv21b"]
 [ext_resource type="Script" uid="uid://cgor7hvcexj10" path="res://scripts/world/occluder_sprite.gd" id="27_qkpxi"]
 [ext_resource type="Texture2D" uid="uid://cuwhhmiryy6or" path="res://assets/Environment/Structures/Buildings/aNwLIs_frames/aNwLIs_frame01_isolated_cropped.png" id="28_tel4y"]
-[ext_resource type="PackedScene" path="res://scenes/entities/critter/boar.tscn" id="30_boar"]
+[ext_resource type="PackedScene" uid="uid://xvhbo7ogtjkg" path="res://scenes/entities/critter/boar.tscn" id="30_boar"]
 [ext_resource type="PackedScene" path="res://scenes/world/critter_spawner.tscn" id="30_crspwn"]
-[ext_resource type="PackedScene" path="res://scenes/entities/critter/deer.tscn" id="30_deer"]
+[ext_resource type="PackedScene" uid="uid://bv5cy6n6y0dyy" path="res://scenes/entities/critter/deer.tscn" id="30_deer"]
 [ext_resource type="PackedScene" uid="uid://c8jthip8ikdkl" path="res://scenes/entities/critter/black_grouse.tscn" id="30_grouse"]
 [ext_resource type="TileSet" uid="uid://c06lwb023nreq" path="res://resources/tilesets/rock_scenes.tres" id="37_fuf3a"]
 [ext_resource type="PackedScene" uid="uid://r0b70hcst82n" path="res://scenes/world/world.scn" id="40_world"]
@@ -81,10 +81,10 @@ position = Vector2(163, -213)
 
 [node name="PaintedTree_-2_4" parent="Trees/PaintedTrees" unique_id=1515573914 instance=ExtResource("12_kpsmc")]
 position = Vector2(30, 40)
+trunk_enabled = false
 art_texture = ExtResource("4_gfkxl")
 art_region = Rect2i(0, 32, 16, 16)
 art_offset = Vector2(0, -8)
-trunk_enabled = false
 
 [node name="PaintedTree_-8_-7" parent="Trees/PaintedTrees" unique_id=1596673410 instance=ExtResource("tv_medium")]
 position = Vector2(189, -38)
@@ -449,7 +449,7 @@ monitorable = false
 polygon = PackedVector2Array(-87.57558, 46.915466, -87.57558, 2.085144, -103.214066, 2.085144, -103.214066, -76.10736, -80.2776, -76.10736, -80.2776, -103.21405, -63.596558, -103.21405, -63.596558, -76.10736, 103.21408, -76.10736, 103.21408, 1.0425415, 87.57559, 1.0425415, 87.57559, 105.299194, 80.27762, 105.299194, 80.27762, 84.447876, 58.383728, 62.553955, 31.277008, 62.553955, 9.383118, 84.447876, 3.127716, 84.447876, 3.127716, 46.915466)
 
 [node name="Cottage4" type="Sprite2D" parent="Buildings" unique_id=1105990457]
-position = Vector2(792, -983)
+position = Vector2(597.00006, -992)
 scale = Vector2(0.9591715, 0.95917153)
 texture = ExtResource("28_tel4y")
 script = ExtResource("27_qkpxi")
