@@ -50,9 +50,10 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="Layout" unique_id=2099639923]
-layout_mode = 0
-offset_right = 1685.0
-offset_bottom = 954.0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
 texture = ExtResource("3")
 
 [node name="Grid" type="Control" parent="Layout" unique_id=1078500855]
@@ -66,18 +67,28 @@ script = ExtResource("2")
 
 [node name="EquipmentPanel" parent="Layout" unique_id=734386221 instance=ExtResource("9")]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 18.0
-offset_top = 112.0
-offset_right = 492.0
-offset_bottom = 692.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.011000001
+anchor_top = 0.117000006
+anchor_right = 0.29200003
+anchor_bottom = 0.725
+offset_left = -0.53500175
+offset_top = 0.38199615
+offset_right = -0.020050049
+offset_bottom = 0.3499756
 
 [node name="StatusPanel" parent="Layout" unique_id=930750646 instance=ExtResource("8")]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 718.0
-offset_right = 485.5
-offset_bottom = 938.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.014
+anchor_top = 0.753
+anchor_right = 0.28800002
+anchor_bottom = 0.98300004
+offset_left = 0.40999985
+offset_top = -0.3619995
+offset_right = 0.2199707
+offset_bottom = 0.21795654
 
 [node name="TabBar" type="Control" parent="Layout" unique_id=739730915]
 unique_name_in_owner = true
@@ -115,21 +126,26 @@ offset_bottom = 652.0
 [node name="ControlsPanel" parent="Layout" unique_id=1597846038 instance=ExtResource("14")]
 anchors_preset = 0
 offset_left = 1254.0
-offset_top = 704.0
+offset_top = 741.0
 offset_right = 1664.0
-offset_bottom = 932.0
+offset_bottom = 924.0
 
 [node name="EquipmentLabel" type="Label" parent="Layout" unique_id=518719112]
-layout_mode = 0
-offset_left = 180.5
-offset_top = 120.0
-offset_right = 326.5
-offset_bottom = 154.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.10700001
+anchor_top = 0.126
+anchor_right = 0.194
+anchor_bottom = 0.16100001
+offset_left = 0.20498657
+offset_top = -0.20400238
+offset_right = -0.39001465
+offset_bottom = 0.4059906
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
-text = "Equipmet"
+text = "Equipment"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -163,23 +179,29 @@ vertical_alignment = 1
 
 [node name="ControlsLabel" type="Label" parent="Layout" unique_id=863723178]
 layout_mode = 0
-offset_left = 1258.0
-offset_top = 680.0
-offset_right = 1664.0
-offset_bottom = 704.0
+offset_left = 1393.5
+offset_top = 720.0
+offset_right = 1509.5
+offset_bottom = 748.0
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "CONTROLS"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="InventoryIcon" type="TextureRect" parent="Layout" unique_id=1204002629]
-layout_mode = 0
-offset_left = 37.0
-offset_top = 27.0
-offset_right = 89.0
-offset_bottom = 83.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.022000002
+anchor_top = 0.028
+anchor_right = 0.053000003
+anchor_bottom = 0.087000005
+offset_left = -0.07000351
+offset_top = 0.2880001
+offset_right = -0.30500793
+offset_bottom = 0.0019989014
 texture = ExtResource("15")
 stretch_mode = 5
 
@@ -207,6 +229,25 @@ offset_left = 303.5
 offset_top = 723.0
 offset_right = 457.5
 offset_bottom = 749.0
+texture = ExtResource("13_g1qdc")
+stretch_mode = 5
+
+[node name="Decal7" type="TextureRect" parent="Layout" unique_id=319765962]
+layout_mode = 0
+offset_left = 1233.5
+offset_top = 722.0
+offset_right = 1390.5
+offset_bottom = 748.0
+texture = ExtResource("12_an4jt")
+stretch_mode = 5
+
+[node name="Decal8" type="TextureRect" parent="Layout" unique_id=1636381257]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 0
+offset_left = 1514.5
+offset_top = 722.0
+offset_right = 1668.5
+offset_bottom = 748.0
 texture = ExtResource("13_g1qdc")
 stretch_mode = 5
 
@@ -239,9 +280,9 @@ stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="Layout" unique_id=881714008]
 layout_mode = 0
-offset_left = 109.5
+offset_left = 114.5
 offset_top = 37.0
-offset_right = 256.5
+offset_right = 261.5
 offset_bottom = 73.0
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_font_sizes/font_size = 26
@@ -250,9 +291,9 @@ vertical_alignment = 1
 
 [node name="InvDiamondIcon" type="TextureRect" parent="Layout" unique_id=1584533931]
 layout_mode = 0
-offset_left = 273.5
+offset_left = 281.5
 offset_top = 36.0
-offset_right = 311.5
+offset_right = 319.5
 offset_bottom = 74.0
 texture = ExtResource("12_jsywp")
 stretch_mode = 5
@@ -316,20 +357,20 @@ stretch_mode = 0
 
 [node name="WeightIcon" type="TextureRect" parent="Layout" unique_id=905745389]
 layout_mode = 0
-offset_left = 1262.0
-offset_top = 42.0
-offset_right = 1286.0
-offset_bottom = 66.0
+offset_left = 1257.5
+offset_top = 39.0
+offset_right = 1288.0
+offset_bottom = 69.5
 texture = ExtResource("5")
 stretch_mode = 5
 
 [node name="WeightLabel" type="Label" parent="Layout" unique_id=885452519]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 1304.0
-offset_top = 36.0
-offset_right = 1444.0
-offset_bottom = 72.0
+offset_left = 1297.5
+offset_top = 35.0
+offset_right = 1419.5
+offset_bottom = 71.0
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_font_sizes/font_size = 20
 text = "0 / 120"
@@ -337,20 +378,20 @@ vertical_alignment = 1
 
 [node name="CoinIcon" type="TextureRect" parent="Layout" unique_id=472011973]
 layout_mode = 0
-offset_left = 1460.0
-offset_top = 42.0
-offset_right = 1484.0
-offset_bottom = 66.0
+offset_left = 1422.5
+offset_top = 38.5
+offset_right = 1452.5
+offset_bottom = 68.5
 texture = ExtResource("6")
 stretch_mode = 5
 
 [node name="GoldLabel" type="Label" parent="Layout" unique_id=988859153]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 1504.0
-offset_top = 36.0
-offset_right = 1584.0
-offset_bottom = 72.0
+offset_left = 1460.5
+offset_top = 39.0
+offset_right = 1577.5
+offset_bottom = 67.0
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_font_sizes/font_size = 20
 text = "0"

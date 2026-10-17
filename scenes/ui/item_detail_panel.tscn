@@ -104,11 +104,13 @@ stretch_mode = 5
 [node name="LevelValue" type="Label" parent="SummaryVBox/HeaderRow/LevelBox/LevelHBox" unique_id=78154721]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
 theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 20
 text = "1"
+horizontal_alignment = 2
 
 [node name="ExpBox" type="PanelContainer" parent="SummaryVBox/HeaderRow" unique_id=1603552990]
 custom_maximum_size = Vector2(160, -1)
@@ -133,11 +135,13 @@ stretch_mode = 5
 [node name="ExpValue" type="Label" parent="SummaryVBox/HeaderRow/ExpBox/ExpHBox" unique_id=1477133140]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
 theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 2
 
 [node name="MainGrid" type="GridContainer" parent="SummaryVBox" unique_id=50246140]
 custom_minimum_size = Vector2(320, 0)
