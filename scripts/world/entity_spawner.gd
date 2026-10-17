@@ -75,8 +75,9 @@ func _spawn_one() -> bool:
 	var parent: Node = spawn_into if spawn_into else get_parent()
 	parent.add_child(entity)
 	entity.global_position = _random_point()
-	if entity is CritterBase or entity is EnemyBase:
-		entity.set(&"anchor_position", entity.global_position)
+	var ai := entity as AIEntityBase
+	if ai:
+		ai.anchor_position = entity.global_position
 	_alive.append(entity)
 	entity.tree_exited.connect(_on_entity_gone.bind(entity))
 	return true

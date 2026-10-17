@@ -1,9 +1,8 @@
-class_name CritterWanderState
+class_name AIWanderState
 extends State
-## Ambles to a random point near the critter's spawn anchor, then hands
-## back to Idle. A single point-to-point walk with a giveup timer, unlike
-## EnemyChaseState's continuous pursuit loop, so a critter never gets
-## stuck pushing at a wall.
+## Shared wander for all AI entities. Ambles to a random point within
+## wander_radius of the spawn anchor, then hands back to Idle. Breaks
+## into a reaction state via AIEntityBase._should_react().
 
 @export var arrival_distance: float = 4.0
 @export var max_travel_time: float = 6.0
@@ -12,17 +11,18 @@ var _destination: Vector2
 var _timer: float = 0.0
 
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
-	var critter := entity as CritterBase
+	var ai := entity as AIEntityBase
 	var angle: float = randf() * TAU
-	var dist: float = sqrt(randf()) * critter.wander_radius
-	_destination = critter.anchor_position + Vector2(cos(angle), sin(angle)) * dist
+	var dist: float = sqrt(randf()) * ai.wander_radius
+	_destination = ai.anchor_position + Vector2(cos(angle), sin(angle)) * dist
 	_timer = 0.0
 	entity.play_animation("walk")
 
 func process_physics(delta: float) -> void:
-	var critter := entity as CritterBase
-	if critter.is_threat_active():
-		transition_requested.emit(&"Chase" if critter.is_hostile else &"Flee", {})
+	var ai := entity as AIEntityBase
+	var reaction := ai._should_react()
+	if reaction != &"":
+		transition_requested.emit(reaction, {})
 		return
 	_timer += delta
 	if entity.is_stuck():

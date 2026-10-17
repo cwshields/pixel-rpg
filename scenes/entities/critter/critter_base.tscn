@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/entities/critter/critter_base.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/entities/state_machine.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/entities/critter/states/critter_idle_state.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/entities/critter/states/critter_wander_state.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/entities/ai_idle_state.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/entities/ai_wander_state.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/entities/critter/states/critter_flee_state.gd" id="5"]
-[ext_resource type="Script" path="res://scripts/entities/critter/states/critter_hurt_state.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/entities/ai_hurt_state.gd" id="6"]
 [ext_resource type="Script" uid="uid://ci175vfvfqohd" path="res://scripts/entities/dead_state.gd" id="7"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="8"]
 [ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="9"]
@@ -53,6 +53,8 @@ initial_state = &"Idle"
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("3")
+min_idle_time = 1.5
+max_idle_time = 4.0
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("4")

@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cf4b5n0f8vae1" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
 [ext_resource type="Script" uid="uid://cuuncdpcq7okj" path="res://scripts/entities/state_machine.gd" id="2"]
-[ext_resource type="Script" uid="uid://d324biwxpimlp" path="res://scripts/entities/enemy/states/enemy_idle_state.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/entities/ai_idle_state.gd" id="3"]
 [ext_resource type="Script" uid="uid://f2rcsfjhy8lf" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
 [ext_resource type="Script" uid="uid://dxwqkjyxwc5to" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
-[ext_resource type="Script" uid="uid://dyrcoiarvb47" path="res://scripts/entities/enemy/states/enemy_hurt_state.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/entities/ai_hurt_state.gd" id="6"]
 [ext_resource type="Script" uid="uid://ci175vfvfqohd" path="res://scripts/entities/dead_state.gd" id="7"]
 [ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
 [ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://cs4jijjyl8ye0" path="res://scripts/entities/enemy/states/enemy_growl_state.gd" id="15"]
 [ext_resource type="Script" uid="uid://xnowxtdtujkk" path="res://scripts/entities/enemy/states/enemy_howl_state.gd" id="16"]
 [ext_resource type="Script" uid="uid://d074dtlg4scb6" path="res://scripts/components/ambient_action_component.gd" id="17"]
-[ext_resource type="Script" uid="uid://d4kdxhfkg1odu" path="res://scripts/entities/enemy/states/enemy_wander_state.gd" id="18"]
+[ext_resource type="Script" path="res://scripts/entities/ai_wander_state.gd" id="18"]
 [ext_resource type="Script" uid="uid://c5xs2l0uo1qdy" path="res://scripts/components/hunter_component.gd" id="19"]
 
 [sub_resource type="Resource" id="LootEntry_wolf_pelt"]
