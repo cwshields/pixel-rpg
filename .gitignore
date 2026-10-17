@@ -1,6 +1,12 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+addons/
+*.aseprite.import
+*.ase.import
 
 # Editor backups
 *.bak
+
+# Logs
+logs/
