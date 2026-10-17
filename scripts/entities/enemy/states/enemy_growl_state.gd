@@ -6,7 +6,7 @@ extends State
 ## `target`). Loops the "growl" animation in place — advances to Chase the
 ## moment `target` fires (the real aggro boundary), or falls back to Idle
 ## if the target backs out of the alert ring without ever closing the
-## distance. Opt-in per enemy: EnemyIdleState only routes here when both
+## distance. Opt-in per enemy: AIIdleState only routes here when both
 ## an AlertArea and a "Growl" state node exist (currently just the wolf).
 ##
 ## Faces the target the whole time it's growling (flip_h only — this art

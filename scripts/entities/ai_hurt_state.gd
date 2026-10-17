@@ -1,5 +1,7 @@
-class_name EnemyHurtState
+class_name AIHurtState
 extends State
+## Shared hurt flinch for all AI entities. Plays the hurt animation, then
+## transitions to whatever AIEntityBase._hurt_recovery_state() returns.
 
 @export var hurt_duration: float = 0.3
 
@@ -13,5 +15,4 @@ func process_physics(delta: float) -> void:
 	_timer += delta
 	entity.move(Vector2.ZERO, delta)
 	if _timer >= hurt_duration:
-		var enemy := entity as EnemyBase
-		transition_requested.emit(&"Chase" if enemy.pursuit_target() else &"Idle", {})
+		transition_requested.emit((entity as AIEntityBase)._hurt_recovery_state(), {})
