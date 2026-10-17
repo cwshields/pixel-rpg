@@ -21,10 +21,10 @@ var hotbar_slots: Array = []
 @onready var state_machine: StateMachine = $StateMachine
 @onready var stamina: StaminaComponent = get_node_or_null("StaminaComponent")
 @onready var interaction_detector: Area2D = get_node_or_null("InteractionDetector")
-## Detects a RockProp's physical StaticBody2D (collision layer 1, same as
-## every other solid) coming within mining range — unlike InteractionDetector
-## this masks onto bodies, not areas, since RockProp exposes no
-## InteractionComponent of its own. See is_near_rock().
+## Detects a BreakableProp's physical StaticBody2D (collision layer 1,
+## same as every other solid) coming within harvest range — unlike
+## InteractionDetector this masks onto bodies, not areas, since
+## BreakableProp exposes no InteractionComponent of its own.
 @onready var mine_detector: Area2D = get_node_or_null("MineDetector")
 
 ## Damage dealt per mining hitbox pulse (see PlayerIdleState), applied to
@@ -50,8 +50,7 @@ var chop_hitbox: HitboxComponent
 @export var chop_damage: float = 4.0
 
 var _nearby_interactables: Array[InteractionComponent] = []
-var _nearby_rocks: Array[RockProp] = []
-var _nearby_trees: Array[TreeProp] = []
+var _nearby_harvestables: Array[BreakableProp] = []
 var _exhausted_flash: Tween
 var _hotbar_index: int = 0
 
@@ -197,88 +196,74 @@ func _on_interactable_exited(area: Area2D) -> void:
 	if area is InteractionComponent:
 		_nearby_interactables.erase(area)
 
-## True while any RockProp's collision body overlaps MineDetector.
-func is_near_rock() -> bool:
-	return not _nearby_rocks.is_empty()
-
-func is_near_tree() -> bool:
-	return not _nearby_trees.is_empty()
-
-## True when the cursor is hovering a rock within mining range — used by
-## movement/idle states to decide whether an attack press should start
-## mining (transition to Idle) rather than a combat swing. Doesn't check
-## facing or the attack button, so the state can face_toward_mouse()
-## first and then let is_mining_rock() do the full gate.
-func wants_to_mine_rock() -> bool:
+## The harvestable prop the cursor is hovering within range, or null.
+## Used by movement/idle states to decide whether an attack press should
+## start harvesting rather than a combat swing. Doesn't check facing or
+## the attack button, so the state can face_toward_mouse() first and
+## then let active_harvest_target() do the full gate.
+func hovered_harvest_target() -> BreakableProp:
 	if is_mouse_over_gui():
-		return false
+		return null
 	var cursor := GameManager.cursor
-	if not cursor or not cursor.hovered_rock:
-		return false
-	return cursor.hovered_rock in _nearby_rocks
+	if not cursor or not cursor.hovered_harvestable:
+		return null
+	if cursor.hovered_harvestable in _nearby_harvestables:
+		return cursor.hovered_harvestable
+	return null
 
-## True while the player is both standing next to a rock AND actively
-## clicking it — the "attack" button held while GameManager.cursor's
-## hover happens to be that same nearby rock, not just held down anywhere
-## while a rock happens to be close by — AND currently facing roughly
-## toward it (not turned away or backed into it), so standing with your
-## back to a rock and clicking doesn't start mining through your own
-## body. Used by PlayerIdleState to swap the plain idle animation for
-## "crush" (swinging a pickaxe).
-func is_mining_rock() -> bool:
+## The prop the player is actively harvesting — attack held, cursor on
+## it, within range, and facing roughly toward it. Null otherwise.
+func active_harvest_target() -> BreakableProp:
 	if not Input.is_action_pressed("attack") or is_mouse_over_gui():
-		return false
+		return null
 	var cursor := GameManager.cursor
-	if not cursor or not cursor.hovered_rock:
-		return false
-	var rock: RockProp = cursor.hovered_rock
-	if rock not in _nearby_rocks:
-		return false
-	var to_rock: Vector2 = rock.global_position - global_position
-	return to_rock == Vector2.ZERO or facing_direction.dot(to_rock.normalized()) > 0.0
+	if not cursor or not cursor.hovered_harvestable:
+		return null
+	var prop: BreakableProp = cursor.hovered_harvestable
+	if prop not in _nearby_harvestables:
+		return null
+	var to_prop: Vector2 = prop.global_position - global_position
+	if to_prop != Vector2.ZERO and facing_direction.dot(to_prop.normalized()) <= 0.0:
+		return null
+	return prop
 
 ## Snaps `facing_direction` to aim straight at the mouse cursor — same aim
-## logic PlayerAttackState uses for a sword swing, reused here so mining
-## keeps the player visually oriented at the rock while the button's held.
+## logic PlayerAttackState uses for a sword swing, reused here so
+## harvesting keeps the player visually oriented at the prop.
 func face_toward_mouse() -> void:
 	var aim := get_global_mouse_position() - global_position
 	if aim != Vector2.ZERO:
 		facing_direction = aim.normalized()
 		facing_changed.emit(facing_direction)
 
-func wants_to_chop_tree() -> bool:
-	if is_mouse_over_gui():
-		return false
-	var cursor := GameManager.cursor
-	if not cursor or not cursor.hovered_tree:
-		return false
-	return cursor.hovered_tree in _nearby_trees
+func harvest_hitbox(target: BreakableProp) -> HitboxComponent:
+	if target is RockProp:
+		return mine_hitbox
+	if target is TreeProp:
+		return chop_hitbox
+	return null
 
-func is_chopping_tree() -> bool:
-	if not Input.is_action_pressed("attack") or is_mouse_over_gui():
-		return false
-	var cursor := GameManager.cursor
-	if not cursor or not cursor.hovered_tree:
-		return false
-	var tree: TreeProp = cursor.hovered_tree
-	if tree not in _nearby_trees:
-		return false
-	var to_tree: Vector2 = tree.global_position - global_position
-	return to_tree == Vector2.ZERO or facing_direction.dot(to_tree.normalized()) > 0.0
+func harvest_attack(target: BreakableProp) -> AttackDefinition:
+	if target is RockProp:
+		return MINE_ATTACK
+	if target is TreeProp:
+		return CHOP_ATTACK
+	return null
+
+func harvest_animation(target: BreakableProp) -> StringName:
+	if target is RockProp:
+		return &"crush"
+	return &"attack"
 
 func _on_mine_body_entered(body: Node2D) -> void:
 	var parent := body.get_parent()
-	if parent is RockProp and parent not in _nearby_rocks:
-		_nearby_rocks.append(parent)
-	elif parent is TreeProp and parent not in _nearby_trees:
-		_nearby_trees.append(parent)
+	if parent is BreakableProp and parent not in _nearby_harvestables:
+		_nearby_harvestables.append(parent)
 
 func _on_mine_body_exited(body: Node2D) -> void:
 	var parent := body.get_parent()
-	if parent is RockProp:
-		_nearby_rocks.erase(parent)
-	elif parent is TreeProp:
-		_nearby_trees.erase(parent)
+	if parent is BreakableProp:
+		_nearby_harvestables.erase(parent)
 
 func _on_entity_died(entity: Node) -> void:
 	if entity is EnemyBase and stats:
