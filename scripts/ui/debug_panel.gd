@@ -94,7 +94,14 @@ func _process(delta: float) -> void:
 		_free_camera.global_position += input * free_camera_speed * delta
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"toggle_free_camera") and $Root.visible:
+		_toggle_free_camera()
+		get_viewport().set_input_as_handled()
+		return
 	if not _free_cam_active:
+		return
+	if (event is InputEventMouseButton or event is InputEventMouseMotion) \
+			and _is_mouse_over_panel(event.position):
 		return
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -129,6 +136,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			_stop_placing()
 			get_viewport().set_input_as_handled()
+
+func _is_mouse_over_panel(pos: Vector2) -> bool:
+	if not $Root.visible:
+		return false
+	return ($Root/Panel as Control).get_global_rect().has_point(pos)
 
 # --- Visibility --------------------------------------------------------
 
