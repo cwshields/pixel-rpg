@@ -1,33 +1,71 @@
 @tool
 class_name OccluderProp
 extends Node2D
-## Marker/interface base for world props that get player-relative depth
-## sorting through the `Foliage` autoload (see foliage_manager.gd) — today
-## that's `TreeProp` and `RockProp`. Beyond the shared depth constant below,
-## this class carries no shared state or logic of its own; it exists only
-## so the manager can hold one typed array across every kind of prop and
-## call the same three methods on whichever one it's holding. Each
-## subclass implements its own version.
+## Base for world props that get player-relative depth sorting through the
+## `Foliage` autoload (see foliage_manager.gd). Today that's `TreeProp`,
+## `RockProp` (via `BreakableProp`), and standalone `OccluderSprite`
+## instances.
+##
+## Shared across all prop types: Foliage registration, the depth-sort
+## baseline z_index, proximity-fade parameters, and FadeArea overlap
+## tracking. Each concrete subclass or intermediate (`BreakableProp`,
+## `OccluderSprite`) implements its own `update_proximity()` /
+## `reset_proximity()`.
 
-## Player.tscn's root z_index is set to this same value at runtime (see
-## Player._ready()) so every OccluderProp has one shared baseline to sit
-## exactly one step above or below the player. Single source of truth —
-## previously this was three independently hand-synced constants (one per
-## subclass plus a hardcoded value in player.tscn), which is exactly how
-## the player/tree z-index drift bug happened.
+## Player.tscn's root z_index matches this at runtime so every OccluderProp
+## sits exactly one step above or below the player.
 const PLAYER_Z_INDEX := 4
 
-## Editor-only: replaces this prop, in the scene being edited, with an
-## instance of a random *other* variant scene from `variant_dir` (a folder
-## of scenes inheriting this prop's base scene), keeping its name, transform
-## and place in the parent. Backs the "Randomize Variant" inspector button
-## on TreeProp/RockProp. Done through the editor's undo/redo so Ctrl+Z
-## restores the original node. Removing a node strips its `owner` (it no
-## longer sits under the scene root), so owner is re-set on both sides —
-## without it the node wouldn't be saved.
-##
-## `@tool` on this base script exists only so this runs from the
-## subclasses' tool buttons; nothing else here does anything in the editor.
+@export_group("Depth Sorting")
+## Vertical distance from the player's node origin down to their visual
+## feet. Corrects the "who's lower" compare for centered sprites.
+@export var player_feet_offset: float = 18.0
+
+@export_group("Occlusion Fade")
+## Alpha the prop eases down to while the player is inside its FadeArea.
+@export_range(0.0, 1.0) var faded_alpha: float = 0.5
+## Alpha-units / second toward the target.
+@export var fade_speed: float = 4.0
+
+var _target_alpha: float = 1.0
+var _active: bool = false
+## Whether the player's body currently overlaps this prop's FadeArea —
+## kept in sync by body_entered / body_exited signals, not per-frame math.
+var _player_in_fade_area: bool = false
+
+# ---------------------------------------------------------------------------
+# Lifecycle — Foliage registration
+# ---------------------------------------------------------------------------
+
+func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		return
+	Foliage.register_prop(self)
+
+func _exit_tree() -> void:
+	if Engine.is_editor_hint():
+		return
+	Foliage.unregister_prop(self)
+
+# ---------------------------------------------------------------------------
+# FadeArea overlap tracking (shared signal handlers)
+# ---------------------------------------------------------------------------
+
+func _on_fade_area_body_entered(body: Node) -> void:
+	if body == GameManager.player:
+		_player_in_fade_area = true
+
+func _on_fade_area_body_exited(body: Node) -> void:
+	if body == GameManager.player:
+		_player_in_fade_area = false
+
+# ---------------------------------------------------------------------------
+# Editor variant swap
+# ---------------------------------------------------------------------------
+
+## Replaces this prop with a random variant scene from `variant_dir`.
+## Editor-only, undoable. Done through undo/redo so Ctrl+Z restores the
+## original node.
 func swap_for_random_variant(variant_dir: String) -> void:
 	if not Engine.is_editor_hint():
 		return
@@ -37,9 +75,6 @@ func swap_for_random_variant(variant_dir: String) -> void:
 		push_warning("%s: open a scene that contains this prop to randomize it." % name)
 		return
 
-	# A prop that's already a variant stays within its own folder's category
-	# (e.g. rocks/ruins/ only swaps among ruins); anything else — a plain
-	# base-scene instance — picks from the top-level `variant_dir`.
 	var dir := variant_dir
 	if scene_file_path.begins_with(variant_dir):
 		dir = scene_file_path.get_base_dir() + "/"
@@ -72,22 +107,18 @@ func swap_for_random_variant(variant_dir: String) -> void:
 	undo.add_undo_reference(self)
 	undo.commit_action()
 
-	# The inspector is still showing this (now removed) node.
 	EditorInterface.edit_node(replacement)
 
-## Called every frame by Foliage while the player is within its active
-## radius. Subclasses use this to flip z_index (and anything else, e.g.
-## TreeProp's proximity fade) based on `player_pos`.
+# ---------------------------------------------------------------------------
+# Proximity — called by Foliage each frame while the player is nearby.
+# Subclasses override with their own depth-sort and fade logic.
+# ---------------------------------------------------------------------------
+
 func update_proximity(_player_pos: Vector2, _delta: float) -> void:
 	pass
 
-## Called once, the frame Foliage drops this prop from the active set
-## (player moved out of range). Subclasses should snap back to their
-## resting z_index/alpha/etc.
 func reset_proximity() -> void:
 	pass
 
-## Whether this prop is still mid-effect (flip/fade) and therefore needs
-## its `reset_proximity()` call rather than being silently dropped.
 func is_proximity_active() -> bool:
 	return false
