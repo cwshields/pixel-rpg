@@ -42,4 +42,4 @@ position = Vector2(-1, 4)
 polygon = PackedVector2Array(8, -26, 11, -12, 8, -6, -8, -6, -11, -12, -6, -26)
 
 [node name="HealthComponent" parent="." index="4" unique_id=591471400]
-max_health = 28.0
+max_health = 48.0
