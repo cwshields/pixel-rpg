@@ -69,7 +69,11 @@ func process_physics(delta: float) -> void:
 			transition_requested.emit(&"Idle", {})
 			return
 	if entity.is_stuck():
-		_last_direction = _last_direction.rotated(PI * 0.5 * (1.0 if randf() < 0.5 else -1.0))
+		var to_anchor: Vector2 = critter.anchor_position - entity.global_position
+		if to_anchor.length() > 4.0:
+			_last_direction = to_anchor.normalized()
+		else:
+			_last_direction = Vector2.RIGHT.rotated(randf() * TAU)
 	if stumble_chance > 0.0:
 		if _stumble_timer > 0.0:
 			_stumble_timer -= delta
