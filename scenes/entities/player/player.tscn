@@ -31,9 +31,10 @@ script = ExtResource("1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1663619637]
 sprite_frames = ExtResource("2_j0oqr")
-animation = &"walk_up"
+animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1915206668]
+visible = false
 position = Vector2(0, 11)
 shape = SubResource("RectangleShape2D_body")
 

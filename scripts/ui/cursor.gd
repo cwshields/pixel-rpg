@@ -43,14 +43,12 @@ const CURSOR_SCALE := 2
 ## overwrites `hotspot` itself to track whichever art is currently shown.
 var _default_hotspot: Vector2
 
-## The RockProp currently under the mouse, or null — kept in sync by
-## _update_hover() each frame. Player reads this (via GameManager.cursor)
-## to tell "clicking near a rock" from "actually clicking on the rock",
-## since the "attack" input is shared with the sword swing.
-var hovered_rock: RockProp = null
-## The TreeProp currently under the mouse, or null — same pattern as
-## hovered_rock but for choppable trees.
-var hovered_tree: TreeProp = null
+## The harvestable prop (RockProp or TreeProp) currently under the mouse,
+## or null — kept in sync by _update_hover() each frame. Player reads
+## this (via GameManager.cursor) to tell "clicking near a prop" from
+## "actually clicking on the prop", since the "attack" input is shared
+## with the sword swing.
+var hovered_harvestable: BreakableProp = null
 
 ## Art/hotspot currently installed, so set_cursor() can skip the (costly)
 ## OS cursor upload when _update_hover() re-requests the same one each frame.
@@ -86,18 +84,15 @@ func _process(_delta: float) -> void:
 func _update_hover() -> void:
 	if UIManager.is_any_open():
 		set_cursor(default_texture, _default_hotspot)
-		hovered_rock = null
-		hovered_tree = null
+		hovered_harvestable = null
 		return
 	var colliders := _hovered_colliders()
-	hovered_rock = null
-	hovered_tree = null
+	hovered_harvestable = null
 	var best := 0
-	var rock_hit: RockProp = null
-	var tree_hit: TreeProp = null
+	var harvest_hit: BreakableProp = null
 	for c in colliders:
 		if c is CollisionObject2D and c.get_parent() is RockProp:
-			rock_hit = c.get_parent() as RockProp
+			harvest_hit = c.get_parent() as RockProp
 			best = 4
 			break
 		elif c is HurtboxComponent and best < 3:
@@ -105,18 +100,18 @@ func _update_hover() -> void:
 		elif c is InteractionComponent and best < 2:
 			best = 2
 		elif c is CollisionObject2D and c.get_parent() is TreeProp and best < 1:
-			tree_hit = c.get_parent() as TreeProp
+			harvest_hit = c.get_parent() as TreeProp
 			best = 1
 	match best:
 		4:
-			hovered_rock = rock_hit
+			hovered_harvestable = harvest_hit
 			set_cursor(mine_texture, mine_hotspot)
 		3:
 			set_cursor(attack_texture, attack_hotspot)
 		2:
 			set_cursor(interact_texture, interact_hotspot)
 		1:
-			hovered_tree = tree_hit
+			hovered_harvestable = harvest_hit
 			set_cursor(cut_texture, cut_hotspot)
 		_:
 			set_cursor(default_texture, _default_hotspot)

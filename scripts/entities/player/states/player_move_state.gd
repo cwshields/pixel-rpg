@@ -13,7 +13,7 @@ func process_physics(delta: float) -> void:
 		transition_requested.emit(&"Idle", {})
 		return
 	if Input.is_action_pressed("attack") and not player.is_mouse_over_gui():
-		if player.wants_to_mine_rock() or player.wants_to_chop_tree():
+		if player.hovered_harvest_target():
 			transition_requested.emit(&"Idle", {})
 			return
 		if player.can_attack():
