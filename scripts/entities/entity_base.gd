@@ -154,7 +154,10 @@ func steer_direction(desired_direction: Vector2, ignore_bodies: Array[Node2D] = 
 	var reversal: Vector2 = desired_direction.rotated(PI)
 	if not _direction_blocked(reversal, exclude):
 		return reversal
-	return Vector2.ZERO
+	# Everything tested is blocked — return the original direction anyway so
+	# move_and_slide() can attempt a wall slide and the stuck timer keeps
+	# accumulating (returning zero resets it, hiding the stuck state).
+	return desired_direction
 
 ## Checks whether the entity's own body would fit `obstacle_look_ahead`
 ## pixels along `direction` — a shape cast using the entity's actual

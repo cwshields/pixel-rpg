@@ -43,6 +43,10 @@ func process_physics(delta: float) -> void:
 		critter.hunt_target = null
 		transition_requested.emit(&"Idle", {})
 		return
+	if entity.is_stuck():
+		critter.hunt_target = null
+		transition_requested.emit(&"Idle", {})
+		return
 	var to_target: Vector2 = target.global_position - entity.global_position
 	if to_target.length() <= attack_range:
 		transition_requested.emit(&"Attack", {})
