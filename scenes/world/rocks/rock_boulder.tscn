@@ -8,6 +8,7 @@ atlas = ExtResource("2")
 region = Rect2(0, 0, 48, 48)
 
 [node name="RockBoulder" unique_id=1103751381 instance=ExtResource("1")]
+art_offset = Vector2(0, -24)
 
 [node name="Sprite2D" parent="." index="0" unique_id=1813067117]
 position = Vector2(0, -17)
