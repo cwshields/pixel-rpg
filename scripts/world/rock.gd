@@ -38,9 +38,12 @@ const _DEFAULT_COLLISION_OFFSET := Vector2(0, -5)
 		_apply_collision()
 
 @export_group("Combat")
-## Damage multiplier for non-mining hits. Mining (crush) hits deal full
-## damage; everything else is scaled down.
-@export var swing_damage_scale: float = 0.25
+## Flat damage non-mining hits deal. Mining (crush) hits deal full weapon
+## damage; everything else is clamped to this fixed value.
+@export var swing_damage: float = 0.5
+## Mining hits are scaled by this factor so rocks take several pickaxe
+## swings to break rather than melting instantly.
+@export var mining_damage_scale: float = 0.4
 
 func _init() -> void:
 	art_offset = Vector2(0, -24)
@@ -77,10 +80,18 @@ func _apply_collision() -> void:
 			Vector2(-half.x, half.y),
 		])
 
+var _last_hit_was_mining: bool = false
+
 func filter_incoming_damage(amount: float, _source: Node, hitbox: HitboxComponent) -> float:
-	if hitbox == null or hitbox.is_mining:
-		return amount
-	return amount * swing_damage_scale
+	_last_hit_was_mining = hitbox == null or hitbox.is_mining
+	if _last_hit_was_mining:
+		return amount * mining_damage_scale
+	return swing_damage
+
+func _on_damaged(amount: float, source: Node) -> void:
+	if _last_hit_was_mining:
+		_shake(amount)
+	_emit_hit_particles(source)
 
 func _animate_death() -> void:
 	if sprite:

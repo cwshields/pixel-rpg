@@ -48,6 +48,12 @@ static var _trunk_shape_cache: Dictionary = {}
 		trunk_offset = value
 		_apply_trunk()
 
+@export_group("Combat")
+## Damage multiplier for non-chopping hits (sword swings etc.). Chop hits
+## deal full damage; everything else is scaled so weapon stats don't
+## shortcut the per-size hit counts set by HealthComponent.max_health.
+@export var swing_damage_scale: float = 0.5
+
 func _init() -> void:
 	art_offset = Vector2(0, -56)
 	_hit_particle_color = Color(0.42, 0.55, 0.28)
@@ -89,6 +95,11 @@ func _apply_trunk() -> void:
 		var rect := RectangleShape2D.new()
 		rect.size = trunk_size
 		shape_node.shape = rect
+
+func filter_incoming_damage(amount: float, _source: Node, hitbox: HitboxComponent) -> float:
+	if hitbox == null or hitbox.is_chopping:
+		return amount
+	return amount * swing_damage_scale
 
 func _animate_death() -> void:
 	if sprite:
