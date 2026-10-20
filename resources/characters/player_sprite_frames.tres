@@ -19,7 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://wf1cp3pkoxll" path="res://assets/Entities/Characters/Body_A/Animations/Run_Base/Run_Down.png" id="tex_17"]
 [ext_resource type="Texture2D" uid="uid://1gytivsna6j1" path="res://assets/Entities/Characters/Body_A/Animations/Run_Base/Run_Side.png" id="tex_18"]
 [ext_resource type="Texture2D" uid="uid://iwl0lbggexhl" path="res://assets/Entities/Characters/Body_A/Animations/Run_Base/Run_Up.png" id="tex_19"]
-[ext_resource type="Texture2D" uid="uid://j5puppb27wq8" path="res://assets/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Run_Side-Sheet.png" id="tex_20"]
 [ext_resource type="Texture2D" uid="uid://kil7h5p1ydd" path="res://assets/Entities/Characters/Body_A/Animations/Crush_Base/Crush_Down-Sheet.png" id="tex_21"]
 [ext_resource type="Texture2D" uid="uid://bqh1j28ghondh" path="res://assets/Entities/Characters/Body_A/Animations/Crush_Base/Crush_Side-Sheet.png" id="tex_22"]
 [ext_resource type="Texture2D" uid="uid://bt70pbf8xlqgh" path="res://assets/Entities/Characters/Body_A/Animations/Crush_Base/Crush_Up-Sheet.png" id="tex_23"]
@@ -89,38 +88,6 @@ region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="frame_98"]
 atlas = ExtResource("tex_16")
-region = Rect2(448, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_117"]
-atlas = ExtResource("tex_20")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_118"]
-atlas = ExtResource("tex_20")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_119"]
-atlas = ExtResource("tex_20")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_120"]
-atlas = ExtResource("tex_20")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_121"]
-atlas = ExtResource("tex_20")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_122"]
-atlas = ExtResource("tex_20")
-region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_123"]
-atlas = ExtResource("tex_20")
-region = Rect2(384, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="frame_124"]
-atlas = ExtResource("tex_20")
 region = Rect2(448, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="frame_39"]
@@ -777,35 +744,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("frame_117")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_118")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_119")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_120")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_121")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_122")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_123")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_124")
-}],
-"loop": 0,
-"name": &"attack_run_side",
-"speed": 14.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("frame_39")
 }, {
 "duration": 1.0,
@@ -1336,7 +1274,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_24")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"walk_side",
 "speed": 9.0
 }, {
