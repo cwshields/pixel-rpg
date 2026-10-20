@@ -21,6 +21,7 @@ Events="*res://scripts/autoload/event_bus.gd"
 GameManager="*res://scripts/autoload/game_manager.gd"
 UIManager="*res://scripts/autoload/ui_manager.gd"
 Foliage="*res://scripts/world/foliage_manager.gd"
+AmbientAudio="*res://scripts/autoload/ambient_audio.gd"
 
 [display]
 

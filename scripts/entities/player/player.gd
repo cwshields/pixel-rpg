@@ -26,6 +26,19 @@ var hotbar_slots: Array = []
 ## InteractionDetector this masks onto bodies, not areas, since
 ## BreakableProp exposes no InteractionComponent of its own.
 @onready var mine_detector: Area2D = get_node_or_null("MineDetector")
+@onready var footstep_player: FootstepPlayer = get_node_or_null("FootstepPlayer")
+@onready var swing_sound_player: AudioStreamPlayer2D = get_node_or_null("SwingSoundPlayer")
+
+var _swing_sounds: Array[AudioStream] = [
+	preload("res://assets/SoundFX/Swing/swing-whoosh-01.mp3"),
+	preload("res://assets/SoundFX/Swing/swing-whoosh-02.mp3"),
+	preload("res://assets/SoundFX/Swing/swing-whoosh-03.mp3"),
+	preload("res://assets/SoundFX/Swing/swing-whoosh-05.mp3"),
+	preload("res://assets/SoundFX/Swing/swing-whoosh-06.mp3"),
+	preload("res://assets/SoundFX/Swing/swing-whoosh-07.mp3"),
+	preload("res://assets/SoundFX/Swing/swing-whoosh-08.mp3"),
+	preload("res://assets/SoundFX/Swing/swing-whoosh-09.mp3"),
+]
 
 ## Damage dealt per mining hitbox pulse (see PlayerIdleState), applied to
 ## `mine_hitbox` — its own hitbox, separate from the combat one, whose
@@ -83,9 +96,13 @@ func _ready() -> void:
 	if health:
 		health.damaged.connect(func(_amount: float, _source: Node) -> void: state_machine.transition_to(&"Hurt"))
 		health.died.connect(func() -> void: state_machine.transition_to(&"Dead"))
+	if footstep_player and animated_sprite:
+		footstep_player.bind(animated_sprite)
 	Events.entity_died.connect(_on_entity_died)
 	Events.stats_changed.connect(_on_stats_changed)
 	_sync_pools(true)
+	if swing_sound_player:
+		_swing_sounds.shuffle()
 	GameManager.register_player(self)
 
 ## Swaps in the equipped weapon's attack (DEFAULT_ATTACK if unarmed) and
@@ -141,6 +158,19 @@ func is_mouse_over_gui() -> bool:
 ## Brief red pulse on the sprite when a stamina-gated action (an attack
 ## swing) is denied for an empty pool. Purely cosmetic and safe to spam —
 ## a fresh call restarts the pulse.
+var _swing_index: int = 0
+
+func play_swing_sound() -> void:
+	if not swing_sound_player or _swing_sounds.is_empty():
+		return
+	swing_sound_player.stream = _swing_sounds[_swing_index]
+	swing_sound_player.pitch_scale = 1.0 + randf_range(-0.1, 0.1)
+	swing_sound_player.play()
+	_swing_index += 1
+	if _swing_index >= _swing_sounds.size():
+		_swing_sounds.shuffle()
+		_swing_index = 0
+
 func flash_exhausted() -> void:
 	if not animated_sprite:
 		return
