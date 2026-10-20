@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://d074dtlg4scb6" path="res://scripts/components/ambient_action_component.gd" id="17"]
 [ext_resource type="Script" path="res://scripts/entities/ai_wander_state.gd" id="18"]
 [ext_resource type="Script" uid="uid://c5xs2l0uo1qdy" path="res://scripts/components/hunter_component.gd" id="19"]
+[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_flee_state.gd" id="20"]
 
 [sub_resource type="Resource" id="LootEntry_wolf_pelt"]
 script = ExtResource("13")
@@ -127,6 +128,9 @@ script = ExtResource("15")
 
 [node name="Howl" type="Node" parent="StateMachine" unique_id=1819641225]
 script = ExtResource("16")
+
+[node name="Flee" type="Node" parent="StateMachine"]
+script = ExtResource("20")
 
 [node name="Chase" type="Node" parent="StateMachine" unique_id=372911869]
 script = ExtResource("4")
