@@ -14,6 +14,7 @@ var _harvest_prev_frame: int = -1
 var _harvest_hitbox: HitboxComponent = null
 var _harvest_attack: AttackDefinition = null
 var _harvest_animation: StringName = &""
+var _did_harvest: bool = false
 
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	entity.sprinting = false
@@ -21,6 +22,7 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	_harvest_timer = 0.0
 	_was_harvesting = false
 	_finishing_harvest = false
+	_did_harvest = false
 	_harvest_hitbox = null
 	var player := entity as Player
 	var target := player.active_harvest_target()
@@ -56,8 +58,12 @@ func process_physics(delta: float) -> void:
 			if cur < _harvest_prev_frame:
 				_finishing_harvest = false
 			_harvest_prev_frame = cur
+	if harvesting:
+		_did_harvest = true
+	if _did_harvest and not Input.is_action_pressed("attack"):
+		_did_harvest = false
 	var active_harvest := harvesting or _finishing_harvest
-	if not active_harvest and Input.is_action_pressed("attack") and not player.is_mouse_over_gui():
+	if not active_harvest and not _did_harvest and Input.is_action_pressed("attack") and not player.is_mouse_over_gui():
 		if player.can_attack():
 			transition_requested.emit(&"Attack", {})
 			return
