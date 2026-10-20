@@ -11,12 +11,16 @@ region = Rect2(0, 0, 48, 96)
 points = PackedVector2Array(-5, -5, 5, -5, 6.240572, -1.6215658, 6.142296, 6.437126, -6.437126, 6.437126, -6.3388495, -0.83535194)
 
 [node name="TreeMedium" unique_id=269687677 instance=ExtResource("1")]
+art_offset = Vector2(0, -56)
 
 [node name="Sprite2D" parent="." index="0" unique_id=281834848]
 position = Vector2(0, -48)
 texture = SubResource("AtlasTexture_art")
 
-[node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(264104722) index="0" unique_id=455016265]
+[node name="StaticBody2D" parent="." index="1" unique_id=264104722]
+visible = false
+
+[node name="CollisionShape2D" parent="StaticBody2D" index="0" unique_id=455016265]
 position = Vector2(0, -8)
 shape = SubResource("ConvexPolygonShape2D_trunk")
 
@@ -28,6 +32,9 @@ polygon = PackedVector2Array(-13, -93, 15, -90, 22, -66, 20, -35, 4, -26, 4, -5,
 position = Vector2(0, 0)
 polygon = PackedVector2Array(-15, -91, 17, -89, 24, -67, 23, -18, 4, -11, 3.937, -5.1, -4.063, -5.1, -4, -11, -24, -20, -24, -71)
 
-[node name="CollisionPolygon2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(591471401) index="0" unique_id=591471402]
+[node name="HurtboxComponent" parent="." index="5" unique_id=591471401]
+visible = false
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" index="0" unique_id=591471402]
 position = Vector2(0, 0)
 polygon = PackedVector2Array(5, -19, 6, -2, -6, -2, -5, -19)
