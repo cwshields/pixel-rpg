@@ -12,6 +12,21 @@
 [ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
 [ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="10"]
 [ext_resource type="Script" uid="uid://cetq4br7yjdov" path="res://scripts/components/stamina_component.gd" id="13"]
+[ext_resource type="Script" uid="uid://dm8p6mg5b7kr0" path="res://scripts/components/footstep_player.gd" id="14"]
+[ext_resource type="AudioStream" uid="uid://bg2ivgjax2bvu" path="res://assets/SoundFX/Footsteps/woodland-steps01.mp3" id="15"]
+[ext_resource type="AudioStream" uid="uid://841ioo7bgc7t" path="res://assets/SoundFX/Footsteps/woodland-steps02.mp3" id="16"]
+[ext_resource type="AudioStream" uid="uid://cngwbprjnfllf" path="res://assets/SoundFX/Footsteps/woodland-steps03.mp3" id="17"]
+[ext_resource type="AudioStream" uid="uid://dy66xuy145o5s" path="res://assets/SoundFX/Footsteps/woodland-steps04.mp3" id="18"]
+[ext_resource type="AudioStream" uid="uid://g2nwnou51837" path="res://assets/SoundFX/Footsteps/woodland-steps05.mp3" id="19"]
+[ext_resource type="AudioStream" uid="uid://jrkcq3qtauyl" path="res://assets/SoundFX/Footsteps/woodland-steps06.mp3" id="20"]
+[ext_resource type="AudioStream" uid="uid://b5ovpaa2glbw3" path="res://assets/SoundFX/Footsteps/woodland-steps07.mp3" id="21"]
+[ext_resource type="AudioStream" uid="uid://d30nyflisdqnv" path="res://assets/SoundFX/Footsteps/woodland-steps08.mp3" id="22"]
+[ext_resource type="AudioStream" uid="uid://c5uk7psh7y6l1" path="res://assets/SoundFX/Footsteps/woodland-steps09.mp3" id="23"]
+[ext_resource type="AudioStream" uid="uid://blg51pc17wbb2" path="res://assets/SoundFX/Footsteps/woodland-steps10.mp3" id="24"]
+[ext_resource type="AudioStream" uid="uid://broil08pj7r3q" path="res://assets/SoundFX/Footsteps/woodland-steps11.mp3" id="25"]
+[ext_resource type="AudioStream" uid="uid://cvvbmay65as7q" path="res://assets/SoundFX/Footsteps/woodland-steps12.mp3" id="26"]
+[ext_resource type="AudioStream" uid="uid://c63dn04y2wfgl" path="res://assets/SoundFX/Footsteps/woodland-steps13.mp3" id="27"]
+[ext_resource type="AudioStream" uid="uid://px8bhrhxqmes" path="res://assets/SoundFX/Footsteps/woodland-steps14.mp3" id="28"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(10, 10)
@@ -92,6 +107,13 @@ script = ExtResource("6")
 
 [node name="Dead" type="Node" parent="StateMachine" unique_id=1115862409]
 script = ExtResource("7")
+
+[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1882046391]
+script = ExtResource("14")
+footstep_sounds = Array[AudioStream]([ExtResource("15"), ExtResource("16"), ExtResource("17"), ExtResource("18"), ExtResource("19"), ExtResource("20"), ExtResource("21"), ExtResource("22"), ExtResource("23"), ExtResource("24"), ExtResource("25"), ExtResource("26"), ExtResource("27"), ExtResource("28")])
+
+[node name="SwingSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=162083093]
+volume_db = -10.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=706965347]
 zoom = Vector2(2.25, 2.25)

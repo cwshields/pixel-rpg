@@ -23,6 +23,7 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	player.sprinting = moving and player.wants_to_sprint()
 	_apply_attack_visuals(player, moving)
 	_update_hitbox(player)
+	player.play_swing_sound()
 
 func process_physics(delta: float) -> void:
 	_timer += delta
@@ -44,6 +45,7 @@ func process_physics(delta: float) -> void:
 				player.hitbox.reset_hits()
 			_apply_attack_visuals(player, moving)
 			_update_hitbox(player)
+			player.play_swing_sound()
 		else:
 			transition_requested.emit(&"Move" if moving else &"Idle", {})
 
