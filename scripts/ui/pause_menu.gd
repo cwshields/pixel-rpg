@@ -17,9 +17,11 @@ extends MenuBase
 @onready var _exit_button: Button = %ExitButton
 @onready var _back_button: Button = %BackButton
 @onready var _volume_slider: HSlider = %VolumeSlider
+@onready var _ambience_slider: HSlider = %AmbienceSlider
 @onready var _fullscreen_check: CheckButton = %FullscreenCheck
 
 var _master_bus: int = AudioServer.get_bus_index("Master")
+var _ambience_bus: int = AudioServer.get_bus_index("Ambience")
 
 func _ready() -> void:
 	super._ready()
@@ -28,6 +30,7 @@ func _ready() -> void:
 	_back_button.pressed.connect(_show_main)
 	_exit_button.pressed.connect(func() -> void: get_tree().quit())
 	_volume_slider.value_changed.connect(_on_volume_changed)
+	_ambience_slider.value_changed.connect(_on_ambience_changed)
 	_fullscreen_check.toggled.connect(_on_fullscreen_toggled)
 
 ## Overrides MenuBase's close_action handling entirely: this is the single
@@ -41,6 +44,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_open() -> void:
 	_show_main()
 	_volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(_master_bus))
+	_ambience_slider.value = db_to_linear(AudioServer.get_bus_volume_db(_ambience_bus))
 	_fullscreen_check.button_pressed = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	_resume_button.grab_focus()
 
@@ -55,6 +59,9 @@ func _show_options() -> void:
 
 func _on_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(_master_bus, linear_to_db(value))
+
+func _on_ambience_changed(value: float) -> void:
+	AudioServer.set_bus_volume_db(_ambience_bus, linear_to_db(value))
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED)

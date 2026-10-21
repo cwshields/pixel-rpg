@@ -123,6 +123,18 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
+[node name="AmbienceLabel" type="Label" parent="OptionsPanel/Layout"]
+layout_mode = 2
+text = "Ambience Volume"
+
+[node name="AmbienceSlider" type="HSlider" parent="OptionsPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+
 [node name="FullscreenCheck" type="CheckButton" parent="OptionsPanel/Layout"]
 unique_name_in_owner = true
 layout_mode = 2
