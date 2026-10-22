@@ -10,11 +10,22 @@ extends AudioStreamPlayer2D
 @export var walk_volume_db: float = -13.0
 @export var pitch_variance: float = 0.1
 
+@export_group("Overlay Sound")
+@export var overlay_player_path: NodePath
+@export var overlay_every_min: int = 2
+@export var overlay_every_max: int = 4
+
 var _sprite: AnimatedSprite2D
+var _overlay_player: AudioStreamPlayer2D
+var _step_count: int = 0
+var _next_overlay: int = 0
 
 func bind(sprite: AnimatedSprite2D) -> void:
 	_sprite = sprite
 	_sprite.frame_changed.connect(_on_frame_changed)
+	if overlay_player_path:
+		_overlay_player = get_node_or_null(overlay_player_path) as AudioStreamPlayer2D
+		_next_overlay = randi_range(overlay_every_min, overlay_every_max)
 
 func _on_frame_changed() -> void:
 	if not _sprite or footstep_sounds.is_empty():
@@ -35,6 +46,11 @@ func _on_frame_changed() -> void:
 		return
 	if _sprite.frame in frames:
 		_play_random(vol)
+		_step_count += 1
+		if _overlay_player and _step_count >= _next_overlay:
+			_overlay_player.play()
+			_step_count = 0
+			_next_overlay = randi_range(overlay_every_min, overlay_every_max)
 
 func _play_random(vol: float) -> void:
 	stream = footstep_sounds.pick_random()
