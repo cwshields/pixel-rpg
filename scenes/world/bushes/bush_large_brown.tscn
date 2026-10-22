@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bho1qlrnf6l4g"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/bush.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://cxli2es82ffjo" path="res://Tilesets/Vegetation.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jn5b3"]
+atlas = ExtResource("2")
+region = Rect2(96, 96, 48, 48)
+
+[node name="BushLargeBrown" unique_id=980681711 instance=ExtResource("1")]
+fade_polygon = PackedVector2Array()
+art_texture = ExtResource("2")
+art_region = Rect2i(96, 96, 48, 48)
+art_offset = Vector2(0, -24)
+hover_polygon = PackedVector2Array()
+hurt_polygon = PackedVector2Array()
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, -24)
+texture = SubResource("AtlasTexture_jn5b3")
+
+[node name="CollisionPolygon2D" parent="FadeArea" index="0"]
+polygon = PackedVector2Array(-24, -48, 24, -48, 24, 0, -24, 0)
+
+[node name="CollisionPolygon2D" parent="HoverArea" index="0"]
+polygon = PackedVector2Array(-24, -48, 24, -48, 24, 0, -24, 0)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
+polygon = PackedVector2Array(-24, -48, 24, -48, 24, 0, -24, 0)

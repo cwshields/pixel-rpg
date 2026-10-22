@@ -99,8 +99,8 @@ func _update_hover() -> void:
 			best = 3
 		elif c is InteractionComponent and best < 2:
 			best = 2
-		elif c is CollisionObject2D and c.get_parent() is TreeProp and best < 1:
-			harvest_hit = c.get_parent() as TreeProp
+		elif c is CollisionObject2D and (c.get_parent() is TreeProp or c.get_parent() is BushProp) and best < 1:
+			harvest_hit = c.get_parent() as BreakableProp
 			best = 1
 	match best:
 		4:

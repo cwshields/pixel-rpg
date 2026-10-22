@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dh6447fg6ad6x"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/bush.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://cxli2es82ffjo" path="res://Tilesets/Vegetation.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh5n6"]
+atlas = ExtResource("2")
+region = Rect2(0, 64, 48, 32)
+
+[node name="BushMediumLime" unique_id=682064148 instance=ExtResource("1")]
+fade_polygon = PackedVector2Array()
+art_texture = ExtResource("2")
+art_region = Rect2i(0, 64, 48, 32)
+art_offset = Vector2(0, -16)
+hover_polygon = PackedVector2Array()
+hurt_polygon = PackedVector2Array()
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_bh5n6")
+
+[node name="CollisionPolygon2D" parent="FadeArea" index="0"]
+polygon = PackedVector2Array(-24, -32, 24, -32, 24, 0, -24, 0)
+
+[node name="CollisionPolygon2D" parent="HoverArea" index="0"]
+polygon = PackedVector2Array(-24, -32, 24, -32, 24, 0, -24, 0)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
+polygon = PackedVector2Array(-24, -32, 24, -32, 24, 0, -24, 0)

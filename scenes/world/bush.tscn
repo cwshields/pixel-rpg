@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/world/bush.gd" id="1"]
+[ext_resource type="Material" path="res://resources/materials/foliage_wind_material.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="4"]
+
+[node name="Bush" type="Node2D"]
+z_index = 3
+script = ExtResource("1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("2")
+texture_filter = 0
+
+[node name="FadeArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea"]
+
+[node name="HoverArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HoverArea"]
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3")
+max_health = 10.0
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("4")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent"]
+
+[node name="RustleSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+max_distance = 200.0

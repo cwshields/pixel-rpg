@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bwv0pntyx5jk"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/bush.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://cxli2es82ffjo" path="res://Tilesets/Vegetation.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5df5d"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 32, 32)
+
+[node name="BushSmallGreen" unique_id=916458658 instance=ExtResource("1")]
+fade_polygon = PackedVector2Array()
+art_texture = ExtResource("2")
+art_region = Rect2i(0, 0, 32, 32)
+art_offset = Vector2(0, -16)
+hover_polygon = PackedVector2Array()
+hurt_polygon = PackedVector2Array()
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_5df5d")
+
+[node name="CollisionPolygon2D" parent="FadeArea" index="0"]
+position = Vector2(0, -1)
+polygon = PackedVector2Array(-8, -15, -2, -18, 6, -17, 11, -11, 9, -7, 0, -5, -8, -7, -10, -10)
+
+[node name="CollisionPolygon2D" parent="HoverArea" index="0"]
+polygon = PackedVector2Array(-16, -32, 16, -32, 16, 0, -16, 0)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
+position = Vector2(0, 1)
+polygon = PackedVector2Array(-12, -20, -1, -27, 7, -25, 13, -13, 11, -5, -5, -2, -13, -9)
+
+[node name="RustleSoundPlayer" parent="." index="5"]
+volume_db = 2.0
+max_distance = 100.0
