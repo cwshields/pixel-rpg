@@ -9,6 +9,7 @@ extends State
 ## Sprint (EntityBase.sprint_speed) while running down prey. Never
 ## applies to the player — fighting them keeps using plain move_speed.
 @export var sprint_when_hunting: bool = true
+@export var sprint_when_chasing: bool = false
 ## While hunting, creep toward the prey at walking pace until it's within
 ## this distance (or has noticed us and bolted), then break into the
 ## sprint. 0 sprints from the start. See HunterComponent.alert_prey.
@@ -42,7 +43,7 @@ func process_physics(delta: float) -> void:
 	var hunting: bool = chase_target == enemy.hunt_target
 	var pouncing: bool = hunting and (_hunt_time > 0.0 or to_target.length() <= stalk_distance
 			or enemy.hunt_target.threat == enemy)
-	entity.sprinting = pouncing and sprint_when_hunting
+	entity.sprinting = (pouncing and sprint_when_hunting) or (not hunting and sprint_when_chasing)
 	if pouncing:
 		_hunt_time += delta
 		if giveup_time > 0.0 and _hunt_time >= giveup_time:

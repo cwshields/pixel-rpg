@@ -13,6 +13,9 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	var body_collision := entity.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if body_collision:
 		body_collision.set_deferred("disabled", true)
+	var death_sound := entity.get_node_or_null("DeathSoundPlayer") as AudioStreamPlayer2D
+	if death_sound:
+		death_sound.play()
 	if entity.play_animation("death"):
 		await entity.animated_sprite.animation_finished
 	if not is_instance_valid(entity):

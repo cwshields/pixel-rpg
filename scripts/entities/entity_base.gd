@@ -48,6 +48,7 @@ var _stuck_sample_pos: Vector2
 @onready var _body_shape: CollisionShape2D = get_node_or_null("CollisionShape2D")
 
 func _ready() -> void:
+	add_to_group("entities")
 	_stuck_sample_pos = global_position
 	if health:
 		health.died.connect(_on_died)

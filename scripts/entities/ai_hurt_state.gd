@@ -10,6 +10,9 @@ var _timer: float = 0.0
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	_timer = 0.0
 	entity.play_animation("hurt")
+	var hit_sound := entity.get_node_or_null("HitSoundPlayer") as AudioStreamPlayer2D
+	if hit_sound:
+		hit_sound.play()
 
 func process_physics(delta: float) -> void:
 	_timer += delta
