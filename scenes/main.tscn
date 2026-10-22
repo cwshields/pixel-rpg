@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://bv5cy6n6y0dyy" path="res://scenes/entities/critter/deer.tscn" id="30_deer"]
 [ext_resource type="PackedScene" uid="uid://c8jthip8ikdkl" path="res://scenes/entities/critter/black_grouse.tscn" id="30_grouse"]
 [ext_resource type="TileSet" uid="uid://c06lwb023nreq" path="res://resources/tilesets/rock_scenes.tres" id="37_fuf3a"]
+[ext_resource type="TileSet" uid="uid://tlkmnkvnu7h3" path="res://resources/tilesets/bush_scenes.tres" id="38_bush"]
 [ext_resource type="PackedScene" uid="uid://r0b70hcst82n" path="res://scenes/world/world.scn" id="40_world"]
 [ext_resource type="PackedScene" uid="uid://c5d53qcuhid5e" path="res://scenes/entities/npc/merchant_peasant.tscn" id="merchant_peasant"]
 [ext_resource type="PackedScene" uid="uid://b5wrhol0b8hfj" path="res://scenes/world/trees/tree_large.tscn" id="tv_large"]
@@ -26,7 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://yxp2j2w0xdkx" path="res://scenes/world/trees/tree_small_b.tscn" id="tv_small_b"]
 [ext_resource type="PackedScene" uid="uid://wjumdwb2gk1m" path="res://scenes/world/trees/tree_small_c.tscn" id="tv_small_c"]
 
-[node name="Main" type="Node2D" unique_id=816002242]
+[node name="Grassland01" type="Node2D" unique_id=816002242]
 script = ExtResource("1_w0ke7")
 
 [node name="World" parent="." unique_id=1398103495 instance=ExtResource("40_world")]
@@ -34,7 +35,7 @@ script = ExtResource("1_w0ke7")
 [node name="Entities" type="Node2D" parent="." unique_id=583179709]
 
 [node name="Player" parent="Entities" unique_id=1087868956 instance=ExtResource("10_u2u5e")]
-position = Vector2(-259, -629)
+position = Vector2(-127, 257)
 
 [node name="Merchant" parent="Entities" unique_id=244868271 instance=ExtResource("merchant_peasant")]
 z_index = 1
@@ -50,7 +51,7 @@ position = Vector2(-1022, -169)
 position = Vector2(-298, 155)
 
 [node name="Tree2" parent="Trees" unique_id=1602524305 instance=ExtResource("12_kpsmc")]
-position = Vector2(-274, 261)
+position = Vector2(-267, 264)
 
 [node name="Tree4" parent="Trees" unique_id=775359255 instance=ExtResource("12_kpsmc")]
 position = Vector2(-216, -51)
@@ -255,7 +256,7 @@ position = Vector2(-507, -125)
 position = Vector2(-539, -297)
 
 [node name="PaintedTree_52_-8" parent="Trees/PaintedTrees" unique_id=326946984 instance=ExtResource("tv_medium")]
-position = Vector2(-289, 29)
+position = Vector2(-287, 14)
 
 [node name="PaintedTree_47_-5" parent="Trees/PaintedTrees" unique_id=269262495 instance=ExtResource("tv_small_c")]
 position = Vector2(-314, -743)
@@ -475,5 +476,10 @@ polygon = PackedVector2Array(-71.93707, 67.766785, -86.53302, 82.36273, -86.5330
 
 [node name="RockTiles" type="TileMapLayer" parent="." unique_id=521094306]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AADV/wIAAAAAAAAAAgADAA4AAAAAAAAABQAcAPb/AAAAAAAAAQDb/w0AAAAAAAAABADH/+D/AAAAAAAABQAtAPD/AAAAAAAAAwAWAOX/AAAAAAAAAQAPAAAAAAAAAAAABgAGAPj/AAAAAAAADADy//T/AAAAAAAAAADi/+D/AAAAAAAADgDl/9j/AAAAAAAACADi/9v/AAAAAAAADADr/9j/AAAAAAAABgDn/+H/AAAAAAAAAQDt/+D/AAAAAAAABQA=")
+tile_map_data = PackedByteArray("AADV/wIAAAAAAAAAAgAcAPb/AAAAAAAAAQDb/w0AAAAAAAAABADH/+D/AAAAAAAABQAtAPD/AAAAAAAAAwAWAOX/AAAAAAAAAQAPAAAAAAAAAAAABgAGAPj/AAAAAAAADADy//T/AAAAAAAAAADi/+D/AAAAAAAADgDl/9j/AAAAAAAACADi/9v/AAAAAAAADADr/9j/AAAAAAAABgDn/+H/AAAAAAAAAQDt/+D/AAAAAAAABQADAA4AAAAAAAAABQA=")
 tile_set = ExtResource("37_fuf3a")
+
+[node name="BushTiles" type="TileMapLayer" parent="." unique_id=1812180673]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AADE/wQAAAAAAAAAAAD0/wkAAAAAAAAAAAD9/woAAAAAAAAAAAD0/xIAAAAAAAAAAAACABIAAAAAAAAABAAGABEAAAAAAAAACAACAAoAAAAAAAAADQDt/xUAAAAAAAAADQD3/wwAAAAAAAAABAAMAAcAAAAAAAAAAADf//v/AAAAAAAADQA=")
+tile_set = ExtResource("38_bush")
