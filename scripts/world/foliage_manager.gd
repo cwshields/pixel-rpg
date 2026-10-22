@@ -23,7 +23,8 @@ extends Node
 ## snaps state back to resting.
 const ACTIVE_RADIUS: float = 260.0
 
-var _props: Array[OccluderProp] = []
+var _props: Array = []
+var _wind_time: float = 0.0
 
 func register_prop(prop: OccluderProp) -> void:
 	if prop not in _props:
@@ -33,6 +34,9 @@ func unregister_prop(prop: OccluderProp) -> void:
 	_props.erase(prop)
 
 func _process(delta: float) -> void:
+	_wind_time += delta
+	RenderingServer.global_shader_parameter_set(&"wind_time", _wind_time)
+
 	var player: Node2D = GameManager.player
 	if not player:
 		return
