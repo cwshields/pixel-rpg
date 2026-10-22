@@ -14,6 +14,25 @@ const VARIANT_DIR := "res://scenes/world/rocks/"
 const _DEFAULT_COLLISION_SIZE := Vector2(16, 10)
 const _DEFAULT_COLLISION_OFFSET := Vector2(0, -5)
 
+var _smash_sounds: Array[AudioStream] = [
+	preload("res://assets/SoundFX/Mining/rock-smash-01.mp3"),
+	preload("res://assets/SoundFX/Mining/rock-smash-02.mp3"),
+	preload("res://assets/SoundFX/Mining/rock-smash-03.mp3"),
+	preload("res://assets/SoundFX/Mining/rock-smash-04.mp3"),
+]
+
+var _mining_sounds: Array[AudioStream] = [
+	preload("res://assets/SoundFX/Mining/pick-axe-striking-rocks-01.mp3"),
+	preload("res://assets/SoundFX/Mining/pick-axe-striking-rocks-02.mp3"),
+	preload("res://assets/SoundFX/Mining/pick-axe-striking-rocks-03.mp3"),
+	preload("res://assets/SoundFX/Mining/pick-axe-striking-rocks-04.mp3"),
+	preload("res://assets/SoundFX/Mining/pick-axe-striking-rocks-05.mp3"),
+	preload("res://assets/SoundFX/Mining/pick-axe-striking-rocks-06.mp3"),
+	preload("res://assets/SoundFX/Mining/pick-axe-striking-rocks-07.mp3"),
+]
+var _mining_index: int = 0
+@onready var _mining_player: AudioStreamPlayer2D = get_node_or_null("MiningSoundPlayer")
+
 @export_tool_button("Randomize Variant") var _randomize_variant_button = _randomize_variant
 
 @export_group("Collision")
@@ -49,6 +68,11 @@ func _init() -> void:
 	art_offset = Vector2(0, -24)
 	_hit_particle_color = Color(0.72, 0.66, 0.56)
 	_break_fragment_color = Color(0.65, 0.6, 0.5)
+
+func _ready() -> void:
+	super._ready()
+	if not Engine.is_editor_hint():
+		_mining_sounds.shuffle()
 
 func _randomize_variant() -> void:
 	swap_for_random_variant(VARIANT_DIR)
@@ -91,9 +115,22 @@ func filter_incoming_damage(amount: float, _source: Node, hitbox: HitboxComponen
 func _on_damaged(amount: float, source: Node) -> void:
 	if _last_hit_was_mining:
 		_shake(amount)
+		_play_mining_sound()
 	_emit_hit_particles(source)
 
+func _play_mining_sound() -> void:
+	if not _mining_player or _mining_sounds.is_empty():
+		return
+	_mining_player.stream = _mining_sounds[_mining_index]
+	_mining_player.pitch_scale = 1.0 + randf_range(-0.15, 0.15)
+	_mining_player.play()
+	_mining_index += 1
+	if _mining_index >= _mining_sounds.size():
+		_mining_sounds.shuffle()
+		_mining_index = 0
+
 func _animate_death() -> void:
+	_play_smash_sound()
 	if sprite:
 		var tween := create_tween()
 		tween.set_parallel(true)
@@ -103,3 +140,14 @@ func _animate_death() -> void:
 		tween.tween_callback(queue_free)
 	else:
 		queue_free()
+
+func _play_smash_sound() -> void:
+	if not _mining_player or _smash_sounds.is_empty():
+		return
+	_mining_player.stream = _smash_sounds.pick_random()
+	_mining_player.pitch_scale = 1.0 + randf_range(-0.1, 0.1)
+	_mining_player.play()
+	var player := _mining_player
+	_mining_player = null
+	player.reparent(get_tree().current_scene)
+	player.finished.connect(player.queue_free)

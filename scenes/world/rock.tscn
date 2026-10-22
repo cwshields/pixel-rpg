@@ -60,6 +60,9 @@ polygon = PackedVector2Array(-11, -27, 4, -31, 14, -23, 17, -13, 5, -12, -7, -12
 [node name="HealthComponent" type="Node" parent="." unique_id=1996582103]
 script = ExtResource("3")
 
+[node name="MiningSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+max_distance = 300.0
+
 [node name="HurtboxComponent" type="Area2D" parent="." unique_id=1996582104]
 visible = false
 position = Vector2(0, 5)
