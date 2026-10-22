@@ -15,6 +15,18 @@ const VARIANT_DIR := "res://scenes/world/trees/"
 const _DEFAULT_TRUNK_SIZE := Vector2(9, 8)
 const _DEFAULT_TRUNK_OFFSET := Vector2(0.5, -4)
 
+var _woodcut_sounds: Array[AudioStream] = [
+	preload("res://assets/SoundFX/Woodcutting/woodcut1.mp3"),
+	preload("res://assets/SoundFX/Woodcutting/woodcut2.mp3"),
+	preload("res://assets/SoundFX/Woodcutting/woodcut3.mp3"),
+	preload("res://assets/SoundFX/Woodcutting/woodcut4.mp3"),
+	preload("res://assets/SoundFX/Woodcutting/woodcut5.mp3"),
+	preload("res://assets/SoundFX/Woodcutting/woodcut6.mp3"),
+]
+var _woodcut_index: int = 0
+var _falling_tree_sound: AudioStream = preload("res://assets/SoundFX/Woodcutting/falling-tree.mp3")
+@onready var _woodcut_player: AudioStreamPlayer2D = get_node_or_null("WoodcutSoundPlayer")
+
 static var _trunk_shape_cache: Dictionary = {}
 
 @export_group("Art")
@@ -59,6 +71,11 @@ func _init() -> void:
 	_hit_particle_color = Color(0.42, 0.55, 0.28)
 	_break_fragment_color = Color(0.35, 0.52, 0.22)
 
+func _ready() -> void:
+	super._ready()
+	if not Engine.is_editor_hint():
+		_woodcut_sounds.shuffle()
+
 func _randomize_variant() -> void:
 	swap_for_random_variant(VARIANT_DIR)
 
@@ -96,6 +113,21 @@ func _apply_trunk() -> void:
 		rect.size = trunk_size
 		shape_node.shape = rect
 
+func _on_damaged(amount: float, source: Node) -> void:
+	super._on_damaged(amount, source)
+	_play_woodcut_sound()
+
+func _play_woodcut_sound() -> void:
+	if not _woodcut_player or _woodcut_sounds.is_empty():
+		return
+	_woodcut_player.stream = _woodcut_sounds[_woodcut_index]
+	_woodcut_player.pitch_scale = 1.0 + randf_range(-0.15, 0.15)
+	_woodcut_player.play()
+	_woodcut_index += 1
+	if _woodcut_index >= _woodcut_sounds.size():
+		_woodcut_sounds.shuffle()
+		_woodcut_index = 0
+
 func filter_incoming_damage(amount: float, _source: Node, hitbox: HitboxComponent) -> float:
 	if hitbox == null or hitbox.is_chopping:
 		return amount
@@ -111,15 +143,24 @@ func _animate_death() -> void:
 			var half_h := sprite.texture.get_size().y * 0.5
 			sprite.offset.y = -half_h
 			sprite.position.y += half_h
+		if _falling_tree_sound:
+			var fall_player := AudioStreamPlayer2D.new()
+			fall_player.stream = _falling_tree_sound
+			fall_player.bus = _woodcut_player.bus if _woodcut_player else &"Master"
+			fall_player.max_distance = _woodcut_player.max_distance if _woodcut_player else 2000.0
+			add_child(fall_player)
+			fall_player.play()
+			fall_player.finished.connect(fall_player.queue_free)
 		var tween := create_tween()
 		tween.set_parallel(true)
-		tween.tween_property(sprite, "rotation", fall_dir * deg_to_rad(80.0), 1.2) \
+		tween.tween_property(sprite, "rotation", fall_dir * deg_to_rad(90.0), 2.0) \
 				.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 		tween.tween_property(sprite, "position:x",
-				sprite.position.x + fall_dir * 12.0, 1.2) \
+				sprite.position.x + fall_dir * 16.0, 2.0) \
 				.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-		tween.tween_property(sprite, "modulate:a", 0.0, 0.4).set_delay(0.85)
 		tween.set_parallel(false)
+		tween.tween_interval(2.0)
+		tween.tween_property(sprite, "modulate:a", 0.0, 0.6)
 		tween.tween_callback(queue_free)
 	else:
 		queue_free()

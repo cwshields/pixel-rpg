@@ -65,6 +65,9 @@ polygon = PackedVector2Array(-15, -69, 17, -67, 24, -45, 23, 4, 4, 11, 3.9369392
 script = ExtResource("4")
 max_health = 32.0
 
+[node name="WoodcutSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+max_distance = 300.0
+
 [node name="HurtboxComponent" type="Area2D" parent="." unique_id=591471401]
 visible = false
 collision_layer = 4
