@@ -13,8 +13,8 @@ extends Node
 
 @export var action_state: StringName = &"Howl"
 ## Random range (seconds) between action urges.
-@export var interval_min: float = 30.0
-@export var interval_max: float = 90.0
+@export var interval_min: float = 120.0
+@export var interval_max: float = 300.0
 
 @onready var _owner: EnemyBase = get_parent() as EnemyBase
 

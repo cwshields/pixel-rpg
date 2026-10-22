@@ -35,6 +35,9 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 			_hitbox_offset_y = enemy.hitbox.position.y
 		_position_hitbox(enemy)
 	entity.play_animation("attack")
+	var attack_sound := entity.get_node_or_null("AttackSoundPlayer") as AudioStreamPlayer2D
+	if attack_sound:
+		attack_sound.play()
 
 func process_physics(delta: float) -> void:
 	var enemy := entity as EnemyBase
