@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/world/bush.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://cxli2es82ffjo" path="res://Tilesets/Vegetation.png" id="2"]
+
+[node name="BushLargeSticks" instance=ExtResource("1")]
+art_texture = ExtResource("2")
+art_region = Rect2i(144, 96, 48, 48)
+art_offset = Vector2(0, -24.0)
+swaying = false

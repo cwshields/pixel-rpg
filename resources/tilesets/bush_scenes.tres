@@ -1,0 +1,49 @@
+[gd_resource type="TileSet" format=3 uid="uid://tlkmnkvnu7h3"]
+
+[ext_resource type="PackedScene" uid="uid://bwv0pntyx5jk" path="res://scenes/world/bushes/bush_small_green.tscn" id="1_bush"]
+[ext_resource type="PackedScene" uid="uid://nea6ue4jjva8" path="res://scenes/world/bushes/bush_small_dark.tscn" id="2_bush"]
+[ext_resource type="PackedScene" uid="uid://cyaxqpcs6yit0" path="res://scenes/world/bushes/bush_small_red.tscn" id="3_bush"]
+[ext_resource type="PackedScene" uid="uid://dmpsrp3i1kq00" path="res://scenes/world/bushes/bush_small_orange.tscn" id="4_bush"]
+[ext_resource type="PackedScene" uid="uid://dlypnw2i6o3s" path="res://scenes/world/bushes/bush_medium_green.tscn" id="5_bush"]
+[ext_resource type="PackedScene" uid="uid://budj8crt414jj" path="res://scenes/world/bushes/bush_medium_dark.tscn" id="6_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_medium_brown.tscn" id="7_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_medium_orange.tscn" id="8_bush"]
+[ext_resource type="PackedScene" uid="uid://dh6447fg6ad6x" path="res://scenes/world/bushes/bush_medium_lime.tscn" id="9_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_medium_olive.tscn" id="10_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_medium_golden.tscn" id="11_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_medium_autumn.tscn" id="12_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_medium_dead.tscn" id="13_bush"]
+[ext_resource type="PackedScene" uid="uid://diev2f8vu1gpm" path="res://scenes/world/bushes/bush_large_green.tscn" id="14_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_large_dark.tscn" id="15_bush"]
+[ext_resource type="PackedScene" uid="uid://bho1qlrnf6l4g" path="res://scenes/world/bushes/bush_large_brown.tscn" id="16_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_large_sticks.tscn" id="17_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_large_dead.tscn" id="18_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_plant_a.tscn" id="19_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_plant_b.tscn" id="20_bush"]
+[ext_resource type="PackedScene" path="res://scenes/world/bushes/bush_plant_c.tscn" id="21_bush"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bush"]
+scenes/0/scene = ExtResource("1_bush")
+scenes/1/scene = ExtResource("2_bush")
+scenes/2/scene = ExtResource("3_bush")
+scenes/3/scene = ExtResource("4_bush")
+scenes/4/scene = ExtResource("5_bush")
+scenes/5/scene = ExtResource("6_bush")
+scenes/6/scene = ExtResource("7_bush")
+scenes/7/scene = ExtResource("8_bush")
+scenes/8/scene = ExtResource("9_bush")
+scenes/9/scene = ExtResource("10_bush")
+scenes/10/scene = ExtResource("11_bush")
+scenes/11/scene = ExtResource("12_bush")
+scenes/12/scene = ExtResource("13_bush")
+scenes/13/scene = ExtResource("14_bush")
+scenes/14/scene = ExtResource("15_bush")
+scenes/15/scene = ExtResource("16_bush")
+scenes/16/scene = ExtResource("17_bush")
+scenes/17/scene = ExtResource("18_bush")
+scenes/18/scene = ExtResource("19_bush")
+scenes/19/scene = ExtResource("20_bush")
+scenes/20/scene = ExtResource("21_bush")
+
+[resource]
+sources/0 = SubResource("TileSetScenesCollectionSource_bush")

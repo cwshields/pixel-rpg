@@ -158,6 +158,9 @@ func _apply_polygon_or_auto_rect(path: String, explicit_polygon: PackedVector2Ar
 		poly_node.polygon = explicit_polygon
 		return
 
+	if not poly_node.polygon.is_empty():
+		return
+
 	if sprite == null or sprite.texture == null:
 		return
 	var half: Vector2 = sprite.texture.get_size() * 0.5
