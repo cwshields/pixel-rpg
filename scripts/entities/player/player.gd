@@ -27,7 +27,7 @@ var hotbar_slots: Array = []
 ## BreakableProp exposes no InteractionComponent of its own.
 @onready var mine_detector: Area2D = get_node_or_null("MineDetector")
 @onready var footstep_player: FootstepPlayer = get_node_or_null("FootstepPlayer")
-@onready var swing_sound_player: AudioStreamPlayer2D = get_node_or_null("SwingSoundPlayer")
+@onready var swing_sound_player: AudioStreamPlayer = get_node_or_null("SwingSoundPlayer")
 
 var _swing_sounds: Array[AudioStream] = [
 	preload("res://assets/SoundFX/Swing/swing-whoosh-01.mp3"),
