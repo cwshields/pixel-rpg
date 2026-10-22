@@ -12,6 +12,7 @@ extends EntityBase
 @onready var state_machine: StateMachine = $StateMachine
 @onready var detection_area: Area2D = get_node_or_null("DetectionArea")
 @onready var hitbox: HitboxComponent = get_node_or_null("HitboxComponent")
+@onready var footstep_player: FootstepPlayer = get_node_or_null("FootstepPlayer")
 
 var anchor_position: Vector2
 var hunt_target: CritterBase = null
@@ -24,6 +25,8 @@ func _ready() -> void:
 	if detection_area:
 		detection_area.body_entered.connect(_on_body_entered_detection)
 		detection_area.body_exited.connect(_on_body_exited_detection)
+	if footstep_player and animated_sprite:
+		footstep_player.bind(animated_sprite)
 	if health:
 		health.damaged.connect(_on_ai_damaged)
 		health.died.connect(func() -> void: state_machine.transition_to(&"Dead"))

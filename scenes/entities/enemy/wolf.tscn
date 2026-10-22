@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cf4b5n0f8vae1" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
 [ext_resource type="Script" uid="uid://cuuncdpcq7okj" path="res://scripts/entities/state_machine.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/entities/ai_idle_state.gd" id="3"]
+[ext_resource type="Script" uid="uid://c2iy7v3q68wx3" path="res://scripts/entities/ai_idle_state.gd" id="3"]
 [ext_resource type="Script" uid="uid://f2rcsfjhy8lf" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
 [ext_resource type="Script" uid="uid://dxwqkjyxwc5to" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
-[ext_resource type="Script" path="res://scripts/entities/ai_hurt_state.gd" id="6"]
+[ext_resource type="Script" uid="uid://tr4egcl06aa8" path="res://scripts/entities/ai_hurt_state.gd" id="6"]
 [ext_resource type="Script" uid="uid://ci175vfvfqohd" path="res://scripts/entities/dead_state.gd" id="7"]
 [ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="8"]
 [ext_resource type="Script" uid="uid://chcui72w7ye7a" path="res://scripts/components/stats_component.gd" id="9"]
@@ -17,9 +17,28 @@
 [ext_resource type="Script" uid="uid://cs4jijjyl8ye0" path="res://scripts/entities/enemy/states/enemy_growl_state.gd" id="15"]
 [ext_resource type="Script" uid="uid://xnowxtdtujkk" path="res://scripts/entities/enemy/states/enemy_howl_state.gd" id="16"]
 [ext_resource type="Script" uid="uid://d074dtlg4scb6" path="res://scripts/components/ambient_action_component.gd" id="17"]
-[ext_resource type="Script" path="res://scripts/entities/ai_wander_state.gd" id="18"]
+[ext_resource type="Script" uid="uid://camiy8vtwq5mf" path="res://scripts/entities/ai_wander_state.gd" id="18"]
 [ext_resource type="Script" uid="uid://c5xs2l0uo1qdy" path="res://scripts/components/hunter_component.gd" id="19"]
-[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_flee_state.gd" id="20"]
+[ext_resource type="Script" uid="uid://dpwsnfoyg5bq8" path="res://scripts/entities/enemy/states/enemy_flee_state.gd" id="20"]
+[ext_resource type="AudioStream" uid="uid://bjnoob3ehp206" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl.mp3" id="21"]
+[ext_resource type="AudioStream" uid="uid://dtdwwbg0sob06" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-2.mp3" id="22"]
+[ext_resource type="AudioStream" uid="uid://yoitqot60t6t" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-3.mp3" id="23"]
+[ext_resource type="AudioStream" uid="uid://yl1trni3g2ji" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-4.mp3" id="24"]
+[ext_resource type="AudioStream" uid="uid://pbq5ixis0el4" path="res://assets/SoundFX/Enemies/Wolf/monster-bite.mp3" id="25"]
+[ext_resource type="Script" uid="uid://dm8p6mg5b7kr0" path="res://scripts/components/footstep_player.gd" id="26"]
+[ext_resource type="AudioStream" uid="uid://bg2ivgjax2bvu" path="res://assets/SoundFX/Footsteps/woodland-steps01.mp3" id="27"]
+[ext_resource type="AudioStream" uid="uid://841ioo7bgc7t" path="res://assets/SoundFX/Footsteps/woodland-steps02.mp3" id="28"]
+[ext_resource type="AudioStream" uid="uid://cngwbprjnfllf" path="res://assets/SoundFX/Footsteps/woodland-steps03.mp3" id="29"]
+[ext_resource type="AudioStream" uid="uid://dy66xuy145o5s" path="res://assets/SoundFX/Footsteps/woodland-steps04.mp3" id="30"]
+[ext_resource type="AudioStream" uid="uid://g2nwnou51837" path="res://assets/SoundFX/Footsteps/woodland-steps05.mp3" id="31"]
+[ext_resource type="AudioStream" uid="uid://jrkcq3qtauyl" path="res://assets/SoundFX/Footsteps/woodland-steps06.mp3" id="32"]
+[ext_resource type="AudioStream" uid="uid://b5ovpaa2glbw3" path="res://assets/SoundFX/Footsteps/woodland-steps07.mp3" id="33"]
+[ext_resource type="AudioStream" uid="uid://d30nyflisdqnv" path="res://assets/SoundFX/Footsteps/woodland-steps08.mp3" id="34"]
+[ext_resource type="AudioStream" uid="uid://c5uk7psh7y6l1" path="res://assets/SoundFX/Footsteps/woodland-steps09.mp3" id="35"]
+[ext_resource type="AudioStream" uid="uid://blg51pc17wbb2" path="res://assets/SoundFX/Footsteps/woodland-steps10.mp3" id="36"]
+[ext_resource type="AudioStream" uid="uid://broil08pj7r3q" path="res://assets/SoundFX/Footsteps/woodland-steps11.mp3" id="37"]
+[ext_resource type="AudioStream" uid="uid://c63dn04y2wfgl" path="res://assets/SoundFX/Footsteps/woodland-steps13.mp3" id="38"]
+[ext_resource type="AudioStream" uid="uid://px8bhrhxqmes" path="res://assets/SoundFX/Footsteps/woodland-steps14.mp3" id="39"]
 
 [sub_resource type="Resource" id="LootEntry_wolf_pelt"]
 script = ExtResource("13")
@@ -42,6 +61,13 @@ radius = 110.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_alert"]
 radius = 158.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_howl"]
+streams_count = 4
+stream_0/stream = ExtResource("21")
+stream_1/stream = ExtResource("22")
+stream_2/stream = ExtResource("23")
+stream_3/stream = ExtResource("24")
+
 [node name="Wolf" type="CharacterBody2D" unique_id=1572607028]
 script = ExtResource("1")
 loot_table = Array[ExtResource("13")]([SubResource("LootEntry_wolf_pelt")])
@@ -51,7 +77,25 @@ sprint_speed = 145.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1962286079]
 sprite_frames = ExtResource("12")
-animation = &"idle"
+animation = &"howl"
+frame = 10
+frame_progress = 1.0
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"pending_changes": {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"scale": "1.0",
+"should_round_fps": true,
+"slice": "",
+"source": "",
+"source_uid": -1
+}
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1571453347]
 visible = false
@@ -102,8 +146,20 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AlertArea" unique_id=1262995538]
 shape = SubResource("CircleShape2D_alert")
 
+[node name="HowlSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=558350385]
+stream = SubResource("AudioStreamRandomizer_howl")
+volume_db = -2.0
+pitch_scale = 1.25
+attenuation = 1.7
+
+[node name="AttackSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=791122021]
+stream = ExtResource("25")
+volume_db = -6.0
+max_distance = 500.0
+
 [node name="AmbientActionComponent" type="Node" parent="." unique_id=326203389]
 script = ExtResource("17")
+interval_max = 25.0
 
 [node name="HunterComponent" type="Node" parent="." unique_id=774163241]
 script = ExtResource("19")
@@ -112,6 +168,13 @@ search_radius = 700.0
 urge_min = 25.0
 urge_max = 60.0
 alert_prey = false
+
+[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("26")
+footstep_sounds = Array[AudioStream]([ExtResource("27"), ExtResource("28"), ExtResource("29"), ExtResource("30"), ExtResource("31"), ExtResource("32"), ExtResource("33"), ExtResource("34"), ExtResource("35"), ExtResource("36"), ExtResource("37"), ExtResource("38"), ExtResource("39")])
+step_volume_db = -12.0
+walk_volume_db = -15.0
+max_distance = 500.0
 
 [node name="StateMachine" type="Node" parent="." unique_id=1625186175]
 script = ExtResource("2")
@@ -128,8 +191,9 @@ script = ExtResource("15")
 
 [node name="Howl" type="Node" parent="StateMachine" unique_id=1819641225]
 script = ExtResource("16")
+linger_time = 3.4
 
-[node name="Flee" type="Node" parent="StateMachine"]
+[node name="Flee" type="Node" parent="StateMachine" unique_id=994694898]
 script = ExtResource("20")
 
 [node name="Chase" type="Node" parent="StateMachine" unique_id=372911869]
