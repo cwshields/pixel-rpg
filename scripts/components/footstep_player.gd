@@ -4,9 +4,10 @@ extends AudioStreamPlayer2D
 @export var footstep_sounds: Array[AudioStream] = []
 @export var walk_step_frames: PackedInt32Array = [0, 3]
 @export var run_step_frames: PackedInt32Array = [1, 4]
+@export var flee_step_frames: PackedInt32Array = [1, 4]
 @export var attack_move_step_frames: PackedInt32Array = [2, 5]
-@export var step_volume_db: float = -18.9
-@export var walk_volume_db: float = -24.2
+@export var step_volume_db: float = -10.0
+@export var walk_volume_db: float = -13.0
 @export var pitch_variance: float = 0.1
 
 var _sprite: AnimatedSprite2D
@@ -28,6 +29,8 @@ func _on_frame_changed() -> void:
 		frames = attack_move_step_frames
 	elif anim.begins_with("run"):
 		frames = run_step_frames
+	elif anim.begins_with("flee"):
+		frames = flee_step_frames
 	else:
 		return
 	if _sprite.frame in frames:

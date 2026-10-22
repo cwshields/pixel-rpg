@@ -17,6 +17,20 @@
 [ext_resource type="Texture2D" uid="uid://bbi7rfmqhqdk5" path="res://assets/Items/Weapons/Hands/Hands.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://d0met1v3s73fj" path="res://assets/Items/Weapons/Wood/Wood.png" id="16"]
 [ext_resource type="Resource" uid="uid://dskva42w2rap7" path="res://resources/items/weapons/wooden_sword.tres" id="17"]
+[ext_resource type="Script" uid="uid://dm8p6mg5b7kr0" path="res://scripts/components/footstep_player.gd" id="18"]
+[ext_resource type="AudioStream" uid="uid://bg2ivgjax2bvu" path="res://assets/SoundFX/Footsteps/woodland-steps01.mp3" id="19"]
+[ext_resource type="AudioStream" uid="uid://841ioo7bgc7t" path="res://assets/SoundFX/Footsteps/woodland-steps02.mp3" id="20"]
+[ext_resource type="AudioStream" uid="uid://cngwbprjnfllf" path="res://assets/SoundFX/Footsteps/woodland-steps03.mp3" id="21"]
+[ext_resource type="AudioStream" uid="uid://dy66xuy145o5s" path="res://assets/SoundFX/Footsteps/woodland-steps04.mp3" id="22"]
+[ext_resource type="AudioStream" uid="uid://g2nwnou51837" path="res://assets/SoundFX/Footsteps/woodland-steps05.mp3" id="23"]
+[ext_resource type="AudioStream" uid="uid://jrkcq3qtauyl" path="res://assets/SoundFX/Footsteps/woodland-steps06.mp3" id="24"]
+[ext_resource type="AudioStream" uid="uid://b5ovpaa2glbw3" path="res://assets/SoundFX/Footsteps/woodland-steps07.mp3" id="25"]
+[ext_resource type="AudioStream" uid="uid://d30nyflisdqnv" path="res://assets/SoundFX/Footsteps/woodland-steps08.mp3" id="26"]
+[ext_resource type="AudioStream" uid="uid://c5uk7psh7y6l1" path="res://assets/SoundFX/Footsteps/woodland-steps09.mp3" id="27"]
+[ext_resource type="AudioStream" uid="uid://blg51pc17wbb2" path="res://assets/SoundFX/Footsteps/woodland-steps10.mp3" id="28"]
+[ext_resource type="AudioStream" uid="uid://broil08pj7r3q" path="res://assets/SoundFX/Footsteps/woodland-steps11.mp3" id="29"]
+[ext_resource type="AudioStream" uid="uid://c63dn04y2wfgl" path="res://assets/SoundFX/Footsteps/woodland-steps13.mp3" id="30"]
+[ext_resource type="AudioStream" uid="uid://px8bhrhxqmes" path="res://assets/SoundFX/Footsteps/woodland-steps14.mp3" id="31"]
 
 [sub_resource type="Resource" id="LootEntry_bone"]
 script = ExtResource("13")
@@ -121,6 +135,13 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1421886114]
 scale = Vector2(1.0531048, 0.82754856)
 shape = SubResource("CircleShape2D_detect")
+
+[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("18")
+footstep_sounds = Array[AudioStream]([ExtResource("19"), ExtResource("20"), ExtResource("21"), ExtResource("22"), ExtResource("23"), ExtResource("24"), ExtResource("25"), ExtResource("26"), ExtResource("27"), ExtResource("28"), ExtResource("29"), ExtResource("30"), ExtResource("31")])
+step_volume_db = -12.0
+walk_volume_db = -15.0
+max_distance = 500.0
 
 [node name="StateMachine" type="Node" parent="." unique_id=902136283]
 script = ExtResource("2")

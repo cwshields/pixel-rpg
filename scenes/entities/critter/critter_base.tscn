@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://scripts/entities/critter/critter_base.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/entities/state_machine.gd" id="2"]
@@ -9,6 +9,20 @@
 [ext_resource type="Script" uid="uid://ci175vfvfqohd" path="res://scripts/entities/dead_state.gd" id="7"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="8"]
 [ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="9"]
+[ext_resource type="Script" uid="uid://dm8p6mg5b7kr0" path="res://scripts/components/footstep_player.gd" id="10"]
+[ext_resource type="AudioStream" uid="uid://bg2ivgjax2bvu" path="res://assets/SoundFX/Footsteps/woodland-steps01.mp3" id="11"]
+[ext_resource type="AudioStream" uid="uid://841ioo7bgc7t" path="res://assets/SoundFX/Footsteps/woodland-steps02.mp3" id="12"]
+[ext_resource type="AudioStream" uid="uid://cngwbprjnfllf" path="res://assets/SoundFX/Footsteps/woodland-steps03.mp3" id="13"]
+[ext_resource type="AudioStream" uid="uid://dy66xuy145o5s" path="res://assets/SoundFX/Footsteps/woodland-steps04.mp3" id="14"]
+[ext_resource type="AudioStream" uid="uid://g2nwnou51837" path="res://assets/SoundFX/Footsteps/woodland-steps05.mp3" id="15"]
+[ext_resource type="AudioStream" uid="uid://jrkcq3qtauyl" path="res://assets/SoundFX/Footsteps/woodland-steps06.mp3" id="16"]
+[ext_resource type="AudioStream" uid="uid://b5ovpaa2glbw3" path="res://assets/SoundFX/Footsteps/woodland-steps07.mp3" id="17"]
+[ext_resource type="AudioStream" uid="uid://d30nyflisdqnv" path="res://assets/SoundFX/Footsteps/woodland-steps08.mp3" id="18"]
+[ext_resource type="AudioStream" uid="uid://c5uk7psh7y6l1" path="res://assets/SoundFX/Footsteps/woodland-steps09.mp3" id="19"]
+[ext_resource type="AudioStream" uid="uid://blg51pc17wbb2" path="res://assets/SoundFX/Footsteps/woodland-steps10.mp3" id="20"]
+[ext_resource type="AudioStream" uid="uid://broil08pj7r3q" path="res://assets/SoundFX/Footsteps/woodland-steps11.mp3" id="21"]
+[ext_resource type="AudioStream" uid="uid://c63dn04y2wfgl" path="res://assets/SoundFX/Footsteps/woodland-steps13.mp3" id="22"]
+[ext_resource type="AudioStream" uid="uid://px8bhrhxqmes" path="res://assets/SoundFX/Footsteps/woodland-steps14.mp3" id="23"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(12, 10)
@@ -46,6 +60,13 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_detect")
+
+[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("10")
+footstep_sounds = Array[AudioStream]([ExtResource("11"), ExtResource("12"), ExtResource("13"), ExtResource("14"), ExtResource("15"), ExtResource("16"), ExtResource("17"), ExtResource("18"), ExtResource("19"), ExtResource("20"), ExtResource("21"), ExtResource("22"), ExtResource("23")])
+step_volume_db = -14.0
+walk_volume_db = -17.0
+max_distance = 400.0
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2")
