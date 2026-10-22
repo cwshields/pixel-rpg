@@ -19,6 +19,8 @@ render_mode blend_mix;
 global uniform vec2 wind_direction;
 // Global multiplier. 0.0 = dead calm. A weather system can ramp this.
 global uniform float wind_strength;
+// Accumulated time that pauses with the scene tree (driven by FoliageManager).
+global uniform float wind_time;
 
 // Peak horizontal offset at the top edge, in pixels, at wind_strength = 1.
 uniform float sway_strength : hint_range(0.0, 8.0) = 1.5;
@@ -53,9 +55,10 @@ void vertex() {
 	vec2 world = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
 	float phase = dot(world, vec2(0.035, 0.021));
 
-	float gust = 0.65 + 0.35 * sin(TIME * gust_speed + phase * 0.5);
-	float wave = sin(TIME * sway_speed + phase)
-	           + 0.3 * sin(TIME * sway_speed * 2.7 + phase * 1.7);
+	float t = wind_time;
+	float gust = 0.65 + 0.35 * sin(t * gust_speed + phase * 0.5);
+	float wave = sin(t * sway_speed + phase)
+	           + 0.3 * sin(t * sway_speed * 2.7 + phase * 1.7);
 
 	vec2 offset = wind_direction * (wave * gust * sway_strength * wind_strength * bend);
 	if (pixel_snap) {
