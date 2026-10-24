@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bax33xxp7wv1g"]
+
+[ext_resource type="Script" uid="uid://ixotiuv1gmf0" path="res://scripts/world/fireflies.gd" id="1"]
+
+[node name="Fireflies" type="Node2D" unique_id=2038754304]
+script = ExtResource("1")
