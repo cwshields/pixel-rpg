@@ -11,7 +11,7 @@ extends BreakableProp
 const VARIANT_DIR := "res://scenes/world/bushes/"
 const SLOW_AMOUNT := -0.3
 
-var _rustle_sound: AudioStream = preload("res://assets/SoundFX/leaves-rustling.mp3")
+var _rustle_sound: AudioStream = preload("res://assets/SoundFX/Foliage/leaves-rustling.mp3")
 @onready var _rustle_player: AudioStreamPlayer2D = get_node_or_null("RustleSoundPlayer")
 
 var _slow_source_id: StringName
@@ -129,5 +129,5 @@ func _play_rustle() -> void:
 		return
 	_rustle_player.stream = _rustle_sound
 	_rustle_player.pitch_scale = randf_range(0.85, 1.15)
-	_rustle_player.volume_db = -18.0
+	_rustle_player.volume_db = -10.0
 	_rustle_player.play()

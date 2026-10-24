@@ -1,42 +1,44 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://wsy6ho2ccs1p"]
 
-[ext_resource type="Script" path="res://scripts/world/bush.gd" id="1"]
+[ext_resource type="Script" uid="uid://csqbl3yxaft7w" path="res://scripts/world/bush.gd" id="1"]
 [ext_resource type="Material" path="res://resources/materials/foliage_wind_material.tres" id="2"]
-[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="4"]
+[ext_resource type="Script" uid="uid://b5wolxhnr1upp" path="res://scripts/components/health_component.gd" id="3"]
+[ext_resource type="Script" uid="uid://b7p6iqaxckpp7" path="res://scripts/components/hurtbox_component.gd" id="4"]
 
-[node name="Bush" type="Node2D"]
+[node name="Bush" type="Node2D" unique_id=587255249]
 z_index = 3
 script = ExtResource("1")
+fade_polygon = PackedVector2Array()
+hover_polygon = PackedVector2Array()
+hurt_polygon = PackedVector2Array()
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=44087454]
 material = ExtResource("2")
-texture_filter = 0
 
-[node name="FadeArea" type="Area2D" parent="."]
+[node name="FadeArea" type="Area2D" parent="." unique_id=910135483]
 visible = false
 collision_layer = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea" unique_id=1047596901]
 
-[node name="HoverArea" type="Area2D" parent="."]
+[node name="HoverArea" type="Area2D" parent="." unique_id=1642517586]
 visible = false
 collision_layer = 16
 collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HoverArea"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HoverArea" unique_id=1192348603]
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" type="Node" parent="." unique_id=2053150592]
 script = ExtResource("3")
 max_health = 10.0
 
-[node name="HurtboxComponent" type="Area2D" parent="."]
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=750818310]
 visible = false
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("4")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent" unique_id=633635140]
 
-[node name="RustleSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="RustleSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=547234024]
 max_distance = 200.0
