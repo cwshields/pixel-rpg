@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://dhaj1cdp2b3g8" path="res://scenes/world/trees/tree_small_a.tscn" id="tv_small_a"]
 [ext_resource type="PackedScene" uid="uid://yxp2j2w0xdkx" path="res://scenes/world/trees/tree_small_b.tscn" id="tv_small_b"]
 [ext_resource type="PackedScene" uid="uid://wjumdwb2gk1m" path="res://scenes/world/trees/tree_small_c.tscn" id="tv_small_c"]
+[ext_resource type="PackedScene" path="res://scenes/world/fireflies.tscn" id="fireflies"]
 
 [node name="Grassland01" type="Node2D" unique_id=816002242]
 script = ExtResource("1_w0ke7")
@@ -368,6 +369,24 @@ entity_scene = ExtResource("20_tel4y")
 max_alive = 1
 respawn_delay = 10.0
 
+[node name="WolfSpawner2" parent="Spawners" instance=ExtResource("30_crspwn")]
+position = Vector2(200, -120)
+entity_scene = ExtResource("20_tel4y")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="WolfSpawner3" parent="Spawners" instance=ExtResource("30_crspwn")]
+position = Vector2(-20, -220)
+entity_scene = ExtResource("20_tel4y")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="WolfSpawner4" parent="Spawners" instance=ExtResource("30_crspwn")]
+position = Vector2(150, -280)
+entity_scene = ExtResource("20_tel4y")
+max_alive = 1
+respawn_delay = 10.0
+
 [node name="DeerSpawner" parent="Spawners" unique_id=1501423076 instance=ExtResource("30_crspwn")]
 position = Vector2(500, 200)
 entity_scene = ExtResource("30_deer")
@@ -483,3 +502,20 @@ tile_set = ExtResource("37_fuf3a")
 y_sort_enabled = true
 tile_map_data = PackedByteArray("AADE/wQAAAAAAAAAAAD0/wkAAAAAAAAAAAD9/woAAAAAAAAAAAD0/xIAAAAAAAAAAAACABIAAAAAAAAABAAGABEAAAAAAAAACAACAAoAAAAAAAAADQDt/xUAAAAAAAAADQD3/wwAAAAAAAAABAAMAAcAAAAAAAAAAADf//v/AAAAAAAADQA=")
 tile_set = ExtResource("38_bush")
+
+[node name="Fireflies" type="Node2D" parent="."]
+
+[node name="FireflyPatch1" parent="Fireflies" instance=ExtResource("fireflies")]
+position = Vector2(80, -48)
+count = 10
+spawn_area = Vector2(180, 120)
+
+[node name="FireflyPatch2" parent="Fireflies" instance=ExtResource("fireflies")]
+position = Vector2(-160, 80)
+count = 8
+spawn_area = Vector2(160, 100)
+
+[node name="FireflyPatch3" parent="Fireflies" instance=ExtResource("fireflies")]
+position = Vector2(320, -200)
+count = 14
+spawn_area = Vector2(240, 160)
