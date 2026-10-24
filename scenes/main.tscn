@@ -333,19 +333,19 @@ position = Vector2(1268, -405)
 [node name="Spawners" type="Node2D" parent="." unique_id=774193056]
 
 [node name="EnemySpawner2" parent="Spawners" unique_id=211162856 instance=ExtResource("17_spwnr")]
-position = Vector2(-633, -123)
+position = Vector2(-648, -178)
 spawn_count = 2
 max_alive = 2
 respawn_delay = 4.0
 
 [node name="EnemySpawner3" parent="Spawners" unique_id=518608302 instance=ExtResource("17_spwnr")]
-position = Vector2(-634, -176)
+position = Vector2(-534, -244)
 spawn_count = 2
 max_alive = 2
 respawn_delay = 4.0
 
 [node name="EnemySpawner" parent="Spawners" unique_id=774193057 instance=ExtResource("17_spwnr")]
-position = Vector2(-656, -217)
+position = Vector2(-628, -286)
 spawn_count = 2
 max_alive = 2
 respawn_delay = 4.0
@@ -381,7 +381,7 @@ preview_animation = &"idle_side"
 max_alive = 1
 
 [node name="BlackGrouseSpawner" parent="Spawners" unique_id=2061164508 instance=ExtResource("30_crspwn")]
-position = Vector2(-100, -250)
+position = Vector2(-285, -246)
 entity_scene = ExtResource("30_grouse")
 preview_animation = &"idle_side"
 preview_frame = 1
