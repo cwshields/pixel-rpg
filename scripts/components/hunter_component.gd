@@ -15,25 +15,29 @@ extends Node
 ## (critter_base.tscn doesn't include these by default — add them as
 ## inherited-scene overrides the same way boar.tscn/fox.tscn do).
 
-## Group name of potential prey to scan for. Empty disables hunting —
-## set this per predator (e.g. "hares" on a fox, "deer" on a wolf).
-@export var prey_group: StringName = &""
+## Prey groups to hunt — editable in the Inspector like a loot table.
+## Empty disables hunting.
+@export var hunt_targets: Array[HuntTargetEntry] = []
 ## How far to scan for prey when the urge fires. Needs to reach past the
 ## owner's own wander_radius if predator and prey roam around separate
 ## spawner anchors rather than sharing a patch.
 @export var search_radius: float = 550.0
 ## Random range (seconds) between hunting urges.
-@export var urge_min: float = 20.0
-@export var urge_max: float = 50.0
+@export var urge_min: float = 60.0
+@export var urge_max: float = 180.0
 ## Alert the prey the instant the hunt starts, even from across the map
 ## (the fox). Off, the prey only notices once the hunter enters its own
 ## DetectionArea — pair with EnemyChaseState.stalk_distance so the hunter
 ## creeps up first (the wolf).
 @export var alert_prey: bool = true
+## Sprint speed used while actively hunting prey. 0 keeps the entity's
+## own sprint_speed unchanged (the default before this was added).
+@export var hunt_speed: float = 0.0
 
 @onready var _owner: AIEntityBase = get_parent() as AIEntityBase
 
 var _urge_timer: Timer
+var _original_sprint_speed: float = -1.0
 
 func _ready() -> void:
 	if not _owner:
@@ -45,9 +49,16 @@ func _ready() -> void:
 	_urge_timer.timeout.connect(_restart_and_try_hunt)
 	_urge_timer.start(randf_range(urge_min, urge_max))
 
+func _process(_delta: float) -> void:
+	if _original_sprint_speed < 0.0 or not _owner:
+		return
+	if _owner.hunt_target == null or not is_instance_valid(_owner.hunt_target) or _owner.hunt_target.is_dead():
+		_owner.sprint_speed = _original_sprint_speed
+		_original_sprint_speed = -1.0
+
 func _restart_and_try_hunt() -> void:
 	_urge_timer.start(randf_range(urge_min, urge_max))
-	if prey_group == &"" or _owner.is_dead() or _owner.hunt_target or _is_otherwise_engaged():
+	if hunt_targets.is_empty() or _owner.is_dead() or _owner.hunt_target or _is_otherwise_engaged():
 		return
 	var current: State = _owner.state_machine.current_state
 	if not current or (current.name != &"Idle" and current.name != &"Wander"):
@@ -56,6 +67,9 @@ func _restart_and_try_hunt() -> void:
 	if not prey:
 		return
 	_owner.hunt_target = prey
+	if hunt_speed > 0.0:
+		_original_sprint_speed = _owner.sprint_speed
+		_owner.sprint_speed = hunt_speed
 	if alert_prey:
 		prey.threat = _owner
 	_owner.state_machine.transition_to(&"Chase")
@@ -73,12 +87,15 @@ func _is_otherwise_engaged() -> bool:
 func _find_nearby_prey() -> CritterBase:
 	var best: CritterBase = null
 	var best_dist_sq: float = search_radius * search_radius
-	for node in _owner.get_tree().get_nodes_in_group(prey_group):
-		var prey := node as CritterBase
-		if not prey or prey == _owner or prey.is_dead():
+	for entry in hunt_targets:
+		if entry.prey_group == &"":
 			continue
-		var dist_sq: float = _owner.global_position.distance_squared_to(prey.global_position)
-		if dist_sq <= best_dist_sq:
-			best = prey
-			best_dist_sq = dist_sq
+		for node in _owner.get_tree().get_nodes_in_group(entry.prey_group):
+			var prey := node as CritterBase
+			if not prey or prey == _owner or prey.is_dead():
+				continue
+			var dist_sq: float = _owner.global_position.distance_squared_to(prey.global_position)
+			if dist_sq <= best_dist_sq:
+				best = prey
+				best_dist_sq = dist_sq
 	return best
