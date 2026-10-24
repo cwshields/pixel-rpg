@@ -6,6 +6,11 @@
 [ext_resource type="Script" uid="uid://d42ocvu8fh7h" path="res://scripts/entities/critter/states/critter_chase_state.gd" id="4"]
 [ext_resource type="Script" uid="uid://cf1f7im7176bi" path="res://scripts/entities/critter/states/critter_attack_state.gd" id="5"]
 [ext_resource type="Script" uid="uid://c5xs2l0uo1qdy" path="res://scripts/components/hunter_component.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/components/hunt_target_entry.gd" id="7"]
+
+[sub_resource type="Resource" id="HuntTargetEntry_hares"]
+script = ExtResource("7")
+prey_group = &"hares"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fox_body"]
 size = Vector2(12, 10)
@@ -72,4 +77,4 @@ shape = SubResource("RectangleShape2D_fox_hit")
 
 [node name="HunterComponent" type="Node" parent="." index="7" unique_id=1561447893]
 script = ExtResource("6")
-prey_group = &"hares"
+hunt_targets = Array[ExtResource("7")]([SubResource("HuntTargetEntry_hares")])

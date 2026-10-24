@@ -25,7 +25,6 @@
 [ext_resource type="AudioStream" uid="uid://yoitqot60t6t" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-3.mp3" id="23"]
 [ext_resource type="AudioStream" uid="uid://yl1trni3g2ji" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-4.mp3" id="24"]
 [ext_resource type="AudioStream" uid="uid://pbq5ixis0el4" path="res://assets/SoundFX/Enemies/Wolf/monster-bite.mp3" id="25"]
-[ext_resource type="AudioStream" uid="uid://c4esyxmk1mnto" path="res://assets/SoundFX/Enemies/Wolf/wolf-growl.mp3" id="40"]
 [ext_resource type="Script" uid="uid://dm8p6mg5b7kr0" path="res://scripts/components/footstep_player.gd" id="26"]
 [ext_resource type="AudioStream" uid="uid://bg2ivgjax2bvu" path="res://assets/SoundFX/Footsteps/woodland-steps01.mp3" id="27"]
 [ext_resource type="AudioStream" uid="uid://841ioo7bgc7t" path="res://assets/SoundFX/Footsteps/woodland-steps02.mp3" id="28"]
@@ -40,6 +39,8 @@
 [ext_resource type="AudioStream" uid="uid://broil08pj7r3q" path="res://assets/SoundFX/Footsteps/woodland-steps11.mp3" id="37"]
 [ext_resource type="AudioStream" uid="uid://c63dn04y2wfgl" path="res://assets/SoundFX/Footsteps/woodland-steps13.mp3" id="38"]
 [ext_resource type="AudioStream" uid="uid://px8bhrhxqmes" path="res://assets/SoundFX/Footsteps/woodland-steps14.mp3" id="39"]
+[ext_resource type="AudioStream" uid="uid://c4esyxmk1mnto" path="res://assets/SoundFX/Enemies/Wolf/wolf-growl.mp3" id="40"]
+[ext_resource type="Script" uid="uid://drjxv3m5tta8e" path="res://scripts/components/hunt_target_entry.gd" id="41"]
 
 [sub_resource type="Resource" id="LootEntry_wolf_pelt"]
 script = ExtResource("13")
@@ -68,6 +69,10 @@ stream_0/stream = ExtResource("21")
 stream_1/stream = ExtResource("22")
 stream_2/stream = ExtResource("23")
 stream_3/stream = ExtResource("24")
+
+[sub_resource type="Resource" id="HuntTargetEntry_deer"]
+script = ExtResource("41")
+prey_group = &"deer"
 
 [node name="Wolf" type="CharacterBody2D" unique_id=1572607028]
 script = ExtResource("1")
@@ -151,9 +156,10 @@ shape = SubResource("CircleShape2D_alert")
 stream = SubResource("AudioStreamRandomizer_howl")
 volume_db = -2.0
 pitch_scale = 1.25
+max_distance = 3200.0
 attenuation = 1.7
 
-[node name="GrowlSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="GrowlSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=785047554]
 stream = ExtResource("40")
 volume_db = -4.0
 max_distance = 500.0
@@ -170,18 +176,18 @@ interval_max = 25.0
 
 [node name="HunterComponent" type="Node" parent="." unique_id=774163241]
 script = ExtResource("19")
-prey_group = &"deer"
+hunt_targets = Array[ExtResource("41")]([SubResource("HuntTargetEntry_deer")])
 search_radius = 700.0
 urge_min = 25.0
 urge_max = 60.0
 alert_prey = false
 
-[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1753813389]
+max_distance = 500.0
 script = ExtResource("26")
 footstep_sounds = Array[AudioStream]([ExtResource("27"), ExtResource("28"), ExtResource("29"), ExtResource("30"), ExtResource("31"), ExtResource("32"), ExtResource("33"), ExtResource("34"), ExtResource("35"), ExtResource("36"), ExtResource("37"), ExtResource("38"), ExtResource("39")])
 step_volume_db = -12.0
 walk_volume_db = -15.0
-max_distance = 500.0
 
 [node name="StateMachine" type="Node" parent="." unique_id=1625186175]
 script = ExtResource("2")
