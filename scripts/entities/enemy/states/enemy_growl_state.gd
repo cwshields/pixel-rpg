@@ -12,7 +12,7 @@ extends State
 ## If the player lingers in the alert ring without approaching for
 ## `growl_timeout` seconds, the wolf gives up and flees.
 
-@export var growl_timeout: float = 3.5
+@export var growl_timeout: float = 12.0
 
 var _timer: float = 0.0
 
@@ -20,6 +20,24 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	entity.stop()
 	entity.play_animation("growl")
 	_timer = 0.0
+	var growl_sound := entity.get_node_or_null("GrowlSoundPlayer") as AudioStreamPlayer2D
+	if growl_sound:
+		if not growl_sound.finished.is_connected(_on_growl_finished):
+			growl_sound.finished.connect(_on_growl_finished)
+		if not growl_sound.playing:
+			growl_sound.play()
+
+func exit() -> void:
+	var growl_sound := entity.get_node_or_null("GrowlSoundPlayer") as AudioStreamPlayer2D
+	if growl_sound:
+		growl_sound.stop()
+		if growl_sound.finished.is_connected(_on_growl_finished):
+			growl_sound.finished.disconnect(_on_growl_finished)
+
+func _on_growl_finished() -> void:
+	var growl_sound := entity.get_node_or_null("GrowlSoundPlayer") as AudioStreamPlayer2D
+	if growl_sound:
+		growl_sound.play()
 
 func process_physics(delta: float) -> void:
 	var enemy := entity as EnemyBase
