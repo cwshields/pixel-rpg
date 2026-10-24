@@ -25,6 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://yoitqot60t6t" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-3.mp3" id="23"]
 [ext_resource type="AudioStream" uid="uid://yl1trni3g2ji" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-4.mp3" id="24"]
 [ext_resource type="AudioStream" uid="uid://pbq5ixis0el4" path="res://assets/SoundFX/Enemies/Wolf/monster-bite.mp3" id="25"]
+[ext_resource type="AudioStream" uid="uid://c4esyxmk1mnto" path="res://assets/SoundFX/Enemies/Wolf/wolf-growl.mp3" id="40"]
 [ext_resource type="Script" uid="uid://dm8p6mg5b7kr0" path="res://scripts/components/footstep_player.gd" id="26"]
 [ext_resource type="AudioStream" uid="uid://bg2ivgjax2bvu" path="res://assets/SoundFX/Footsteps/woodland-steps01.mp3" id="27"]
 [ext_resource type="AudioStream" uid="uid://841ioo7bgc7t" path="res://assets/SoundFX/Footsteps/woodland-steps02.mp3" id="28"]
@@ -150,6 +151,12 @@ shape = SubResource("CircleShape2D_alert")
 stream = SubResource("AudioStreamRandomizer_howl")
 volume_db = -2.0
 pitch_scale = 1.25
+attenuation = 1.7
+
+[node name="GrowlSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("40")
+volume_db = -4.0
+max_distance = 500.0
 attenuation = 1.7
 
 [node name="AttackSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=791122021]
