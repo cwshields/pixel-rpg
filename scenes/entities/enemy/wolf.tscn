@@ -172,7 +172,7 @@ max_distance = 500.0
 
 [node name="AmbientActionComponent" type="Node" parent="." unique_id=326203389]
 script = ExtResource("17")
-interval_max = 25.0
+interval_max = 31.25
 
 [node name="HunterComponent" type="Node" parent="." unique_id=774163241]
 script = ExtResource("19")

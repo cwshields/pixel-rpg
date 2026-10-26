@@ -210,8 +210,8 @@ stream = SubResource("AudioStreamRandomizer_bone_noise")
 volume_db = -10.0
 max_distance = 500.0
 script = ExtResource("45")
-interval_min = 10.0
-interval_max = 25.0
+interval_min = 12.5
+interval_max = 31.25
 
 [node name="HitSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1939171437]
 stream = SubResource("AudioStreamRandomizer_hit")

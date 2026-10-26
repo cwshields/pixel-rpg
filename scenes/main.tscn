@@ -20,13 +20,13 @@
 [ext_resource type="TileSet" uid="uid://c06lwb023nreq" path="res://resources/tilesets/rock_scenes.tres" id="37_fuf3a"]
 [ext_resource type="TileSet" uid="uid://tlkmnkvnu7h3" path="res://resources/tilesets/bush_scenes.tres" id="38_bush"]
 [ext_resource type="PackedScene" uid="uid://r0b70hcst82n" path="res://scenes/world/world.scn" id="40_world"]
+[ext_resource type="PackedScene" uid="uid://bax33xxp7wv1g" path="res://scenes/world/fireflies.tscn" id="fireflies"]
 [ext_resource type="PackedScene" uid="uid://c5d53qcuhid5e" path="res://scenes/entities/npc/merchant_peasant.tscn" id="merchant_peasant"]
 [ext_resource type="PackedScene" uid="uid://b5wrhol0b8hfj" path="res://scenes/world/trees/tree_large.tscn" id="tv_large"]
 [ext_resource type="PackedScene" uid="uid://bhhpmuo8st1pc" path="res://scenes/world/trees/tree_medium.tscn" id="tv_medium"]
 [ext_resource type="PackedScene" uid="uid://dhaj1cdp2b3g8" path="res://scenes/world/trees/tree_small_a.tscn" id="tv_small_a"]
 [ext_resource type="PackedScene" uid="uid://yxp2j2w0xdkx" path="res://scenes/world/trees/tree_small_b.tscn" id="tv_small_b"]
 [ext_resource type="PackedScene" uid="uid://wjumdwb2gk1m" path="res://scenes/world/trees/tree_small_c.tscn" id="tv_small_c"]
-[ext_resource type="PackedScene" path="res://scenes/world/fireflies.tscn" id="fireflies"]
 
 [node name="Grassland01" type="Node2D" unique_id=816002242]
 script = ExtResource("1_w0ke7")
@@ -36,7 +36,7 @@ script = ExtResource("1_w0ke7")
 [node name="Entities" type="Node2D" parent="." unique_id=583179709]
 
 [node name="Player" parent="Entities" unique_id=1087868956 instance=ExtResource("10_u2u5e")]
-position = Vector2(-127, 257)
+position = Vector2(-128, -632)
 
 [node name="Merchant" parent="Entities" unique_id=244868271 instance=ExtResource("merchant_peasant")]
 z_index = 1
@@ -363,26 +363,20 @@ entity_scene = ExtResource("15_fox")
 preview_animation = &"idle_side"
 max_alive = 1
 
-[node name="WolfSpawner" parent="Spawners" unique_id=1062465215 instance=ExtResource("30_crspwn")]
-position = Vector2(92, -173)
+[node name="WolfSpawner2" parent="Spawners" unique_id=1981684396 instance=ExtResource("30_crspwn")]
+position = Vector2(612, -457)
 entity_scene = ExtResource("20_tel4y")
 max_alive = 1
 respawn_delay = 10.0
 
-[node name="WolfSpawner2" parent="Spawners" instance=ExtResource("30_crspwn")]
-position = Vector2(200, -120)
+[node name="WolfSpawner3" parent="Spawners" unique_id=1451903083 instance=ExtResource("30_crspwn")]
+position = Vector2(688, -328)
 entity_scene = ExtResource("20_tel4y")
 max_alive = 1
 respawn_delay = 10.0
 
-[node name="WolfSpawner3" parent="Spawners" instance=ExtResource("30_crspwn")]
-position = Vector2(-20, -220)
-entity_scene = ExtResource("20_tel4y")
-max_alive = 1
-respawn_delay = 10.0
-
-[node name="WolfSpawner4" parent="Spawners" instance=ExtResource("30_crspwn")]
-position = Vector2(150, -280)
+[node name="WolfSpawner4" parent="Spawners" unique_id=1883173654 instance=ExtResource("30_crspwn")]
+position = Vector2(406, -402)
 entity_scene = ExtResource("20_tel4y")
 max_alive = 1
 respawn_delay = 10.0
@@ -417,6 +411,7 @@ texture = ExtResource("21_jscy8")
 script = ExtResource("27_qkpxi")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Buildings/Cottage" unique_id=1265648129]
+visible = false
 collision_mask = 0
 
 [node name="_CollisionPolygon2D_30675" type="CollisionPolygon2D" parent="Buildings/Cottage/StaticBody2D" unique_id=476997474]
@@ -425,6 +420,7 @@ scale = Vector2(7.076801, 3.4615073)
 polygon = PackedVector2Array(10.5977955, -9.444336, 10.5977955, 9.444336, -10.054319, 9.444336, -10.054319, -9.444336)
 
 [node name="FadeArea" type="Area2D" parent="Buildings/Cottage" unique_id=1719938027]
+visible = false
 collision_layer = 0
 monitorable = false
 
@@ -440,6 +436,7 @@ texture = ExtResource("26_yq6so")
 script = ExtResource("27_qkpxi")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Buildings/Cottage2" unique_id=1548550686]
+visible = false
 collision_mask = 0
 
 [node name="@CollisionPolygon2D@34151" type="CollisionPolygon2D" parent="Buildings/Cottage2/StaticBody2D" unique_id=172919212]
@@ -447,6 +444,7 @@ position = Vector2(3.8460836, 4.8075953)
 polygon = PackedVector2Array(-76.92153, 69.22937, 69.22938, 69.22937, 69.22938, 0, -76.92153, 0)
 
 [node name="FadeArea" type="Area2D" parent="Buildings/Cottage2" unique_id=1302515528]
+visible = false
 collision_layer = 0
 monitorable = false
 
@@ -461,6 +459,7 @@ texture = ExtResource("27_fv21b")
 script = ExtResource("27_qkpxi")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Buildings/Cottage3" unique_id=1876776102]
+visible = false
 collision_mask = 0
 
 [node name="@CollisionPolygon2D@47077" type="CollisionPolygon2D" parent="Buildings/Cottage3/StaticBody2D" unique_id=1718854048]
@@ -468,6 +467,7 @@ position = Vector2(-172.02345, 1.0425663)
 polygon = PackedVector2Array(80.2776, 109.46948, 80.2776, 44.830383, 183.49167, 44.830383, 183.49167, 109.46948)
 
 [node name="FadeArea" type="Area2D" parent="Buildings/Cottage3" unique_id=451341973]
+visible = false
 collision_layer = 0
 monitorable = false
 
@@ -481,12 +481,14 @@ texture = ExtResource("28_tel4y")
 script = ExtResource("27_qkpxi")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Buildings/Cottage4" unique_id=252675094]
+visible = false
 collision_mask = 0
 
 [node name="@CollisionPolygon2D@59773" type="CollisionPolygon2D" parent="Buildings/Cottage4/StaticBody2D" unique_id=1954632818]
 polygon = PackedVector2Array(-71.93707, 98.00122, -71.93707, 32.31952, 71.93707, 32.31952, 71.93707, 98.00122)
 
 [node name="FadeArea" type="Area2D" parent="Buildings/Cottage4" unique_id=1895752037]
+visible = false
 collision_layer = 0
 monitorable = false
 
@@ -503,19 +505,19 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AADE/wQAAAAAAAAAAAD0/wkAAAAAAAAAAAD9/woAAAAAAAAAAAD0/xIAAAAAAAAAAAACABIAAAAAAAAABAAGABEAAAAAAAAACAACAAoAAAAAAAAADQDt/xUAAAAAAAAADQD3/wwAAAAAAAAABAAMAAcAAAAAAAAAAADf//v/AAAAAAAADQA=")
 tile_set = ExtResource("38_bush")
 
-[node name="Fireflies" type="Node2D" parent="."]
+[node name="Fireflies" type="Node2D" parent="." unique_id=1414911161]
 
-[node name="FireflyPatch1" parent="Fireflies" instance=ExtResource("fireflies")]
+[node name="FireflyPatch1" parent="Fireflies" unique_id=1886033239 instance=ExtResource("fireflies")]
 position = Vector2(80, -48)
 count = 10
 spawn_area = Vector2(180, 120)
 
-[node name="FireflyPatch2" parent="Fireflies" instance=ExtResource("fireflies")]
+[node name="FireflyPatch2" parent="Fireflies" unique_id=373126079 instance=ExtResource("fireflies")]
 position = Vector2(-160, 80)
 count = 8
 spawn_area = Vector2(160, 100)
 
-[node name="FireflyPatch3" parent="Fireflies" instance=ExtResource("fireflies")]
+[node name="FireflyPatch3" parent="Fireflies" unique_id=1338969244 instance=ExtResource("fireflies")]
 position = Vector2(320, -200)
 count = 14
 spawn_area = Vector2(240, 160)

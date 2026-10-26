@@ -78,7 +78,12 @@ func _make_label(text: String, halign: int) -> Label:
 
 func set_item(item: ItemBase, quantity: int) -> void:
 	_icon.texture = item.icon if item else null
-	_qty_label.text = str(quantity) if quantity > 1 else ""
+	if item and quantity <= 0:
+		_icon.modulate.a = 0.35
+		_qty_label.text = "0"
+	else:
+		_icon.modulate.a = 1.0
+		_qty_label.text = str(quantity) if quantity > 1 else ""
 
 func set_selected(selected: bool) -> void:
 	_frame.visible = selected and _tex_selected != null

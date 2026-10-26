@@ -21,7 +21,7 @@ extends CanvasModulate
 @export var night_sound_crossfade_at: float = 222.0
 
 @export_group("Start")
-@export var start_at_night: bool = true
+@export var start_at_night: bool = false
 
 var _night_players: Array[AudioStreamPlayer] = []
 var _night_active: int = 0

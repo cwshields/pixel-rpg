@@ -50,12 +50,15 @@ func _on_body_exited_alert(body: Node2D) -> void:
 		alert_target = null
 
 func _primary_pursuit_target() -> Node2D:
+	if target and target is EntityBase and target.is_dead():
+		return null
 	return target
 
 func _should_react() -> StringName:
-	if target:
+	if target and not (target is EntityBase and target.is_dead()):
 		return &"Chase"
-	if alert_target and state_machine.states.has(&"Growl"):
+	if alert_target and not (alert_target is EntityBase and alert_target.is_dead()) \
+			and state_machine.states.has(&"Growl"):
 		return &"Growl"
 	return &""
 
