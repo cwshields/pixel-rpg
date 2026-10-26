@@ -30,6 +30,11 @@ const RARITY_COLORS := {
 @export var rarity: Rarity = Rarity.COMMON
 @export var weight: float = 0.0
 
+@export_group("Requirements")
+@export var required_level: int = 0
+@export var required_strength: int = 0
+@export var required_dexterity: int = 0
+
 ## Grid footprint for the Tetris-style inventory: rows top-to-bottom,
 ## '#' marks an occupied cell and anything else is empty. Rows don't need
 ## padding to a common width. Example L shape: ["#.", "#.", "##"].
@@ -44,6 +49,12 @@ const RARITY_COLORS := {
 ## this item's footprint. Leave off for items that must stay axis-locked
 ## (rare — mostly for square 1x1s where rotation would be a no-op anyway).
 @export var can_rotate: bool = true
+
+## Rolled magical affixes (populated by AffixDatabase.roll_affixes_for()).
+## COMMON=0, MAGIC=1-6, RARE/SET/UNIQUE=4-8.
+var affixes: Array[AffixInstance] = []
+## For SET rarity items: the SetDefinition this item belongs to.
+var set_def: SetDefinition
 
 ## Flavor-only magical affix pool shown in the inventory tooltip; a random
 ## subset re-rolls every time the tooltip is (re)shown. Not wired to any
@@ -108,15 +119,44 @@ func get_rarity_color() -> Color:
 func use(_user: Node) -> bool:
 	return false
 
-## Override in equippable subclasses (Weapon/Armor/Ring/Amulet) to push
-## their stat bonuses onto a StatsComponent when equipped. `source_id`
-## identifies the equip slot so Equipment can cleanly remove exactly
-## these modifiers again on unequip.
+## Returns the display name with affix prefixes/suffixes baked in, or the
+## plain display_name when the item has no affixes.
+func get_display_name() -> String:
+	if affixes.is_empty():
+		return display_name
+	var prefix := ""
+	var suffix := ""
+	for a: AffixInstance in affixes:
+		if a.type == ItemAffix.AffixType.PREFIX and prefix.is_empty():
+			prefix = a.display_name
+		elif a.type == ItemAffix.AffixType.SUFFIX and suffix.is_empty():
+			suffix = a.display_name
+	var parts: PackedStringArray = []
+	if not prefix.is_empty():
+		parts.append(prefix)
+	parts.append(display_name)
+	if not suffix.is_empty():
+		parts.append(suffix)
+	return " ".join(parts)
+
+## Pushes affix modifiers onto the StatsComponent. Subclasses that override
+## apply_modifiers() must call super() to include affix effects.
 func apply_modifiers(_stats: StatsComponent, _source_id: StringName) -> void:
-	pass
+	_apply_affix_modifiers(_stats, _source_id)
+
+func _apply_affix_modifiers(stats: StatsComponent, source_id: StringName) -> void:
+	for a: AffixInstance in affixes:
+		for stat: StringName in a.rolled_modifiers:
+			stats.add_modifier(stat, a.rolled_modifiers[stat], source_id)
 
 ## Override to report lines for the inventory tooltip's stat block (below
 ## the description) — e.g. Weapon reports damage/durability/APS. Empty by
 ## default, which hides the block entirely.
 func get_stat_lines() -> Array[String]:
 	return []
+
+func get_affix_lines() -> Array[String]:
+	var lines: Array[String] = []
+	for a: AffixInstance in affixes:
+		lines.append_array(a.get_stat_lines())
+	return lines

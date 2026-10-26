@@ -4,6 +4,10 @@ extends Control
 const DIVIDER_TEX := preload("res://assets/UI/inventory/info_divider.png")
 const COIN_ICON := preload("res://assets/UI/inventory/icon_coin_detail.png")
 const WEIGHT_ICON := preload("res://assets/UI/inventory/icon_weight_detail.png")
+const DMG_ICON := preload("res://assets/UI/inventory/icon_dmg.png")
+const DURABILITY_ICON := preload("res://assets/UI/inventory/icon_durability.png")
+const ATK_SPEED_ICON := preload("res://assets/UI/inventory/icon_atk_speed.png")
+const ARMOR_ICON := preload("res://assets/UI/inventory/icon_armor_detail.png")
 const FONT_SIZE := 18
 const HEADER_SIZE := 20
 const MAGIC_COLOR := Color("3d8be3")
@@ -11,9 +15,14 @@ const LABEL_COLOR := Color(0.894, 0.729, 0.522, 1.0)
 const MUTED_COLOR := Color(0.7, 0.6, 0.5, 0.85)
 const VALUE_COLOR := Color(0.96, 0.94, 0.88, 1.0)
 const OUTLINE_COLOR := Color(0.05, 0.04, 0.06)
+const REQ_LABEL_COLOR := Color(0.85, 0.35, 0.25, 1.0)
+const REQ_VALUE_COLOR := Color(0.96, 0.94, 0.88, 1.0)
+const HINT_COLOR := Color(0.6, 0.55, 0.5, 0.9)
+const MAX_COLLAPSED_AFFIXES := 5
 
 var _item: ItemBase
 var _stat_values: Dictionary = {}
+var _expanded: bool = false
 
 @onready var _detail_vbox: VBoxContainer = %DetailVBox
 @onready var _summary_vbox: VBoxContainer = %SummaryVBox
@@ -33,6 +42,15 @@ func _ready() -> void:
 	_build_stat_points_badge()
 	_update_summary()
 
+func _input(event: InputEvent) -> void:
+	if not _item or not _detail_vbox.visible:
+		return
+	if event is InputEventKey and event.keycode == KEY_ALT:
+		var want_expanded: bool = (event as InputEventKey).pressed
+		if want_expanded != _expanded:
+			_expanded = want_expanded
+			_show_detail(_item)
+
 func _collect_values(grid: Control) -> void:
 	for cell in grid.get_children():
 		var val := cell.get_node_or_null("Text/Value") as Label
@@ -41,6 +59,7 @@ func _collect_values(grid: Control) -> void:
 
 func _on_item_hovered(item: ItemBase) -> void:
 	_item = item
+	_expanded = false
 	if item:
 		_show_detail(item)
 	else:
@@ -52,7 +71,8 @@ func _show_detail(item: ItemBase) -> void:
 	_summary_vbox.visible = false
 	_detail_vbox.visible = true
 
-	var name_label := _make_label(item.display_name, HEADER_SIZE)
+	# --- Item name (rarity colored) ---
+	var name_label := _make_label(item.get_display_name(), HEADER_SIZE)
 	name_label.add_theme_color_override("font_color", item.get_rarity_color())
 	_detail_vbox.add_child(name_label)
 
@@ -62,27 +82,59 @@ func _show_detail(item: ItemBase) -> void:
 
 	_detail_vbox.add_child(_make_divider())
 
-	if not item.description.is_empty():
-		var desc := _make_label(item.description, FONT_SIZE, LABEL_COLOR)
-		desc.autowrap_mode = TextServer.AUTOWRAP_WORD
-		_detail_vbox.add_child(desc)
+	# --- Icon stat rows (weapon: dmg/durability/aps; armor: defense) ---
+	if item is Weapon:
+		var w := item as Weapon
+		if w.min_damage > 0.0 or w.max_damage > 0.0:
+			_detail_vbox.add_child(_make_icon_label(DMG_ICON,
+				"%d-%d" % [roundi(w.min_damage), roundi(w.max_damage)], VALUE_COLOR))
+		if w.max_durability > 0:
+			_detail_vbox.add_child(_make_icon_label(DURABILITY_ICON,
+				"%d/%d" % [w.durability, w.max_durability], VALUE_COLOR))
+		_detail_vbox.add_child(_make_icon_label(ATK_SPEED_ICON,
+			"%.2f" % w.get_effective_attack_speed(), VALUE_COLOR))
+	elif item is Armor:
+		var a := item as Armor
+		_detail_vbox.add_child(_make_icon_label(ARMOR_ICON,
+			"%d" % roundi(a.defense), VALUE_COLOR))
 
-	var stat_lines := item.get_stat_lines()
-	if not stat_lines.is_empty():
-		_detail_vbox.add_child(_make_spacer(8))
-		for line in stat_lines:
-			_detail_vbox.add_child(_make_label(line, FONT_SIZE, VALUE_COLOR))
-
+	# --- Affix lines (blue, with Alt-expand) ---
+	var affix_lines := item.get_affix_lines()
+	var magic_lines: Array[String] = []
+	magic_lines.append_array(affix_lines)
 	if not item.magic_effect_pool.is_empty():
-		_detail_vbox.add_child(_make_spacer(8))
 		var pool: Array = Array(item.magic_effect_pool)
 		pool.shuffle()
 		var count := clampi(item.magic_effect_count, 0, pool.size())
 		for i in count:
-			_detail_vbox.add_child(_make_label(pool[i], FONT_SIZE, MAGIC_COLOR))
+			magic_lines.append(pool[i])
+
+	if not magic_lines.is_empty():
+		_detail_vbox.add_child(_make_spacer(6))
+		var visible_count := magic_lines.size() if _expanded else mini(magic_lines.size(), MAX_COLLAPSED_AFFIXES)
+		for i in visible_count:
+			_detail_vbox.add_child(_make_label(magic_lines[i], FONT_SIZE, MAGIC_COLOR))
+		if not _expanded and magic_lines.size() > MAX_COLLAPSED_AFFIXES:
+			_detail_vbox.add_child(_make_spacer(4))
+			_detail_vbox.add_child(_make_hold_alt_hint())
+
+	# --- Requirements ---
+	var has_reqs := item.required_level > 0 or item.required_strength > 0 or item.required_dexterity > 0
+	if has_reqs:
+		_detail_vbox.add_child(_make_spacer(6))
+		_detail_vbox.add_child(_make_label("Required:", FONT_SIZE, REQ_LABEL_COLOR))
+		var req_parts: PackedStringArray = []
+		if item.required_strength > 0:
+			req_parts.append("Str: %d" % item.required_strength)
+		if item.required_dexterity > 0:
+			req_parts.append("Dex: %d" % item.required_dexterity)
+		if item.required_level > 0:
+			req_parts.append("Lvl: %d" % item.required_level)
+		_detail_vbox.add_child(_make_label("    ".join(req_parts), FONT_SIZE, REQ_VALUE_COLOR))
 
 	_detail_vbox.add_child(_make_divider())
 
+	# --- Footer: value + weight ---
 	var footer := HBoxContainer.new()
 	footer.add_theme_constant_override("separation", 8)
 	_detail_vbox.add_child(footer)
@@ -178,6 +230,17 @@ func _make_spacer(h: float) -> Control:
 	spacer.custom_minimum_size.y = h
 	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return spacer
+
+func _make_hold_alt_hint() -> RichTextLabel:
+	var rtl := RichTextLabel.new()
+	rtl.bbcode_enabled = true
+	rtl.fit_content = true
+	rtl.scroll_active = false
+	rtl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rtl.add_theme_font_size_override("normal_font_size", FONT_SIZE - 2)
+	rtl.add_theme_color_override("default_color", HINT_COLOR)
+	rtl.text = "... Hold [color=#e4e0d8][Alt][/color] to view more"
+	return rtl
 
 func _make_icon_label(icon: Texture2D, text: String, color: Color) -> HBoxContainer:
 	var hbox := HBoxContainer.new()

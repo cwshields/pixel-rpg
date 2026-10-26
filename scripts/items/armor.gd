@@ -11,3 +11,4 @@ func _init() -> void:
 
 func apply_modifiers(stats: StatsComponent, source_id: StringName) -> void:
 	stats.add_modifier(&"defense", defense, source_id)
+	super.apply_modifiers(stats, source_id)

@@ -62,6 +62,7 @@ func _init() -> void:
 func apply_modifiers(stats: StatsComponent, source_id: StringName) -> void:
 	stats.add_modifier(&"attack", damage, source_id)
 	stats.add_modifier(&"crit_chance", crit_bonus, source_id)
+	super.apply_modifiers(stats, source_id)
 
 ## attack_speed left at 0 falls back to this weapon's TYPE_DEFAULT_APS
 ## entry; anything explicitly set on the resource wins.

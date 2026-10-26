@@ -60,6 +60,8 @@ var speed_multiplier: float:
 	get: return base_speed_multiplier + _sum_modifiers(&"speed_multiplier") + dexterity * 0.005 - strength * 0.003
 var crit_chance: float:
 	get: return base_crit_chance + _sum_modifiers(&"crit_chance") + dexterity * 0.005
+var dodge_chance: float:
+	get: return clampf(0.02 + (dexterity / 100.0) * 0.08 + _sum_modifiers(&"dodge_chance"), 0.0, 1.0)
 var block_chance: float:
 	get: return _sum_modifiers(&"block_chance") + dexterity * 0.01
 var move_speed: float:
@@ -76,14 +78,20 @@ var lifesteal: float:
 ## Intelligence drives luck (moved from charisma).
 var luck: float:
 	get: return _sum_modifiers(&"luck") + intelligence * 0.3
+## Percentage bonus applied to outgoing damage (from affixes like "Honed").
+var damage_percent: float:
+	get: return _sum_modifiers(&"damage_percent")
+## Flat damage reflected to melee attackers (from affixes like "of Thorns").
+var thorns: float:
+	get: return _sum_modifiers(&"thorns")
 
 ## --- Pool bonuses (consumed by player to scale component max values) ---
 var max_health_bonus: float:
-	get: return constitution * 2.0
+	get: return constitution * 2.0 + _sum_modifiers(&"max_health")
 var max_stamina_bonus: float:
 	get: return constitution * 1.5
 var max_mana_bonus: float:
-	get: return intelligence * 2.0
+	get: return intelligence * 2.0 + _sum_modifiers(&"max_mana")
 var max_hunger_bonus: float:
 	get: return constitution * 1.0
 
@@ -147,7 +155,7 @@ func compute_incoming_damage(raw_damage: float) -> float:
 	return maxf(raw_damage - defense, 1.0)
 
 func compute_outgoing_damage() -> float:
-	var dmg: float = attack
+	var dmg: float = attack * (1.0 + damage_percent)
 	if randf() < crit_chance:
 		dmg *= 2.0
 	return dmg
