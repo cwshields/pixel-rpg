@@ -6,9 +6,16 @@ extends MenuBase
 ## Drag trade: pick up from one grid, place in the other — gold transfers.
 ## Quick trade: Shift+Click instantly buys/sells without dragging.
 
+const _ACTIVE_COLOR := Color(0.92, 0.9, 0.84, 1)
+const _INACTIVE_COLOR := Color(0.75, 0.72, 0.65, 1)
+const _MISC_CATEGORIES: Array[ItemBase.Category] = [
+	ItemBase.Category.RING, ItemBase.Category.AMULET, ItemBase.Category.CONSUMABLE,
+]
+
 var _active_npc: NPCBase = null
 var _shop_inventory: ShopInventory = null
 var _feedback_tween: Tween
+var _tab_buttons: Array[Button] = []
 
 @onready var _shop_grid: InventoryGrid = %ShopGrid
 @onready var _player_grid: InventoryGrid = %PlayerGrid
@@ -18,10 +25,22 @@ var _feedback_tween: Tween
 @onready var _charisma_label: Label = %CharismaLabel
 @onready var _feedback_label: Label = %FeedbackLabel
 @onready var _close_btn: Button = %CloseBtn
+@onready var _all_tab: Button = %AllTab
+@onready var _weapons_tab: Button = %WeaponsTab
+@onready var _armor_tab: Button = %ArmorTab
+@onready var _misc_tab: Button = %MiscTab
 
 func _ready() -> void:
 	super._ready()
 	_close_btn.pressed.connect(func() -> void: UIManager.close_screen(screen_name))
+	_tab_buttons = [_all_tab, _weapons_tab, _armor_tab, _misc_tab]
+	_all_tab.pressed.connect(_select_tab.bind(_all_tab, Callable()))
+	_weapons_tab.pressed.connect(_select_tab.bind(_weapons_tab,
+		func(item: ItemBase) -> bool: return item.category == ItemBase.Category.WEAPON))
+	_armor_tab.pressed.connect(_select_tab.bind(_armor_tab,
+		func(item: ItemBase) -> bool: return item.category == ItemBase.Category.ARMOR))
+	_misc_tab.pressed.connect(_select_tab.bind(_misc_tab,
+		func(item: ItemBase) -> bool: return item.category in _MISC_CATEGORIES))
 
 func setup_shop(npc: NPCBase) -> void:
 	_active_npc = npc
@@ -39,6 +58,7 @@ func _on_open() -> void:
 	_player_grid.setup(player.inventory)
 	_shop_grid.input_filter = _on_grid_click.bind(_shop_grid)
 	_player_grid.input_filter = _on_grid_click.bind(_player_grid)
+	_select_tab(_all_tab, Callable())
 	_refresh_gold()
 	_refresh_charisma()
 
@@ -116,7 +136,7 @@ func _quick_buy(local_pos: Vector2, player: Player) -> bool:
 		if cell in inv.get_world_cells(p.item, p.pos, p.rotation):
 			placed = p
 			break
-	if not placed:
+	if not placed or not _shop_grid._passes_filter(placed.item):
 		return false
 	var price := _shop_inventory.get_buy_price(placed.item)
 	if player.gold < price:
@@ -126,6 +146,7 @@ func _quick_buy(local_pos: Vector2, player: Player) -> bool:
 	if leftover > 0:
 		_show_feedback("Inventory full!")
 		return true
+	_player_grid._play_place_sfx(placed.item)
 	player.gold -= price
 	Events.gold_changed.emit(player.gold)
 	if placed.quantity > 1:
@@ -149,6 +170,7 @@ func _quick_sell(local_pos: Vector2, player: Player) -> bool:
 		return false
 	var charisma := player.stats.charisma if player.stats else 0.0
 	var price := _shop_inventory.get_sell_price(placed.item, charisma)
+	_shop_grid._play_place_sfx(placed.item)
 	player.gold += price
 	Events.gold_changed.emit(player.gold)
 	if placed.quantity > 1:
@@ -173,6 +195,34 @@ func _refresh_charisma() -> void:
 	var t := clampf(cha / 100.0, 0.0, 1.0)
 	var sell_pct := roundi((0.4 + 0.8 * t * t) * 100)
 	_charisma_label.text = "Sell: %d%%\nCharisma: %d" % [sell_pct, roundi(cha)]
+
+func _select_tab(tab: Button, filter: Callable) -> void:
+	_shop_grid.item_filter = filter
+	_shop_grid.queue_redraw()
+	for btn in _tab_buttons:
+		var active := btn == tab
+		var s := _make_tab_style(active)
+		btn.add_theme_color_override("font_color", _ACTIVE_COLOR if active else _INACTIVE_COLOR)
+		btn.add_theme_stylebox_override("normal", s)
+		btn.add_theme_stylebox_override("hover", s)
+		btn.add_theme_stylebox_override("pressed", s)
+
+func _make_tab_style(active: bool) -> StyleBox:
+	if active:
+		var s := StyleBoxTexture.new()
+		s.texture = load("res://assets/UI/rpg_hud/frame_button.png")
+		s.texture_margin_left = 7.0
+		s.texture_margin_top = 7.0
+		s.texture_margin_right = 7.0
+		s.texture_margin_bottom = 7.0
+		return s
+	var s := StyleBoxFlat.new()
+	s.bg_color = Color(0.18, 0.16, 0.14, 0.6)
+	s.corner_radius_top_left = 4
+	s.corner_radius_top_right = 4
+	s.corner_radius_bottom_right = 4
+	s.corner_radius_bottom_left = 4
+	return s
 
 func _show_feedback(text: String) -> void:
 	_feedback_label.text = text

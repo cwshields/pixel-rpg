@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" uid="uid://crf0vvknry5qc" path="res://scripts/ui/shop_ui.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://btxmccimnlvys" path="res://assets/UI/kit/panel.png" id="2"]
@@ -22,6 +22,20 @@ texture_margin_left = 7.0
 texture_margin_top = 7.0
 texture_margin_right = 7.0
 texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tab_active"]
+texture = ExtResource("3")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_inactive"]
+bg_color = Color(0.18, 0.16, 0.14, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
 
@@ -121,6 +135,63 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_font_sizes/font_size = 14
+
+[node name="TabBar" type="HBoxContainer" parent="Panel/RootVBox/Columns/ShopSide"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="AllTab" type="Button" parent="Panel/RootVBox/Columns/ShopSide/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 28)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxTexture_tab_active")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tab_active")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tab_active")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "All"
+
+[node name="WeaponsTab" type="Button" parent="Panel/RootVBox/Columns/ShopSide/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 28)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.72, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "Weapons"
+
+[node name="ArmorTab" type="Button" parent="Panel/RootVBox/Columns/ShopSide/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 28)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.72, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "Armor"
+
+[node name="MiscTab" type="Button" parent="Panel/RootVBox/Columns/ShopSide/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 28)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.72, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tab_inactive")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "Misc."
 
 [node name="ShopGrid" type="Control" parent="Panel/RootVBox/Columns/ShopSide"]
 unique_name_in_owner = true
