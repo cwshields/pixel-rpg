@@ -183,6 +183,9 @@ func flash_exhausted() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_playing():
 		return
+	if event.is_action_pressed("swap_weapons"):
+		equipment.swap_weapon_set()
+		return
 	if event.is_action_pressed("interact"):
 		if not _interact_with_nearest():
 			_use_hotbar_consumable()
@@ -252,7 +255,10 @@ func active_harvest_target() -> BreakableProp:
 	var prop: BreakableProp = cursor.hovered_harvestable
 	if prop not in _nearby_harvestables:
 		return null
-	var to_prop: Vector2 = prop.global_position - global_position
+	var prop_center := prop.global_position
+	if prop.sprite:
+		prop_center += prop.sprite.position
+	var to_prop: Vector2 = prop_center - global_position
 	if to_prop != Vector2.ZERO and facing_direction.dot(to_prop.normalized()) <= 0.0:
 		return null
 	return prop

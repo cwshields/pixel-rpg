@@ -129,6 +129,34 @@ theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
 theme_override_constants/outline_size = 4
 text = "RMB"
 
+[node name="SwapWeaponsLine" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Action" type="Label" parent="VBox/SwapWeaponsLine"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+text = "Swap Weapons"
+
+[node name="Dots" type="Label" parent="VBox/SwapWeaponsLine"]
+layout_mode = 2
+size_flags_horizontal = 3
+clip_text = true
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.55, 0.48, 0.4, 0.7)
+text = ".........................................................."
+
+[node name="Key" type="Label" parent="VBox/SwapWeaponsLine"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
+theme_override_constants/outline_size = 4
+text = "F"
+
 [node name="SortLine" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
 mouse_filter = 2
