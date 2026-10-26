@@ -8,6 +8,11 @@ extends CharacterBody2D
 signal died(entity: EntityBase)
 signal facing_changed(direction: Vector2)
 
+static var _blocked_hit_streams: Array[AudioStream] = [
+	preload("res://assets/SoundFX/Player/hit-punch-486753.mp3"),
+	preload("res://assets/SoundFX/Player/hit-power-punch-192118.mp3"),
+]
+
 @export var move_speed: float = 65.0
 ## Target speed (px/sec) used in place of `move_speed` while `sprinting` is
 ## true. The driving state sets `sprinting` each frame from its own input
@@ -191,11 +196,24 @@ func _direction_blocked(direction: Vector2, exclude: Array[RID]) -> bool:
 func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector2.ZERO) -> void:
 	if GameManager.god_mode and self == GameManager.player:
 		return
+	if stats and randf() < stats.dodge_chance:
+		return
 	var final_amount: float = stats.compute_incoming_damage(amount) if stats else amount
 	if health:
+		var was_invulnerable := health.is_invulnerable()
 		health.take_damage(final_amount, source)
+		if was_invulnerable and self == GameManager.player:
+			_play_blocked_hit_sfx()
 	if knockback != Vector2.ZERO:
 		velocity = knockback
+
+func _play_blocked_hit_sfx() -> void:
+	var sfx := AudioStreamPlayer2D.new()
+	sfx.stream = _blocked_hit_streams.pick_random()
+	sfx.bus = &"Master"
+	add_child(sfx)
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()
 
 func is_dead() -> bool:
 	return health != null and health.is_dead()

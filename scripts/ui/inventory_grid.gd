@@ -18,6 +18,13 @@ const SLOT_PATCH_MARGIN := 8
 const PICKUP_SCENE: PackedScene = preload("res://scenes/world/item_pickup.tscn")
 const VALID_COLOR := Color(0.45, 1.0, 0.45, 0.35)
 const INVALID_COLOR := Color(1.0, 0.35, 0.35, 0.35)
+const _GRAB_SFX: AudioStream = preload("res://assets/SoundFX/UI/item-pickup-553942.mp3")
+const _WOOD_PLACE_SFX: AudioStream = preload("res://assets/SoundFX/UI/put_place_item-83043.mp3")
+const _GENERAL_PLACE_SFX: AudioStream = preload("res://assets/SoundFX/UI/small-thud-48175.mp3")
+const _IRON_WEAPON_PLACE_SFX: AudioStream = preload("res://assets/SoundFX/UI/menu-click-sound.mp3")
+const _HEAVY_ARMOR_PLACE_SFX: AudioStream = preload("res://assets/SoundFX/UI/armor-pickup-equip-6904.mp3")
+const _LIGHT_ARMOR_PLACE_SFX: AudioStream = preload("res://assets/SoundFX/UI/punching-light-armour-87442.mp3")
+const _AMULET_PLACE_SFX: AudioStream = preload("res://assets/SoundFX/UI/drop-pickup-equip-item.mp3")
 const ITEM_FILL_COLOR := Color(1, 1, 1, 0.07)
 const ITEM_OUTLINE_COLOR := Color(1, 1, 1, 0.4)
 const HOVER_COLOR := Color(1, 1, 1, 0.18)
@@ -326,6 +333,7 @@ func _pick_up_at(local_pos: Vector2) -> bool:
 	_update_held_icon()
 	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
 	_held_icon.visible = true
+	_play_grab_sfx()
 	queue_redraw()
 	return true
 
@@ -344,6 +352,7 @@ func _pick_up_one_at(local_pos: Vector2) -> bool:
 	_update_held_icon()
 	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
 	_held_icon.visible = true
+	_play_grab_sfx()
 	queue_redraw()
 	return true
 
@@ -362,6 +371,57 @@ func pick_up_new(item: ItemBase, quantity: int = 1) -> void:
 	_held_icon.visible = true
 	_clear_hover()
 	queue_redraw()
+
+func _play_grab_sfx() -> void:
+	var sfx := AudioStreamPlayer.new()
+	sfx.stream = _GRAB_SFX
+	sfx.bus = &"Master"
+	add_child(sfx)
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()
+
+func _play_place_sfx(item: ItemBase) -> void:
+	var stream: AudioStream
+	if _is_wood_item(item):
+		stream = _WOOD_PLACE_SFX
+	elif item is Weapon and _is_iron_item(item):
+		stream = _IRON_WEAPON_PLACE_SFX
+	elif item is Armor and _is_heavy_armor(item):
+		stream = _HEAVY_ARMOR_PLACE_SFX
+	elif item is Armor:
+		stream = _LIGHT_ARMOR_PLACE_SFX
+	elif item is Amulet:
+		stream = _AMULET_PLACE_SFX
+	elif item.category not in [ItemBase.Category.WEAPON, ItemBase.Category.CONSUMABLE,
+			ItemBase.Category.RUNE_STONE]:
+		stream = _GENERAL_PLACE_SFX
+	else:
+		return
+	var volume_db := 0.0
+	if stream == _HEAVY_ARMOR_PLACE_SFX:
+		volume_db = 4.0
+	elif stream == _IRON_WEAPON_PLACE_SFX:
+		volume_db = -10.0
+	elif stream == _LIGHT_ARMOR_PLACE_SFX:
+		volume_db = -6.0
+	var sfx := AudioStreamPlayer.new()
+	sfx.stream = stream
+	sfx.volume_db = volume_db
+	sfx.bus = &"Master"
+	add_child(sfx)
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()
+
+static func _is_wood_item(item: ItemBase) -> bool:
+	if item is CraftingMaterial and item.material_type == CraftingMaterial.MaterialType.WOOD:
+		return true
+	return "wood" in item.id
+
+static func _is_iron_item(item: ItemBase) -> bool:
+	return "iron" in item.id
+
+static func _is_heavy_armor(item: ItemBase) -> bool:
+	return "leather" not in item.id and "cloth" not in item.id
 
 func _rotate_held() -> void:
 	if not _held_item.can_rotate:
@@ -384,6 +444,7 @@ func _try_place_held() -> void:
 		if cell.x < 0 or cell.y < 0 or cell.x >= inventory.width or cell.y >= inventory.height:
 			return
 	if inventory.can_place_at(_held_item, target, _held_rotation):
+		_play_place_sfx(_held_item)
 		inventory.place_item(_held_item, target, _held_rotation, _held_quantity)
 		_clear_held()
 		return
@@ -392,6 +453,7 @@ func _try_place_held() -> void:
 		return
 	var occupant := occupants[0]
 	if occupant.item.id == _held_item.id and occupant.quantity < occupant.item.max_stack:
+		_play_place_sfx(_held_item)
 		_held_quantity = inventory.merge_into(occupant, _held_quantity)
 		if _held_quantity <= 0:
 			_clear_held()
@@ -401,6 +463,7 @@ func _try_place_held() -> void:
 		return
 	if not inventory.can_place_at(_held_item, target, _held_rotation, occupant):
 		return
+	_play_place_sfx(_held_item)
 	inventory.remove_placed(occupant)
 	inventory.place_item(_held_item, target, _held_rotation, _held_quantity)
 	_held_item = occupant.item

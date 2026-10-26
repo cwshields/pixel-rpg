@@ -2,10 +2,10 @@ class_name HotbarStrip
 extends Control
 
 const SLOTS_BG := preload("res://assets/UI/inventory/hotbar_slots.png")
-const SELECTED_MARKER := preload("res://assets/UI/inventory/wield-selected.png")
 const SLOT_SIZE := 88
 const SLOT_COUNT := 8
 const ICON_PAD := 12
+const _EQUIP_SFX: AudioStream = preload("res://assets/SoundFX/UI/put_place_item-83043.mp3")
 const HIGHLIGHT_COLOR := Color(1, 1, 1, 0.15)
 const ASSIGN_COLOR := Color(0.45, 1.0, 0.45, 0.25)
 const CLEAR_COLOR := Color(1.0, 0.35, 0.35, 0.25)
@@ -72,6 +72,15 @@ func _try_assign_held(idx: int) -> void:
 	var held_data := _grid.take_held_item()
 	_inventory.add_item(held_data.item, held_data.quantity)
 	player.assign_hotbar_slot(idx, held_data.item)
+	_play_equip_sfx()
+
+func _play_equip_sfx() -> void:
+	var sfx := AudioStreamPlayer.new()
+	sfx.stream = _EQUIP_SFX
+	sfx.bus = &"Master"
+	add_child(sfx)
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()
 
 func _slot_at(pos: Vector2) -> int:
 	if pos.y < 0 or pos.y > SLOT_SIZE:
@@ -106,10 +115,6 @@ func _draw() -> void:
 			draw_texture_rect(item.icon, icon_rect, false, mod)
 		if i == _selected:
 			draw_rect(Rect2(x, 0, SLOT_SIZE, SLOT_SIZE), HIGHLIGHT_COLOR, true)
-			var mw := SELECTED_MARKER.get_width() * 2
-			var mh := SELECTED_MARKER.get_height() * 2
-			var mx := x + (SLOT_SIZE - mw) / 2.0
-			draw_texture_rect(SELECTED_MARKER, Rect2(mx, SLOT_SIZE - mh - 2, mw, mh), false)
 		if _hovered_slot == i and _grid and _grid.has_held_item():
 			var color := ASSIGN_COLOR if _grid.get_held_item() is Consumable else CLEAR_COLOR
 			draw_rect(Rect2(x, 0, SLOT_SIZE, SLOT_SIZE), color, true)

@@ -27,6 +27,13 @@ const DEFAULT_SCATTER: float = 8.0
 ## Pull speed once the pickup is right on top of the player (px/s).
 @export var attract_speed_max: float = 220.0
 
+static var _pickup_streams: Array[AudioStream] = [
+	preload("res://assets/SoundFX/UI/pickup-pop-2.mp3"),
+	preload("res://assets/SoundFX/UI/pickup-pop-3.mp3"),
+	preload("res://assets/SoundFX/UI/pickup-pop-4.mp3"),
+	preload("res://assets/SoundFX/UI/pop-pickup.mp3"),
+]
+
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 
 ## Actual trigger distance for this instance, rolled in _ready().
@@ -102,11 +109,20 @@ func _collect() -> void:
 	var before: int = amount
 	var leftover: int = _player.pickup_item(item, amount)
 	if leftover <= 0:
+		_play_pickup_sfx()
 		queue_free()
 	elif leftover < before:
-		# Part of the stack fit; leave the rest on the ground.
+		_play_pickup_sfx()
 		amount = leftover
 		_retry_delay = 0.5
 	else:
-		# Inventory full — stop pestering it for a bit.
 		_retry_delay = 1.0
+
+func _play_pickup_sfx() -> void:
+	var sfx := AudioStreamPlayer.new()
+	sfx.stream = _pickup_streams.pick_random()
+	sfx.volume_db = -14.0
+	sfx.bus = &"Master"
+	get_tree().current_scene.add_child(sfx)
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()

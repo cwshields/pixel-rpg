@@ -40,6 +40,8 @@ var _health_readout: Label
 var _stamina_readout: Label
 var _mana_readout: Label
 var _xp_fill: ColorRect
+var _level_up_sfx: AudioStreamPlayer
+var _heartbeat_sfx: AudioStreamPlayer
 
 func _ready() -> void:
 	_health_readout = _build_readout(HEALTH_REGION, func() -> Vector2: return _health)
@@ -56,6 +58,17 @@ func _ready() -> void:
 	_push(&"mana_fill", _mana)
 	_build_xp_bar()
 	_build_level_up_label()
+	_level_up_sfx = AudioStreamPlayer.new()
+	_level_up_sfx.stream = preload("res://assets/SoundFX/Player/level-up.mp3")
+	_level_up_sfx.bus = &"Master"
+	add_child(_level_up_sfx)
+	_heartbeat_sfx = AudioStreamPlayer.new()
+	_heartbeat_sfx.stream = preload("res://assets/SoundFX/UI/heartbeat.mp3")
+	_heartbeat_sfx.volume_db = -10.0
+	_heartbeat_sfx.bus = &"Master"
+	_heartbeat_sfx.autoplay = false
+	add_child(_heartbeat_sfx)
+	_heartbeat_sfx.finished.connect(_on_heartbeat_finished)
 	if GameManager.player:
 		_on_player_spawned(GameManager.player)
 
@@ -78,6 +91,22 @@ func _on_health_changed(entity: Node, current: float, max_value: float) -> void:
 		_health = Vector2(current, max_value)
 		_push(&"health_fill", _health)
 		_refresh_readout(_health_readout, _health)
+		_update_heartbeat(current, max_value)
+
+const HEARTBEAT_THRESHOLD := 0.3
+
+func _update_heartbeat(current: float, max_value: float) -> void:
+	var ratio := current / max_value if max_value > 0.0 else 1.0
+	if ratio > 0.0 and ratio <= HEARTBEAT_THRESHOLD:
+		if not _heartbeat_sfx.playing:
+			_heartbeat_sfx.play()
+	else:
+		_heartbeat_sfx.stop()
+
+func _on_heartbeat_finished() -> void:
+	var ratio := _health.x / _health.y if _health.y > 0.0 else 1.0
+	if ratio > 0.0 and ratio <= HEARTBEAT_THRESHOLD:
+		_heartbeat_sfx.play()
 
 func _on_stamina_changed(entity: Node, current: float, max_value: float) -> void:
 	if entity == GameManager.player:
@@ -189,6 +218,8 @@ func _build_level_up_label() -> void:
 func _flash_level_up() -> void:
 	if not _level_up_label:
 		return
+	if _level_up_sfx:
+		_level_up_sfx.play()
 	var tw := create_tween()
 	_level_up_label.modulate.a = 0.0
 	_level_up_label.offset_top = 80.0
