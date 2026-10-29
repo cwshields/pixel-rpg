@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Shields.png" id="da45c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5d43d"]
+atlas = ExtResource("da45c")
+region = Rect2(68, 33, 24, 31)
+
+[resource]
+script = ExtResource("d3180")
+defense = 4.5
+block_chance = 0.1
+id = &"iron_heater_shield"
+display_name = "Iron Heater Shield"
+icon = SubResource("AtlasTexture_5d43d")
+value = 40
+category = 1
+class_affinity = 1
+weight = 2.5

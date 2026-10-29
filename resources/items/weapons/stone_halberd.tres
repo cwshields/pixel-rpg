@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6010"]
+atlas = ExtResource("7a5d5")
+region = Rect2(16, 80, 16, 81)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 7.5
+attack_speed = 0.7
+two_handed = true
+id = &"stone_halberd"
+display_name = "Stone Halberd"
+icon = SubResource("AtlasTexture_e6010")
+value = 41
+category = 0
+class_affinity = 1
+weight = 3.0

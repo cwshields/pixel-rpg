@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Wood/Wood.png" id="4c2a8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_93b95"]
+atlas = ExtResource("4c2a8")
+region = Rect2(67, 2, 10, 47)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 3.0
+attack_speed = 0.7
+two_handed = true
+id = &"wooden_spear"
+display_name = "Wooden Spear"
+icon = SubResource("AtlasTexture_93b95")
+value = 20
+category = 0
+weight = 3.0

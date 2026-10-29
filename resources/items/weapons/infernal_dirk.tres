@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Fire Weapons/Fire Weapons.png" id="4ad59"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_00ded"]
+atlas = ExtResource("4ad59")
+region = Rect2(99, 0, 11, 33)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 1
+damage = 8.0
+attack_speed = 1.5
+id = &"infernal_dirk"
+display_name = "Infernal Dirk"
+icon = SubResource("AtlasTexture_00ded")
+value = 56
+category = 0
+class_affinity = 3
+weight = 2.0

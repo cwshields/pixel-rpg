@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2d41"]
+atlas = ExtResource("7192e")
+region = Rect2(0, 0, 18, 81)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 5.5
+attack_speed = 0.7
+two_handed = true
+id = &"bone_spear"
+display_name = "Bone Spear"
+icon = SubResource("AtlasTexture_e2d41")
+value = 32
+category = 0
+weight = 3.0

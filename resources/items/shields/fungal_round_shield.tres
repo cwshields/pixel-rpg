@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_165ba"]
+atlas = ExtResource("dd088")
+region = Rect2(159, 111, 16, 18)
+
+[resource]
+script = ExtResource("d3180")
+defense = 4.0
+block_chance = 0.09
+id = &"fungal_round_shield"
+display_name = "Fungal Round Shield"
+icon = SubResource("AtlasTexture_165ba")
+value = 30
+category = 1
+class_affinity = 3
+weight = 2.6

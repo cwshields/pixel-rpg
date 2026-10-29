@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Desert - gold/Desert-Gold.png" id="9cfb1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6e549"]
+atlas = ExtResource("9cfb1")
+region = Rect2(129, 6, 14, 23)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 6
+damage = 8.0
+attack_speed = 0.65
+id = &"desert_gold_morningstar"
+display_name = "Desert Gold Morningstar"
+icon = SubResource("AtlasTexture_6e549")
+value = 47
+category = 0
+weight = 2.0

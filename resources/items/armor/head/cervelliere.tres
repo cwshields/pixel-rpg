@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63a2f"]
+atlas = ExtResource("6891a")
+region = Rect2(165, 33, 24, 29)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 3.0
+id = &"cervelliere"
+display_name = "Cervelliere"
+icon = SubResource("AtlasTexture_63a2f")
+value = 31
+category = 1
+class_affinity = 2
+weight = 1.2
+shape = PackedStringArray("##", "##")

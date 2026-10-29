@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_helm"]
 atlas = ExtResource("1_atlas")
-region = Rect2(253, 74, 32, 32)
+region = Rect2(32, 0, 32, 32)
 
 [resource]
 script = ExtResource("1")
@@ -16,4 +16,5 @@ description = "A solid iron helm. Keeps your head in one piece."
 icon = SubResource("AtlasTexture_helm")
 value = 12
 category = 1
+rarity = 3
 shape = ["##", "##"]

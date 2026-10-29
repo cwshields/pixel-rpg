@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Tool" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/tool.gd" id="d1a5d"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22908"]
+atlas = ExtResource("3558a")
+region = Rect2(52, 37, 9, 28)
+
+[resource]
+script = ExtResource("d1a5d")
+tool_type = 4
+power = 2
+max_durability = 60
+id = &"rustic_shovel"
+display_name = "Rustic Shovel"
+icon = SubResource("AtlasTexture_22908")
+value = 10
+category = 2
+weight = 2.0

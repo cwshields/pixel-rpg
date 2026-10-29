@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Tool" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/tool.gd" id="d1a5d"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14942"]
+atlas = ExtResource("3558a")
+region = Rect2(127, 95, 50, 18)
+
+[resource]
+script = ExtResource("d1a5d")
+tool_type = 2
+power = 2
+max_durability = 40
+id = &"rustic_fishing_pole"
+display_name = "Rustic Fishing Pole"
+icon = SubResource("AtlasTexture_14942")
+value = 15
+category = 2
+weight = 1.0

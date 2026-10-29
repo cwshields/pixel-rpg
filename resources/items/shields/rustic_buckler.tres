@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2549"]
+atlas = ExtResource("3558a")
+region = Rect2(133, 113, 22, 31)
+
+[resource]
+script = ExtResource("d3180")
+defense = 3.0
+block_chance = 0.07
+id = &"rustic_buckler"
+display_name = "Rustic Buckler"
+icon = SubResource("AtlasTexture_c2549")
+value = 20
+category = 1
+weight = 2.3

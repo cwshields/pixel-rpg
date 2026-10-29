@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11a50"]
+atlas = ExtResource("8aaef")
+region = Rect2(95, 13, 32, 34)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 8.6
+id = &"iron_brigandine"
+display_name = "Iron Brigandine"
+icon = SubResource("AtlasTexture_11a50")
+value = 20
+category = 1
+class_affinity = 1
+weight = 3.0
+shape = PackedStringArray("##", "##", "##")

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eecad"]
+atlas = ExtResource("1492e")
+region = Rect2(180, 20, 39, 27)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 4
+damage = 5.0
+attack_speed = 0.9
+two_handed = true
+id = &"iron_shortbow"
+display_name = "Iron Shortbow"
+icon = SubResource("AtlasTexture_eecad")
+value = 32
+category = 0
+weight = 3.0

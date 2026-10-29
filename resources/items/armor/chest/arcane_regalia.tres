@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_620bb"]
+atlas = ExtResource("8aaef")
+region = Rect2(500, 190, 32, 37)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 7.7
+id = &"arcane_regalia"
+display_name = "Arcane Regalia"
+icon = SubResource("AtlasTexture_620bb")
+value = 125
+category = 1
+class_affinity = 3
+rarity = 3
+weight = 1.7999999999999998
+shape = PackedStringArray("##", "##", "##")

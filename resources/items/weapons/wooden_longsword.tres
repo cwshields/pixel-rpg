@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Wood/Wood.png" id="4c2a8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78a83"]
+atlas = ExtResource("4c2a8")
+region = Rect2(15, 0, 18, 49)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 0
+damage = 3.0
+attack_speed = 1.0
+id = &"wooden_longsword"
+display_name = "Wooden Longsword"
+icon = SubResource("AtlasTexture_78a83")
+value = 20
+category = 0
+weight = 2.0

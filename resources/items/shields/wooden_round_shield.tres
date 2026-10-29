@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Wood/Wood.png" id="4c2a8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7297"]
+atlas = ExtResource("4c2a8")
+region = Rect2(118, 18, 19, 26)
+
+[resource]
+script = ExtResource("d3180")
+defense = 3.0
+block_chance = 0.07
+id = &"wooden_round_shield"
+display_name = "Wooden Round Shield"
+icon = SubResource("AtlasTexture_f7297")
+value = 20
+category = 1
+weight = 2.3

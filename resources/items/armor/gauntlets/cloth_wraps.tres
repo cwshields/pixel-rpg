@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47cb9"]
+atlas = ExtResource("6fb75")
+region = Rect2(1, 98, 30, 27)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 3
+defense = 0.8
+id = &"cloth_wraps"
+display_name = "Cloth Wraps"
+icon = SubResource("AtlasTexture_47cb9")
+value = 22
+category = 1
+class_affinity = 3
+weight = 0.55
+shape = PackedStringArray("##", "##")

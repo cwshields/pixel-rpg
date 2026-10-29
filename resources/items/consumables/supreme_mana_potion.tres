@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Consumable" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/consumable.gd" id="694f7"]
+[ext_resource type="Texture2D" path="res://assets/Items/potions-pack.png" id="0455c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dc15b"]
+atlas = ExtResource("0455c")
+region = Rect2(14, 9, 23, 23)
+
+[resource]
+script = ExtResource("694f7")
+consumable_type = 0
+id = &"supreme_mana_potion"
+display_name = "Supreme Mana Potion"
+icon = SubResource("AtlasTexture_dc15b")
+max_stack = 20
+value = 5
+category = 5

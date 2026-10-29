@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Consumable" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/consumable.gd" id="694f7"]
+[ext_resource type="Texture2D" path="res://assets/Items/potions-pack.png" id="0455c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_394da"]
+atlas = ExtResource("0455c")
+region = Rect2(23, 166, 26, 26)
+
+[resource]
+script = ExtResource("694f7")
+consumable_type = 3
+buff_stat = &"all_resist"
+buff_amount = 15.0
+buff_duration = 60.0
+id = &"philosophers_elixir"
+display_name = "Philosopher's Elixir"
+icon = SubResource("AtlasTexture_394da")
+max_stack = 5
+value = 25
+category = 5
+rarity = 4

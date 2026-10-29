@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Tool" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/tool.gd" id="d1a5d"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f89ee"]
+atlas = ExtResource("3558a")
+region = Rect2(19, 15, 12, 50)
+
+[resource]
+script = ExtResource("d1a5d")
+tool_type = 5
+power = 2
+max_durability = 50
+id = &"rustic_scythe"
+display_name = "Rustic Scythe"
+icon = SubResource("AtlasTexture_f89ee")
+value = 10
+category = 2
+weight = 2.5

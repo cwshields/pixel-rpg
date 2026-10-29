@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Ring" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/ring.gd" id="38973"]
+[ext_resource type="Texture2D" path="res://assets/Items/Rings-Amulets.png" id="b2378"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52b21"]
+atlas = ExtResource("b2378")
+region = Rect2(84, 84, 28, 28)
+
+[resource]
+script = ExtResource("38973")
+id = &"owl_signet"
+display_name = "Owl Signet"
+icon = SubResource("AtlasTexture_52b21")
+value = 62
+category = 3
+weight = 0.1

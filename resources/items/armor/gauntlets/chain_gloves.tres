@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7062"]
+atlas = ExtResource("6fb75")
+region = Rect2(3, 34, 26, 28)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 3
+defense = 2.0
+id = &"chain_gloves"
+display_name = "Chain Gloves"
+icon = SubResource("AtlasTexture_b7062")
+value = 10
+category = 1
+class_affinity = 1
+weight = 0.85
+shape = PackedStringArray("##", "##")

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Ring" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/ring.gd" id="38973"]
+[ext_resource type="Texture2D" path="res://assets/Items/Rings-Amulets.png" id="b2378"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07938"]
+atlas = ExtResource("b2378")
+region = Rect2(227, 47, 30, 30)
+
+[resource]
+script = ExtResource("38973")
+id = &"pearl_ring"
+display_name = "Pearl Ring"
+icon = SubResource("AtlasTexture_07938")
+value = 34
+category = 3
+weight = 0.1

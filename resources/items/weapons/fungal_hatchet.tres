@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_89d34"]
+atlas = ExtResource("dd088")
+region = Rect2(0, 127, 18, 34)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 2
+damage = 5.0
+attack_speed = 0.8
+id = &"fungal_hatchet"
+display_name = "Fungal Hatchet"
+icon = SubResource("AtlasTexture_89d34")
+value = 35
+category = 0
+class_affinity = 3
+weight = 2.0

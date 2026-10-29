@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e7f0"]
+atlas = ExtResource("6891a")
+region = Rect2(291, 32, 27, 34)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 2.2
+id = &"leather_cap"
+display_name = "Leather Cap"
+icon = SubResource("AtlasTexture_1e7f0")
+value = 19
+category = 1
+class_affinity = 2
+weight = 1.2
+shape = PackedStringArray("##", "##")

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Amulet" format=3 uid="uid://begeht7qyto2o"]
 
 [ext_resource type="Script" uid="uid://qxw6e0mcnt1j" path="res://scripts/items/amulet.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b2jkh3t1ee71y" path="res://assets/Icons/Rings-Amulets.png" id="1_lodfm"]
+[ext_resource type="Texture2D" uid="uid://b2jkh3t1ee71y" path="res://assets/Items/Rings-Amulets.png" id="1_lodfm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h6ory"]
 atlas = ExtResource("1_lodfm")

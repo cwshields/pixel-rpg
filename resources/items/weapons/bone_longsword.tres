@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf60c"]
+atlas = ExtResource("7192e")
+region = Rect2(113, 19, 14, 43)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 0
+damage = 5.5
+attack_speed = 1.0
+id = &"bone_longsword"
+display_name = "Bone Longsword"
+icon = SubResource("AtlasTexture_cf60c")
+value = 32
+category = 0
+rarity = 3
+weight = 2.0

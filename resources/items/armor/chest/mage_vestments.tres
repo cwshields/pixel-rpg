@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f32fe"]
+atlas = ExtResource("8aaef")
+region = Rect2(371, 148, 34, 34)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 6.2
+id = &"mage_vestments"
+display_name = "Mage Vestments"
+icon = SubResource("AtlasTexture_f32fe")
+value = 100
+category = 1
+class_affinity = 3
+weight = 1.7999999999999998
+shape = PackedStringArray("##", "##", "##")

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3ba1"]
+atlas = ExtResource("8aaef")
+region = Rect2(462, 98, 30, 40)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 8.3
+id = &"tracker_coat"
+display_name = "Tracker Coat"
+icon = SubResource("AtlasTexture_a3ba1")
+value = 95
+category = 1
+class_affinity = 2
+weight = 2.2
+shape = PackedStringArray("##", "##", "##")

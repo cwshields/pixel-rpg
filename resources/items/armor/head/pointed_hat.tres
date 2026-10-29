@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c9bd"]
+atlas = ExtResource("6891a")
+region = Rect2(225, 64, 31, 33)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 1.8
+id = &"pointed_hat"
+display_name = "Pointed Hat"
+icon = SubResource("AtlasTexture_1c9bd")
+value = 38
+category = 1
+class_affinity = 3
+weight = 0.9
+shape = PackedStringArray("##", "##")

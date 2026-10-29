@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4f1a8"]
+atlas = ExtResource("1492e")
+region = Rect2(84, 85, 8, 66)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 7.5
+attack_speed = 0.7
+two_handed = true
+id = &"iron_lance"
+display_name = "Iron Lance"
+icon = SubResource("AtlasTexture_4f1a8")
+value = 47
+category = 0
+weight = 3.0

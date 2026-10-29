@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fca34"]
+atlas = ExtResource("1492e")
+region = Rect2(208, 170, 16, 17)
+
+[resource]
+script = ExtResource("d3180")
+defense = 4.0
+block_chance = 0.09
+id = &"iron_round_shield_2"
+display_name = "Iron Round Shield"
+icon = SubResource("AtlasTexture_fca34")
+value = 30
+category = 1
+weight = 2.6

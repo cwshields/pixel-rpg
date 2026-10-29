@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://b7dw2lade0dqf"]
+
+[ext_resource type="Texture2D" uid="uid://bmeksg7pu8fuf" path="res://assets/Items/Weapons/Fire Weapons/Fire Weapons.png" id="4ad59"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38da8"]
+atlas = ExtResource("4ad59")
+region = Rect2(48, 16, 16, 32)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 2
+damage = 8.0
+attack_speed = 0.8
+id = &"infernal_battle_axe"
+display_name = "Infernal Battle Axe"
+icon = SubResource("AtlasTexture_38da8")
+value = 56
+category = 0
+class_affinity = 3
+weight = 2.0

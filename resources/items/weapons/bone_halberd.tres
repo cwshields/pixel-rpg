@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2e2fe"]
+atlas = ExtResource("7192e")
+region = Rect2(36, 16, 8, 29)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 7.0
+attack_speed = 0.7
+two_handed = true
+id = &"bone_halberd"
+display_name = "Bone Halberd"
+icon = SubResource("AtlasTexture_2e2fe")
+value = 41
+category = 0
+weight = 3.0

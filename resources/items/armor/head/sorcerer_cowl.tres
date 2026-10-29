@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aabcb"]
+atlas = ExtResource("6891a")
+region = Rect2(255, 65, 98, 30)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 2.2
+id = &"sorcerer_cowl"
+display_name = "Sorcerer Cowl"
+icon = SubResource("AtlasTexture_aabcb")
+value = 44
+category = 1
+class_affinity = 3
+weight = 0.9
+shape = PackedStringArray("##", "##")

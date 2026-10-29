@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_9adc4"]
+atlas = ExtResource("1492e")
+region = Rect2(99, 153, 9, 34)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 11.0
+attack_speed = 0.7
+two_handed = true
+id = &"iron_javelin_2"
+display_name = "Iron Javelin"
+icon = SubResource("AtlasTexture_9adc4")
+value = 68
+category = 0
+weight = 3.0

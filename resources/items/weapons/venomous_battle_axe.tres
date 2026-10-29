@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Poison/Poison Weapons.png" id="6e983"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0dd8c"]
+atlas = ExtResource("6e983")
+region = Rect2(0, 48, 18, 33)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 2
+damage = 6.0
+attack_speed = 0.8
+id = &"venomous_battle_axe"
+display_name = "Venomous Battle Axe"
+icon = SubResource("AtlasTexture_0dd8c")
+value = 44
+category = 0
+class_affinity = 2
+weight = 2.0

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14af4"]
+atlas = ExtResource("8aaef")
+region = Rect2(135, 148, 29, 32)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 4.4
+id = &"padded_surcoat"
+display_name = "Padded Surcoat"
+icon = SubResource("AtlasTexture_14af4")
+value = 70
+category = 1
+class_affinity = 2
+weight = 1.7999999999999998
+shape = PackedStringArray("##", "##", "##")

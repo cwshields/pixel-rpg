@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fed0e"]
+atlas = ExtResource("7192e")
+region = Rect2(111, 0, 18, 18)
+
+[resource]
+script = ExtResource("d3180")
+defense = 4.0
+block_chance = 0.09
+id = &"bone_buckler"
+display_name = "Bone Buckler"
+icon = SubResource("AtlasTexture_fed0e")
+value = 30
+category = 1
+rarity = 3
+weight = 2.6

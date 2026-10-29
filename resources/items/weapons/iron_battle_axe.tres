@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://kad6ip6pdger"]
+
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://cfjfta7b6mvt4" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2c702"]
+atlas = ExtResource("1492e")
+region = Rect2(112, 42, 16, 38)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 2
+attack_speed = 0.8
+id = &"iron_battle_axe"
+display_name = "Iron Battle Axe"
+icon = SubResource("AtlasTexture_2c702")
+value = 32
+category = 0
+weight = 2.0

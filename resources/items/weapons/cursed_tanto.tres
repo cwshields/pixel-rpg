@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Cursed/Cursed Weapons.png" id="ba2ff"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1b3a"]
+atlas = ExtResource("ba2ff")
+region = Rect2(98, 50, 12, 26)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 1
+damage = 8.5
+attack_speed = 1.5
+id = &"cursed_tanto"
+display_name = "Cursed Tanto"
+icon = SubResource("AtlasTexture_c1b3a")
+value = 53
+category = 0
+class_affinity = 3
+weight = 2.0

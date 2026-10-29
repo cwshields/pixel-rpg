@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Cursed/Cursed Weapons.png" id="ba2ff"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b118a"]
+atlas = ExtResource("ba2ff")
+region = Rect2(65, 0, 15, 50)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 7.5
+attack_speed = 0.7
+two_handed = true
+id = &"cursed_pike"
+display_name = "Cursed Pike"
+icon = SubResource("AtlasTexture_b118a")
+value = 47
+category = 0
+class_affinity = 3
+weight = 3.0

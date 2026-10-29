@@ -16,6 +16,7 @@ var categories: Array[ItemBase.Category]
 var min_level: int
 ## Relative drop weight — higher means more common in the roll pool.
 var weight: int
+var class_affinity: ItemBase.ClassAffinity = ItemBase.ClassAffinity.NONE
 
 
 static func create(
@@ -26,6 +27,7 @@ static func create(
 	p_categories: Array[ItemBase.Category],
 	p_min_level: int = 1,
 	p_weight: int = 100,
+	p_affinity: ItemBase.ClassAffinity = ItemBase.ClassAffinity.NONE,
 ) -> ItemAffix:
 	var a := ItemAffix.new()
 	a.id = p_id
@@ -35,4 +37,5 @@ static func create(
 	a.categories = p_categories
 	a.min_level = p_min_level
 	a.weight = p_weight
+	a.class_affinity = p_affinity
 	return a

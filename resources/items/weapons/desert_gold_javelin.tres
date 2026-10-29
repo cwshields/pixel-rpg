@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Desert - gold/Desert-Gold.png" id="9cfb1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aea9c"]
+atlas = ExtResource("9cfb1")
+region = Rect2(66, 0, 12, 49)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 8.5
+attack_speed = 0.7
+two_handed = true
+id = &"desert_gold_javelin"
+display_name = "Desert Gold Javelin"
+icon = SubResource("AtlasTexture_aea9c")
+value = 50
+category = 0
+weight = 3.0

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3213d"]
+atlas = ExtResource("1492e")
+region = Rect2(49, 108, 14, 43)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 0
+damage = 6.5
+attack_speed = 1.0
+id = &"iron_falchion"
+display_name = "Iron Falchion"
+icon = SubResource("AtlasTexture_3213d")
+value = 41
+category = 0
+weight = 2.0

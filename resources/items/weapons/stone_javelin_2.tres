@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21054"]
+atlas = ExtResource("7a5d5")
+region = Rect2(15, 239, 18, 82)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 12.0
+attack_speed = 0.7
+two_handed = true
+id = &"stone_javelin_2"
+display_name = "Stone Javelin"
+icon = SubResource("AtlasTexture_21054")
+value = 68
+category = 0
+class_affinity = 1
+weight = 3.0

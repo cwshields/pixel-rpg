@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74317"]
+atlas = ExtResource("3558a")
+region = Rect2(115, 64, 10, 65)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 8.0
+attack_speed = 0.7
+two_handed = true
+id = &"rustic_ranseur"
+display_name = "Rustic Ranseur"
+icon = SubResource("AtlasTexture_74317")
+value = 47
+category = 0
+weight = 3.0

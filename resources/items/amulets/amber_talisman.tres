@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Amulet" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/amulet.gd" id="775eb"]
+[ext_resource type="Texture2D" path="res://assets/Items/Rings-Amulets.png" id="b2378"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddece"]
+atlas = ExtResource("b2378")
+region = Rect2(11, 155, 30, 30)
+
+[resource]
+script = ExtResource("775eb")
+id = &"amber_talisman"
+display_name = "Amber Talisman"
+icon = SubResource("AtlasTexture_ddece")
+value = 22
+category = 4
+weight = 0.2

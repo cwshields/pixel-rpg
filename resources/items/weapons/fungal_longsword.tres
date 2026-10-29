@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee032"]
+atlas = ExtResource("dd088")
+region = Rect2(79, 15, 18, 50)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 0
+damage = 4.5
+attack_speed = 1.0
+id = &"fungal_longsword"
+display_name = "Fungal Longsword"
+icon = SubResource("AtlasTexture_ee032")
+value = 32
+category = 0
+class_affinity = 3
+weight = 2.0

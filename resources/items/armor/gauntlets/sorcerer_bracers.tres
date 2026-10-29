@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5dfe"]
+atlas = ExtResource("6fb75")
+region = Rect2(139, 108, 17, 17)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 3
+defense = 1.8
+id = &"sorcerer_bracers"
+display_name = "Sorcerer Bracers"
+icon = SubResource("AtlasTexture_b5dfe")
+value = 32
+category = 1
+class_affinity = 3
+rarity = 3
+weight = 0.55
+shape = PackedStringArray("##", "##")

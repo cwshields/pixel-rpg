@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63a0a"]
+atlas = ExtResource("6891a")
+region = Rect2(197, 34, 25, 27)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 3.4
+id = &"ranger_hood"
+display_name = "Ranger Hood"
+icon = SubResource("AtlasTexture_63a0a")
+value = 37
+category = 1
+class_affinity = 2
+rarity = 3
+weight = 1.2
+shape = PackedStringArray("##", "##")

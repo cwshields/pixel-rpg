@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_9a468"]
+atlas = ExtResource("8aaef")
+region = Rect2(460, 9, 34, 36)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 11.3
+id = &"plate_harness"
+display_name = "Plate Harness"
+icon = SubResource("AtlasTexture_9a468")
+value = 65
+category = 1
+class_affinity = 1
+rarity = 4
+weight = 3.0
+shape = PackedStringArray("##", "##", "##")

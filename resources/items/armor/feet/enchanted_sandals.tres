@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Boots1.png" id="7b5c4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bd91"]
+atlas = ExtResource("7b5c4")
+region = Rect2(98, 97, 28, 29)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 2
+defense = 1.6
+id = &"enchanted_sandals"
+display_name = "Enchanted Sandals"
+icon = SubResource("AtlasTexture_3bd91")
+value = 38
+category = 1
+class_affinity = 3
+rarity = 4
+weight = 0.8999999999999999
+shape = PackedStringArray("##", "##")

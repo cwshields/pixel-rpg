@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Boots1.png" id="7b5c4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2dfdc"]
+atlas = ExtResource("7b5c4")
+region = Rect2(66, 0, 29, 31)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 2
+defense = 3.0
+id = &"iron_greaves"
+display_name = "Iron Greaves"
+icon = SubResource("AtlasTexture_2dfdc")
+value = 5
+category = 1
+class_affinity = 1
+rarity = 3
+weight = 1.5
+shape = PackedStringArray("##", "##")

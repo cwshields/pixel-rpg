@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccc6f"]
+atlas = ExtResource("6891a")
+region = Rect2(259, 34, 29, 31)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 3.6
+id = &"steel_morion"
+display_name = "Steel Morion"
+icon = SubResource("AtlasTexture_ccc6f")
+value = 40
+category = 1
+class_affinity = 2
+weight = 1.2
+shape = PackedStringArray("##", "##")

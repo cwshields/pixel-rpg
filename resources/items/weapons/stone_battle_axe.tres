@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_217ed"]
+atlas = ExtResource("7a5d5")
+region = Rect2(193, 72, 14, 25)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 2
+damage = 6.0
+attack_speed = 0.8
+id = &"stone_battle_axe"
+display_name = "Stone Battle Axe"
+icon = SubResource("AtlasTexture_217ed")
+value = 32
+category = 0
+class_affinity = 1
+weight = 2.0

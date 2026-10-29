@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Shields.png" id="da45c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dac77"]
+atlas = ExtResource("da45c")
+region = Rect2(67, 120, 26, 35)
+
+[resource]
+script = ExtResource("d3180")
+defense = 3.0
+block_chance = 0.08
+id = &"star_shield"
+display_name = "Star Shield"
+icon = SubResource("AtlasTexture_dac77")
+value = 75
+category = 1
+weight = 2.5

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4b915"]
+atlas = ExtResource("8aaef")
+region = Rect2(419, 7, 34, 40)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 11.0
+id = &"iron_chain_vest"
+display_name = "Iron Chain Vest"
+icon = SubResource("AtlasTexture_4b915")
+value = 60
+category = 1
+class_affinity = 1
+weight = 3.0
+shape = PackedStringArray("##", "##", "##")

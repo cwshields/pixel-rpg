@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c1da"]
+atlas = ExtResource("7192e")
+region = Rect2(49, 47, 14, 34)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 1
+damage = 6.5
+attack_speed = 1.5
+id = &"bone_kris"
+display_name = "Bone Kris"
+icon = SubResource("AtlasTexture_7c1da")
+value = 38
+category = 0
+weight = 2.0

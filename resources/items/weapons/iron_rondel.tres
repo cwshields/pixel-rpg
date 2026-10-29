@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c824"]
+atlas = ExtResource("1492e")
+region = Rect2(68, 153, 13, 34)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 1
+damage = 8.0
+attack_speed = 1.5
+id = &"iron_rondel"
+display_name = "Iron Rondel"
+icon = SubResource("AtlasTexture_7c824")
+value = 50
+category = 0
+weight = 2.0

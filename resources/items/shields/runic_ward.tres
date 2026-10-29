@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Shields.png" id="da45c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6eaa"]
+atlas = ExtResource("da45c")
+region = Rect2(4, 88, 24, 34)
+
+[resource]
+script = ExtResource("d3180")
+defense = 2.5
+block_chance = 0.06
+id = &"runic_ward"
+display_name = "Runic Ward"
+icon = SubResource("AtlasTexture_a6eaa")
+value = 65
+category = 1
+class_affinity = 3
+rarity = 4
+weight = 2.5

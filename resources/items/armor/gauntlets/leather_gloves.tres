@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86ae3"]
+atlas = ExtResource("6fb75")
+region = Rect2(1, 66, 30, 28)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 3
+defense = 1.5
+id = &"leather_gloves"
+display_name = "Leather Gloves"
+icon = SubResource("AtlasTexture_86ae3")
+value = 16
+category = 1
+class_affinity = 2
+weight = 0.7
+shape = PackedStringArray("##", "##")

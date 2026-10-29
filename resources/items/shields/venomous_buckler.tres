@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Shield" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Poison/Poison Weapons.png" id="6e983"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a20b1"]
+atlas = ExtResource("6e983")
+region = Rect2(65, 48, 32, 32)
+
+[resource]
+script = ExtResource("d3180")
+defense = 5.0
+block_chance = 0.11
+id = &"venomous_buckler"
+display_name = "Venomous Buckler"
+icon = SubResource("AtlasTexture_a20b1")
+value = 40
+category = 1
+class_affinity = 2
+weight = 2.9

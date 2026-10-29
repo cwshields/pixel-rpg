@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Elf/Elf_Weapon.png" id="49acb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5f859"]
+atlas = ExtResource("49acb")
+region = Rect2(48, 15, 16, 33)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 1
+damage = 7.0
+attack_speed = 1.5
+id = &"elven_stiletto"
+display_name = "Elven Stiletto"
+icon = SubResource("AtlasTexture_5f859")
+value = 47
+category = 0
+class_affinity = 2
+weight = 2.0

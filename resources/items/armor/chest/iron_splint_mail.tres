@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_651ea"]
+atlas = ExtResource("8aaef")
+region = Rect2(579, 8, 33, 37)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 12.2
+id = &"iron_splint_mail"
+display_name = "Iron Splint Mail"
+icon = SubResource("AtlasTexture_651ea")
+value = 80
+category = 1
+class_affinity = 1
+weight = 3.0
+shape = PackedStringArray("##", "##", "##")

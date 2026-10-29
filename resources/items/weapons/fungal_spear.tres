@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd476"]
+atlas = ExtResource("dd088")
+region = Rect2(63, 0, 18, 66)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 3
+damage = 4.5
+attack_speed = 0.7
+two_handed = true
+id = &"fungal_spear"
+display_name = "Fungal Spear"
+icon = SubResource("AtlasTexture_bd476")
+value = 32
+category = 0
+class_affinity = 3
+rarity = 4
+weight = 3.0

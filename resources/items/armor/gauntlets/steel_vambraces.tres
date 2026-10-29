@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_245a3"]
+atlas = ExtResource("6fb75")
+region = Rect2(33, 2, 30, 28)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 3
+defense = 2.7
+id = &"steel_vambraces"
+display_name = "Steel Vambraces"
+icon = SubResource("AtlasTexture_245a3")
+value = 6
+category = 1
+class_affinity = 1
+weight = 1.0
+shape = PackedStringArray("##", "##")

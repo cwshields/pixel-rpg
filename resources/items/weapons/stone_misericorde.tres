@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3af7a"]
+atlas = ExtResource("7a5d5")
+region = Rect2(115, 132, 14, 29)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 1
+damage = 8.5
+attack_speed = 1.5
+id = &"stone_misericorde"
+display_name = "Stone Misericorde"
+icon = SubResource("AtlasTexture_3af7a")
+value = 47
+category = 0
+class_affinity = 1
+weight = 2.0

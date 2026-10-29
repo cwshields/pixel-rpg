@@ -10,6 +10,7 @@ extends Resource
 
 enum Category { WEAPON, ARMOR, TOOL, RING, AMULET, CONSUMABLE, MATERIAL, QUEST, RUNE_STONE }
 enum Rarity { COMMON, MAGIC, RARE, SET, UNIQUE }
+enum ClassAffinity { NONE, WARRIOR, RANGER, SORCERER }
 
 const RARITY_COLORS := {
 	Rarity.COMMON: Color("e4ba85"),
@@ -28,6 +29,7 @@ const RARITY_COLORS := {
 @export var value: int = 0
 @export var category: Category = Category.MATERIAL
 @export var rarity: Rarity = Rarity.COMMON
+@export var class_affinity: ClassAffinity = ClassAffinity.NONE
 @export var weight: float = 0.0
 
 @export_group("Requirements")
@@ -160,3 +162,36 @@ func get_affix_lines() -> Array[String]:
 	for a: AffixInstance in affixes:
 		lines.append_array(a.get_stat_lines())
 	return lines
+
+
+func to_save_dict() -> Dictionary:
+	var data: Dictionary = {
+		"id": String(id),
+		"rarity": rarity,
+	}
+	if not affixes.is_empty():
+		var affix_list: Array[Dictionary] = []
+		for a: AffixInstance in affixes:
+			affix_list.append(a.to_dict())
+		data["affixes"] = affix_list
+	if set_def:
+		data["set_id"] = String(set_def.id)
+	return data
+
+
+static func from_save_dict(data: Dictionary) -> ItemBase:
+	var base: ItemBase = ItemFactory.get_base(StringName(data["id"]))
+	if not base:
+		return null
+	var item: ItemBase = base.duplicate(true)
+	item.rarity = data.get("rarity", Rarity.COMMON) as Rarity
+	var affix_list: Array = data.get("affixes", [])
+	item.affixes = []
+	for a_data: Dictionary in affix_list:
+		var inst := AffixInstance.from_dict(a_data, AffixDB)
+		if inst:
+			item.affixes.append(inst)
+	var set_id: String = data.get("set_id", "")
+	if not set_id.is_empty():
+		item.set_def = AffixDB.get_set(StringName(set_id))
+	return item

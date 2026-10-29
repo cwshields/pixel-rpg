@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28273"]
+atlas = ExtResource("8aaef")
+region = Rect2(96, 102, 30, 35)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 5.6
+id = &"hardened_cuirbolli"
+display_name = "Hardened Cuirbolli"
+icon = SubResource("AtlasTexture_28273")
+value = 50
+category = 1
+class_affinity = 2
+weight = 2.2
+shape = PackedStringArray("##", "##", "##")

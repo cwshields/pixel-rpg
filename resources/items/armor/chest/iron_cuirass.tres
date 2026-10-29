@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_29e9a"]
+atlas = ExtResource("8aaef")
+region = Rect2(17, 12, 31, 36)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 8.0
+id = &"iron_cuirass"
+display_name = "Iron Cuirass"
+icon = SubResource("AtlasTexture_29e9a")
+value = 10
+category = 1
+class_affinity = 1
+rarity = 3
+weight = 3.0
+shape = PackedStringArray("##", "##", "##")

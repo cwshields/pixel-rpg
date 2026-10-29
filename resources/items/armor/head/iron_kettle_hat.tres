@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a77eb"]
+atlas = ExtResource("6891a")
+region = Rect2(35, 2, 26, 26)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 4.7
+id = &"iron_kettle_hat"
+display_name = "Iron Kettle Hat"
+icon = SubResource("AtlasTexture_a77eb")
+value = 24
+category = 1
+class_affinity = 1
+weight = 1.5
+shape = PackedStringArray("##", "##")

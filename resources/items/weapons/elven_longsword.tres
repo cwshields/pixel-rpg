@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Elf/Elf_Weapon.png" id="49acb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8e7ab"]
+atlas = ExtResource("49acb")
+region = Rect2(15, 0, 18, 49)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 0
+damage = 6.5
+attack_speed = 1.0
+id = &"elven_longsword"
+display_name = "Elven Longsword"
+icon = SubResource("AtlasTexture_8e7ab")
+value = 44
+category = 0
+class_affinity = 2
+rarity = 3
+weight = 2.0

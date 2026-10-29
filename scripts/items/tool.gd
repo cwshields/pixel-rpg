@@ -5,7 +5,7 @@ extends ItemBase
 ## instead check the player's inventory for the right tool type/power
 ## when interacting with a resource node (a tree, an ore vein).
 
-enum ToolType { PICKAXE, AXE, FISHING_ROD, HOE, SHOVEL }
+enum ToolType { PICKAXE, AXE, FISHING_ROD, HOE, SHOVEL, SCYTHE }
 
 @export var tool_type: ToolType = ToolType.PICKAXE
 ## How effective this tool is; a gathering system might require the

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7215"]
+atlas = ExtResource("6fb75")
+region = Rect2(36, 66, 24, 29)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 3
+defense = 1.7
+id = &"ranger_bracers"
+display_name = "Ranger Bracers"
+icon = SubResource("AtlasTexture_c7215")
+value = 18
+category = 1
+class_affinity = 2
+weight = 0.7
+shape = PackedStringArray("##", "##")

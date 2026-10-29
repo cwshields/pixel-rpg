@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a26ec"]
+atlas = ExtResource("8aaef")
+region = Rect2(56, 56, 32, 31)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 7.3
+id = &"ornate_breastplate"
+display_name = "Ornate Breastplate"
+icon = SubResource("AtlasTexture_a26ec")
+value = 30
+category = 1
+class_affinity = 1
+weight = 2.6
+shape = PackedStringArray("##", "##", "##")

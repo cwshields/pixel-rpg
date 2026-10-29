@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0d959"]
+atlas = ExtResource("8aaef")
+region = Rect2(577, 194, 32, 31)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 6.2
+id = &"archon_vestments"
+display_name = "Archon Vestments"
+icon = SubResource("AtlasTexture_0d959")
+value = 140
+category = 1
+class_affinity = 3
+rarity = 4
+weight = 1.4
+shape = PackedStringArray("##", "##", "##")

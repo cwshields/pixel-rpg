@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Boots1.png" id="7b5c4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2d42d"]
+atlas = ExtResource("7b5c4")
+region = Rect2(33, 96, 29, 33)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 2
+defense = 1.0
+id = &"cloth_shoes"
+display_name = "Cloth Shoes"
+icon = SubResource("AtlasTexture_2d42d")
+value = 29
+category = 1
+class_affinity = 3
+weight = 0.8999999999999999
+shape = PackedStringArray("##", "##")

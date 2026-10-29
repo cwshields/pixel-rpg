@@ -61,8 +61,10 @@ func is_two_handed() -> bool:
 
 static func slot_accepts(slot: Slot, item: ItemBase) -> bool:
 	match slot:
-		Slot.PRIMARY_HAND, Slot.OFF_HAND:
+		Slot.PRIMARY_HAND:
 			return item is Weapon
+		Slot.OFF_HAND:
+			return item is Weapon or item is Shield
 		Slot.HEAD:
 			return item is Armor and (item as Armor).armor_slot == Armor.ArmorSlot.HEAD
 		Slot.CHEST:

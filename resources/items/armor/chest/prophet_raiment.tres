@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abd3f"]
+atlas = ExtResource("8aaef")
+region = Rect2(371, 191, 34, 35)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 5.3
+id = &"prophet_raiment"
+display_name = "Prophet Raiment"
+icon = SubResource("AtlasTexture_abd3f")
+value = 125
+category = 1
+class_affinity = 3
+weight = 1.4
+shape = PackedStringArray("##", "##", "##")

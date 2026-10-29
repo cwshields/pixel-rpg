@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Consumable" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/consumable.gd" id="694f7"]
+[ext_resource type="Texture2D" path="res://assets/Items/potions-pack.png" id="0455c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_79007"]
+atlas = ExtResource("0455c")
+region = Rect2(14, 75, 23, 23)
+
+[resource]
+script = ExtResource("694f7")
+consumable_type = 0
+heal_amount = 80.0
+id = &"supreme_health_potion"
+display_name = "Supreme Health Potion"
+icon = SubResource("AtlasTexture_79007")
+max_stack = 20
+value = 5
+category = 5

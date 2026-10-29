@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5ef8"]
+atlas = ExtResource("8aaef")
+region = Rect2(540, 49, 32, 42)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 10.9
+id = &"warden_plate"
+display_name = "Warden Plate"
+icon = SubResource("AtlasTexture_c5ef8")
+value = 90
+category = 1
+class_affinity = 1
+weight = 2.6
+shape = PackedStringArray("##", "##", "##")

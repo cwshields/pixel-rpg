@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Boots1.png" id="7b5c4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_753ae"]
+atlas = ExtResource("7b5c4")
+region = Rect2(64, 96, 31, 32)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 2
+defense = 1.2
+id = &"silk_slippers"
+display_name = "Silk Slippers"
+icon = SubResource("AtlasTexture_753ae")
+value = 32
+category = 1
+class_affinity = 3
+weight = 0.8999999999999999
+shape = PackedStringArray("##", "##")

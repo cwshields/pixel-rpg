@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14b33"]
+atlas = ExtResource("6891a")
+region = Rect2(192, 67, 33, 28)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 0
+defense = 2.6
+id = &"archmage_hat"
+display_name = "Archmage Hat"
+icon = SubResource("AtlasTexture_14b33")
+value = 50
+category = 1
+class_affinity = 3
+rarity = 3
+weight = 0.9
+shape = PackedStringArray("##", "##")

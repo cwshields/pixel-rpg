@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65430"]
+atlas = ExtResource("7192e")
+region = Rect2(19, 0, 8, 18)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 1
+damage = 5.5
+attack_speed = 1.5
+id = &"bone_dirk"
+display_name = "Bone Dirk"
+icon = SubResource("AtlasTexture_65430")
+value = 32
+category = 0
+weight = 2.0

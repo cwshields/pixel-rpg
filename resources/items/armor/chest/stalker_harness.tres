@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Armor" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
+[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cb3d5"]
+atlas = ExtResource("8aaef")
+region = Rect2(578, 99, 31, 38)
+
+[resource]
+script = ExtResource("ec9dc")
+armor_slot = 1
+defense = 9.2
+id = &"stalker_harness"
+display_name = "Stalker Harness"
+icon = SubResource("AtlasTexture_cb3d5")
+value = 110
+category = 1
+class_affinity = 2
+rarity = 3
+weight = 2.2
+shape = PackedStringArray("##", "##", "##")

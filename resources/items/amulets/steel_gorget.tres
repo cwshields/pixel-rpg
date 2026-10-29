@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Amulet" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/amulet.gd" id="775eb"]
+[ext_resource type="Texture2D" path="res://assets/Items/Rings-Amulets.png" id="b2378"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ccec"]
+atlas = ExtResource("b2378")
+region = Rect2(263, 154, 31, 32)
+
+[resource]
+script = ExtResource("775eb")
+id = &"steel_gorget"
+display_name = "Steel Gorget"
+icon = SubResource("AtlasTexture_6ccec")
+value = 16
+category = 4
+weight = 0.2
