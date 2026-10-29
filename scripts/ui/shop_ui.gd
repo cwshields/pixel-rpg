@@ -78,9 +78,10 @@ func _on_grid_click(event: InputEventMouseButton, clicked_grid: InventoryGrid) -
 	if not in_rect:
 		return false
 	if event.shift_pressed:
+		var full_stack := event.button_index == MOUSE_BUTTON_LEFT
 		if clicked_grid == _shop_grid:
-			return _quick_buy(local, player)
-		return _quick_sell(local, player)
+			return _quick_buy(local, player, full_stack)
+		return _quick_sell(local, player, full_stack)
 	var other: InventoryGrid = _player_grid if clicked_grid == _shop_grid else _shop_grid
 	if other.has_held_item():
 		if clicked_grid == _player_grid:
@@ -127,7 +128,7 @@ func _sell_held_item(player: Player) -> bool:
 	_refresh_gold()
 	return true
 
-func _quick_buy(local_pos: Vector2, player: Player) -> bool:
+func _quick_buy(local_pos: Vector2, player: Player, full_stack: bool = false) -> bool:
 	var cell := Vector2i(floori(local_pos.x / InventoryGrid.CELL_SIZE),
 			floori(local_pos.y / InventoryGrid.CELL_SIZE))
 	var inv := _shop_inventory.inventory
@@ -138,26 +139,31 @@ func _quick_buy(local_pos: Vector2, player: Player) -> bool:
 			break
 	if not placed or not _shop_grid._passes_filter(placed.item):
 		return false
-	var price := _shop_inventory.get_buy_price(placed.item)
-	if player.gold < price:
+	var unit_price := _shop_inventory.get_buy_price(placed.item)
+	var desired := placed.quantity if full_stack else 1
+	var affordable := mini(desired, floori(player.gold / unit_price)) if unit_price > 0 else desired
+	if affordable <= 0:
 		_show_feedback("Not enough gold!")
 		return true
-	var leftover := player.inventory.add_item(placed.item, 1)
-	if leftover > 0:
+	var leftover := player.inventory.add_item(placed.item, affordable)
+	var bought := affordable - leftover
+	if bought <= 0:
 		_show_feedback("Inventory full!")
 		return true
 	_player_grid._play_place_sfx(placed.item)
-	player.gold -= price
+	player.gold -= unit_price * bought
 	Events.gold_changed.emit(player.gold)
-	if placed.quantity > 1:
-		placed.quantity -= 1
+	if placed.quantity > bought:
+		placed.quantity -= bought
 		inv.changed.emit()
 	else:
 		inv.remove_placed(placed)
+	if leftover > 0:
+		_show_feedback("Bought %d (inventory full)" % bought)
 	_refresh_gold()
 	return true
 
-func _quick_sell(local_pos: Vector2, player: Player) -> bool:
+func _quick_sell(local_pos: Vector2, player: Player, full_stack: bool = false) -> bool:
 	var cell := Vector2i(floori(local_pos.x / InventoryGrid.CELL_SIZE),
 			floori(local_pos.y / InventoryGrid.CELL_SIZE))
 	var inv := player.inventory
@@ -169,12 +175,13 @@ func _quick_sell(local_pos: Vector2, player: Player) -> bool:
 	if not placed:
 		return false
 	var charisma := player.stats.charisma if player.stats else 0.0
-	var price := _shop_inventory.get_sell_price(placed.item, charisma)
+	var unit_price := _shop_inventory.get_sell_price(placed.item, charisma)
+	var count := placed.quantity if full_stack else 1
 	_shop_grid._play_place_sfx(placed.item)
-	player.gold += price
+	player.gold += unit_price * count
 	Events.gold_changed.emit(player.gold)
-	if placed.quantity > 1:
-		placed.quantity -= 1
+	if placed.quantity > count:
+		placed.quantity -= count
 		inv.changed.emit()
 	else:
 		inv.remove_placed(placed)

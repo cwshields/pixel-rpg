@@ -13,8 +13,8 @@ extends Node
 
 @export var action_state: StringName = &"Howl"
 ## Random range (seconds) between action urges at night.
-@export var interval_min: float = 120.0
-@export var interval_max: float = 300.0
+@export var interval_min: float = 300.0
+@export var interval_max: float = 600.0
 ## Multiplier applied to the interval during daytime (higher = less frequent).
 @export var day_interval_multiplier: float = 3.0
 

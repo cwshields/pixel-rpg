@@ -63,7 +63,8 @@ func _should_react() -> StringName:
 	return &""
 
 func _drop_loot() -> void:
-	ItemPickup.drop_loot(loot_table, global_position)
+	var lvl: int = stats.level if stats else 1
+	ItemPickup.drop_loot(loot_table, global_position, ItemPickup.DEFAULT_SCATTER, lvl)
 
 func _break_loose_equipment() -> void:
 	if not equipment:

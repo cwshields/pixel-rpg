@@ -49,7 +49,7 @@ func _ready() -> void:
 
 static func drop_loot(
 		loot_table: Array[LootEntry], origin: Vector2,
-		scatter: float = DEFAULT_SCATTER) -> void:
+		scatter: float = DEFAULT_SCATTER, level: int = 1) -> void:
 	for entry in loot_table:
 		if not entry.item or randf() > entry.chance:
 			continue
@@ -58,9 +58,11 @@ static func drop_loot(
 			continue
 		if entry.drop_individually:
 			for _i in qty:
-				_spawn(entry.item, 1, origin, scatter)
+				var rolled := ItemFactory.generate(entry.item, level)
+				_spawn(rolled, 1, origin, scatter)
 		else:
-			_spawn(entry.item, qty, origin, scatter)
+			var rolled := ItemFactory.generate(entry.item, level)
+			_spawn(rolled, qty, origin, scatter)
 
 static func _spawn(
 		item: ItemBase, qty: int, origin: Vector2, scatter: float) -> void:

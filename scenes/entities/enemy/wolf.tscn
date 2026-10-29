@@ -13,8 +13,11 @@
 [ext_resource type="Script" uid="uid://g52d4u4ujuxa" path="res://scripts/components/hitbox_component.gd" id="11"]
 [ext_resource type="SpriteFrames" uid="uid://cpaxwi2mbo6et" path="res://resources/characters/enemies/wolf_sprite_frames.tres" id="12"]
 [ext_resource type="Script" uid="uid://d3xws6xsnn76g" path="res://scripts/entities/enemy/loot_entry.gd" id="13"]
+[ext_resource type="AudioStream" uid="uid://bxjh1aivpth24" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-5.mp3" id="13_5xxgy"]
 [ext_resource type="Resource" uid="uid://dkgrm3fk4t2os" path="res://resources/items/materials/wolf_pelt.tres" id="14"]
+[ext_resource type="AudioStream" uid="uid://nf44d8tpumpr" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-6.mp3" id="14_eoiep"]
 [ext_resource type="Script" uid="uid://cs4jijjyl8ye0" path="res://scripts/entities/enemy/states/enemy_growl_state.gd" id="15"]
+[ext_resource type="AudioStream" uid="uid://d023ahyxe1abq" path="res://assets/SoundFX/Enemies/Wolf/wolf-howl-7.mp3" id="15_68g44"]
 [ext_resource type="Script" uid="uid://xnowxtdtujkk" path="res://scripts/entities/enemy/states/enemy_howl_state.gd" id="16"]
 [ext_resource type="Script" uid="uid://d074dtlg4scb6" path="res://scripts/components/ambient_action_component.gd" id="17"]
 [ext_resource type="Script" uid="uid://camiy8vtwq5mf" path="res://scripts/entities/ai_wander_state.gd" id="18"]
@@ -64,11 +67,16 @@ radius = 110.0
 radius = 158.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_howl"]
-streams_count = 4
+random_pitch = 1.0905077
+random_volume_offset_db = 1.0
+streams_count = 7
 stream_0/stream = ExtResource("21")
 stream_1/stream = ExtResource("22")
 stream_2/stream = ExtResource("23")
 stream_3/stream = ExtResource("24")
+stream_4/stream = ExtResource("13_5xxgy")
+stream_5/stream = ExtResource("14_eoiep")
+stream_6/stream = ExtResource("15_68g44")
 
 [sub_resource type="Resource" id="HuntTargetEntry_deer"]
 script = ExtResource("41")
@@ -154,10 +162,10 @@ shape = SubResource("CircleShape2D_alert")
 
 [node name="HowlSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=558350385]
 stream = SubResource("AudioStreamRandomizer_howl")
-volume_db = -2.0
+volume_db = -4.0
 pitch_scale = 1.25
 max_distance = 3200.0
-attenuation = 1.7
+attenuation = 1.75
 
 [node name="GrowlSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=785047554]
 stream = ExtResource("40")
@@ -172,7 +180,7 @@ max_distance = 500.0
 
 [node name="AmbientActionComponent" type="Node" parent="." unique_id=326203389]
 script = ExtResource("17")
-interval_max = 31.25
+interval_max = 39.06
 
 [node name="HunterComponent" type="Node" parent="." unique_id=774163241]
 script = ExtResource("19")

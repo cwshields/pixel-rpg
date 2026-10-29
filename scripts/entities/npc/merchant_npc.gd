@@ -24,7 +24,7 @@ func start_dialogue() -> void:
 func _play_welcome_sfx() -> void:
 	var sfx := AudioStreamPlayer2D.new()
 	sfx.stream = _WELCOME_SFX
-	sfx.bus = &"Master"
+	sfx.bus = &"Voice"
 	add_child(sfx)
 	sfx.finished.connect(sfx.queue_free)
 	sfx.play()

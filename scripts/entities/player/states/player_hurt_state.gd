@@ -29,7 +29,7 @@ func process_physics(delta: float) -> void:
 func _play_hurt_sfx() -> void:
 	var sfx := AudioStreamPlayer2D.new()
 	sfx.stream = _hurt_streams.pick_random()
-	sfx.bus = &"Master"
+	sfx.bus = &"Voice"
 	entity.add_child(sfx)
 	sfx.finished.connect(sfx.queue_free)
 	sfx.play()
