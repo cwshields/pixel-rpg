@@ -17,6 +17,7 @@ const CELL_SIZE := 40
 @onready var _item_grid: GridContainer = %ItemGrid
 @onready var _inventory_grid: InventoryGrid = %Grid
 @onready var _trash: Button = %Trash
+@onready var _search: LineEdit = %Search
 
 var _slot_style: StyleBoxTexture
 
@@ -27,6 +28,7 @@ func _ready() -> void:
 	super._ready()
 	_slot_style = InventoryGrid.make_slot_style()
 	_populate_items()
+	_search.text_changed.connect(_on_search_changed)
 	_trash.add_theme_stylebox_override("normal", _slot_style)
 	_trash.add_theme_stylebox_override("hover", _slot_style)
 	_trash.add_theme_stylebox_override("pressed", _slot_style)
@@ -87,6 +89,11 @@ func _make_item_button(item: ItemBase) -> Button:
 	btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	btn.pressed.connect(_on_item_pressed.bind(item))
 	return btn
+
+func _on_search_changed(query: String) -> void:
+	var filter := query.strip_edges().to_lower()
+	for btn: Button in _item_grid.get_children():
+		btn.visible = filter.is_empty() or btn.tooltip_text.to_lower().contains(filter)
 
 func _on_item_pressed(item: ItemBase) -> void:
 	_inventory_grid.pick_up_new(item, 1)

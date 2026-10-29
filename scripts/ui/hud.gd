@@ -53,11 +53,13 @@ func _ready() -> void:
 	Events.xp_changed.connect(_on_xp_changed)
 	Events.level_up.connect(_on_level_up)
 	Events.player_spawned.connect(_on_player_spawned)
+	Events.notification.connect(_flash_notification)
 	_push(&"health_fill", _health)
 	_push(&"stamina_fill", _stamina)
 	_push(&"mana_fill", _mana)
 	_build_xp_bar()
 	_build_level_up_label()
+	_build_notification_label()
 	_level_up_sfx = AudioStreamPlayer.new()
 	_level_up_sfx.stream = preload("res://assets/SoundFX/Player/level-up.mp3")
 	_level_up_sfx.bus = &"Master"
@@ -227,3 +229,32 @@ func _flash_level_up() -> void:
 	tw.parallel().tween_property(_level_up_label, "offset_top", 60.0, 0.25).set_ease(Tween.EASE_OUT)
 	tw.tween_interval(1.2)
 	tw.tween_property(_level_up_label, "modulate:a", 0.0, 0.5)
+
+var _notification_label: Label
+var _notification_tween: Tween
+
+func _build_notification_label() -> void:
+	_notification_label = Label.new()
+	_notification_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_notification_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_notification_label.offset_top = 120.0
+	_notification_label.add_theme_font_size_override("font_size", 16)
+	_notification_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.6))
+	_notification_label.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.06))
+	_notification_label.add_theme_constant_override("outline_size", 5)
+	_notification_label.modulate.a = 0.0
+	add_child(_notification_label)
+
+func _flash_notification(text: String) -> void:
+	if not _notification_label:
+		return
+	if _notification_tween and _notification_tween.is_valid():
+		_notification_tween.kill()
+	_notification_label.text = text
+	_notification_label.modulate.a = 0.0
+	_notification_label.offset_top = 120.0
+	_notification_tween = create_tween()
+	_notification_tween.tween_property(_notification_label, "modulate:a", 1.0, 0.2)
+	_notification_tween.parallel().tween_property(_notification_label, "offset_top", 100.0, 0.2).set_ease(Tween.EASE_OUT)
+	_notification_tween.tween_interval(1.8)
+	_notification_tween.tween_property(_notification_label, "modulate:a", 0.0, 0.5)

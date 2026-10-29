@@ -30,10 +30,32 @@ const ITEM_OUTLINE_COLOR := Color(1, 1, 1, 0.4)
 const HOVER_COLOR := Color(1, 1, 1, 0.18)
 const LOCKED_COLOR := Color(0.15, 0.13, 0.1, 0.65)
 const TRASH_HOVER_TINT := Color(1.5, 1.5, 1.5)
-const TOOLTIP_PANEL_TEX := "res://assets/UI/kit/panel.png"
-const TOOLTIP_PANEL_MARGIN := 12
-const TOOLTIP_MAX_WIDTH := 224
+
+const DIVIDER_TEX := preload("res://assets/UI/inventory/info_divider.png")
+const COIN_ICON := preload("res://assets/UI/inventory/icon_coin_detail.png")
+const WEIGHT_ICON := preload("res://assets/UI/inventory/icon_weight_detail.png")
+const DMG_ICON := preload("res://assets/UI/inventory/icon_dmg.png")
+const DURABILITY_ICON := preload("res://assets/UI/inventory/icon_durability.png")
+const ATK_SPEED_ICON := preload("res://assets/UI/inventory/icon_atk_speed.png")
+const ARMOR_ICON := preload("res://assets/UI/inventory/icon_armor_detail.png")
+const INFO_BG_TEX := preload("res://assets/UI/inventory/info_bg.png")
+const INFO_BORDER_TEX := preload("res://assets/UI/inventory/info_border.png")
+const INFO_DECAL_TEX := preload("res://assets/UI/inventory/info_decal.png")
+const TOOLTIP_PADDING := 16
+const TOOLTIP_MAX_WIDTH := 280
 const TOOLTIP_OFFSET := Vector2(20, 20)
+const BORDER_PATCH_MARGIN := 10
+const TT_FONT_SIZE := 18
+const TT_HEADER_SIZE := 20
+const MAGIC_COLOR := Color("3d8be3")
+const LABEL_COLOR := Color(0.894, 0.729, 0.522, 1.0)
+const MUTED_COLOR := Color(0.7, 0.6, 0.5, 0.85)
+const TT_VALUE_COLOR := Color(0.96, 0.94, 0.88, 1.0)
+const TT_OUTLINE_COLOR := Color(0.05, 0.04, 0.06)
+const REQ_LABEL_COLOR := Color(0.85, 0.35, 0.25, 1.0)
+const REQ_VALUE_COLOR := Color(0.96, 0.94, 0.88, 1.0)
+const HINT_COLOR := Color(0.6, 0.55, 0.5, 0.9)
+const MAX_COLLAPSED_AFFIXES := 5
 
 var inventory: Inventory
 ## When set, only items whose ItemBase passes this check are drawn and
@@ -56,6 +78,11 @@ var _held_icon: TextureRect
 var _hovered: Inventory.PlacedItem = null
 var _trash_highlighted := false
 
+var _tooltip_item: ItemBase
+var _tooltip_expanded: bool = false
+var _cursor_tooltip: Control
+var _tooltip_vbox: VBoxContainer
+
 ## Optional external drop target: when set, clicking to place a held item
 ## while the cursor is over this control's global rect discards it instead
 ## (see discard_held_item()). Left null for ordinary inventory screens;
@@ -64,11 +91,6 @@ var trash_control: Control = null
 ## Called with (InputEventMouseButton) before processing a left-click.
 ## Return true to consume the event (grid skips its own handling).
 var input_filter: Callable
-var _tooltip: PanelContainer
-var _tooltip_name: Label
-var _tooltip_desc: Label
-var _tooltip_stats: Label
-var _tooltip_magic: Label
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -86,48 +108,12 @@ func _ready() -> void:
 	_held_icon.top_level = true
 	_held_icon.visible = false
 	add_child(_held_icon)
+	_build_cursor_tooltip()
 
-	_build_tooltip()
-
-## Builds the hover tooltip out of plain Controls (no separate .tscn,
-## matching _held_icon above) — a dark pixel-art panel capped at
-## TOOLTIP_MAX_WIDTH with name/description/stats/magic labels stacked in
-## a VBox. top_level so it positions in screen space and can spill
-## outside this grid's own rect near screen edges.
-func _build_tooltip() -> void:
-	_tooltip = PanelContainer.new()
-	_tooltip.top_level = true
-	_tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_tooltip.visible = false
-	var style := StyleBoxTexture.new()
-	if ResourceLoader.exists(TOOLTIP_PANEL_TEX):
-		style.texture = load(TOOLTIP_PANEL_TEX) as Texture2D
-	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-		style.set_texture_margin(side, TOOLTIP_PANEL_MARGIN)
-	_tooltip.add_theme_stylebox_override("panel", style)
-
-	var vbox := VBoxContainer.new()
-	vbox.custom_minimum_size = Vector2(TOOLTIP_MAX_WIDTH - TOOLTIP_PANEL_MARGIN * 2, 0)
-	vbox.add_theme_constant_override("separation", 6)
-	_tooltip.add_child(vbox)
-
-	_tooltip_name = _make_tooltip_label(16)
-	_tooltip_desc = _make_tooltip_label(14)
-	_tooltip_desc.modulate.a = 0.8
-	_tooltip_stats = _make_tooltip_label(14)
-	_tooltip_magic = _make_tooltip_label(14)
-	for label in [_tooltip_name, _tooltip_desc, _tooltip_stats, _tooltip_magic]:
-		vbox.add_child(label)
-
-	add_child(_tooltip)
-
-func _make_tooltip_label(font_size: int) -> Label:
-	var label := Label.new()
-	label.add_theme_color_override("font_color", Color.WHITE)
-	label.add_theme_font_size_override("font_size", font_size)
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return label
+func _process(_delta: float) -> void:
+	if _cursor_tooltip.visible:
+		_resize_tooltip()
+		_position_tooltip()
 
 ## Binds this grid to `p_inventory` and (re)connects its `changed` signal.
 ## Safe to call repeatedly with the same instance (e.g. every time the
@@ -195,8 +181,10 @@ func _clear_held() -> void:
 
 func _clear_hover() -> void:
 	_hovered = null
-	if _tooltip:
-		_tooltip.visible = false
+	_tooltip_item = null
+	_tooltip_expanded = false
+	_cursor_tooltip.visible = false
+	Events.inventory_item_hovered.emit(null)
 
 func _update_trash_highlight() -> void:
 	if not trash_control or not trash_control.is_visible_in_tree():
@@ -219,6 +207,11 @@ func _on_inventory_changed() -> void:
 func _input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or not inventory:
 		return
+	if event is InputEventKey and event.keycode == KEY_ALT and _tooltip_item and _cursor_tooltip.visible:
+		var want_expanded: bool = (event as InputEventKey).pressed
+		if want_expanded != _tooltip_expanded:
+			_tooltip_expanded = want_expanded
+			_show_detail(_tooltip_item)
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
@@ -239,6 +232,9 @@ func _input(event: InputEvent) -> void:
 			else:
 				_update_hover(get_local_mouse_position())
 		elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
+			if mb.shift_pressed and input_filter.is_valid() and input_filter.call(mb):
+				get_viewport().set_input_as_handled()
+				return
 			if _held_item:
 				_rotate_held()
 				get_viewport().set_input_as_handled()
@@ -271,53 +267,18 @@ func _update_hover(local_pos: Vector2) -> void:
 		if candidate and _passes_filter(candidate.item):
 			new_hovered = candidate
 	if new_hovered == _hovered:
-		if _hovered:
-			_position_tooltip()
 		return
 	_hovered = new_hovered
 	queue_redraw()
 	if _hovered:
-		_show_tooltip(_hovered)
-		_position_tooltip()
+		_tooltip_item = _hovered.item
+		_tooltip_expanded = false
+		_show_detail(_hovered.item)
 		Events.inventory_item_hovered.emit(_hovered.item)
 	else:
-		_tooltip.visible = false
+		_tooltip_item = null
+		_cursor_tooltip.visible = false
 		Events.inventory_item_hovered.emit(null)
-
-func _show_tooltip(placed: Inventory.PlacedItem) -> void:
-	var item := placed.item
-	_tooltip_name.text = item.display_name
-	_tooltip_desc.text = item.description
-	_tooltip_desc.visible = not item.description.is_empty()
-	var stat_lines: Array[String] = item.get_stat_lines()
-	_tooltip_stats.text = "\n".join(stat_lines)
-	_tooltip_stats.visible = not stat_lines.is_empty()
-	var magic_lines: Array[String] = _roll_magic_effects(item)
-	_tooltip_magic.text = "\n".join(magic_lines)
-	_tooltip_magic.visible = not magic_lines.is_empty()
-	_tooltip.visible = true
-	_tooltip.size = _tooltip.get_minimum_size()
-
-## Picks a random subset of item.magic_effect_pool to show — re-rolled on
-## every hover so peeking at the same item again can surface a different
-## pair. Display-only; not wired to any gameplay effect.
-func _roll_magic_effects(item: ItemBase) -> Array[String]:
-	var result: Array[String] = []
-	if item.magic_effect_pool.is_empty():
-		return result
-	var pool: Array = Array(item.magic_effect_pool)
-	pool.shuffle()
-	var count := clampi(item.magic_effect_count, 0, pool.size())
-	for i in count:
-		result.append(pool[i])
-	return result
-
-func _position_tooltip() -> void:
-	var pos := get_global_mouse_position() + TOOLTIP_OFFSET
-	var viewport_size := get_viewport_rect().size
-	pos.x = minf(pos.x, viewport_size.x - _tooltip.size.x - 2)
-	pos.y = minf(pos.y, viewport_size.y - _tooltip.size.y - 2)
-	_tooltip.position = pos
 
 func _pick_up_at(local_pos: Vector2) -> bool:
 	var cell := Vector2i(floori(local_pos.x / CELL_SIZE), floori(local_pos.y / CELL_SIZE))
@@ -597,3 +558,232 @@ static func make_slot_style() -> StyleBoxTexture:
 	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
 		style.set_texture_margin(side, SLOT_PATCH_MARGIN)
 	return style
+
+# ---------------------------------------------------------------------------
+# Cursor tooltip
+# ---------------------------------------------------------------------------
+
+func _build_cursor_tooltip() -> void:
+	_cursor_tooltip = Control.new()
+	_cursor_tooltip.top_level = true
+	_cursor_tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cursor_tooltip.visible = false
+
+	var bg := NinePatchRect.new()
+	bg.texture = INFO_BG_TEX
+	bg.patch_margin_left = BORDER_PATCH_MARGIN
+	bg.patch_margin_top = BORDER_PATCH_MARGIN
+	bg.patch_margin_right = BORDER_PATCH_MARGIN
+	bg.patch_margin_bottom = BORDER_PATCH_MARGIN
+	bg.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cursor_tooltip.add_child(bg)
+
+	var border := NinePatchRect.new()
+	border.texture = INFO_BORDER_TEX
+	border.patch_margin_left = BORDER_PATCH_MARGIN
+	border.patch_margin_top = BORDER_PATCH_MARGIN
+	border.patch_margin_right = BORDER_PATCH_MARGIN
+	border.patch_margin_bottom = BORDER_PATCH_MARGIN
+	border.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cursor_tooltip.add_child(border)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", TOOLTIP_PADDING)
+	margin.add_theme_constant_override("margin_top", TOOLTIP_PADDING)
+	margin.add_theme_constant_override("margin_right", TOOLTIP_PADDING)
+	margin.add_theme_constant_override("margin_bottom", TOOLTIP_PADDING)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cursor_tooltip.add_child(margin)
+
+	_tooltip_vbox = VBoxContainer.new()
+	_tooltip_vbox.custom_minimum_size = Vector2(TOOLTIP_MAX_WIDTH - TOOLTIP_PADDING * 2, 0)
+	_tooltip_vbox.add_theme_constant_override("separation", 4)
+	_tooltip_vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_child(_tooltip_vbox)
+
+	add_child(_cursor_tooltip)
+
+func _show_detail(item: ItemBase) -> void:
+	_tt_clear_children(_tooltip_vbox)
+	_cursor_tooltip.visible = true
+
+	var header := HBoxContainer.new()
+	header.alignment = BoxContainer.ALIGNMENT_CENTER
+	header.add_theme_constant_override("separation", 6)
+	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var decal_left := TextureRect.new()
+	decal_left.texture = INFO_DECAL_TEX
+	decal_left.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	decal_left.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	decal_left.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header.add_child(decal_left)
+	header.add_child(_tt_make_label("Item Details", TT_FONT_SIZE, LABEL_COLOR))
+	var decal_right := TextureRect.new()
+	decal_right.texture = INFO_DECAL_TEX
+	decal_right.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	decal_right.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	decal_right.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header.add_child(decal_right)
+	_tooltip_vbox.add_child(header)
+	_tooltip_vbox.add_child(_tt_make_spacer(4))
+
+	var name_label := _tt_make_label(item.get_display_name(), TT_HEADER_SIZE)
+	name_label.add_theme_color_override("font_color", item.get_rarity_color())
+	_tooltip_vbox.add_child(name_label)
+
+	var type_text := _tt_get_type_text(item)
+	if not type_text.is_empty():
+		_tooltip_vbox.add_child(_tt_make_label(type_text, TT_FONT_SIZE, MUTED_COLOR))
+
+	_tooltip_vbox.add_child(_tt_make_divider())
+
+	if item is Weapon:
+		var w := item as Weapon
+		if w.min_damage > 0.0 or w.max_damage > 0.0:
+			_tooltip_vbox.add_child(_tt_make_icon_label(DMG_ICON,
+				"%d-%d" % [roundi(w.min_damage), roundi(w.max_damage)], TT_VALUE_COLOR))
+		if w.max_durability > 0:
+			_tooltip_vbox.add_child(_tt_make_icon_label(DURABILITY_ICON,
+				"%d/%d" % [w.durability, w.max_durability], TT_VALUE_COLOR))
+		_tooltip_vbox.add_child(_tt_make_icon_label(ATK_SPEED_ICON,
+			"%.2f" % w.get_effective_attack_speed(), TT_VALUE_COLOR))
+	elif item is Armor:
+		var a := item as Armor
+		_tooltip_vbox.add_child(_tt_make_icon_label(ARMOR_ICON,
+			"%d" % roundi(a.defense), TT_VALUE_COLOR))
+
+	var affix_lines := item.get_affix_lines()
+	var magic_lines: Array[String] = []
+	magic_lines.append_array(affix_lines)
+	if not item.magic_effect_pool.is_empty():
+		var pool: Array = Array(item.magic_effect_pool)
+		pool.shuffle()
+		var count := clampi(item.magic_effect_count, 0, pool.size())
+		for i in count:
+			magic_lines.append(pool[i])
+
+	if not magic_lines.is_empty():
+		_tooltip_vbox.add_child(_tt_make_spacer(6))
+		var visible_count := magic_lines.size() if _tooltip_expanded else mini(magic_lines.size(), MAX_COLLAPSED_AFFIXES)
+		for i in visible_count:
+			_tooltip_vbox.add_child(_tt_make_label(magic_lines[i], TT_FONT_SIZE, MAGIC_COLOR))
+		if not _tooltip_expanded and magic_lines.size() > MAX_COLLAPSED_AFFIXES:
+			_tooltip_vbox.add_child(_tt_make_spacer(4))
+			_tooltip_vbox.add_child(_tt_make_hold_alt_hint())
+
+	var has_reqs := item.required_level > 0 or item.required_strength > 0 or item.required_dexterity > 0
+	if has_reqs:
+		_tooltip_vbox.add_child(_tt_make_spacer(6))
+		_tooltip_vbox.add_child(_tt_make_label("Required:", TT_FONT_SIZE, REQ_LABEL_COLOR))
+		var req_parts: PackedStringArray = []
+		if item.required_strength > 0:
+			req_parts.append("Str: %d" % item.required_strength)
+		if item.required_dexterity > 0:
+			req_parts.append("Dex: %d" % item.required_dexterity)
+		if item.required_level > 0:
+			req_parts.append("Lvl: %d" % item.required_level)
+		_tooltip_vbox.add_child(_tt_make_label("    ".join(req_parts), TT_FONT_SIZE, REQ_VALUE_COLOR))
+
+	_tooltip_vbox.add_child(_tt_make_divider())
+
+	var footer := HBoxContainer.new()
+	footer.add_theme_constant_override("separation", 8)
+	_tooltip_vbox.add_child(footer)
+
+	if item.value > 0:
+		footer.add_child(_tt_make_icon_label(COIN_ICON, str(item.value), LABEL_COLOR))
+	if item.weight > 0.0:
+		var wt := str(int(item.weight)) if is_equal_approx(item.weight, roundf(item.weight)) else "%.1f" % item.weight
+		footer.add_child(_tt_make_icon_label(WEIGHT_ICON, wt, LABEL_COLOR))
+
+	_resize_tooltip()
+	_position_tooltip()
+
+func _resize_tooltip() -> void:
+	var margin_node: MarginContainer = _tooltip_vbox.get_parent() as MarginContainer
+	if margin_node:
+		var content_size := _tooltip_vbox.get_combined_minimum_size()
+		var total := content_size + Vector2(TOOLTIP_PADDING * 2, TOOLTIP_PADDING * 2)
+		_cursor_tooltip.size = total
+		margin_node.size = total
+
+func _position_tooltip() -> void:
+	var pos := get_global_mouse_position() + TOOLTIP_OFFSET
+	var viewport_size := get_viewport_rect().size
+	pos.x = minf(pos.x, viewport_size.x - _cursor_tooltip.size.x - 2)
+	pos.y = minf(pos.y, viewport_size.y - _cursor_tooltip.size.y - 2)
+	_cursor_tooltip.position = pos
+
+func _tt_get_type_text(item: ItemBase) -> String:
+	if item is Weapon:
+		return Weapon.WeaponType.keys()[(item as Weapon).weapon_type].capitalize()
+	if item is Armor:
+		return Armor.ArmorSlot.keys()[(item as Armor).armor_slot].capitalize() + " Armor"
+	if item is Consumable:
+		return Consumable.ConsumableType.keys()[(item as Consumable).consumable_type].capitalize()
+	var cat_names := ["Weapon", "Armor", "Tool", "Ring", "Amulet", "Consumable", "Material", "Quest Item", "Rune Stone"]
+	if item.category >= 0 and item.category < cat_names.size():
+		return cat_names[item.category]
+	return ""
+
+func _tt_make_label(text: String, font_size: int, color: Color = TT_VALUE_COLOR) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", TT_OUTLINE_COLOR)
+	label.add_theme_constant_override("outline_size", 4)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return label
+
+func _tt_make_divider() -> TextureRect:
+	var tex := TextureRect.new()
+	tex.texture = DIVIDER_TEX
+	tex.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	tex.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	tex.custom_minimum_size.y = DIVIDER_TEX.get_height() * 2 + 12
+	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return tex
+
+func _tt_make_spacer(h: float) -> Control:
+	var spacer := Control.new()
+	spacer.custom_minimum_size.y = h
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return spacer
+
+func _tt_make_hold_alt_hint() -> RichTextLabel:
+	var rtl := RichTextLabel.new()
+	rtl.bbcode_enabled = true
+	rtl.fit_content = true
+	rtl.scroll_active = false
+	rtl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rtl.add_theme_font_size_override("normal_font_size", TT_FONT_SIZE - 2)
+	rtl.add_theme_color_override("default_color", HINT_COLOR)
+	rtl.text = "... Hold [color=#e4e0d8][Alt][/color] to view more"
+	return rtl
+
+func _tt_make_icon_label(icon: Texture2D, text: String, color: Color) -> HBoxContainer:
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 6)
+	hbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var tex := TextureRect.new()
+	tex.texture = icon
+	tex.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	tex.custom_minimum_size = Vector2(32, 32)
+	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hbox.add_child(tex)
+
+	hbox.add_child(_tt_make_label(text, TT_FONT_SIZE, color))
+	return hbox
+
+func _tt_clear_children(node: Node) -> void:
+	for child in node.get_children():
+		node.remove_child(child)
+		child.queue_free()

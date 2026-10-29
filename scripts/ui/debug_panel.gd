@@ -58,6 +58,7 @@ extends CanvasLayer
 @onready var _god_mode_button: Button = %GodModeButton
 @onready var _free_camera_button: Button = %FreeCameraButton
 @onready var _level_up_button: Button = %LevelUpButton
+@onready var _toggle_night_button: Button = %ToggleNightButton
 @onready var _item_spawner_button: Button = %ItemSpawnerButton
 @onready var _hint: Label = %Hint
 
@@ -78,6 +79,7 @@ func _ready() -> void:
 	_god_mode_button.pressed.connect(_toggle_god_mode)
 	_free_camera_button.pressed.connect(_toggle_free_camera)
 	_level_up_button.pressed.connect(_level_up_player)
+	_toggle_night_button.pressed.connect(_toggle_night)
 	_item_spawner_button.pressed.connect(_toggle_item_spawner)
 	Events.entity_died.connect(_on_player_state_maybe_changed)
 	Events.health_changed.connect(func(entity: Node, _c: float, _m: float) -> void:
@@ -333,6 +335,19 @@ func _zoom_free_camera(factor: float) -> void:
 	z = clampf(z, free_camera_zoom_min, free_camera_zoom_max)
 	_free_camera.zoom = Vector2(z, z)
 
+# --- Day/night toggle ---------------------------------------------------
+
+func _toggle_night() -> void:
+	var dnc := get_node_or_null("/root/DayNightCycle")
+	if not dnc:
+		return
+	if dnc.is_night:
+		dnc.cycle_time = 0.0
+	else:
+		dnc.cycle_time = dnc.day_duration + dnc.night_duration * 0.5
+	dnc._apply_tint()
+	_toggle_night_button.text = "Night: %s" % ("On" if dnc.is_night else "Off")
+
 # --- Item spawner -----------------------------------------------------
 
 func _toggle_item_spawner() -> void:
@@ -349,3 +364,6 @@ func _refresh_buttons() -> void:
 	_heal_button.disabled = health == null or health.is_dead() \
 		or health.current_health >= health.max_health
 	_level_up_button.disabled = player == null or player.is_dead()
+	var dnc := get_node_or_null("/root/DayNightCycle")
+	if dnc:
+		_toggle_night_button.text = "Night: %s" % ("On" if dnc.is_night else "Off")
