@@ -15,3 +15,10 @@ const UI_LAYER := preload("res://scenes/ui/ui_layer.tscn")
 func _ready() -> void:
 	add_child(UI_LAYER.instantiate())
 	GameManager.set_state(GameManager.GameState.PLAYING)
+	if not SaveManager._pending_save.is_empty():
+		SaveManager.apply_save()
+	else:
+		var saves := SaveManager.list_saves()
+		if not saves.is_empty():
+			SaveManager.load_game(saves[0]["slot_name"])
+			SaveManager.apply_save()

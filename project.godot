@@ -24,6 +24,8 @@ Foliage="*res://scripts/world/foliage_manager.gd"
 AmbientAudio="*res://scripts/autoload/ambient_audio.gd"
 DayNightCycle="*res://scripts/autoload/day_night_cycle.gd"
 AffixDB="*res://scripts/items/affixes/affix_database.gd"
+ItemFactory="*res://scripts/items/item_factory.gd"
+SaveManager="*res://scripts/autoload/save_manager.gd"
 
 [display]
 
