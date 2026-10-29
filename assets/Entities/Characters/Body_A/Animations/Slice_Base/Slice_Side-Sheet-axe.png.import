@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjn36olu0u5bn"
-path="res://.godot/imported/Slice_Walk_Side-Sheet-old.png-8b111bcc61b44f19fdd351b4a60e5205.ctex"
+uid="uid://dwhad2lmec1ii"
+path="res://.godot/imported/Slice_Side-Sheet-axe.png-ab8176fd3fd88293bcaaa222ccb38f4b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Walk_Side-Sheet-old.png"
-dest_files=["res://.godot/imported/Slice_Walk_Side-Sheet-old.png-8b111bcc61b44f19fdd351b4a60e5205.ctex"]
+source_file="res://assets/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Side-Sheet-axe.png"
+dest_files=["res://.godot/imported/Slice_Side-Sheet-axe.png-ab8176fd3fd88293bcaaa222ccb38f4b.ctex"]
 
 [params]
 

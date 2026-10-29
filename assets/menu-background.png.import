@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2amqyi42fuut"
-path="res://.godot/imported/Slice_Down-Sheet-old.png-ebd40f42ce92e58c16596d06f6181318.ctex"
+uid="uid://b5d4u6vspqjto"
+path="res://.godot/imported/menu-background.png-645c8108d56ed08c6b260a351499ed5d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Entities/Characters/Body_A/Animations/Slice_Base/Slice_Down-Sheet-old.png"
-dest_files=["res://.godot/imported/Slice_Down-Sheet-old.png-ebd40f42ce92e58c16596d06f6181318.ctex"]
+source_file="res://assets/menu-background.png"
+dest_files=["res://.godot/imported/menu-background.png-645c8108d56ed08c6b260a351499ed5d.ctex"]
 
 [params]
 
