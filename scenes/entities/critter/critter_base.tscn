@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://scripts/entities/critter/critter_base.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/entities/state_machine.gd" id="2"]
@@ -23,6 +23,7 @@
 [ext_resource type="AudioStream" uid="uid://broil08pj7r3q" path="res://assets/SoundFX/Footsteps/woodland-steps11.mp3" id="21"]
 [ext_resource type="AudioStream" uid="uid://c63dn04y2wfgl" path="res://assets/SoundFX/Footsteps/woodland-steps13.mp3" id="22"]
 [ext_resource type="AudioStream" uid="uid://px8bhrhxqmes" path="res://assets/SoundFX/Footsteps/woodland-steps14.mp3" id="23"]
+[ext_resource type="Script" path="res://scripts/components/shadow_component.gd" id="24_shadow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(12, 10)
@@ -37,6 +38,16 @@ radius = 80.0
 script = ExtResource("1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 10)
+scale = Vector2(14, 6)
+z_index = -1
+show_behind_parent = true
+script = ExtResource("24_shadow")
+shadow_width = 14.0
+shadow_height = 6.0
+shadow_offset = Vector2(0, 10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
