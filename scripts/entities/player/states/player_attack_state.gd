@@ -23,6 +23,8 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	player.sprinting = moving and player.wants_to_sprint()
 	_apply_attack_visuals(player, moving)
 	_update_hitbox(player)
+	if player.weapon_overlay:
+		player.weapon_overlay.show_overlay()
 	player.play_swing_sound()
 
 func process_physics(delta: float) -> void:
@@ -54,6 +56,8 @@ func exit() -> void:
 	player.sprinting = false
 	if player.hitbox:
 		player.hitbox.deactivate()
+	if player.weapon_overlay:
+		player.weapon_overlay.hide_overlay()
 
 func _update_hitbox(player: Player) -> void:
 	if not player.hitbox:

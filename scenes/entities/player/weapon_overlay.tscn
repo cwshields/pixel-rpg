@@ -1,0 +1,244 @@
+[gd_scene format=3 uid="uid://dvq73jm41qe8r"]
+
+[ext_resource type="Script" uid="uid://mhngs7g283xq" path="res://scripts/entities/player/weapon_overlay.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cfjfta7b6mvt4" path="res://assets/Items/Weapons/Iron/Iron.png" id="1_t6n8a"]
+[ext_resource type="Script" uid="uid://bc8xwb2v01fxd" path="res://scripts/entities/player/weapon_swing_frame.gd" id="2"]
+[ext_resource type="SpriteFrames" uid="uid://d4loisxylxe2j" path="res://resources/characters/player_sprite_frames.tres" id="3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6n8a"]
+atlas = ExtResource("1_t6n8a")
+region = Rect2(34, 106, 272, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_preview"]
+atlas = SubResource("AtlasTexture_t6n8a")
+region = Rect2(32, 48, 16, 32)
+
+[sub_resource type="Resource" id="side_0"]
+script = ExtResource("2")
+offset = Vector2(-16, -14)
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="side_1"]
+script = ExtResource("2")
+offset = Vector2(-17, -15)
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="side_2"]
+script = ExtResource("2")
+offset = Vector2(-18, -16)
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="side_3"]
+script = ExtResource("2")
+offset = Vector2(28, 2)
+rotation_deg = 72.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="side_4"]
+script = ExtResource("2")
+offset = Vector2(26, 2)
+rotation_deg = 77.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="side_5"]
+script = ExtResource("2")
+offset = Vector2(22, 5)
+rotation_deg = 86.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="side_6"]
+script = ExtResource("2")
+offset = Vector2(13, 9)
+rotation_deg = 99.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="side_7"]
+script = ExtResource("2")
+offset = Vector2(8, 10)
+rotation_deg = 100.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="move_side_0"]
+script = ExtResource("2")
+offset = Vector2(-16, -14)
+rotation_deg = -12.0
+in_front = false
+
+[sub_resource type="Resource" id="move_side_1"]
+script = ExtResource("2")
+offset = Vector2(-17, -15)
+rotation_deg = -12.0
+in_front = false
+
+[sub_resource type="Resource" id="move_side_2"]
+script = ExtResource("2")
+offset = Vector2(-18, -16)
+rotation_deg = -12.0
+in_front = false
+
+[sub_resource type="Resource" id="move_side_3"]
+script = ExtResource("2")
+offset = Vector2(28, 2)
+rotation_deg = 72.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="move_side_4"]
+script = ExtResource("2")
+offset = Vector2(26, 2)
+rotation_deg = 77.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="move_side_5"]
+script = ExtResource("2")
+offset = Vector2(22, 5)
+rotation_deg = 86.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="move_side_6"]
+script = ExtResource("2")
+offset = Vector2(13, 9)
+rotation_deg = 99.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="move_side_7"]
+script = ExtResource("2")
+offset = Vector2(8, 10)
+rotation_deg = 100.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="down_0"]
+script = ExtResource("2")
+offset = Vector2(-6, -23)
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="down_1"]
+script = ExtResource("2")
+offset = Vector2(-6, -25)
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="down_2"]
+script = ExtResource("2")
+offset = Vector2(-6, -26)
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="down_3"]
+script = ExtResource("2")
+offset = Vector2(4, 22)
+rotation_deg = 172.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="down_4"]
+script = ExtResource("2")
+offset = Vector2(5, 24)
+rotation_deg = 172.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="down_5"]
+script = ExtResource("2")
+offset = Vector2(3, 19)
+rotation_deg = 170.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="down_6"]
+script = ExtResource("2")
+offset = Vector2(-12, 13)
+rotation_deg = -173.0
+in_front = false
+
+[sub_resource type="Resource" id="down_7"]
+script = ExtResource("2")
+offset = Vector2(-5, -22)
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="up_0"]
+script = ExtResource("2")
+offset = Vector2(4, 20)
+rotation_deg = 170.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="up_1"]
+script = ExtResource("2")
+offset = Vector2(3, 20)
+rotation_deg = 170.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="up_2"]
+script = ExtResource("2")
+offset = Vector2(3, 20)
+rotation_deg = 168.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="up_3"]
+script = ExtResource("2")
+offset = Vector2(-8, -23)
+rotation_deg = -10.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="up_4"]
+script = ExtResource("2")
+offset = Vector2(-5, -18)
+rotation_deg = -14.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="up_5"]
+script = ExtResource("2")
+offset = Vector2(-1, -15)
+rotation_deg = -10.0
+flip_h = true
+in_front = false
+
+[sub_resource type="Resource" id="up_6"]
+script = ExtResource("2")
+offset = Vector2(9, -9)
+rotation_deg = 1.0
+in_front = false
+
+[sub_resource type="Resource" id="up_7"]
+script = ExtResource("2")
+offset = Vector2(12, -5)
+rotation_deg = 20.0
+in_front = false
+
+[node name="WeaponOverlay" type="Sprite2D" unique_id=835951798]
+z_index = -1
+position = Vector2(-6, -23)
+texture = SubResource("AtlasTexture_preview")
+offset = Vector2(-0.0864315, 4.7336073)
+flip_h = true
+script = ExtResource("1")
+preview_animation = 2
+preview_texture = SubResource("AtlasTexture_preview")
+attack_side_frames = Array[ExtResource("2")]([SubResource("side_0"), SubResource("side_1"), SubResource("side_2"), SubResource("side_3"), SubResource("side_4"), SubResource("side_5"), SubResource("side_6"), SubResource("side_7")])
+attack_move_side_frames = Array[ExtResource("2")]([SubResource("move_side_0"), SubResource("move_side_1"), SubResource("move_side_2"), SubResource("move_side_3"), SubResource("move_side_4"), SubResource("move_side_5"), SubResource("move_side_6"), SubResource("move_side_7")])
+attack_down_frames = Array[ExtResource("2")]([SubResource("down_0"), SubResource("down_1"), SubResource("down_2"), SubResource("down_3"), SubResource("down_4"), SubResource("down_5"), SubResource("down_6"), SubResource("down_7")])
+attack_up_frames = Array[ExtResource("2")]([SubResource("up_0"), SubResource("up_1"), SubResource("up_2"), SubResource("up_3"), SubResource("up_4"), SubResource("up_5"), SubResource("up_6"), SubResource("up_7")])
+
+[node name="BodyPreview" type="AnimatedSprite2D" parent="." unique_id=517262811]
+top_level = true
+sprite_frames = ExtResource("3")
+animation = &"attack_down"

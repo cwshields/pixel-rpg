@@ -15,7 +15,6 @@ var _harvest_hitbox: HitboxComponent = null
 var _harvest_attack: AttackDefinition = null
 var _harvest_animation: StringName = &""
 var _did_harvest: bool = false
-
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	entity.sprinting = false
 	entity.stop()
@@ -73,7 +72,7 @@ func process_physics(delta: float) -> void:
 		entity.play_animation(_harvest_animation)
 	elif not _finishing_harvest:
 		entity.play_animation("idle")
-	if player.get_move_input() != Vector2.ZERO:
+	if not active_harvest and player.get_move_input() != Vector2.ZERO:
 		transition_requested.emit(&"Move", {})
 
 func exit() -> void:

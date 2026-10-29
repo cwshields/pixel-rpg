@@ -28,6 +28,7 @@ var hotbar_slots: Array = []
 @onready var mine_detector: Area2D = get_node_or_null("MineDetector")
 @onready var footstep_player: FootstepPlayer = get_node_or_null("FootstepPlayer")
 @onready var swing_sound_player: AudioStreamPlayer = get_node_or_null("SwingSoundPlayer")
+@onready var weapon_overlay: WeaponOverlay = get_node_or_null("WeaponOverlay")
 
 var _swing_sounds: Array[AudioStream] = [
 	preload("res://assets/SoundFX/Swing/swing-whoosh-01.mp3"),
@@ -50,7 +51,7 @@ const DEFAULT_ATTACK: AttackDefinition = preload("res://resources/combat/attacks
 ## The pickaxe "crush" loop PlayerIdleState runs while mining.
 const MINE_ATTACK: AttackDefinition = preload("res://resources/combat/attacks/crush.tres")
 ## The axe swing loop PlayerIdleState runs while chopping trees.
-const CHOP_ATTACK: AttackDefinition = preload("res://resources/combat/attacks/slash.tres")
+const CHOP_ATTACK: AttackDefinition = preload("res://resources/combat/attacks/chop.tres")
 
 ## The current combat attack (from the equipped weapon) and the hitbox
 ## instanced from its hitbox_scene. Rebuilt by _equip_attack() whenever
@@ -117,7 +118,14 @@ func _equip_attack() -> void:
 	attack = next
 	hitbox = _spawn_hitbox(attack)
 	if hitbox and weapon:
-		hitbox.reach_scale = weapon.reach_scale
+		hitbox.reach_scale = weapon.get_effective_reach_scale()
+		hitbox.width_scale = weapon.get_effective_width_scale()
+		var kb := weapon.get_effective_knockback()
+		if kb >= 0.0:
+			hitbox.knockback_force = kb
+	if weapon_overlay:
+		var tex: Texture2D = weapon.swing_sprite if weapon and weapon.swing_sprite else (weapon.icon if weapon else null)
+		weapon_overlay.set_weapon_texture(tex)
 
 func _spawn_hitbox(def: AttackDefinition) -> HitboxComponent:
 	if def == null or def.hitbox_scene == null:
@@ -179,6 +187,11 @@ func flash_exhausted() -> void:
 	animated_sprite.modulate = Color(1.0, 0.45, 0.45)
 	_exhausted_flash = create_tween()
 	_exhausted_flash.tween_property(animated_sprite, "modulate", Color.WHITE, 0.18)
+
+func _physics_process(delta: float) -> void:
+	if _axe_warn_cooldown > 0.0:
+		_axe_warn_cooldown -= delta
+	_update_axe_proximity()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_playing():
@@ -246,6 +259,9 @@ func hovered_harvest_target() -> BreakableProp:
 
 ## The prop the player is actively harvesting — attack held, cursor on
 ## it, within range, and facing roughly toward it. Null otherwise.
+var _axe_warn_cooldown: float = 0.0
+var _near_tree_overlay: bool = false
+
 func active_harvest_target() -> BreakableProp:
 	if not Input.is_action_pressed("attack") or is_mouse_over_gui():
 		return null
@@ -254,6 +270,11 @@ func active_harvest_target() -> BreakableProp:
 		return null
 	var prop: BreakableProp = cursor.hovered_harvestable
 	if prop not in _nearby_harvestables:
+		return null
+	if prop is TreeProp and not has_axe():
+		if _axe_warn_cooldown <= 0.0:
+			Events.notification.emit("You need an axe to chop trees down.")
+			_axe_warn_cooldown = 3.0
 		return null
 	var prop_center := prop.global_position
 	if prop.sprite:
@@ -272,6 +293,42 @@ func face_toward_mouse() -> void:
 		facing_direction = aim.normalized()
 		facing_changed.emit(facing_direction)
 
+func has_axe() -> bool:
+	for placed in inventory.items:
+		if placed.item is Tool and placed.item.tool_type == Tool.ToolType.AXE:
+			return true
+		if placed.item is Weapon and placed.item.weapon_type == Weapon.WeaponType.AXE:
+			return true
+	return false
+
+func _update_axe_proximity() -> void:
+	var near_tree := false
+	for prop in _nearby_harvestables:
+		if is_instance_valid(prop) and prop is TreeProp:
+			near_tree = true
+			break
+	if near_tree and has_axe():
+		if not _near_tree_overlay and weapon_overlay:
+			var axe_tex := find_axe_texture()
+			if axe_tex:
+				weapon_overlay.set_weapon_texture(axe_tex)
+				weapon_overlay.show_overlay()
+				_near_tree_overlay = true
+	elif _near_tree_overlay:
+		_near_tree_overlay = false
+		if weapon_overlay:
+			weapon_overlay.hide_overlay()
+			_equip_attack()
+
+func find_axe_texture() -> Texture2D:
+	for placed in inventory.items:
+		if placed.item is Tool and placed.item.tool_type == Tool.ToolType.AXE:
+			return placed.item.icon
+		if placed.item is Weapon and placed.item.weapon_type == Weapon.WeaponType.AXE:
+			var w := placed.item as Weapon
+			return w.swing_sprite if w.swing_sprite else w.icon
+	return null
+
 func harvest_hitbox(target: BreakableProp) -> HitboxComponent:
 	if target is RockProp:
 		return mine_hitbox
@@ -289,7 +346,7 @@ func harvest_attack(target: BreakableProp) -> AttackDefinition:
 func harvest_animation(target: BreakableProp) -> StringName:
 	if target is RockProp:
 		return &"crush"
-	return &"attack"
+	return &"chop"
 
 func _on_mine_body_entered(body: Node2D) -> void:
 	var parent := body.get_parent()

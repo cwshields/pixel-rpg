@@ -1,7 +1,7 @@
 class_name Weapon
 extends ItemBase
 
-enum WeaponType { SWORD, DAGGER, AXE, SPEAR, BOW, STAFF }
+enum WeaponType { SWORD, DAGGER, AXE, SPEAR, BOW, STAFF, MACE }
 
 ## Fallback APS per WeaponType, used whenever a weapon leaves attack_speed
 ## at its default (0 — "unset"). Tune per-type feel here; individual
@@ -13,6 +13,21 @@ const TYPE_DEFAULT_APS := {
 	WeaponType.SPEAR: 0.9,
 	WeaponType.BOW: 1.2,
 	WeaponType.STAFF: 0.8,
+	WeaponType.MACE: 0.65,
+}
+
+## Per-type hitbox profiles: {reach_scale, width_scale, knockback_override}.
+## Applied when a weapon leaves its own field at the default. A dagger is
+## tight and fast; an axe is wide and heavy; a spear has extreme reach but
+## narrow width.
+const TYPE_DEFAULT_HITBOX := {
+	WeaponType.SWORD:  {reach = 1.0, width = 1.0, knockback = -1.0},
+	WeaponType.DAGGER: {reach = 0.7, width = 0.6, knockback = 60.0},
+	WeaponType.AXE:    {reach = 1.0, width = 1.3, knockback = 200.0},
+	WeaponType.SPEAR:  {reach = 1.5, width = 0.5, knockback = 100.0},
+	WeaponType.BOW:    {reach = 1.0, width = 1.0, knockback = -1.0},
+	WeaponType.STAFF:  {reach = 1.2, width = 1.0, knockback = 120.0},
+	WeaponType.MACE:   {reach = 0.9, width = 1.1, knockback = 220.0},
 }
 
 ## Fallback attack motion per WeaponType, used whenever a weapon leaves
@@ -26,6 +41,7 @@ const TYPE_DEFAULT_ATTACK := {
 	WeaponType.SPEAR: preload("res://resources/combat/attacks/stab.tres"),
 	WeaponType.BOW: preload("res://resources/combat/attacks/slash.tres"),
 	WeaponType.STAFF: preload("res://resources/combat/attacks/slash.tres"),
+	WeaponType.MACE: preload("res://resources/combat/attacks/slash.tres"),
 }
 
 @export var weapon_type: WeaponType = WeaponType.SWORD
@@ -35,6 +51,12 @@ const TYPE_DEFAULT_ATTACK := {
 ## Stretches the attack's hitbox outward along the facing axis (1.2 = 20%
 ## more reach), so a longer blade can reuse the shared layout.
 @export var reach_scale: float = 1.0
+## Stretches the hitbox perpendicular to the facing axis — wider arc for
+## axes and greatswords, narrower for daggers and spears.
+@export var width_scale: float = 1.0
+## Overrides the hitbox scene's knockback_force for this weapon. Leave at
+## -1 to use the scene default (e.g. slash = 150, stab = 90).
+@export var knockback_override: float = -1.0
 @export var damage: float = 5.0
 ## 0 (default) means "use this weapon_type's TYPE_DEFAULT_APS entry" —
 ## see get_effective_attack_speed(). Set explicitly only to override that
@@ -42,6 +64,9 @@ const TYPE_DEFAULT_ATTACK := {
 @export var attack_speed: float = 0.0
 @export var crit_bonus: float = 0.0
 @export var two_handed: bool = false
+## Optional texture shown on the weapon overlay during attack animations.
+## Falls back to `icon` when unset.
+@export var swing_sprite: Texture2D
 
 ## Display-only damage range for the tooltip ("min-max Physical Damage");
 ## `damage` above is what actually feeds apply_modifiers(). Leave both at
@@ -72,6 +97,24 @@ func get_effective_attack_speed() -> float:
 ## `attack` if set, else this weapon_type's TYPE_DEFAULT_ATTACK entry.
 func get_attack() -> AttackDefinition:
 	return attack if attack else TYPE_DEFAULT_ATTACK.get(weapon_type)
+
+func get_effective_reach_scale() -> float:
+	if reach_scale != 1.0:
+		return reach_scale
+	var profile: Dictionary = TYPE_DEFAULT_HITBOX.get(weapon_type, {})
+	return profile.get("reach", 1.0)
+
+func get_effective_width_scale() -> float:
+	if width_scale != 1.0:
+		return width_scale
+	var profile: Dictionary = TYPE_DEFAULT_HITBOX.get(weapon_type, {})
+	return profile.get("width", 1.0)
+
+func get_effective_knockback() -> float:
+	if knockback_override >= 0.0:
+		return knockback_override
+	var profile: Dictionary = TYPE_DEFAULT_HITBOX.get(weapon_type, {})
+	return profile.get("knockback", -1.0)
 
 func get_stat_lines() -> Array[String]:
 	var lines: Array[String] = []

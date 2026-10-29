@@ -27,6 +27,8 @@ var is_chopping: bool = false
 ## for a longer sword reusing the standard slash shapes. Set by the owner
 ## (see Player._equip_attack()).
 var reach_scale: float = 1.0
+## Stretches the hitbox perpendicular to the facing axis.
+var width_scale: float = 1.0
 
 const _POSE_NAME := "^(up|down|left|right)(?:_(\\d+)(?:-(\\d+))?)?$"
 
@@ -81,7 +83,7 @@ func update_pose(direction: Vector2, frame: int, in_window: bool) -> void:
 			(pose.shape as CollisionShape2D).disabled = not live
 			any_live = any_live or live
 	var vertical := active_direction == "up" or active_direction == "down"
-	scale = Vector2(1.0, reach_scale) if vertical else Vector2(reach_scale, 1.0)
+	scale = Vector2(width_scale, reach_scale) if vertical else Vector2(reach_scale, width_scale)
 	if monitoring != any_live:
 		monitoring = any_live
 
