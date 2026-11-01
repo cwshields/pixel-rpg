@@ -8,7 +8,7 @@ extends Resource
 ## scripts — that way designers can add/tune items without touching
 ## GDScript, and items serialize cleanly for save files.
 
-enum Category { WEAPON, ARMOR, TOOL, RING, AMULET, CONSUMABLE, MATERIAL, QUEST, RUNE_STONE }
+enum Category { WEAPON, ARMOR, TOOL, RING, AMULET, CONSUMABLE, MATERIAL, QUEST, RUNE_STONE, AMMO }
 enum Rarity { COMMON, MAGIC, RARE, SET, UNIQUE }
 enum ClassAffinity { NONE, WARRIOR, RANGER, SORCERER }
 
@@ -112,9 +112,25 @@ func _effective_shape() -> PackedStringArray:
 		rows.append("#")
 	return rows
 
-## Override in subclasses that do something when used from the
-## inventory (potions, food, scrolls...). Return true if the item was
-## consumed and should be removed from the stack.
+## Base value plus bonus from rolled affixes — each affix adds value based on
+## its rolled modifier magnitudes and the affix's min_level tier.
+func get_total_value() -> int:
+	if affixes.is_empty():
+		return value
+	var bonus := 0.0
+	for a: AffixInstance in affixes:
+		var affix_template: ItemAffix = AffixDB.get_affix(a.affix_id)
+		var tier_mult := 1.0
+		if affix_template:
+			tier_mult = maxf(1.0, affix_template.min_level * 0.5)
+		for stat: StringName in a.rolled_modifiers:
+			var val: float = absf(a.rolled_modifiers[stat])
+			if AffixInstance._is_percent_stat(stat):
+				bonus += val * 100.0 * tier_mult
+			else:
+				bonus += val * tier_mult
+	return value + ceili(bonus)
+
 func get_rarity_color() -> Color:
 	return RARITY_COLORS.get(rarity, RARITY_COLORS[Rarity.COMMON])
 

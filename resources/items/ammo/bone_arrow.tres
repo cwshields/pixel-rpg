@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Ammo" format=3 uid="uid://cvyyuwim2vd6"]
+
+[ext_resource type="Script" uid="uid://c46b25oo45wl5" path="res://scripts/items/ammo.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://drtfmef33yvry" path="res://assets/Items/Weapons/Bone/Bone.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("2")
+region = Rect2(19, 0, 8, 16)
+
+[resource]
+script = ExtResource("1")
+damage_bonus = 2.0
+projectile_speed = 300.0
+id = &"bone_ammo_arrow"
+display_name = "Bone Arrow"
+icon = SubResource("AtlasTexture_icon")
+max_stack = 100
+value = 3
+category = 9
+weight = 0.1
+shape = ["#", "#"]

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://dp2omc33wc75h"]
+
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://d0met1v3s73fj" path="res://assets/Items/Weapons/Wood/Wood.png" id="4c2a8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_781e8"]
+atlas = ExtResource("4c2a8")
+region = Rect2(31, 48, 18, 33)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 2
+damage = 4.0
+attack_speed = 0.8
+id = &"wooden_battle_axe"
+display_name = "Wooden Battle Axe"
+icon = SubResource("AtlasTexture_781e8")
+value = 5
+category = 0
+weight = 2.0

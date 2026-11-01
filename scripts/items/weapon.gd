@@ -66,7 +66,12 @@ const TYPE_DEFAULT_ATTACK := {
 @export var two_handed: bool = false
 ## Optional texture shown on the weapon overlay during attack animations.
 ## Falls back to `icon` when unset.
+## For ranged weapons: the Ammo.AmmoType this weapon consumes (-1 = melee).
+@export var required_ammo_type: int = -1
 @export var swing_sprite: Texture2D
+## Pixel offset from the texture center to the weapon's grip/handle point.
+## The overlay uses this so the weapon rotates around its handle.
+@export var handle_offset: Vector2 = Vector2.ZERO
 
 ## Display-only damage range for the tooltip ("min-max Physical Damage");
 ## `damage` above is what actually feeds apply_modifiers(). Leave both at
@@ -123,4 +128,6 @@ func get_stat_lines() -> Array[String]:
 	if max_durability > 0:
 		lines.append("%d/%d Durability" % [durability, max_durability])
 	lines.append("%.1f Attacks Per Second" % get_effective_attack_speed())
+	if required_ammo_type == 0:
+		lines.append("Requires Arrows")
 	return lines

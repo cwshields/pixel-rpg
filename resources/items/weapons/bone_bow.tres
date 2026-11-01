@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7c1da"]
 atlas = ExtResource("7192e")
-region = Rect2(48, 47, 16, 34)
+region = Rect2(48, 47, 18, 36)
 
 [resource]
 script = ExtResource("37a1c")
@@ -20,4 +20,4 @@ icon = SubResource("AtlasTexture_7c1da")
 value = 38
 category = 0
 weight = 2.0
-shape = ["#", "#", "#"]
+shape = ["##", "##", "##"]

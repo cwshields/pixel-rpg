@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Ammo" format=3 uid="uid://c36eqlqkc4vqx"]
+
+[ext_resource type="Script" uid="uid://c46b25oo45wl5" path="res://scripts/items/ammo.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cfjfta7b6mvt4" path="res://assets/Items/Weapons/Iron/Iron.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("2")
+region = Rect2(195, 124, 9, 20)
+
+[resource]
+script = ExtResource("1")
+damage_bonus = 3.0
+projectile_speed = 380.0
+id = &"iron_arrow"
+display_name = "Iron Arrow"
+icon = SubResource("AtlasTexture_icon")
+max_stack = 100
+value = 5
+category = 9
+weight = 0.1
+shape = ["#", "#"]

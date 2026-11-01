@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://7ddfhlxuuihf"]
+
+[ext_resource type="Texture2D" uid="uid://dv68mthf1fvgu" path="res://assets/Items/Weapons/Desert - gold/Desert-Gold.png" id="1_xrdes"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="2_st6bs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5cef"]
+atlas = ExtResource("1_xrdes")
+region = Rect2(31, 50, 18, 31)
+
+[resource]
+script = ExtResource("2_st6bs")
+weapon_type = 2
+damage = 8.0
+attack_speed = 0.8
+id = &"desert_gold_scythe"
+display_name = "Desert Gold Scythe"
+icon = SubResource("AtlasTexture_e5cef")
+value = 47
+category = 0
+weight = 2.0

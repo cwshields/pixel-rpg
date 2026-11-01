@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RuneStone" format=3]
+
+[ext_resource type="Script" uid="uid://kfr6h0guessr" path="res://scripts/items/rune_stone.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dob5phwj8x6ov" path="res://assets/Items/RPG_Items_Retro_Itchio/Misc/Rune_Ve.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+stat_modifiers = { &"max_health": 5.0 }
+id = &"rune_ve"
+display_name = "Ve Rune"
+description = "A broad rune with deep grooves. Pulses with a faint heartbeat."
+icon = ExtResource("2")
+value = 15

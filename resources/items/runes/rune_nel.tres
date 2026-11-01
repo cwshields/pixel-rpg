@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RuneStone" format=3]
+
+[ext_resource type="Script" uid="uid://kfr6h0guessr" path="res://scripts/items/rune_stone.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://brl2jd5qthw7e" path="res://assets/Items/RPG_Items_Retro_Itchio/Misc/Rune_Nel.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+stat_modifiers = { &"defense": 3.0 }
+id = &"rune_nel"
+display_name = "Nel Rune"
+description = "A smooth rune etched with spirals. Hums when touched."
+icon = ExtResource("2")
+value = 12
