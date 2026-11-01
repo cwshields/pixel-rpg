@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://bk7pb4jofp1wf"]
+
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://xi1qqoglwon1" path="res://assets/Items/Weapons/Cursed/Cursed Weapons.png" id="ba2ff"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c36d8"]
+atlas = ExtResource("ba2ff")
+region = Rect2(52, 47, 13, 34)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 4
+required_ammo_type = 0
+damage = 8.0
+attack_speed = 1.2
+two_handed = true
+id = &"cursed_bow"
+display_name = "Cursed Bow"
+icon = SubResource("AtlasTexture_c36d8")
+value = 50
+category = 0
+class_affinity = 3
+weight = 2.0

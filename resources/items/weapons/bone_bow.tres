@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://bdx71e4hc1vpy"]
+
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://drtfmef33yvry" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c1da"]
+atlas = ExtResource("7192e")
+region = Rect2(48, 47, 16, 34)
+
+[resource]
+script = ExtResource("37a1c")
+weapon_type = 4
+damage = 6.5
+attack_speed = 1.2
+two_handed = true
+required_ammo_type = 0
+id = &"bone_bow"
+display_name = "Bone Bow"
+icon = SubResource("AtlasTexture_7c1da")
+value = 38
+category = 0
+weight = 2.0
+shape = ["#", "#", "#"]
