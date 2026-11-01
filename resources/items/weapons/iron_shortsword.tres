@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://crm80s0exc7nm"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://cfjfta7b6mvt4" path="res://assets/Items/Weapons/Iron/Iron.png" id="1492e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ee86e"]
 atlas = ExtResource("1492e")
-region = Rect2(159, 31, 18, 50)
+region = Rect2(48, 48, 16, 32)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 0
 damage = 5.5
 attack_speed = 1.0
 id = &"iron_shortsword"

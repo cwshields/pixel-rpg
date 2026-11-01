@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://bfdwalp8ptjvj"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Poison/Poison Weapons.png" id="6e983"]
+[ext_resource type="Texture2D" uid="uid://cdt8q5w8wk76y" path="res://assets/Items/Weapons/Poison/Poison Weapons.png" id="6e983"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_57d87"]
 atlas = ExtResource("6e983")
-region = Rect2(95, 0, 18, 49)
+region = Rect2(0, 0, 16, 48)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 0
 damage = 6.0
 attack_speed = 1.0
 id = &"venomous_longsword"
@@ -17,6 +16,6 @@ display_name = "Venomous Longsword"
 icon = SubResource("AtlasTexture_57d87")
 value = 44
 category = 0
-class_affinity = 2
 rarity = 4
+class_affinity = 2
 weight = 2.0

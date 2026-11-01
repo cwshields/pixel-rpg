@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://bp82e54jnuyl4"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Elf/Elf_Weapon.png" id="49acb"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://dv2l2h1i8tf1x" path="res://assets/Items/Weapons/Elf/Elf_Weapon.png" id="49acb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_11312"]
 atlas = ExtResource("49acb")
-region = Rect2(0, 3, 18, 45)
+region = Rect2(32, 16, 16, 32)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 0
 damage = 7.0
 attack_speed = 1.0
 id = &"elven_shortsword"

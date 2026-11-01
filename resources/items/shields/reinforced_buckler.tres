@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="Shield" format=3]
+[gd_resource type="Resource" script_class="Shield" format=3 uid="uid://b4h3s6a6tuxx5"]
 
-[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
-[ext_resource type="Texture2D" path="res://assets/Items/Armor/Shields.png" id="da45c"]
+[ext_resource type="Script" uid="uid://fdeid737s6nl" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" uid="uid://bcww6j6527pnk" path="res://assets/Items/Armor/Shields.png" id="da45c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0f390"]
 atlas = ExtResource("da45c")
@@ -18,3 +18,4 @@ value = 45
 category = 1
 class_affinity = 2
 weight = 2.5
+shape = ["##", "##"]

@@ -10,6 +10,7 @@ region = Rect2(134, 274, 20, 11)
 [resource]
 script = ExtResource("37a1c")
 weapon_type = 4
+required_ammo_type = 0
 damage = 6.0
 attack_speed = 0.9
 two_handed = true

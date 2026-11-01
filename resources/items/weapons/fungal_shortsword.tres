@@ -1,16 +1,14 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://fr75bxaegmm5"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://bb54bh7dkbckp" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a4caa"]
 atlas = ExtResource("dd088")
-region = Rect2(143, 15, 18, 50)
+region = Rect2(32, 32, 16, 32)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 0
-damage = 5.0
 attack_speed = 1.0
 id = &"fungal_shortsword"
 display_name = "Fungal Shortsword"

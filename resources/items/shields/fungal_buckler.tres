@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="Shield" format=3]
+[gd_resource type="Resource" script_class="Shield" format=3 uid="uid://cai0pdbj43il7"]
 
-[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
+[ext_resource type="Script" uid="uid://fdeid737s6nl" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" uid="uid://bb54bh7dkbckp" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bff4"]
 atlas = ExtResource("dd088")

@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://yjg11j5kmcxq"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+[ext_resource type="Texture2D" uid="uid://c6abdl30kf1tr" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e6441"]
 atlas = ExtResource("7a5d5")
-region = Rect2(160, 32, 16, 49)
+region = Rect2(32, 32, 16, 32)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 0
 damage = 6.5
 attack_speed = 1.0
 id = &"stone_shortsword"

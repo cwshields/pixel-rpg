@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://0bl5jutcrcix"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://bb54bh7dkbckp" path="res://assets/Items/Weapons/Spore_Roots/Spore_Roots.png" id="dd088"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4fceb"]
 atlas = ExtResource("dd088")
-region = Rect2(47, 95, 18, 34)
+region = Rect2(97, 26, 16, 38)
 
 [resource]
 script = ExtResource("37a1c")

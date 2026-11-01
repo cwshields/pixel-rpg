@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://dva0k5rmb5mam"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+[ext_resource type="Texture2D" uid="uid://c6abdl30kf1tr" path="res://assets/Items/Weapons/Stone/Weapons.png" id="7a5d5"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c8187"]
 atlas = ExtResource("7a5d5")
-region = Rect2(127, 0, 34, 66)
+region = Rect2(16, 176, 16, 48)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 0
 damage = 6.0
 attack_speed = 1.0
 two_handed = true

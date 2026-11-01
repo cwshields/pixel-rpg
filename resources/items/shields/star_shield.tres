@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Shield" format=3]
+[gd_resource type="Resource" script_class="Shield" format=3 uid="uid://chrl4o2m8a07j"]
 
-[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
-[ext_resource type="Texture2D" path="res://assets/Items/Armor/Shields.png" id="da45c"]
+[ext_resource type="Script" uid="uid://fdeid737s6nl" path="res://scripts/items/shield.gd" id="d3180"]
+[ext_resource type="Texture2D" uid="uid://bcww6j6527pnk" path="res://assets/Items/Armor/Shields.png" id="da45c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dac77"]
 atlas = ExtResource("da45c")
-region = Rect2(67, 120, 26, 35)
+region = Rect2(64, 113, 32, 48)
 
 [resource]
 script = ExtResource("d3180")
@@ -17,3 +17,4 @@ icon = SubResource("AtlasTexture_dac77")
 value = 75
 category = 1
 weight = 2.5
+shape = ["##", "##", "##"]

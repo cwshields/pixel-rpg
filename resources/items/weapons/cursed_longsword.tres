@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://dplrr2umxpo3i"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Cursed/Cursed Weapons.png" id="ba2ff"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://xi1qqoglwon1" path="res://assets/Items/Weapons/Cursed/Cursed Weapons.png" id="ba2ff"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_24fb9"]
 atlas = ExtResource("ba2ff")
-region = Rect2(0, 0, 16, 50)
+region = Rect2(0, 0, 16, 48)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 0
 damage = 7.0
 attack_speed = 1.0
 id = &"cursed_longsword"
@@ -17,6 +16,6 @@ display_name = "Cursed Longsword"
 icon = SubResource("AtlasTexture_24fb9")
 value = 44
 category = 0
-class_affinity = 3
 rarity = 3
+class_affinity = 3
 weight = 2.0

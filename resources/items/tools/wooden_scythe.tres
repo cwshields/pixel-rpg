@@ -1,16 +1,15 @@
-[gd_resource type="Resource" script_class="Tool" format=3]
+[gd_resource type="Resource" script_class="Tool" format=3 uid="uid://uhlll1kc8iw8"]
 
-[ext_resource type="Script" path="res://scripts/items/tool.gd" id="d1a5d"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Wood/Wood.png" id="4c2a8"]
+[ext_resource type="Texture2D" uid="uid://d0met1v3s73fj" path="res://assets/Items/Weapons/Wood/Wood.png" id="4c2a8"]
+[ext_resource type="Script" uid="uid://wuj5ase15eew" path="res://scripts/items/tool.gd" id="d1a5d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d035d"]
 atlas = ExtResource("4c2a8")
-region = Rect2(98, 20, 13, 42)
+region = Rect2(32, 48, 16, 32)
 
 [resource]
 script = ExtResource("d1a5d")
 tool_type = 5
-power = 1
 max_durability = 40
 id = &"wooden_scythe"
 display_name = "Wooden Scythe"

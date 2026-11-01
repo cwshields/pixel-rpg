@@ -1,17 +1,16 @@
-[gd_resource type="Resource" script_class="Tool" format=3]
+[gd_resource type="Resource" script_class="Tool" format=3 uid="uid://dss7isk238fiu"]
 
-[ext_resource type="Script" path="res://scripts/items/tool.gd" id="d1a5d"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+[ext_resource type="Texture2D" uid="uid://ce20ag17ikqh0" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+[ext_resource type="Script" uid="uid://wuj5ase15eew" path="res://scripts/items/tool.gd" id="d1a5d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e07de"]
 atlas = ExtResource("3558a")
-region = Rect2(36, 31, 10, 34)
+region = Rect2(65, 128, 16, 32)
 
 [resource]
 script = ExtResource("d1a5d")
 tool_type = 3
 power = 2
-max_durability = 50
 id = &"rustic_hoe"
 display_name = "Rustic Hoe"
 icon = SubResource("AtlasTexture_e07de")

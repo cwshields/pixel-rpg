@@ -20,4 +20,3 @@ description = "A crude training blade, little more than a carved plank. Better t
 icon = SubResource("AtlasTexture_icon")
 value = 4
 category = 0
-shape = ["#", "#", "#"]
