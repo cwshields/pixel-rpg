@@ -10,3 +10,6 @@ addons/
 
 # Logs
 logs/
+
+# Build output
+build/
