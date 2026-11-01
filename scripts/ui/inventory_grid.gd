@@ -80,6 +80,7 @@ var _trash_highlighted := false
 
 var _tooltip_item: ItemBase
 var _tooltip_expanded: bool = false
+var _tooltip_external: bool = false
 var _cursor_tooltip: Control
 var _tooltip_vbox: VBoxContainer
 
@@ -179,10 +180,22 @@ func _clear_held() -> void:
 	_set_trash_highlight(false)
 	queue_redraw()
 
+func show_external_tooltip(item: ItemBase) -> void:
+	if item:
+		_tooltip_external = true
+		_tooltip_item = item
+		_tooltip_expanded = false
+		_show_detail(item)
+	else:
+		_tooltip_external = false
+		_tooltip_item = null
+		_cursor_tooltip.visible = false
+
 func _clear_hover() -> void:
 	_hovered = null
 	_tooltip_item = null
 	_tooltip_expanded = false
+	_tooltip_external = false
 	_cursor_tooltip.visible = false
 	Events.inventory_item_hovered.emit(null)
 
@@ -238,6 +251,10 @@ func _input(event: InputEvent) -> void:
 			if _held_item:
 				_rotate_held()
 				get_viewport().set_input_as_handled()
+			elif mb.shift_pressed:
+				if _pick_up_half_at(get_local_mouse_position()):
+					_clear_hover()
+					get_viewport().set_input_as_handled()
 			elif _pick_up_one_at(get_local_mouse_position()):
 				_clear_hover()
 				get_viewport().set_input_as_handled()
@@ -271,11 +288,12 @@ func _update_hover(local_pos: Vector2) -> void:
 	_hovered = new_hovered
 	queue_redraw()
 	if _hovered:
+		_tooltip_external = false
 		_tooltip_item = _hovered.item
 		_tooltip_expanded = false
 		_show_detail(_hovered.item)
 		Events.inventory_item_hovered.emit(_hovered.item)
-	else:
+	elif not _tooltip_external:
 		_tooltip_item = null
 		_cursor_tooltip.visible = false
 		Events.inventory_item_hovered.emit(null)
@@ -309,6 +327,26 @@ func _pick_up_one_at(local_pos: Vector2) -> bool:
 	inventory.changed.emit()
 	_held_item = placed.item
 	_held_quantity = 1
+	_held_rotation = placed.rotation
+	_update_held_icon()
+	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
+	_held_icon.visible = true
+	_play_grab_sfx()
+	queue_redraw()
+	return true
+
+func _pick_up_half_at(local_pos: Vector2) -> bool:
+	var cell := Vector2i(floori(local_pos.x / CELL_SIZE), floori(local_pos.y / CELL_SIZE))
+	if cell.x < 0 or cell.y < 0 or cell.x >= inventory.width or cell.y >= inventory.height:
+		return false
+	var placed := _placed_at(cell)
+	if not placed or placed.quantity < 2:
+		return false
+	var half := placed.quantity / 2
+	placed.quantity -= half
+	inventory.changed.emit()
+	_held_item = placed.item
+	_held_quantity = half
 	_held_rotation = placed.rotation
 	_update_held_icon()
 	_held_icon.global_position = get_global_mouse_position() - _held_icon.size / 2.0
@@ -694,8 +732,9 @@ func _show_detail(item: ItemBase) -> void:
 	footer.add_theme_constant_override("separation", 8)
 	_tooltip_vbox.add_child(footer)
 
-	if item.value > 0:
-		footer.add_child(_tt_make_icon_label(COIN_ICON, str(item.value), LABEL_COLOR))
+	var total_value := item.get_total_value()
+	if total_value > 0:
+		footer.add_child(_tt_make_icon_label(COIN_ICON, str(total_value), LABEL_COLOR))
 	if item.weight > 0.0:
 		var wt := str(int(item.weight)) if is_equal_approx(item.weight, roundf(item.weight)) else "%.1f" % item.weight
 		footer.add_child(_tt_make_icon_label(WEIGHT_ICON, wt, LABEL_COLOR))

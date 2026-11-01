@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cg6xjrhhbyhd3" path="res://assets/UI/inventory/Cha_Sum_Decal_Left.png" id="13_4mu0n"]
 [ext_resource type="Texture2D" uid="uid://bkbw4acexse55" path="res://assets/UI/inventory/status_decal_right.png" id="13_g1qdc"]
 [ext_resource type="Texture2D" uid="uid://c81hvbqdr30qp" path="res://assets/UI/inventory/Search Icon.png" id="13_jwuib"]
-[ext_resource type="PackedScene" path="res://scenes/ui/controls_panel.tscn" id="14"]
+[ext_resource type="PackedScene" uid="uid://cg1hbduyjuuxi" path="res://scenes/ui/controls_panel.tscn" id="14"]
 [ext_resource type="Texture2D" uid="uid://bn5n405flmxeq" path="res://assets/UI/inventory/equipment_decal_left.png" id="14_4mu0n"]
 [ext_resource type="Texture2D" uid="uid://dm7ki0ss2ngo1" path="res://assets/UI/inventory/icon_inventory.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://rh4r78merapb" path="res://assets/UI/inventory/Cha_Sum_Decal_Left-2-Cha Sum Decal Right.png" id="15_1w7j3"]
@@ -124,11 +124,12 @@ offset_right = 1668.0
 offset_bottom = 652.0
 
 [node name="ControlsPanel" parent="Layout" unique_id=1597846038 instance=ExtResource("14")]
-anchors_preset = 0
-offset_left = 1254.0
-offset_top = 741.0
-offset_right = 1664.0
-offset_bottom = 924.0
+layout_mode = 0
+offset_left = 1260.0
+offset_top = 739.0
+offset_right = 1670.0
+offset_bottom = 925.18823
+scale = Vector2(0.9566711, 1.0572104)
 
 [node name="EquipmentLabel" type="Label" parent="Layout" unique_id=518719112]
 layout_mode = 1
@@ -173,20 +174,20 @@ theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
-text = "CHARACTER"
+text = "CHARACTER SUMMARY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ControlsLabel" type="Label" parent="Layout" unique_id=863723178]
 layout_mode = 0
 offset_left = 1393.5
-offset_top = 720.0
+offset_top = 712.0
 offset_right = 1509.5
-offset_bottom = 748.0
+offset_bottom = 740.0
 theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
 theme_override_colors/font_outline_color = Color(0.05, 0.04, 0.06, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 19
 text = "CONTROLS"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -229,25 +230,6 @@ offset_left = 303.5
 offset_top = 723.0
 offset_right = 457.5
 offset_bottom = 749.0
-texture = ExtResource("13_g1qdc")
-stretch_mode = 5
-
-[node name="Decal7" type="TextureRect" parent="Layout" unique_id=319765962]
-layout_mode = 0
-offset_left = 1233.5
-offset_top = 722.0
-offset_right = 1390.5
-offset_bottom = 748.0
-texture = ExtResource("12_an4jt")
-stretch_mode = 5
-
-[node name="Decal8" type="TextureRect" parent="Layout" unique_id=1636381257]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 0
-offset_left = 1514.5
-offset_top = 722.0
-offset_right = 1668.5
-offset_bottom = 748.0
 texture = ExtResource("13_g1qdc")
 stretch_mode = 5
 

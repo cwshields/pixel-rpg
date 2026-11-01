@@ -102,8 +102,12 @@ func _update_hover(new_idx: int) -> void:
 		else:
 			def.hover.color = HOVER_COLOR
 		var item := equipment.get_equipped(def.slot)
+		if grid:
+			grid.show_external_tooltip(item)
 		Events.inventory_item_hovered.emit(item)
 	else:
+		if grid:
+			grid.show_external_tooltip(null)
 		Events.inventory_item_hovered.emit(null)
 
 func _handle_click(idx: int) -> void:

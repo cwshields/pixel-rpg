@@ -36,11 +36,12 @@ texture = ExtResource("small")
 
 [node name="Icon" type="TextureRect" parent="RuneStone" unique_id=732701780]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
+offset_left = 15.0
+offset_top = 18.0
 offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
@@ -86,13 +87,14 @@ texture = ExtResource("head")
 
 [node name="Icon" type="TextureRect" parent="Head" unique_id=750533712]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
+offset_left = 18.0
 offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_right = -21.0
+offset_bottom = -29.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
@@ -134,12 +136,13 @@ texture = ExtResource("small")
 
 [node name="Icon" type="TextureRect" parent="Amulet" unique_id=885291820]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
+offset_left = 13.0
+offset_top = 16.0
+offset_right = -13.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -183,11 +186,12 @@ texture = ExtResource("primary")
 
 [node name="Icon" type="TextureRect" parent="PrimaryHand" unique_id=1369618525]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
+offset_left = 28.0
+offset_top = 24.0
 offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
@@ -231,13 +235,14 @@ texture = ExtResource("torso")
 
 [node name="Icon" type="TextureRect" parent="Chest" unique_id=1844167127]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = 22.0
+offset_top = 11.0
+offset_right = -18.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
@@ -278,13 +283,14 @@ texture = ExtResource("secondary")
 
 [node name="Icon" type="TextureRect" parent="OffHand" unique_id=1291156486]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = 5.0
+offset_top = 22.0
+offset_right = -27.0
+offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
@@ -326,13 +332,14 @@ texture = ExtResource("gloves")
 
 [node name="Icon" type="TextureRect" parent="Gauntlets" unique_id=1431325406]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = 26.0
+offset_top = 15.999992
+offset_right = -7.0
+offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
@@ -376,13 +383,14 @@ texture = ExtResource("small")
 
 [node name="Icon" type="TextureRect" parent="Ring1" unique_id=521602008]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = 22.0
+offset_top = 9.0
+offset_right = -13.0
+offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
@@ -425,13 +433,14 @@ texture = ExtResource("small")
 
 [node name="Icon" type="TextureRect" parent="Ring2" unique_id=146941507]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = 13.0
+offset_top = 9.02
+offset_right = -22.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
@@ -475,13 +484,14 @@ texture = ExtResource("feet")
 
 [node name="Icon" type="TextureRect" parent="Feet" unique_id=2044099056]
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_top = 15.979797
+offset_right = -24.0
+offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1

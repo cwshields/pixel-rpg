@@ -87,7 +87,7 @@ func _make_item_button(item: ItemBase) -> Button:
 	btn.add_theme_stylebox_override("hover", _slot_style)
 	btn.add_theme_stylebox_override("pressed", _slot_style)
 	btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	btn.pressed.connect(_on_item_pressed.bind(item))
+	btn.gui_input.connect(_on_item_gui_input.bind(item))
 	return btn
 
 func _on_search_changed(query: String) -> void:
@@ -95,5 +95,10 @@ func _on_search_changed(query: String) -> void:
 	for btn: Button in _item_grid.get_children():
 		btn.visible = filter.is_empty() or btn.tooltip_text.to_lower().contains(filter)
 
-func _on_item_pressed(item: ItemBase) -> void:
-	_inventory_grid.pick_up_new(item, 1)
+func _on_item_gui_input(event: InputEvent, item: ItemBase) -> void:
+	if not event is InputEventMouseButton or not event.pressed:
+		return
+	if event.button_index == MOUSE_BUTTON_LEFT:
+		_inventory_grid.pick_up_new(item, item.max_stack)
+	elif event.button_index == MOUSE_BUTTON_RIGHT:
+		_inventory_grid.pick_up_new(item, 1)
