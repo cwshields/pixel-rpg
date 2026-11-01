@@ -957,7 +957,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_207")
 }],
-"loop": 0,
+"loop": 1,
 "name": &"chop_down",
 "speed": 14.0
 }, {
@@ -986,7 +986,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_231")
 }],
-"loop": 0,
+"loop": 1,
 "name": &"chop_move_side",
 "speed": 14.0
 }, {
@@ -1015,7 +1015,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_215")
 }],
-"loop": 0,
+"loop": 1,
 "name": &"chop_side",
 "speed": 14.0
 }, {
@@ -1044,7 +1044,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("frame_223")
 }],
-"loop": 0,
+"loop": 1,
 "name": &"chop_up",
 "speed": 14.0
 }, {

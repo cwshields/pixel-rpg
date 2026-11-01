@@ -146,7 +146,7 @@ in_front = false
 
 [sub_resource type="Resource" id="down_4"]
 script = ExtResource("2")
-offset = Vector2(5, 24)
+offset = Vector2(5, 22)
 rotation_deg = 172.0
 flip_h = true
 in_front = false
@@ -225,13 +225,13 @@ rotation_deg = 20.0
 in_front = false
 
 [node name="WeaponOverlay" type="Sprite2D" unique_id=835951798]
-z_index = -1
-position = Vector2(-6, -23)
+show_behind_parent = true
+position = Vector2(-5, -22)
 texture = SubResource("AtlasTexture_preview")
-offset = Vector2(-0.0864315, 4.7336073)
 flip_h = true
 script = ExtResource("1")
 preview_animation = 2
+preview_frame = 7
 preview_texture = SubResource("AtlasTexture_preview")
 attack_side_frames = Array[ExtResource("2")]([SubResource("side_0"), SubResource("side_1"), SubResource("side_2"), SubResource("side_3"), SubResource("side_4"), SubResource("side_5"), SubResource("side_6"), SubResource("side_7")])
 attack_move_side_frames = Array[ExtResource("2")]([SubResource("move_side_0"), SubResource("move_side_1"), SubResource("move_side_2"), SubResource("move_side_3"), SubResource("move_side_4"), SubResource("move_side_5"), SubResource("move_side_6"), SubResource("move_side_7")])
@@ -242,3 +242,4 @@ attack_up_frames = Array[ExtResource("2")]([SubResource("up_0"), SubResource("up
 top_level = true
 sprite_frames = ExtResource("3")
 animation = &"attack_down"
+frame = 7

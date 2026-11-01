@@ -25,6 +25,11 @@ const ANIM_NAMES: Array[StringName] = [
 		if Engine.is_editor_hint():
 			texture = v
 			_editor_sync()
+@export var preview_handle_offset: Vector2 = Vector2.ZERO:
+	set(v):
+		preview_handle_offset = v
+		if Engine.is_editor_hint():
+			_editor_sync()
 @export var preview_flipped: bool = false:
 	set(v):
 		preview_flipped = v
@@ -48,10 +53,15 @@ const ANIM_NAMES: Array[StringName] = [
 @export_group("Up Attack")
 @export var attack_up_frames: Array[WeaponSwingFrame] = []
 
+## Target size in pixels for the weapon sprite. Textures are scaled
+## uniformly to fit within this box without stretching.
+@export var target_size: Vector2 = Vector2(32, 32)
+
 var _frame_map: Dictionary = {}
 var _body_sprite: AnimatedSprite2D
 var _active: bool = false
 var _preview_playing_active: bool = false
+var _handle_offset: Vector2 = Vector2.ZERO
 
 func _process(_delta: float) -> void:
 	if not Engine.is_editor_hint():
@@ -89,11 +99,20 @@ func _build_frame_map() -> void:
 		&"attack_up": attack_up_frames,
 	}
 
-func set_weapon_texture(tex: Texture2D) -> void:
+func set_weapon_texture(tex: Texture2D, handle_off: Vector2 = Vector2.ZERO) -> void:
 	texture = tex
+	_handle_offset = handle_off
 	if tex == null:
 		_active = false
 		visible = false
+		scale = Vector2.ONE
+		return
+	var tex_size := tex.get_size()
+	if tex_size.x > 0 and tex_size.y > 0 and target_size.x > 0 and target_size.y > 0:
+		var s := minf(target_size.x / tex_size.x, target_size.y / tex_size.y)
+		scale = Vector2(s, s)
+	else:
+		scale = Vector2.ONE
 
 func show_overlay() -> void:
 	if texture == null:
@@ -127,15 +146,19 @@ func _sync() -> void:
 		return
 	var off: Vector2 = entry.offset
 	var rot: float = entry.rotation_deg
-	var z: int = 1 if entry.in_front else -1
 	if _body_sprite.flip_h:
 		off.x = -off.x
 		rot = -rot
 	var f: bool = entry.flip_h != _body_sprite.flip_h
+	flip_h = f
+	var ho := _handle_offset
+	if f:
+		ho.x = -ho.x
 	position = off
 	rotation_degrees = rot
-	flip_h = f
-	z_index = z
+	offset = -ho
+	show_behind_parent = not entry.in_front
+	z_index = 0
 	visible = true
 
 # ── Editor preview ──────────────────────────────────────────────────
@@ -147,6 +170,10 @@ func _setup_editor_preview() -> void:
 		_body_sprite = preview
 	if preview_texture:
 		texture = preview_texture
+		var tex_size := preview_texture.get_size()
+		if tex_size.x > 0 and tex_size.y > 0 and target_size.x > 0 and target_size.y > 0:
+			var s := minf(target_size.x / tex_size.x, target_size.y / tex_size.y)
+			scale = Vector2(s, s)
 	_editor_sync()
 
 func _editor_sync() -> void:
@@ -172,15 +199,19 @@ func _editor_sync() -> void:
 		return
 	var off: Vector2 = entry.offset
 	var rot: float = entry.rotation_deg
-	var z: int = 1 if entry.in_front else -1
 	if preview_flipped:
 		off.x = -off.x
 		rot = -rot
 	var f: bool = entry.flip_h != preview_flipped
+	flip_h = f
+	var ho := preview_handle_offset
+	if f:
+		ho.x = -ho.x
 	position = off
 	rotation_degrees = rot
-	flip_h = f
-	z_index = z
+	offset = -ho
+	show_behind_parent = not entry.in_front
+	z_index = 0
 	visible = true
 
 func _preview_play() -> void:
