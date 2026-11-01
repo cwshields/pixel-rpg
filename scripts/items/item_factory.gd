@@ -7,14 +7,27 @@ const ITEMS_DIR := "res://resources/items"
 
 var _registry: Dictionary = {}  # StringName -> String (resource path)
 
-const _RARITY_WEIGHTS := {
-	ItemBase.Rarity.COMMON: 60.0,
-	ItemBase.Rarity.MAGIC: 25.0,
-	ItemBase.Rarity.RARE: 10.0,
-	ItemBase.Rarity.SET: 3.0,
-	ItemBase.Rarity.UNIQUE: 2.0,
+## Each non-common rarity has a level threshold (appears at 0% chance),
+## a level where it reaches full weight, and that full weight. Between
+## threshold and full the weight ramps linearly from 0.
+const _RARITY_CURVES := {
+	#                         unlock  full_at  peak_weight
+	ItemBase.Rarity.MAGIC:   [1,      30,      30.0],
+	ItemBase.Rarity.RARE:    [8,      40,      12.0],
+	ItemBase.Rarity.SET:     [15,     50,       4.0],
+	ItemBase.Rarity.UNIQUE:  [20,     50,       3.0],
 }
-const _LEVEL_MAGIC_FIND_SCALE := 0.02
+const _COMMON_BASE_WEIGHT := 100.0
+const _COMMON_MIN_WEIGHT := 20.0
+const _COMMON_DECAY_RATE := 0.03
+
+const _EQUIPMENT_CATEGORIES := [
+	ItemBase.Category.WEAPON, ItemBase.Category.ARMOR,
+	ItemBase.Category.TOOL, ItemBase.Category.RING, ItemBase.Category.AMULET,
+]
+const _COMMON_POOL_CATEGORIES := [
+	ItemBase.Category.MATERIAL, ItemBase.Category.RUNE_STONE,
+]
 
 
 func _ready() -> void:
@@ -58,13 +71,20 @@ func get_all_base_ids() -> Array[StringName]:
 
 
 func _roll_rarity(level: int) -> ItemBase.Rarity:
-	var magic_find_bonus := level * _LEVEL_MAGIC_FIND_SCALE
 	var weights: Dictionary = {}
-	for r: ItemBase.Rarity in _RARITY_WEIGHTS:
-		if r == ItemBase.Rarity.COMMON:
-			weights[r] = _RARITY_WEIGHTS[r]
+	weights[ItemBase.Rarity.COMMON] = maxf(_COMMON_MIN_WEIGHT,
+		_COMMON_BASE_WEIGHT * exp(-_COMMON_DECAY_RATE * level))
+	for r: ItemBase.Rarity in _RARITY_CURVES:
+		var curve: Array = _RARITY_CURVES[r]
+		var unlock: int = curve[0]
+		var full_at: int = curve[1]
+		var peak: float = curve[2]
+		if level < unlock:
+			weights[r] = 0.0
+		elif level >= full_at:
+			weights[r] = peak
 		else:
-			weights[r] = _RARITY_WEIGHTS[r] * (1.0 + magic_find_bonus)
+			weights[r] = peak * float(level - unlock) / float(full_at - unlock)
 	var total := 0.0
 	for w: float in weights.values():
 		total += w
@@ -75,6 +95,24 @@ func _roll_rarity(level: int) -> ItemBase.Rarity:
 		if roll <= running:
 			return r
 	return ItemBase.Rarity.COMMON
+
+
+func is_equipment(item: ItemBase) -> bool:
+	return item.category in _EQUIPMENT_CATEGORIES
+
+
+func get_common_pool_bases() -> Array[ItemBase]:
+	var result: Array[ItemBase] = []
+	for cat: ItemBase.Category in _COMMON_POOL_CATEGORIES:
+		result.append_array(get_bases_by_category(cat))
+	return result
+
+
+func roll_common_pool_item(level: int) -> ItemBase:
+	var bases := get_common_pool_bases()
+	if bases.is_empty():
+		return null
+	return generate(bases.pick_random(), level)
 
 
 func _scan_and_register(dir_path: String) -> void:

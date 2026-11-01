@@ -278,7 +278,7 @@ func _detach_from_tilemap() -> void:
 	layer.erase_cell(cell)
 
 func _drop_loot() -> void:
-	ItemPickup.drop_loot(loot_table, global_position)
+	ItemPickup.drop_loot(loot_table, global_position, ItemPickup.DEFAULT_SCATTER, 1, false)
 
 func _play_death_effect() -> void:
 	Foliage.unregister_prop(self)

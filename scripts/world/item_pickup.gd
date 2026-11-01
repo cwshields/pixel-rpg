@@ -11,6 +11,15 @@ extends Area2D
 const _SCENE: PackedScene = preload("res://scenes/world/item_pickup.tscn")
 const DEFAULT_SCATTER: float = 8.0
 
+## Global multiplier on every LootEntry's drop chance.
+const DROP_RATE_MULT: float = 0.55
+## Chance that an equipment drop is replaced by a common pool item instead.
+const EQUIPMENT_DILUTION: float = 0.50
+## How many bonus common-pool rolls per drop_loot call (materials, runes).
+const BONUS_COMMON_ROLLS: int = 2
+## Per-roll chance for each bonus common-pool drop.
+const BONUS_COMMON_CHANCE: float = 0.35
+
 @export var item: ItemBase
 @export var amount: int = 1
 
@@ -49,12 +58,21 @@ func _ready() -> void:
 
 static func drop_loot(
 		loot_table: Array[LootEntry], origin: Vector2,
-		scatter: float = DEFAULT_SCATTER, level: int = 1) -> void:
+		scatter: float = DEFAULT_SCATTER, level: int = 1,
+		dilute: bool = true) -> void:
 	for entry in loot_table:
-		if not entry.item or randf() > entry.chance:
+		if not entry.item:
+			continue
+		var effective_chance := entry.chance * (DROP_RATE_MULT if dilute else 1.0)
+		if randf() > effective_chance:
 			continue
 		var qty: int = randi_range(entry.min_amount, entry.max_amount)
 		if qty <= 0:
+			continue
+		if dilute and ItemFactory.is_equipment(entry.item) and randf() < EQUIPMENT_DILUTION:
+			var common := ItemFactory.roll_common_pool_item(level)
+			if common:
+				_spawn(common, 1, origin, scatter)
 			continue
 		if entry.drop_individually:
 			for _i in qty:
@@ -63,6 +81,12 @@ static func drop_loot(
 		else:
 			var rolled := ItemFactory.generate(entry.item, level)
 			_spawn(rolled, qty, origin, scatter)
+	if dilute:
+		for _i in BONUS_COMMON_ROLLS:
+			if randf() < BONUS_COMMON_CHANCE:
+				var common := ItemFactory.roll_common_pool_item(level)
+				if common:
+					_spawn(common, 1, origin, scatter)
 
 static func _spawn(
 		item: ItemBase, qty: int, origin: Vector2, scatter: float) -> void:
