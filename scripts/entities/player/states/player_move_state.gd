@@ -17,7 +17,10 @@ func process_physics(delta: float) -> void:
 			transition_requested.emit(&"Idle", {})
 			return
 		if player.can_attack():
-			transition_requested.emit(&"Attack", {})
+			if player.has_bow_equipped():
+				transition_requested.emit(&"Bow", {})
+			else:
+				transition_requested.emit(&"Attack", {})
 			return
 		player.flash_exhausted()
 	var input_dir: Vector2 = player.get_move_input()

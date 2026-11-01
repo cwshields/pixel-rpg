@@ -29,6 +29,8 @@
 [ext_resource type="Script" uid="uid://dm8k67nr0h1me" path="res://scripts/entities/player/player_light.gd" id="30_light"]
 [ext_resource type="Script" uid="uid://br1g2esmb1h8c" path="res://scripts/components/shadow_component.gd" id="31_shadow"]
 [ext_resource type="PackedScene" uid="uid://dvq73jm41qe8r" path="res://scenes/entities/player/weapon_overlay.tscn" id="32_weapon_overlay"]
+[ext_resource type="Script" uid="uid://45h56xvotu76" path="res://scripts/entities/player/bow_aim_component.gd" id="33_bow_aim"]
+[ext_resource type="Script" uid="uid://de38f7pavmxb4" path="res://scripts/entities/player/states/player_bow_state.gd" id="34_bow_state"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(10, 10)
@@ -48,13 +50,18 @@ script = ExtResource("1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1663619637]
 sprite_frames = ExtResource("2_j0oqr")
-animation = &"attack_side"
+animation = &"idle_down"
 
 [node name="WeaponOverlay" parent="." unique_id=717649890 instance=ExtResource("32_weapon_overlay")]
 visible = false
 texture = null
 preview_animation = 0
 preview_texture = null
+
+[node name="BowAimComponent" type="Sprite2D" parent="." unique_id=1572579251]
+visible = false
+z_index = 1
+script = ExtResource("33_bow_aim")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1987502930]
 show_behind_parent = true
@@ -118,6 +125,9 @@ script = ExtResource("4")
 
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1772954322]
 script = ExtResource("5")
+
+[node name="Bow" type="Node" parent="StateMachine" unique_id=1903443525]
+script = ExtResource("34_bow_state")
 
 [node name="Hurt" type="Node" parent="StateMachine" unique_id=906687562]
 script = ExtResource("6")

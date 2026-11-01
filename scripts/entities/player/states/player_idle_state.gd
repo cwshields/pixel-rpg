@@ -42,6 +42,7 @@ func process_physics(delta: float) -> void:
 	var target := player.active_harvest_target()
 	var harvesting := target != null
 	if harvesting:
+		_face_prop(player, target)
 		_bind_harvest(player, target)
 	elif _harvest_hitbox:
 		_harvest_hitbox.deactivate()
@@ -64,7 +65,10 @@ func process_physics(delta: float) -> void:
 	var active_harvest := harvesting or _finishing_harvest
 	if not active_harvest and not _did_harvest and Input.is_action_pressed("attack") and not player.is_mouse_over_gui():
 		if player.can_attack():
-			transition_requested.emit(&"Attack", {})
+			if player.has_bow_equipped():
+				transition_requested.emit(&"Bow", {})
+			else:
+				transition_requested.emit(&"Attack", {})
 			return
 		player.flash_exhausted()
 	_update_harvest_hitbox(harvesting, delta)
@@ -110,3 +114,12 @@ func _update_harvest_hitbox(harvesting: bool, delta: float) -> void:
 	var player := entity as Player
 	var frame: int = player.animated_sprite.frame if player.animated_sprite else 0
 	_harvest_hitbox.update_pose(player.facing_direction, frame, _harvest_attack.in_active_window(phase))
+
+func _face_prop(player: Player, target: BreakableProp) -> void:
+	var prop_center := target.global_position
+	if target.sprite:
+		prop_center += target.sprite.position
+	var aim := prop_center - player.global_position
+	if aim != Vector2.ZERO:
+		player.facing_direction = aim.normalized()
+		player.facing_changed.emit(player.facing_direction)

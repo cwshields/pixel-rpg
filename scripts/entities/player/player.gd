@@ -29,6 +29,7 @@ var hotbar_slots: Array = []
 @onready var footstep_player: FootstepPlayer = get_node_or_null("FootstepPlayer")
 @onready var swing_sound_player: AudioStreamPlayer = get_node_or_null("SwingSoundPlayer")
 @onready var weapon_overlay: WeaponOverlay = get_node_or_null("WeaponOverlay")
+@onready var bow_aim: BowAimComponent = get_node_or_null("BowAimComponent")
 
 var _swing_sounds: Array[AudioStream] = [
 	preload("res://assets/SoundFX/Swing/swing-whoosh-01.mp3"),
@@ -125,7 +126,14 @@ func _equip_attack() -> void:
 			hitbox.knockback_force = kb
 	if weapon_overlay:
 		var tex: Texture2D = weapon.swing_sprite if weapon and weapon.swing_sprite else (weapon.icon if weapon else null)
-		weapon_overlay.set_weapon_texture(tex)
+		var ho: Vector2 = weapon.handle_offset if weapon else Vector2.ZERO
+		weapon_overlay.set_weapon_texture(tex, ho)
+	if bow_aim:
+		if weapon and weapon.weapon_type == Weapon.WeaponType.BOW:
+			var bow_tex: Texture2D = weapon.swing_sprite if weapon.swing_sprite else weapon.icon
+			bow_aim.setup(bow_tex)
+		else:
+			bow_aim.teardown()
 
 func _spawn_hitbox(def: AttackDefinition) -> HitboxComponent:
 	if def == null or def.hitbox_scene == null:
@@ -293,6 +301,16 @@ func face_toward_mouse() -> void:
 		facing_direction = aim.normalized()
 		facing_changed.emit(facing_direction)
 
+func has_bow_equipped() -> bool:
+	var weapon := equipment.get_equipped(Equipment.Slot.PRIMARY_HAND) as Weapon
+	return weapon != null and weapon.weapon_type == Weapon.WeaponType.BOW
+
+func find_ammo(ammo_type: Ammo.AmmoType) -> Ammo:
+	for placed in inventory.items:
+		if placed.item is Ammo and (placed.item as Ammo).ammo_type == ammo_type:
+			return placed.item as Ammo
+	return null
+
 func has_axe() -> bool:
 	for placed in inventory.items:
 		if placed.item is Tool and placed.item.tool_type == Tool.ToolType.AXE:
@@ -309,9 +327,11 @@ func _update_axe_proximity() -> void:
 			break
 	if near_tree and has_axe():
 		if not _near_tree_overlay and weapon_overlay:
-			var axe_tex := find_axe_texture()
+			var axe_weapon := _find_axe_weapon()
+			var axe_tex := _axe_texture(axe_weapon)
 			if axe_tex:
-				weapon_overlay.set_weapon_texture(axe_tex)
+				var ho: Vector2 = axe_weapon.handle_offset if axe_weapon is Weapon else Vector2.ZERO
+				weapon_overlay.set_weapon_texture(axe_tex, ho)
 				weapon_overlay.show_overlay()
 				_near_tree_overlay = true
 	elif _near_tree_overlay:
@@ -319,6 +339,21 @@ func _update_axe_proximity() -> void:
 		if weapon_overlay:
 			weapon_overlay.hide_overlay()
 			_equip_attack()
+
+func _find_axe_weapon() -> ItemBase:
+	for placed in inventory.items:
+		if placed.item is Tool and placed.item.tool_type == Tool.ToolType.AXE:
+			return placed.item
+		if placed.item is Weapon and placed.item.weapon_type == Weapon.WeaponType.AXE:
+			return placed.item
+	return null
+
+func _axe_texture(item: ItemBase) -> Texture2D:
+	if item is Tool:
+		return item.icon
+	if item is Weapon:
+		return item.swing_sprite if item.swing_sprite else item.icon
+	return null
 
 func find_axe_texture() -> Texture2D:
 	for placed in inventory.items:
