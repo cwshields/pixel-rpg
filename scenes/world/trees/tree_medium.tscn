@@ -20,10 +20,7 @@ texture = SubResource("AtlasTexture_art")
 position = Vector2(0, -8)
 shape = SubResource("ConvexPolygonShape2D_trunk")
 
-[node name="HoverArea" parent="." index="2" unique_id=738193042]
-visible = true
-
-[node name="CollisionPolygon2D" parent="HoverArea" index="0" unique_id=984571123]
+[node name="CollisionPolygon2D" parent="HoverArea" parent_id_path=PackedInt32Array(738193042) index="0" unique_id=984571123]
 position = Vector2(0, 0)
 polygon = PackedVector2Array(-13, -93, 15, -90, 22, -66, 20, -35, 5, -26, 5, -4, -5, -4, -5, -26, -22, -35, -22, -70)
 

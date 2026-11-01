@@ -17,7 +17,7 @@ Default controls (`Project Settings > Input Map` to change):
 | Move                | W A S D |
 | Attack              | Left Mouse Button |
 | Interact            | E |
-| Toggle inventory    | I |
+| Toggle inventory    | Tab |
 | Pause               | Escape |
 
 Arrow keys aren't bound by default — add them in the Input Map if you want both.

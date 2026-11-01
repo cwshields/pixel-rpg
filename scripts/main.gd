@@ -19,6 +19,7 @@ func _ready() -> void:
 		SaveManager.apply_save()
 	else:
 		var saves := SaveManager.list_saves()
-		if not saves.is_empty():
-			SaveManager.load_game(saves[0]["slot_name"])
-			SaveManager.apply_save()
+		for save_info: Dictionary in saves:
+			if SaveManager.load_game(save_info["slot_name"]):
+				SaveManager.apply_save()
+				break
