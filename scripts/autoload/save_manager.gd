@@ -21,6 +21,7 @@ var _pending_save: Dictionary = {}
 func _ready() -> void:
 	_save_dir = _resolve_save_dir()
 	_ensure_dir(_save_dir)
+	_cleanup_tmp_files()
 	apply_settings()
 	set_process(true)
 	get_tree().auto_accept_quit = false
@@ -51,6 +52,18 @@ func _ensure_dir(path: String) -> void:
 	if not DirAccess.dir_exists_absolute(path):
 		DirAccess.make_dir_recursive_absolute(path)
 
+func _cleanup_tmp_files() -> void:
+	var dir := DirAccess.open(_save_dir)
+	if not dir:
+		return
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".tmp"):
+			DirAccess.remove_absolute(_save_dir + "/" + file_name)
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
 func get_save_dir() -> String:
 	return _save_dir
 
@@ -64,12 +77,18 @@ func _settings_path() -> String:
 
 func save_settings(settings: Dictionary) -> void:
 	_ensure_dir(_save_dir)
-	var file := FileAccess.open(_settings_path(), FileAccess.WRITE)
+	var path := _settings_path()
+	var tmp_path := path + ".tmp"
+	var file := FileAccess.open(tmp_path, FileAccess.WRITE)
 	if not file:
 		push_warning("SaveManager: could not write settings")
 		return
 	file.store_string(JSON.stringify(settings, "\t"))
+	file.flush()
 	file.close()
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(path)
+	DirAccess.rename_absolute(tmp_path, path)
 
 func load_settings() -> Dictionary:
 	var path := _settings_path()
@@ -132,12 +151,17 @@ func save_game(slot_name: String = "") -> bool:
 
 	_ensure_dir(_save_dir)
 	var path := _slot_path(slot_name)
-	var file := FileAccess.open(path, FileAccess.WRITE)
+	var tmp_path := path + ".tmp"
+	var file := FileAccess.open(tmp_path, FileAccess.WRITE)
 	if not file:
-		push_warning("SaveManager: could not write to %s" % path)
+		push_warning("SaveManager: could not write to %s" % tmp_path)
 		return false
 	file.store_string(JSON.stringify(data, "\t"))
+	file.flush()
 	file.close()
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(path)
+	DirAccess.rename_absolute(tmp_path, path)
 	active_slot = slot_name
 	return true
 
@@ -202,7 +226,9 @@ func list_saves() -> Array[Dictionary]:
 	dir.list_dir_begin()
 	var file_name := dir.get_next()
 	while file_name != "":
-		if not dir.current_is_dir() and file_name.ends_with(".json"):
+		if not dir.current_is_dir() and file_name.ends_with(".json") \
+				and not file_name.ends_with(".tmp") \
+				and file_name != "settings.json":
 			var slot_name: String = file_name.get_basename()
 			var path := _save_dir + "/" + file_name
 			var meta := _read_save_meta(path, slot_name)
