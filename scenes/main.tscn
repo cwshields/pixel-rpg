@@ -41,6 +41,8 @@ position = Vector2(-128, -632)
 [node name="Merchant" parent="Entities" unique_id=244868271 instance=ExtResource("merchant_peasant")]
 z_index = 1
 position = Vector2(-50, -662)
+shop_level = 1
+items_per_category = 6
 
 [node name="Trees" type="Node2D" parent="." unique_id=775827253]
 y_sort_enabled = true
@@ -89,7 +91,7 @@ art_region = Rect2i(0, 32, 16, 16)
 art_offset = Vector2(0, -8)
 
 [node name="PaintedTree_-8_-7" parent="Trees/PaintedTrees" unique_id=1596673410 instance=ExtResource("tv_medium")]
-position = Vector2(189, -38)
+position = Vector2(189, -36)
 
 [node name="PaintedTree_-8_-8" parent="Trees/PaintedTrees" unique_id=427897339 instance=ExtResource("tv_medium")]
 position = Vector2(-527, -661)

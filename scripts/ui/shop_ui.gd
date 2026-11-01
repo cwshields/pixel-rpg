@@ -8,9 +8,6 @@ extends MenuBase
 
 const _ACTIVE_COLOR := Color(0.92, 0.9, 0.84, 1)
 const _INACTIVE_COLOR := Color(0.75, 0.72, 0.65, 1)
-const _MISC_CATEGORIES: Array[ItemBase.Category] = [
-	ItemBase.Category.RING, ItemBase.Category.AMULET, ItemBase.Category.CONSUMABLE,
-]
 
 var _active_npc: NPCBase = null
 var _shop_inventory: ShopInventory = null
@@ -25,7 +22,6 @@ var _tab_buttons: Array[Button] = []
 @onready var _charisma_label: Label = %CharismaLabel
 @onready var _feedback_label: Label = %FeedbackLabel
 @onready var _close_btn: Button = %CloseBtn
-@onready var _all_tab: Button = %AllTab
 @onready var _weapons_tab: Button = %WeaponsTab
 @onready var _armor_tab: Button = %ArmorTab
 @onready var _misc_tab: Button = %MiscTab
@@ -33,14 +29,10 @@ var _tab_buttons: Array[Button] = []
 func _ready() -> void:
 	super._ready()
 	_close_btn.pressed.connect(func() -> void: UIManager.close_screen(screen_name))
-	_tab_buttons = [_all_tab, _weapons_tab, _armor_tab, _misc_tab]
-	_all_tab.pressed.connect(_select_tab.bind(_all_tab, Callable()))
-	_weapons_tab.pressed.connect(_select_tab.bind(_weapons_tab,
-		func(item: ItemBase) -> bool: return item.category == ItemBase.Category.WEAPON))
-	_armor_tab.pressed.connect(_select_tab.bind(_armor_tab,
-		func(item: ItemBase) -> bool: return item.category == ItemBase.Category.ARMOR))
-	_misc_tab.pressed.connect(_select_tab.bind(_misc_tab,
-		func(item: ItemBase) -> bool: return item.category in _MISC_CATEGORIES))
+	_tab_buttons = [_weapons_tab, _armor_tab, _misc_tab]
+	_weapons_tab.pressed.connect(_switch_shop_category.bind(&"weapons"))
+	_armor_tab.pressed.connect(_switch_shop_category.bind(&"armor"))
+	_misc_tab.pressed.connect(_switch_shop_category.bind(&"misc"))
 
 func setup_shop(npc: NPCBase) -> void:
 	_active_npc = npc
@@ -54,11 +46,10 @@ func _on_open() -> void:
 	if not player or not _shop_inventory:
 		return
 	_shop_title.text = "%s's Wares" % _active_npc.npc_name if _active_npc else "Shop"
-	_shop_grid.setup(_shop_inventory.inventory)
 	_player_grid.setup(player.inventory)
 	_shop_grid.input_filter = _on_grid_click.bind(_shop_grid)
 	_player_grid.input_filter = _on_grid_click.bind(_player_grid)
-	_select_tab(_all_tab, Callable())
+	_switch_shop_category(&"weapons")
 	_refresh_gold()
 	_refresh_charisma()
 
@@ -203,11 +194,16 @@ func _refresh_charisma() -> void:
 	var sell_pct := roundi((0.4 + 0.8 * t * t) * 100)
 	_charisma_label.text = "Sell: %d%%\nCharisma: %d" % [sell_pct, roundi(cha)]
 
-func _select_tab(tab: Button, filter: Callable) -> void:
-	_shop_grid.item_filter = filter
-	_shop_grid.queue_redraw()
+func _switch_shop_category(category: StringName) -> void:
+	_shop_grid.cancel_held_item()
+	if _active_npc and _active_npc is MerchantNPC:
+		_shop_inventory = (_active_npc as MerchantNPC).get_category_inventory(category)
+	_shop_grid.item_filter = Callable()
+	_shop_grid.setup(_shop_inventory.inventory)
+	var tab_map := {&"weapons": _weapons_tab, &"armor": _armor_tab, &"misc": _misc_tab}
+	var active_tab: Button = tab_map.get(category, _weapons_tab)
 	for btn in _tab_buttons:
-		var active := btn == tab
+		var active := btn == active_tab
 		var s := _make_tab_style(active)
 		btn.add_theme_color_override("font_color", _ACTIVE_COLOR if active else _INACTIVE_COLOR)
 		btn.add_theme_stylebox_override("normal", s)

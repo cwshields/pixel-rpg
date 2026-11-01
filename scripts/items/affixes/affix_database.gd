@@ -633,7 +633,7 @@ func _register_sets() -> void:
 	# Desert gold elite set
 	_reg_set(&"set_desert_kings", "Desert King's Regalia", [
 		&"desert_gold_spear", &"desert_gold_battle_axe",
-		&"desert_gold_scepter", &"gold_ring",
+		&"desert_gold_bow", &"gold_ring",
 	], [
 		{ "pieces": 2, "modifiers": { &"holy_arcana_damage": 6.0, &"fire_resist": 10.0 } },
 		{ "pieces": 3, "modifiers": { &"strength": 5.0, &"defense": 8.0 } },
