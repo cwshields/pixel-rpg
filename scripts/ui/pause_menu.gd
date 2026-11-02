@@ -27,11 +27,14 @@ extends MenuBase
 @onready var _voice_value: Label = %VoiceValue
 @onready var _fullscreen_check: CheckButton = %FullscreenCheck
 
-var _master_bus: int = AudioServer.get_bus_index("Master")
-var _ambience_bus: int = AudioServer.get_bus_index("Ambience")
-var _voice_bus: int = AudioServer.get_bus_index("Voice")
+var _master_bus: int
+var _ambience_bus: int
+var _voice_bus: int
 
 func _ready() -> void:
+	_master_bus = AudioServer.get_bus_index("Master")
+	_ambience_bus = AudioServer.get_bus_index("Ambience")
+	_voice_bus = AudioServer.get_bus_index("Voice")
 	super._ready()
 	_resume_button.pressed.connect(func() -> void: UIManager.close_screen(screen_name))
 	_options_button.pressed.connect(_show_options)

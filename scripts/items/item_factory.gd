@@ -125,9 +125,10 @@ func _scan_and_register(dir_path: String) -> void:
 		var full_path := dir_path.path_join(file_name)
 		if dir.current_is_dir():
 			_scan_and_register(full_path)
-		elif file_name.ends_with(".tres"):
-			var res := load(full_path)
+		elif file_name.ends_with(".tres") or file_name.ends_with(".tres.remap"):
+			var load_path := full_path.replace(".remap", "")
+			var res := load(load_path)
 			if res is ItemBase:
-				_registry[(res as ItemBase).id] = full_path
+				_registry[(res as ItemBase).id] = load_path
 		file_name = dir.get_next()
 	dir.list_dir_end()

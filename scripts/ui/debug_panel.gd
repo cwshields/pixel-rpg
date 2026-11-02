@@ -69,9 +69,7 @@ var _free_camera: Camera2D = null
 var _dragging_camera: bool = false
 
 func _ready() -> void:
-	if not OS.is_debug_build():
-		queue_free()
-		return
+	$Root.visible = false
 	_spawn_button.pressed.connect(_toggle_placing)
 	_respawn_button.pressed.connect(_respawn_player)
 	_heal_button.pressed.connect(_heal_player)

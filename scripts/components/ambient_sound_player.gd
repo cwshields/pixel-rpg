@@ -10,6 +10,7 @@ extends AudioStreamPlayer2D
 var _timer: Timer
 
 func _ready() -> void:
+	bus = &"Ambience"
 	_timer = Timer.new()
 	_timer.one_shot = true
 	add_child(_timer)
