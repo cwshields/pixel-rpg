@@ -138,6 +138,21 @@ func _update_night_audio(instant: bool, delta: float = 0.0) -> void:
 func get_time_of_day_normalized() -> float:
 	return cycle_time / total_cycle
 
+func get_darkness_factor() -> float:
+	var t := cycle_time
+	var dusk_start := day_duration - day_duration * transition_ratio
+	var dawn_end := total_cycle - night_duration * transition_ratio
+	if t < dusk_start:
+		return 0.0
+	elif t < day_duration:
+		var dusk_dur := day_duration * transition_ratio
+		return (t - dusk_start) / dusk_dur if dusk_dur > 0.0 else 1.0
+	elif t < dawn_end:
+		return 1.0
+	else:
+		var dawn_dur := night_duration * transition_ratio
+		return 1.0 - ((t - dawn_end) / dawn_dur if dawn_dur > 0.0 else 1.0)
+
 func get_phase() -> String:
 	var t := cycle_time
 	var dusk_start := day_duration - day_duration * transition_ratio

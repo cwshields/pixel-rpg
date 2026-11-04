@@ -20,6 +20,49 @@
 [ext_resource type="TileSet" uid="uid://c06lwb023nreq" path="res://resources/tilesets/rock_scenes.tres" id="37_fuf3a"]
 [ext_resource type="TileSet" uid="uid://tlkmnkvnu7h3" path="res://resources/tilesets/bush_scenes.tres" id="38_bush"]
 [ext_resource type="PackedScene" uid="uid://r0b70hcst82n" path="res://scenes/world/world.scn" id="40_world"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/castle_archer.tscn" id="41_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/castle_knight.tscn" id="42_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/castle_priest.tscn" id="43_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/castle_soldier.tscn" id="44_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/elf_base.tscn" id="45_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/elf_druid.tscn" id="46_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/elf_hunter.tscn" id="47_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/elf_ranger.tscn" id="48_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/feminine.tscn" id="49_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/fighter.tscn" id="50_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/grasslands_archer.tscn" id="51_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/grasslands_knight.tscn" id="52_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/grasslands_priest.tscn" id="53_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/grasslands_soldier.tscn" id="54_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/heavy_fungus.tscn" id="55_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/immature_fungus.tscn" id="56_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/long_fungus.tscn" id="57_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/masculine.tscn" id="58_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/medusa.tscn" id="59_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/mummy_base.tscn" id="60_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/mummy_mage.tscn" id="61_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/mummy_rogue.tscn" id="62_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/mummy_warrior.tscn" id="63_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/old.tscn" id="64_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/old_fungus.tscn" id="65_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/orc.tscn" id="66_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/orc_rogue.tscn" id="67_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/orc_shaman.tscn" id="68_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/orc_warrior.tscn" id="69_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/rat_base.tscn" id="70_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/rat_mage.tscn" id="71_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/rat_rogue.tscn" id="72_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/rat_warrior.tscn" id="73_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/scout.tscn" id="74_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/skeleton_base.tscn" id="75_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/skeleton_mage.tscn" id="76_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/skeleton_rogue.tscn" id="77_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/sorcerer.tscn" id="78_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/stone_base.tscn" id="79_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/stone_broken.tscn" id="80_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/stone_golem.tscn" id="81_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/stone_lava.tscn" id="82_es"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy/tracker.tscn" id="83_es"]
 [ext_resource type="PackedScene" uid="uid://bax33xxp7wv1g" path="res://scenes/world/fireflies.tscn" id="fireflies"]
 [ext_resource type="PackedScene" uid="uid://c5d53qcuhid5e" path="res://scenes/entities/npc/merchant_peasant.tscn" id="merchant_peasant"]
 [ext_resource type="PackedScene" uid="uid://b5wrhol0b8hfj" path="res://scenes/world/trees/tree_large.tscn" id="tv_large"]
@@ -36,13 +79,13 @@ script = ExtResource("1_w0ke7")
 [node name="Entities" type="Node2D" parent="." unique_id=583179709]
 
 [node name="Player" parent="Entities" unique_id=1087868956 instance=ExtResource("10_u2u5e")]
-position = Vector2(-128, -632)
+position = Vector2(-437, 76)
 
 [node name="Merchant" parent="Entities" unique_id=244868271 instance=ExtResource("merchant_peasant")]
 z_index = 1
 position = Vector2(-50, -662)
 shop_level = 1
-items_per_category = 6
+items_per_category = 20
 
 [node name="Trees" type="Node2D" parent="." unique_id=775827253]
 y_sort_enabled = true
@@ -53,9 +96,6 @@ position = Vector2(-1022, -169)
 [node name="Tree5" parent="Trees" unique_id=2081246911 instance=ExtResource("12_kpsmc")]
 position = Vector2(-298, 155)
 
-[node name="Tree2" parent="Trees" unique_id=1602524305 instance=ExtResource("12_kpsmc")]
-position = Vector2(-267, 264)
-
 [node name="Tree4" parent="Trees" unique_id=775359255 instance=ExtResource("12_kpsmc")]
 position = Vector2(-216, -51)
 
@@ -64,9 +104,6 @@ position = Vector2(-87, 101)
 
 [node name="PaintedTrees" type="Node2D" parent="Trees" unique_id=1282258801]
 y_sort_enabled = true
-
-[node name="PaintedTree_15_-1" parent="Trees/PaintedTrees" unique_id=1853770560 instance=ExtResource("tv_small_a")]
-position = Vector2(214, 255)
 
 [node name="PaintedTree_26_-7" parent="Trees/PaintedTrees" unique_id=1401823686 instance=ExtResource("tv_small_a")]
 position = Vector2(-1063, 464)
@@ -111,9 +148,6 @@ position = Vector2(-729, -286)
 [node name="PaintedTree_-8_-10" parent="Trees/PaintedTrees" unique_id=1274363467 instance=ExtResource("tv_medium")]
 position = Vector2(-1107, -537)
 
-[node name="PaintedTree_10_6" parent="Trees/PaintedTrees" unique_id=615924688 instance=ExtResource("tv_small_c")]
-position = Vector2(575, 286)
-
 [node name="PaintedTree_-11_-11" parent="Trees/PaintedTrees" unique_id=1729456271 instance=ExtResource("tv_small_a")]
 position = Vector2(-1051, -570)
 
@@ -122,9 +156,6 @@ position = Vector2(-808, 93)
 
 [node name="PaintedTree_3_1" parent="Trees/PaintedTrees" unique_id=492844929 instance=ExtResource("tv_small_c")]
 position = Vector2(-134, -1177)
-
-[node name="PaintedTree_4_9" parent="Trees/PaintedTrees" unique_id=612225624 instance=ExtResource("tv_small_a")]
-position = Vector2(-4, 414)
 
 [node name="PaintedTree_7_-11" parent="Trees/PaintedTrees" unique_id=620050281 instance=ExtResource("tv_small_c")]
 position = Vector2(1410, -980)
@@ -324,9 +355,6 @@ position = Vector2(760, 176)
 [node name="PaintedTree_53_2" parent="Trees/PaintedTrees" unique_id=1091187371 instance=ExtResource("tv_small_c")]
 position = Vector2(-1247, 442)
 
-[node name="PaintedTree_41_4" parent="Trees/PaintedTrees" unique_id=1553734907 instance=ExtResource("tv_large")]
-position = Vector2(441, 234)
-
 [node name="PaintedTree_54_1" parent="Trees/PaintedTrees" unique_id=1659234181 instance=ExtResource("tv_small_b")]
 position = Vector2(-592, -15)
 
@@ -401,6 +429,266 @@ entity_scene = ExtResource("30_grouse")
 preview_animation = &"idle_side"
 preview_frame = 1
 max_alive = 1
+
+[node name="TestEnemySpawners" type="Node2D" parent="Spawners" unique_id=1520222260]
+
+[node name="CastleArcherSpawner" parent="Spawners/TestEnemySpawners" unique_id=695051497 instance=ExtResource("17_spwnr")]
+position = Vector2(-800, 200)
+entity_scene = ExtResource("41_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="CastleKnightSpawner" parent="Spawners/TestEnemySpawners" unique_id=645794250 instance=ExtResource("17_spwnr")]
+position = Vector2(-600, 200)
+entity_scene = ExtResource("42_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="CastlePriestSpawner" parent="Spawners/TestEnemySpawners" unique_id=1120447837 instance=ExtResource("17_spwnr")]
+position = Vector2(-400, 200)
+entity_scene = ExtResource("43_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="CastleSoldierSpawner" parent="Spawners/TestEnemySpawners" unique_id=652030051 instance=ExtResource("17_spwnr")]
+position = Vector2(-200, 200)
+entity_scene = ExtResource("44_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="ElfBaseSpawner" parent="Spawners/TestEnemySpawners" unique_id=1804320808 instance=ExtResource("17_spwnr")]
+position = Vector2(-1576, 228)
+entity_scene = ExtResource("45_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="ElfDruidSpawner" parent="Spawners/TestEnemySpawners" unique_id=1410213984 instance=ExtResource("17_spwnr")]
+position = Vector2(-1375, 218)
+entity_scene = ExtResource("46_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="ElfHunterSpawner" parent="Spawners/TestEnemySpawners" unique_id=73840046 instance=ExtResource("17_spwnr")]
+position = Vector2(-1180, 217)
+entity_scene = ExtResource("47_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="ElfRangerSpawner" parent="Spawners/TestEnemySpawners" unique_id=1092605536 instance=ExtResource("17_spwnr")]
+position = Vector2(-973, 200)
+entity_scene = ExtResource("48_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="FeminineSpawner" parent="Spawners/TestEnemySpawners" unique_id=1399832367 instance=ExtResource("17_spwnr")]
+position = Vector2(-800, 400)
+entity_scene = ExtResource("49_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="FighterSpawner" parent="Spawners/TestEnemySpawners" unique_id=1307169531 instance=ExtResource("17_spwnr")]
+position = Vector2(-600, 400)
+entity_scene = ExtResource("50_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="GrasslandsArcherSpawner" parent="Spawners/TestEnemySpawners" unique_id=344312419 instance=ExtResource("17_spwnr")]
+position = Vector2(-400, 400)
+entity_scene = ExtResource("51_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="GrasslandsKnightSpawner" parent="Spawners/TestEnemySpawners" unique_id=138179818 instance=ExtResource("17_spwnr")]
+position = Vector2(-200, 400)
+entity_scene = ExtResource("52_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="GrasslandsPriestSpawner" parent="Spawners/TestEnemySpawners" unique_id=1621052980 instance=ExtResource("17_spwnr")]
+position = Vector2(-1576, 417)
+entity_scene = ExtResource("53_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="GrasslandsSoldierSpawner" parent="Spawners/TestEnemySpawners" unique_id=1184635148 instance=ExtResource("17_spwnr")]
+position = Vector2(-1376, 417)
+entity_scene = ExtResource("54_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="HeavyFungusSpawner" parent="Spawners/TestEnemySpawners" unique_id=1051231801 instance=ExtResource("17_spwnr")]
+position = Vector2(-1173, 417)
+entity_scene = ExtResource("55_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="ImmatureFungusSpawner" parent="Spawners/TestEnemySpawners" unique_id=2063868588 instance=ExtResource("17_spwnr")]
+position = Vector2(-973, 400)
+entity_scene = ExtResource("56_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="LongFungusSpawner" parent="Spawners/TestEnemySpawners" unique_id=1202347252 instance=ExtResource("17_spwnr")]
+position = Vector2(-800, 600)
+entity_scene = ExtResource("57_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="MasculineSpawner" parent="Spawners/TestEnemySpawners" unique_id=785805890 instance=ExtResource("17_spwnr")]
+position = Vector2(-600, 600)
+entity_scene = ExtResource("58_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="MedusaSpawner" parent="Spawners/TestEnemySpawners" unique_id=382165996 instance=ExtResource("17_spwnr")]
+position = Vector2(-400, 600)
+entity_scene = ExtResource("59_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="MummyBaseSpawner" parent="Spawners/TestEnemySpawners" unique_id=1224304767 instance=ExtResource("17_spwnr")]
+position = Vector2(-200, 600)
+entity_scene = ExtResource("60_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="MummyMageSpawner" parent="Spawners/TestEnemySpawners" unique_id=691106496 instance=ExtResource("17_spwnr")]
+position = Vector2(-1572, 592)
+entity_scene = ExtResource("61_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="MummyRogueSpawner" parent="Spawners/TestEnemySpawners" unique_id=1401329812 instance=ExtResource("17_spwnr")]
+position = Vector2(-1372, 592)
+entity_scene = ExtResource("62_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="MummyWarriorSpawner" parent="Spawners/TestEnemySpawners" unique_id=1764797661 instance=ExtResource("17_spwnr")]
+position = Vector2(-1172, 592)
+entity_scene = ExtResource("63_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="OldSpawner" parent="Spawners/TestEnemySpawners" unique_id=779666217 instance=ExtResource("17_spwnr")]
+position = Vector2(-972, 592)
+entity_scene = ExtResource("64_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="OldFungusSpawner" parent="Spawners/TestEnemySpawners" unique_id=314070621 instance=ExtResource("17_spwnr")]
+position = Vector2(-800, 800)
+entity_scene = ExtResource("65_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="OrcSpawner" parent="Spawners/TestEnemySpawners" unique_id=441614667 instance=ExtResource("17_spwnr")]
+position = Vector2(-600, 800)
+entity_scene = ExtResource("66_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="OrcRogueSpawner" parent="Spawners/TestEnemySpawners" unique_id=140048215 instance=ExtResource("17_spwnr")]
+position = Vector2(-400, 800)
+entity_scene = ExtResource("67_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="OrcShamanSpawner" parent="Spawners/TestEnemySpawners" unique_id=180275310 instance=ExtResource("17_spwnr")]
+position = Vector2(-200, 800)
+entity_scene = ExtResource("68_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="OrcWarriorSpawner" parent="Spawners/TestEnemySpawners" unique_id=1809556399 instance=ExtResource("17_spwnr")]
+position = Vector2(-1579, 809)
+entity_scene = ExtResource("69_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="RatBaseSpawner" parent="Spawners/TestEnemySpawners" unique_id=608020248 instance=ExtResource("17_spwnr")]
+position = Vector2(-1379, 809)
+entity_scene = ExtResource("70_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="RatMageSpawner" parent="Spawners/TestEnemySpawners" unique_id=741065420 instance=ExtResource("17_spwnr")]
+position = Vector2(-1179, 809)
+entity_scene = ExtResource("71_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="RatRogueSpawner" parent="Spawners/TestEnemySpawners" unique_id=1911685824 instance=ExtResource("17_spwnr")]
+position = Vector2(-979, 809)
+entity_scene = ExtResource("72_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="RatWarriorSpawner" parent="Spawners/TestEnemySpawners" unique_id=1021783436 instance=ExtResource("17_spwnr")]
+position = Vector2(-800, 1000)
+entity_scene = ExtResource("73_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="ScoutSpawner" parent="Spawners/TestEnemySpawners" unique_id=1246344994 instance=ExtResource("17_spwnr")]
+position = Vector2(-600, 1000)
+entity_scene = ExtResource("74_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="SkeletonBaseSpawner" parent="Spawners/TestEnemySpawners" unique_id=313376170 instance=ExtResource("17_spwnr")]
+position = Vector2(-400, 1000)
+entity_scene = ExtResource("75_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="SkeletonMageSpawner" parent="Spawners/TestEnemySpawners" unique_id=80257502 instance=ExtResource("17_spwnr")]
+position = Vector2(-200, 1000)
+entity_scene = ExtResource("76_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="SkeletonRogueSpawner" parent="Spawners/TestEnemySpawners" unique_id=95019616 instance=ExtResource("17_spwnr")]
+position = Vector2(-1579, 1009)
+entity_scene = ExtResource("77_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="SorcererSpawner" parent="Spawners/TestEnemySpawners" unique_id=1705268376 instance=ExtResource("17_spwnr")]
+position = Vector2(-1379, 1009)
+entity_scene = ExtResource("78_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="StoneBaseSpawner" parent="Spawners/TestEnemySpawners" unique_id=2070895054 instance=ExtResource("17_spwnr")]
+position = Vector2(-1179, 1009)
+entity_scene = ExtResource("79_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="StoneBrokenSpawner" parent="Spawners/TestEnemySpawners" unique_id=688177631 instance=ExtResource("17_spwnr")]
+position = Vector2(-979, 1009)
+entity_scene = ExtResource("80_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="StoneGolemSpawner" parent="Spawners/TestEnemySpawners" unique_id=78286912 instance=ExtResource("17_spwnr")]
+position = Vector2(-800, 1200)
+entity_scene = ExtResource("81_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="StoneLavaSpawner" parent="Spawners/TestEnemySpawners" unique_id=91370423 instance=ExtResource("17_spwnr")]
+position = Vector2(-600, 1200)
+entity_scene = ExtResource("82_es")
+max_alive = 1
+respawn_delay = 10.0
+
+[node name="TrackerSpawner" parent="Spawners/TestEnemySpawners" unique_id=1272291750 instance=ExtResource("17_spwnr")]
+position = Vector2(-400, 1200)
+entity_scene = ExtResource("83_es")
+max_alive = 1
+respawn_delay = 10.0
 
 [node name="Cursor" parent="." unique_id=1354409908 instance=ExtResource("22_cursor")]
 

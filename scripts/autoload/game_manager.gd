@@ -20,6 +20,9 @@ var cursor: Cursor = null
 ## skip all effects on the player. Set by the debug panel's God Mode button.
 var god_mode: bool = false
 
+var show_damage_numbers: bool = true
+var show_health_bars: bool = false
+
 func register_player(p: Node) -> void:
 	player = p
 	Events.player_spawned.emit(p)

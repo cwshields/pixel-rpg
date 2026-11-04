@@ -28,6 +28,7 @@ func _ready() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		print("[SaveManager] window close → save_game()")
 		save_game()
 		get_tree().quit()
 
@@ -37,6 +38,7 @@ func _process(delta: float) -> void:
 	_auto_save_timer += delta
 	if _auto_save_timer >= AUTO_SAVE_INTERVAL:
 		_auto_save_timer = 0.0
+		print("[SaveManager] auto-save → slot=%s" % active_slot)
 		save_game()
 
 # -- Directory helpers --
@@ -59,7 +61,7 @@ func _cleanup_tmp_files() -> void:
 	dir.list_dir_begin()
 	var file_name := dir.get_next()
 	while file_name != "":
-		if not dir.current_is_dir() and file_name.ends_with(".tmp"):
+		if not dir.current_is_dir() and (file_name.ends_with(".tmp") or file_name.ends_with(".bak")):
 			DirAccess.remove_absolute(_save_dir + "/" + file_name)
 		file_name = dir.get_next()
 	dir.list_dir_end()
@@ -78,17 +80,13 @@ func _settings_path() -> String:
 func save_settings(settings: Dictionary) -> void:
 	_ensure_dir(_save_dir)
 	var path := _settings_path()
-	var tmp_path := path + ".tmp"
-	var file := FileAccess.open(tmp_path, FileAccess.WRITE)
+	var file := FileAccess.open(path, FileAccess.WRITE)
 	if not file:
 		push_warning("SaveManager: could not write settings")
 		return
 	file.store_string(JSON.stringify(settings, "\t"))
 	file.flush()
 	file.close()
-	if FileAccess.file_exists(path):
-		DirAccess.remove_absolute(path)
-	DirAccess.rename_absolute(tmp_path, path)
 
 func load_settings() -> Dictionary:
 	var path := _settings_path()
@@ -126,6 +124,10 @@ func apply_settings() -> void:
 	if s.has("fullscreen"):
 		var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if bool(s["fullscreen"]) else DisplayServer.WINDOW_MODE_WINDOWED
 		DisplayServer.window_set_mode(mode)
+	if s.has("damage_numbers"):
+		GameManager.show_damage_numbers = bool(s["damage_numbers"])
+	if s.has("health_bars"):
+		GameManager.show_health_bars = bool(s["health_bars"])
 
 # -- Public API --
 
@@ -139,6 +141,7 @@ func save_game(slot_name: String = "") -> bool:
 		slot_name = active_slot
 	var player: Player = GameManager.player as Player
 	if not player:
+		print("[SaveManager] save_game SKIPPED — no player ref")
 		return false
 
 	var data: Dictionary = {
@@ -151,17 +154,31 @@ func save_game(slot_name: String = "") -> bool:
 
 	_ensure_dir(_save_dir)
 	var path := _slot_path(slot_name)
-	var tmp_path := path + ".tmp"
-	var file := FileAccess.open(tmp_path, FileAccess.WRITE)
+	var json_text := JSON.stringify(data, "\t")
+
+	var file := FileAccess.open(path, FileAccess.WRITE)
 	if not file:
-		push_warning("SaveManager: could not write to %s" % tmp_path)
+		push_warning("SaveManager: could not write to %s" % path)
+		print("[SaveManager] save_game FAILED — could not open %s" % path)
 		return false
-	file.store_string(JSON.stringify(data, "\t"))
+	file.store_string(json_text)
 	file.flush()
 	file.close()
-	if FileAccess.file_exists(path):
-		DirAccess.remove_absolute(path)
-	DirAccess.rename_absolute(tmp_path, path)
+
+	var bak_path := path + ".bak"
+	var bak := FileAccess.open(bak_path, FileAccess.WRITE)
+	if bak:
+		bak.store_string(json_text)
+		bak.flush()
+		bak.close()
+
+	var pd: Dictionary = data.get("player", {})
+	var sd: Dictionary = pd.get("stats", {})
+	var hd: Dictionary = pd.get("health", {})
+	print("[SaveManager] save_game OK → slot=%s ts=%s gold=%s lvl=%s hp=%s/%s pos=(%s,%s)" % [
+		slot_name, data["timestamp"], pd.get("gold", "?"),
+		sd.get("level", "?"), hd.get("current", "?"), hd.get("max", "?"),
+		snapped(player.global_position.x, 0.1), snapped(player.global_position.y, 0.1)])
 	active_slot = slot_name
 	return true
 
@@ -169,37 +186,56 @@ func load_game(slot_name: String = "") -> bool:
 	if slot_name.is_empty():
 		slot_name = active_slot
 	var path := _slot_path(slot_name)
-	if not FileAccess.file_exists(path):
+	var data := _try_load_json(path)
+	if data.is_empty():
+		data = _try_load_json(path + ".bak")
+	if data.is_empty():
+		print("[SaveManager] load_game FAILED — no valid data for slot=%s" % slot_name)
 		return false
 
-	var file := FileAccess.open(path, FileAccess.READ)
-	if not file:
-		return false
-	var text := file.get_as_text()
-	file.close()
-
-	var json := JSON.new()
-	if json.parse(text) != OK:
-		push_warning("SaveManager: corrupt save file: %s" % path)
-		return false
-
-	var data: Dictionary = json.data
-	if typeof(data) != TYPE_DICTIONARY:
-		return false
-
+	var pd: Dictionary = data.get("player", {})
+	var sd: Dictionary = pd.get("stats", {})
+	var hd: Dictionary = pd.get("health", {})
+	print("[SaveManager] load_game OK ← slot=%s ts=%s gold=%s lvl=%s hp=%s/%s" % [
+		slot_name, data.get("timestamp", "?"), pd.get("gold", "?"),
+		sd.get("level", "?"), hd.get("current", "?"), hd.get("max", "?")])
 	_pending_save = data
 	active_slot = slot_name
 	return true
 
+
+func _try_load_json(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	var file := FileAccess.open(path, FileAccess.READ)
+	if not file:
+		return {}
+	var text := file.get_as_text()
+	file.close()
+	if text.is_empty():
+		return {}
+	var json := JSON.new()
+	if json.parse(text) != OK:
+		push_warning("SaveManager: corrupt file: %s" % path)
+		return {}
+	var data = json.data
+	if typeof(data) != TYPE_DICTIONARY:
+		return {}
+	return data
+
 func apply_save() -> void:
 	if _pending_save.is_empty():
+		print("[SaveManager] apply_save SKIPPED — no pending data")
 		return
 	var player: Player = GameManager.player as Player
 	if not player:
+		print("[SaveManager] apply_save SKIPPED — no player ref")
 		return
 
 	var data: Dictionary = _pending_save
 	_pending_save = {}
+	print("[SaveManager] apply_save → slot=%s ts=%s" % [
+		data.get("slot_name", "?"), data.get("timestamp", "?")])
 
 	_deserialize_player(player, data.get("player", {}))
 	_deserialize_world(data.get("world", {}))
@@ -227,7 +263,6 @@ func list_saves() -> Array[Dictionary]:
 	var file_name := dir.get_next()
 	while file_name != "":
 		if not dir.current_is_dir() and file_name.ends_with(".json") \
-				and not file_name.ends_with(".tmp") \
 				and file_name != "settings.json":
 			var slot_name: String = file_name.get_basename()
 			var path := _save_dir + "/" + file_name
@@ -279,6 +314,12 @@ func _serialize_player(player: Player) -> Dictionary:
 			"max": player.health.max_health,
 		}
 
+	if player.stamina:
+		data["stamina"] = {
+			"current": player.stamina.current_stamina,
+			"max": player.stamina.max_stamina,
+		}
+
 	if player.stats:
 		data["stats"] = {
 			"level": player.stats.level,
@@ -313,16 +354,30 @@ func _deserialize_player(player: Player, data: Dictionary) -> void:
 		Events.stats_changed.emit(player)
 		Events.xp_changed.emit(player, player.stats.current_xp, player.stats.xp_for_next_level())
 
-	if player.health and data.has("health"):
-		var h: Dictionary = data["health"]
-		player.health.current_health = float(h.get("current", player.health.max_health))
-		Events.health_changed.emit(player, player.health.current_health, player.health.max_health)
-
 	_deserialize_inventory(player.inventory, data.get("inventory", {}))
 	_deserialize_equipment(player, data.get("equipment", {}))
 	_deserialize_hotbar(player, data.get("hotbar", []))
 
+	if player.health and data.has("health"):
+		var h: Dictionary = data["health"]
+		player.health.current_health = clampf(
+			float(h.get("current", player.health.max_health)),
+			0.0, player.health.max_health)
+		Events.health_changed.emit(player, player.health.current_health, player.health.max_health)
+
+	if player.stamina and data.has("stamina"):
+		var s_data: Dictionary = data["stamina"]
+		player.stamina.current_stamina = clampf(
+			float(s_data.get("current", player.stamina.max_stamina)),
+			0.0, player.stamina.max_stamina)
+		Events.stamina_changed.emit(player, player.stamina.current_stamina, player.stamina.max_stamina)
+
 	Events.gold_changed.emit(player.gold)
+	print("[SaveManager] deserialized player → gold=%d lvl=%d hp=%s/%s pos=(%s,%s)" % [
+		player.gold, player.stats.level if player.stats else -1,
+		player.health.current_health if player.health else "?",
+		player.health.max_health if player.health else "?",
+		snapped(player.global_position.x, 0.1), snapped(player.global_position.y, 0.1)])
 
 
 func _serialize_inventory(inv: Inventory) -> Dictionary:
