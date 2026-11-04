@@ -291,11 +291,11 @@ func _register_weapon_prefixes() -> void:
 
 	# --- Attack speed ---
 	_reg(&"pre_swift", "Swift", PRE,
-		{&"speed_multiplier": Vector2(0.05, 0.10)}, _WEAPONS, 1, 100, _AFF_RNG)
+		{&"attack_speed": Vector2(0.05, 0.10)}, _WEAPONS, 1, 100, _AFF_RNG)
 	_reg(&"pre_nimble", "Nimble", PRE,
-		{&"speed_multiplier": Vector2(0.11, 0.18)}, _WEAPONS, 12, 70, _AFF_RNG)
+		{&"attack_speed": Vector2(0.11, 0.18)}, _WEAPONS, 12, 70, _AFF_RNG)
 	_reg(&"pre_blinding", "Blinding", PRE,
-		{&"speed_multiplier": Vector2(0.19, 0.28)}, _WEAPONS, 25, 35, _AFF_RNG)
+		{&"attack_speed": Vector2(0.19, 0.28)}, _WEAPONS, 25, 35, _AFF_RNG)
 
 
 # ---------------------------------------------------------------------------
@@ -315,60 +315,60 @@ func _register_armor_prefixes() -> void:
 
 	# --- Fire resist ---
 	_reg(&"pre_crimson", "Crimson", PRE,
-		{&"fire_resist": Vector2(3, 8)}, _ARMOR, 1, 100, _AFF_SOR)
+		{&"fire_resist": Vector2(0.01, 0.03)}, _ARMOR, 1, 100, _AFF_SOR)
 	_reg(&"pre_garnet", "Garnet", PRE,
-		{&"fire_resist": Vector2(9, 16)}, _ARMOR, 12, 70, _AFF_SOR)
+		{&"fire_resist": Vector2(0.03, 0.06)}, _ARMOR, 12, 70, _AFF_SOR)
 	_reg(&"pre_ruby", "Ruby", PRE,
-		{&"fire_resist": Vector2(17, 25)}, _ARMOR, 25, 40, _AFF_SOR)
+		{&"fire_resist": Vector2(0.06, 0.12)}, _ARMOR, 25, 40, _AFF_SOR)
 
 	# --- Ice resist ---
 	_reg(&"pre_azure", "Azure", PRE,
-		{&"ice_resist": Vector2(3, 8)}, _ARMOR, 1, 100, _AFF_SOR)
+		{&"ice_resist": Vector2(0.01, 0.03)}, _ARMOR, 1, 100, _AFF_SOR)
 	_reg(&"pre_cobalt", "Cobalt", PRE,
-		{&"ice_resist": Vector2(9, 16)}, _ARMOR, 12, 70, _AFF_SOR)
+		{&"ice_resist": Vector2(0.03, 0.06)}, _ARMOR, 12, 70, _AFF_SOR)
 	_reg(&"pre_sapphire", "Sapphire", PRE,
-		{&"ice_resist": Vector2(17, 25)}, _ARMOR, 25, 40, _AFF_SOR)
+		{&"ice_resist": Vector2(0.06, 0.12)}, _ARMOR, 25, 40, _AFF_SOR)
 
 	# --- Lightning resist ---
 	_reg(&"pre_ocher", "Ocher", PRE,
-		{&"lightning_resist": Vector2(3, 8)}, _ARMOR, 1, 100, _AFF_SOR)
+		{&"lightning_resist": Vector2(0.01, 0.03)}, _ARMOR, 1, 100, _AFF_SOR)
 	_reg(&"pre_coral", "Coral", PRE,
-		{&"lightning_resist": Vector2(9, 16)}, _ARMOR, 12, 70, _AFF_SOR)
+		{&"lightning_resist": Vector2(0.03, 0.06)}, _ARMOR, 12, 70, _AFF_SOR)
 	_reg(&"pre_amber", "Amber", PRE,
-		{&"lightning_resist": Vector2(17, 25)}, _ARMOR, 25, 40, _AFF_SOR)
+		{&"lightning_resist": Vector2(0.06, 0.12)}, _ARMOR, 25, 40, _AFF_SOR)
 
 	# --- Venom resist ---
 	_reg(&"pre_beryl", "Beryl", PRE,
-		{&"venom_resist": Vector2(3, 8)}, _ARMOR, 1, 100, _AFF_SOR)
+		{&"venom_resist": Vector2(0.01, 0.03)}, _ARMOR, 1, 100, _AFF_SOR)
 	_reg(&"pre_jade", "Jade", PRE,
-		{&"venom_resist": Vector2(9, 16)}, _ARMOR, 12, 70, _AFF_SOR)
+		{&"venom_resist": Vector2(0.03, 0.06)}, _ARMOR, 12, 70, _AFF_SOR)
 	_reg(&"pre_emerald", "Emerald", PRE,
-		{&"venom_resist": Vector2(17, 25)}, _ARMOR, 25, 40, _AFF_SOR)
+		{&"venom_resist": Vector2(0.06, 0.12)}, _ARMOR, 25, 40, _AFF_SOR)
 
 	# --- Holy / Arcana resist ---
 	_reg(&"pre_opal", "Opal", PRE,
-		{&"holy_arcana_resist": Vector2(3, 8)}, _ARMOR, 1, 100, _AFF_SOR)
+		{&"holy_arcana_resist": Vector2(0.01, 0.03)}, _ARMOR, 1, 100, _AFF_SOR)
 	_reg(&"pre_pearl", "Pearl", PRE,
-		{&"holy_arcana_resist": Vector2(9, 16)}, _ARMOR, 12, 70, _AFF_SOR)
+		{&"holy_arcana_resist": Vector2(0.03, 0.06)}, _ARMOR, 12, 70, _AFF_SOR)
 	_reg(&"pre_diamond", "Diamond", PRE,
-		{&"holy_arcana_resist": Vector2(17, 25)}, _ARMOR, 25, 40, _AFF_SOR)
+		{&"holy_arcana_resist": Vector2(0.06, 0.12)}, _ARMOR, 25, 40, _AFF_SOR)
 
 	# --- All resists (armor + accessories) ---
 	var _armor_acc: Array[ItemBase.Category] = [_A, _R, _AM]
 	_reg(&"pre_warding", "Warding", PRE, {
-		&"fire_resist": Vector2(1, 4), &"ice_resist": Vector2(1, 4),
-		&"lightning_resist": Vector2(1, 4), &"venom_resist": Vector2(1, 4),
-		&"holy_arcana_resist": Vector2(1, 4),
+		&"fire_resist": Vector2(0.01, 0.02), &"ice_resist": Vector2(0.01, 0.02),
+		&"lightning_resist": Vector2(0.01, 0.02), &"venom_resist": Vector2(0.01, 0.02),
+		&"holy_arcana_resist": Vector2(0.01, 0.02),
 	}, _armor_acc, 8, 80, _AFF_SOR)
 	_reg(&"pre_prismatic", "Prismatic", PRE, {
-		&"fire_resist": Vector2(5, 9), &"ice_resist": Vector2(5, 9),
-		&"lightning_resist": Vector2(5, 9), &"venom_resist": Vector2(5, 9),
-		&"holy_arcana_resist": Vector2(5, 9),
+		&"fire_resist": Vector2(0.02, 0.04), &"ice_resist": Vector2(0.02, 0.04),
+		&"lightning_resist": Vector2(0.02, 0.04), &"venom_resist": Vector2(0.02, 0.04),
+		&"holy_arcana_resist": Vector2(0.02, 0.04),
 	}, _armor_acc, 22, 40, _AFF_SOR)
 	_reg(&"pre_chromatic", "Chromatic", PRE, {
-		&"fire_resist": Vector2(10, 15), &"ice_resist": Vector2(10, 15),
-		&"lightning_resist": Vector2(10, 15), &"venom_resist": Vector2(10, 15),
-		&"holy_arcana_resist": Vector2(10, 15),
+		&"fire_resist": Vector2(0.04, 0.06), &"ice_resist": Vector2(0.04, 0.06),
+		&"lightning_resist": Vector2(0.04, 0.06), &"venom_resist": Vector2(0.04, 0.06),
+		&"holy_arcana_resist": Vector2(0.04, 0.06),
 	}, _armor_acc, 38, 15, _AFF_SOR)
 
 
@@ -525,11 +525,11 @@ func _register_utility_suffixes() -> void:
 
 	# --- Physical resist (armor) ---
 	_reg(&"suf_toughness", "of Toughness", SUF,
-		{&"physical_resist": Vector2(2, 5)}, _ARMOR, 5, 90, _AFF_WAR)
+		{&"physical_resist": Vector2(0.01, 0.03)}, _ARMOR, 5, 90, _AFF_WAR)
 	_reg(&"suf_stone", "of Stone", SUF,
-		{&"physical_resist": Vector2(6, 12)}, _ARMOR, 18, 55, _AFF_WAR)
+		{&"physical_resist": Vector2(0.03, 0.06)}, _ARMOR, 18, 55, _AFF_WAR)
 	_reg(&"suf_iron_skin", "of Iron Skin", SUF,
-		{&"physical_resist": Vector2(13, 22)}, _ARMOR, 32, 25, _AFF_WAR)
+		{&"physical_resist": Vector2(0.06, 0.12)}, _ARMOR, 32, 25, _AFF_WAR)
 
 	# --- Thorns (armor) — attacker-takes-damage as physical_resist stand-in ---
 	# Stored as a modifier; combat system can check &"thorns" on the defender.
@@ -548,15 +548,15 @@ func _register_utility_suffixes() -> void:
 func _register_elemental_suffixes() -> void:
 	# --- Single-element resist on accessories ---
 	_reg(&"suf_flame_ward", "of Flame Ward", SUF,
-		{&"fire_resist": Vector2(4, 10)}, _ACCESSORIES, 5, 90, _AFF_SOR)
+		{&"fire_resist": Vector2(0.02, 0.05)}, _ACCESSORIES, 5, 90, _AFF_SOR)
 	_reg(&"suf_frost_ward", "of Frost Ward", SUF,
-		{&"ice_resist": Vector2(4, 10)}, _ACCESSORIES, 5, 90, _AFF_SOR)
+		{&"ice_resist": Vector2(0.02, 0.05)}, _ACCESSORIES, 5, 90, _AFF_SOR)
 	_reg(&"suf_storm_ward", "of Storm Ward", SUF,
-		{&"lightning_resist": Vector2(4, 10)}, _ACCESSORIES, 5, 90, _AFF_SOR)
+		{&"lightning_resist": Vector2(0.02, 0.05)}, _ACCESSORIES, 5, 90, _AFF_SOR)
 	_reg(&"suf_venom_ward", "of Venom Ward", SUF,
-		{&"venom_resist": Vector2(4, 10)}, _ACCESSORIES, 5, 90, _AFF_SOR)
+		{&"venom_resist": Vector2(0.02, 0.05)}, _ACCESSORIES, 5, 90, _AFF_SOR)
 	_reg(&"suf_holy_ward", "of Holy Ward", SUF,
-		{&"holy_arcana_resist": Vector2(4, 10)}, _ACCESSORIES, 5, 90, _AFF_SOR)
+		{&"holy_arcana_resist": Vector2(0.02, 0.05)}, _ACCESSORIES, 5, 90, _AFF_SOR)
 
 	# --- Elemental damage on accessories ---
 	_reg(&"suf_embers", "of Embers", SUF,
@@ -583,7 +583,7 @@ func _register_sets() -> void:
 		&"iron_cuirass", &"iron_greaves", &"iron_helm", &"iron_gauntlets",
 		&"iron_round_shield",
 	], [
-		{ "pieces": 2, "modifiers": { &"defense": 6.0, &"physical_resist": 5.0 } },
+		{ "pieces": 2, "modifiers": { &"defense": 6.0, &"physical_resist": 0.05 } },
 		{ "pieces": 3, "modifiers": { &"constitution": 4.0, &"block_chance": 0.05 } },
 		{ "pieces": 4, "modifiers": { &"thorns": 8.0, &"max_health": 30.0 } },
 		{ "pieces": 5, "modifiers": { &"strength": 6.0, &"regeneration": 2.0 } },
@@ -596,7 +596,7 @@ func _register_sets() -> void:
 	], [
 		{ "pieces": 2, "modifiers": { &"intelligence": 5.0, &"max_mana": 20.0 } },
 		{ "pieces": 3, "modifiers": { &"lightning_damage": 6.0, &"fire_damage": 6.0 } },
-		{ "pieces": 4, "modifiers": { &"crit_chance": 0.08, &"all_resist": 10.0 } },
+		{ "pieces": 4, "modifiers": { &"crit_chance": 0.08, &"all_resist": 0.10 } },
 		{ "pieces": 5, "modifiers": { &"ice_damage": 8.0, &"max_mana": 40.0 } },
 	])
 
@@ -616,7 +616,7 @@ func _register_sets() -> void:
 		&"bone_longsword", &"bone_buckler", &"bone_shield",
 		&"bone_ring", &"bone_amulet",
 	], [
-		{ "pieces": 2, "modifiers": { &"attack": 4.0, &"physical_resist": 5.0 } },
+		{ "pieces": 2, "modifiers": { &"attack": 4.0, &"physical_resist": 0.05 } },
 		{ "pieces": 3, "modifiers": { &"lifesteal": 0.05, &"constitution": 3.0 } },
 		{ "pieces": 4, "modifiers": { &"venom_damage": 10.0, &"max_health": 25.0 } },
 		{ "pieces": 5, "modifiers": { &"thorns": 12.0, &"regeneration": 3.0 } },
@@ -635,7 +635,7 @@ func _register_sets() -> void:
 		&"desert_gold_spear", &"desert_gold_battle_axe",
 		&"desert_gold_bow", &"gold_ring",
 	], [
-		{ "pieces": 2, "modifiers": { &"holy_arcana_damage": 6.0, &"fire_resist": 10.0 } },
+		{ "pieces": 2, "modifiers": { &"holy_arcana_damage": 6.0, &"fire_resist": 0.10 } },
 		{ "pieces": 3, "modifiers": { &"strength": 5.0, &"defense": 8.0 } },
 		{ "pieces": 4, "modifiers": { &"block_chance": 0.08, &"max_health": 40.0, &"charisma": 5.0 } },
 	])
@@ -646,7 +646,7 @@ func _register_sets() -> void:
 		&"emerald_loop",
 	], [
 		{ "pieces": 2, "modifiers": { &"dexterity": 5.0, &"attack_speed": 0.15 } },
-		{ "pieces": 3, "modifiers": { &"evasion": 8.0, &"ice_resist": 10.0 } },
+		{ "pieces": 3, "modifiers": { &"evasion": 8.0, &"ice_resist": 0.10 } },
 		{ "pieces": 4, "modifiers": { &"crit_chance": 0.12, &"move_speed": 3.0, &"max_mana": 20.0 } },
 	])
 
@@ -655,7 +655,7 @@ func _register_sets() -> void:
 		&"infernal_longsword", &"infernal_spear", &"infernal_morningstar",
 	], [
 		{ "pieces": 2, "modifiers": { &"fire_damage": 10.0, &"attack": 5.0 } },
-		{ "pieces": 3, "modifiers": { &"fire_resist": 20.0, &"strength": 6.0, &"crit_chance": 0.08 } },
+		{ "pieces": 3, "modifiers": { &"fire_resist": 0.12, &"strength": 6.0, &"crit_chance": 0.08 } },
 	])
 
 

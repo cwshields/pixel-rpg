@@ -48,6 +48,12 @@ func generate(base: ItemBase, level: int = 1, rarity_override = null) -> ItemBas
 	return item
 
 
+func reload() -> void:
+	_registry.clear()
+	_scan_and_register(ITEMS_DIR, true)
+	print("[ItemFactory] Reloaded %d items from disk." % _registry.size())
+
+
 func get_base(id: StringName) -> ItemBase:
 	var path: String = _registry.get(id, "")
 	if path.is_empty():
@@ -71,6 +77,10 @@ func get_all_base_ids() -> Array[StringName]:
 
 
 func _roll_rarity(level: int) -> ItemBase.Rarity:
+	var player_luck: float = 0.0
+	if GameManager.player and GameManager.player.stats:
+		player_luck = GameManager.player.stats.luck
+	var luck_mult: float = 1.0 + player_luck * 0.02
 	var weights: Dictionary = {}
 	weights[ItemBase.Rarity.COMMON] = maxf(_COMMON_MIN_WEIGHT,
 		_COMMON_BASE_WEIGHT * exp(-_COMMON_DECAY_RATE * level))
@@ -82,9 +92,9 @@ func _roll_rarity(level: int) -> ItemBase.Rarity:
 		if level < unlock:
 			weights[r] = 0.0
 		elif level >= full_at:
-			weights[r] = peak
+			weights[r] = peak * luck_mult
 		else:
-			weights[r] = peak * float(level - unlock) / float(full_at - unlock)
+			weights[r] = peak * float(level - unlock) / float(full_at - unlock) * luck_mult
 	var total := 0.0
 	for w: float in weights.values():
 		total += w
@@ -115,19 +125,21 @@ func roll_common_pool_item(level: int) -> ItemBase:
 	return generate(bases.pick_random(), level)
 
 
-func _scan_and_register(dir_path: String) -> void:
+func _scan_and_register(dir_path: String, cache_bust: bool = false) -> void:
 	var dir := DirAccess.open(dir_path)
 	if not dir:
 		return
+	var cache_mode := ResourceLoader.CACHE_MODE_REPLACE if cache_bust \
+		else ResourceLoader.CACHE_MODE_REUSE
 	dir.list_dir_begin()
 	var file_name := dir.get_next()
 	while file_name != "":
 		var full_path := dir_path.path_join(file_name)
 		if dir.current_is_dir():
-			_scan_and_register(full_path)
+			_scan_and_register(full_path, cache_bust)
 		elif file_name.ends_with(".tres") or file_name.ends_with(".tres.remap"):
 			var load_path := full_path.replace(".remap", "")
-			var res := load(load_path)
+			var res := ResourceLoader.load(load_path, "", cache_mode)
 			if res is ItemBase:
 				_registry[(res as ItemBase).id] = load_path
 		file_name = dir.get_next()

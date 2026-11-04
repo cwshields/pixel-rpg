@@ -23,3 +23,12 @@ func _init() -> void:
 func consume_durability(amount: int = 1) -> bool:
 	durability = maxi(durability - amount, 0)
 	return durability > 0
+
+func _get_durability() -> int:
+	return durability
+
+func _get_max_durability() -> int:
+	return max_durability
+
+func _set_durability(value: int) -> void:
+	durability = clampi(value, 0, max_durability)

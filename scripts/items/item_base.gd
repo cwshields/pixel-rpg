@@ -192,6 +192,10 @@ func to_save_dict() -> Dictionary:
 		data["affixes"] = affix_list
 	if set_def:
 		data["set_id"] = String(set_def.id)
+	var dur := _get_durability()
+	var max_dur := _get_max_durability()
+	if max_dur > 0 and dur < max_dur:
+		data["durability"] = dur
 	return data
 
 
@@ -210,4 +214,15 @@ static func from_save_dict(data: Dictionary) -> ItemBase:
 	var set_id: String = data.get("set_id", "")
 	if not set_id.is_empty():
 		item.set_def = AffixDB.get_set(StringName(set_id))
+	if data.has("durability"):
+		item._set_durability(int(data["durability"]))
 	return item
+
+func _get_durability() -> int:
+	return 0
+
+func _get_max_durability() -> int:
+	return 0
+
+func _set_durability(_value: int) -> void:
+	pass

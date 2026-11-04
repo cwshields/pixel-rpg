@@ -129,6 +129,29 @@ func get_active_set_bonuses() -> Array[Dictionary]:
 	return result
 
 
+func find_slot_for(item: ItemBase) -> int:
+	if item is Weapon:
+		return Slot.PRIMARY_HAND
+	if item is Shield:
+		if is_two_handed():
+			return -1
+		return Slot.OFF_HAND
+	if item is Armor:
+		match (item as Armor).armor_slot:
+			Armor.ArmorSlot.HEAD: return Slot.HEAD
+			Armor.ArmorSlot.CHEST: return Slot.CHEST
+			Armor.ArmorSlot.FEET: return Slot.FEET
+			Armor.ArmorSlot.GAUNTLETS: return Slot.GAUNTLETS
+	if item is Ring:
+		if not get_equipped(Slot.RING_1):
+			return Slot.RING_1
+		return Slot.RING_2
+	if item is Amulet:
+		return Slot.AMULET
+	if item is RuneStone:
+		return Slot.RUNE_STONE
+	return -1
+
 static func _is_weapon_slot(slot: Slot) -> bool:
 	return slot == Slot.PRIMARY_HAND or slot == Slot.OFF_HAND
 

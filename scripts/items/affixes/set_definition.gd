@@ -9,7 +9,7 @@ extends Resource
 @export var member_ids: Array[StringName] = []
 ## Bonuses that unlock when N pieces are equipped. Each entry is a threshold
 ## dictionary: { "pieces": int, "modifiers": { &"stat": value } }.
-## Example: [{ pieces = 2, modifiers = { &"fire_resist": 10 } },
+## Example: [{ pieces = 2, modifiers = { &"fire_resist": 0.10 } },
 ##           { pieces = 4, modifiers = { &"attack": 5, &"crit_chance": 0.05 } }]
 @export var bonuses: Array[Dictionary] = []
 

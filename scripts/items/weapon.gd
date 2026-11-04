@@ -78,16 +78,19 @@ const TYPE_DEFAULT_ATTACK := {
 ## 0 to hide the line.
 @export var min_damage: float = 0.0
 @export var max_damage: float = 0.0
-## 0 hides the durability line. Tool has its own separate durability
-## pattern (max_durability + a runtime counter) — mirrored here rather
-## than lifted to ItemBase since not every item type wears down.
-@export var max_durability: int = 0
+@export var max_durability: int = 100
 
 var durability: int
 
 func _init() -> void:
 	category = Category.WEAPON
 	durability = max_durability
+
+func consume_durability(amount: int = 1) -> bool:
+	if max_durability <= 0:
+		return true
+	durability = maxi(durability - amount, 0)
+	return durability > 0
 
 func apply_modifiers(stats: StatsComponent, source_id: StringName) -> void:
 	stats.add_modifier(&"attack", damage, source_id)
@@ -121,10 +124,24 @@ func get_effective_knockback() -> float:
 	var profile: Dictionary = TYPE_DEFAULT_HITBOX.get(weapon_type, {})
 	return profile.get("knockback", -1.0)
 
+func get_display_damage_range() -> Vector2:
+	if min_damage > 0.0 or max_damage > 0.0:
+		return Vector2(min_damage, max_damage)
+	return Vector2(maxf(1.0, damage * 0.75), maxf(1.0, damage * 1.25))
+
+func _get_durability() -> int:
+	return durability
+
+func _get_max_durability() -> int:
+	return max_durability
+
+func _set_durability(value: int) -> void:
+	durability = clampi(value, 0, max_durability)
+
 func get_stat_lines() -> Array[String]:
 	var lines: Array[String] = []
-	if min_damage > 0.0 or max_damage > 0.0:
-		lines.append("%d-%d Physical Damage" % [roundi(min_damage), roundi(max_damage)])
+	var dmg := get_display_damage_range()
+	lines.append("%d-%d Physical Damage" % [roundi(dmg.x), roundi(dmg.y)])
 	if max_durability > 0:
 		lines.append("%d/%d Durability" % [durability, max_durability])
 	lines.append("%.1f Attacks Per Second" % get_effective_attack_speed())

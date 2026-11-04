@@ -18,7 +18,8 @@ static func roll_from(affix: ItemAffix) -> AffixInstance:
 	inst.rolled_modifiers = {}
 	for stat: StringName in affix.modifiers:
 		var range: Vector2 = affix.modifiers[stat]
-		inst.rolled_modifiers[stat] = snappedf(randf_range(range.x, range.y), 0.1)
+		var step := 0.01 if _is_percent_stat(stat) else 0.1
+		inst.rolled_modifiers[stat] = snappedf(randf_range(range.x, range.y), step)
 	return inst
 
 
@@ -65,7 +66,8 @@ static func _format_stat_name(stat: StringName) -> String:
 		&"holy_arcana_resist": return "Holy Resistance"
 		&"physical_resist": return "Physical Resistance"
 		&"damage_percent": return "Damage"
-		&"speed_multiplier": return "Attack Speed"
+		&"speed_multiplier": return "Move Speed Multiplier"
+		&"attack_speed": return "Attack Speed"
 		&"evasion": return "Evasion"
 	return String(stat).capitalize()
 
@@ -73,7 +75,7 @@ static func _format_stat_name(stat: StringName) -> String:
 static func _is_percent_stat(stat: StringName) -> bool:
 	return stat in [
 		&"crit_chance", &"dodge_chance", &"block_chance",
-		&"lifesteal", &"damage_percent",
+		&"lifesteal", &"damage_percent", &"attack_speed",
 		&"fire_resist", &"ice_resist", &"venom_resist",
 		&"lightning_resist", &"holy_arcana_resist", &"physical_resist",
 	]
@@ -96,5 +98,11 @@ static func from_dict(data: Dictionary, database: Node) -> AffixInstance:
 	inst.type = affix.type
 	inst.rolled_modifiers = {}
 	for key: String in data.get("rolled_modifiers", {}):
-		inst.rolled_modifiers[StringName(key)] = float(data["rolled_modifiers"][key])
+		var val := float(data["rolled_modifiers"][key])
+		var stat := StringName(key)
+		if stat == &"speed_multiplier" and affix.id in [&"pre_swift", &"pre_nimble", &"pre_blinding"]:
+			stat = &"attack_speed"
+		if _is_percent_stat(stat) and val > 1.0:
+			val = val / 100.0
+		inst.rolled_modifiers[stat] = val
 	return inst
