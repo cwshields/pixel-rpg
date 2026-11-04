@@ -123,11 +123,12 @@ max_health = 18.0
 [node name="StatsComponent" type="Node" parent="." unique_id=150724768]
 script = ExtResource("9")
 base_attack = 4.0
+base_defense = 2.0
 
 [node name="HurtboxComponent" type="Area2D" parent="." unique_id=180345074]
 visible = false
 position = Vector2(0, 4)
-collision_layer = 4
+collision_layer = 8
 collision_mask = 0
 script = ExtResource("10")
 
@@ -138,7 +139,7 @@ shape = SubResource("RectangleShape2D_hurt")
 visible = false
 position = Vector2(16, 4)
 collision_layer = 0
-collision_mask = 4
+collision_mask = 20
 monitoring = false
 script = ExtResource("11")
 damage = 4.0

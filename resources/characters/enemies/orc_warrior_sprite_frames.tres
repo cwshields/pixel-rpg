@@ -1,24 +1,64 @@
-[gd_resource type="SpriteFrames" load_steps=22 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cpmk8yqj4r343"]
 
-[ext_resource type="Texture2D" path="res://assets/Entities/Mobs/Orc Crew/Orc - Warrior/Idle/Idle-Sheet.png" id="tex_1"]
-[ext_resource type="Texture2D" path="res://assets/Entities/Mobs/Orc Crew/Orc - Warrior/Run/Run-Sheet.png" id="tex_2"]
-[ext_resource type="Texture2D" path="res://assets/Entities/Mobs/Orc Crew/Orc - Warrior/Death/Death-Sheet.png" id="tex_3"]
+[ext_resource type="Texture2D" uid="uid://dy6kgnrjsymoi" path="res://assets/Enemies/Grasslands/Orc Crew/Orc - Warrior/Idle/Idle-Sheet.png" id="tex_1"]
+[ext_resource type="Texture2D" uid="uid://bnh7m3u6d5bxm" path="res://assets/Enemies/Grasslands/Orc Crew/Orc - Warrior/Run/Run-Sheet.png" id="tex_2"]
+[ext_resource type="Texture2D" uid="uid://ccgascrja5gh4" path="res://assets/Enemies/Grasslands/Orc Crew/Orc - Warrior/Death/Death-Sheet.png" id="tex_3"]
+
+[sub_resource type="AtlasTexture" id="frame_11"]
+atlas = ExtResource("tex_3")
+region = Rect2(0, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_12"]
+atlas = ExtResource("tex_3")
+region = Rect2(64, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_13"]
+atlas = ExtResource("tex_3")
+region = Rect2(128, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_14"]
+atlas = ExtResource("tex_3")
+region = Rect2(192, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_15"]
+atlas = ExtResource("tex_3")
+region = Rect2(256, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_16"]
+atlas = ExtResource("tex_3")
+region = Rect2(320, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_17"]
+atlas = ExtResource("tex_3")
+region = Rect2(384, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_18"]
+atlas = ExtResource("tex_3")
+region = Rect2(448, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="frame_19"]
+atlas = ExtResource("tex_3")
+region = Rect2(512, 0, 64, 80)
 
 [sub_resource type="AtlasTexture" id="frame_1"]
 atlas = ExtResource("tex_1")
 region = Rect2(0, 0, 32, 32)
+margin = Rect2(0, 0, 0, 32)
 
 [sub_resource type="AtlasTexture" id="frame_2"]
 atlas = ExtResource("tex_1")
 region = Rect2(32, 0, 32, 32)
+margin = Rect2(0, 0, 0, 32)
 
 [sub_resource type="AtlasTexture" id="frame_3"]
 atlas = ExtResource("tex_1")
 region = Rect2(64, 0, 32, 32)
+margin = Rect2(0, 0, 0, 32)
 
 [sub_resource type="AtlasTexture" id="frame_4"]
 atlas = ExtResource("tex_1")
 region = Rect2(96, 0, 32, 32)
+margin = Rect2(0, 0, 0, 32)
 
 [sub_resource type="AtlasTexture" id="frame_5"]
 atlas = ExtResource("tex_2")
@@ -44,80 +84,8 @@ region = Rect2(256, 0, 64, 64)
 atlas = ExtResource("tex_2")
 region = Rect2(320, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="frame_11"]
-atlas = ExtResource("tex_3")
-region = Rect2(0, 0, 72, 80)
-
-[sub_resource type="AtlasTexture" id="frame_12"]
-atlas = ExtResource("tex_3")
-region = Rect2(72, 0, 72, 80)
-
-[sub_resource type="AtlasTexture" id="frame_13"]
-atlas = ExtResource("tex_3")
-region = Rect2(144, 0, 72, 80)
-
-[sub_resource type="AtlasTexture" id="frame_14"]
-atlas = ExtResource("tex_3")
-region = Rect2(216, 0, 72, 80)
-
-[sub_resource type="AtlasTexture" id="frame_15"]
-atlas = ExtResource("tex_3")
-region = Rect2(288, 0, 72, 80)
-
-[sub_resource type="AtlasTexture" id="frame_16"]
-atlas = ExtResource("tex_3")
-region = Rect2(360, 0, 72, 80)
-
-[sub_resource type="AtlasTexture" id="frame_17"]
-atlas = ExtResource("tex_3")
-region = Rect2(432, 0, 72, 80)
-
-[sub_resource type="AtlasTexture" id="frame_18"]
-atlas = ExtResource("tex_3")
-region = Rect2(504, 0, 72, 80)
-
 [resource]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("frame_1")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_2")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_3")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_4")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 6.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("frame_5")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_6")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_7")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_8")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_9")
-}, {
-"duration": 1.0,
-"texture": SubResource("frame_10")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 10.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("frame_11")
@@ -142,8 +110,51 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("frame_18")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_19")
 }],
-"loop": false,
+"loop": 0,
 "name": &"death",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frame_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_4")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frame_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_10")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 10.0
 }]

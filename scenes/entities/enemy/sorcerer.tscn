@@ -1,0 +1,140 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/enemy/enemy_base.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/entities/state_machine.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/entities/ai_idle_state.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_chase_state.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/entities/enemy/states/enemy_attack_state.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/entities/ai_hurt_state.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/entities/dead_state.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/components/stats_component.gd" id="9"]
+[ext_resource type="Script" path="res://scripts/components/hurtbox_component.gd" id="10"]
+[ext_resource type="Script" path="res://scripts/components/hitbox_component.gd" id="11"]
+[ext_resource type="SpriteFrames" path="res://resources/characters/enemies/sorcerer_sprite_frames.tres" id="12"]
+[ext_resource type="Script" path="res://scripts/entities/ai_wander_state.gd" id="13"]
+[ext_resource type="Script" path="res://scripts/components/shadow_component.gd" id="14"]
+[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="15"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(16, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(18, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(16, 10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 110
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hand_off"]
+atlas = ExtResource("15")
+region = Rect2(208, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hand_main"]
+atlas = ExtResource("15")
+region = Rect2(192, 48, 16, 16)
+
+[node name="Sorcerer" type="CharacterBody2D"]
+script = ExtResource("1")
+xp_reward = 9
+wander_radius = 70.0
+move_speed = 30.0
+sprint_speed = 55.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("12")
+animation = &"idle"
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 10)
+scale = Vector2(28, 10)
+z_index = -1
+show_behind_parent = true
+script = ExtResource("14")
+shadow_width = 28.0
+shadow_height = 10.0
+shadow_offset = Vector2(0, 10)
+
+[node name="Equipment" type="Node2D" parent="."]
+
+[node name="HandOffhand" type="Sprite2D" parent="Equipment"]
+y_sort_enabled = true
+position = Vector2(12, 5)
+texture = SubResource("AtlasTexture_hand_off")
+
+[node name="HandMain" type="Sprite2D" parent="Equipment"]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(-16, 5)
+texture = SubResource("AtlasTexture_hand_main")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 6.0)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("8")
+max_health = 14.0
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("9")
+base_attack = 6.0
+base_defense = 1.0
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+visible = false
+position = Vector2(0, 2.0)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 20
+monitoring = false
+script = ExtResource("11")
+damage = 6.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(12.0, 0)
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2")
+initial_state = &"Idle"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3")
+min_idle_time = 5.0
+max_idle_time = 12.0
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("13")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("4")
+sprint_when_chasing = true
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("5")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("6")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("7")
+linger_time = 14.0
