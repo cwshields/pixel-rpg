@@ -31,6 +31,7 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	var state_machine := get_parent() as StateMachine
 	if state_machine.current_state != self:
 		return
+	_stop_howl_sound()
 	var enemy := entity as EnemyBase
 	if enemy.target:
 		transition_requested.emit(&"Chase", {})
@@ -38,6 +39,14 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 		transition_requested.emit(&"Growl", {})
 	else:
 		transition_requested.emit(&"Idle", {})
+
+func exit() -> void:
+	_stop_howl_sound()
+
+func _stop_howl_sound() -> void:
+	var howl_sound := entity.get_node_or_null("HowlSoundPlayer") as AudioStreamPlayer2D
+	if howl_sound and howl_sound.playing:
+		howl_sound.stop()
 
 func process_physics(delta: float) -> void:
 	entity.move(Vector2.ZERO, delta)

@@ -35,6 +35,8 @@ func exit() -> void:
 	if player.bow_aim:
 		player.bow_aim.stop_draw()
 		player.bow_aim.visible = false
+	if player.swing_sound_player and player.swing_sound_player.playing:
+		player.swing_sound_player.stop()
 
 func _apply_aim_visuals(player: Player) -> void:
 	var aim := player.get_global_mouse_position() - player.global_position
@@ -80,7 +82,12 @@ func _fire(player: Player) -> void:
 	arrow.direction = aim_dir
 	arrow.set_arrow_texture(ammo.icon)
 	arrow.speed = ammo.projectile_speed
-	arrow.damage = (player.stats.compute_outgoing_damage() if player.stats else weapon.damage) + ammo.damage_bonus
+	if player.stats:
+		var bd: Dictionary = player.stats.compute_outgoing_damage()
+		bd[&"physical"] = bd.get(&"physical", 0.0) + ammo.damage_bonus
+		arrow.damage_breakdown = bd
+	else:
+		arrow.damage = weapon.damage + ammo.damage_bonus
 	arrow.knockback_force = 100.0
 	arrow.source = player
 	arrow.global_position = player.global_position + aim_dir * 12.0

@@ -14,6 +14,11 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	if hit_sound:
 		hit_sound.play()
 
+func exit() -> void:
+	var hit_sound := entity.get_node_or_null("HitSoundPlayer") as AudioStreamPlayer2D
+	if hit_sound and hit_sound.playing:
+		hit_sound.stop()
+
 func process_physics(delta: float) -> void:
 	_timer += delta
 	entity.move(Vector2.ZERO, delta)

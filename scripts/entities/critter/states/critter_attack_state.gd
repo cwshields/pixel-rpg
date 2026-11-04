@@ -25,7 +25,8 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	else:
 		entity.stop()
 	if critter.hitbox:
-		critter.hitbox.damage = critter.stats.compute_outgoing_damage() if critter.stats else critter.hitbox.damage
+		if critter.stats:
+			critter.hitbox.damage_breakdown = critter.stats.compute_outgoing_damage()
 		if target:
 			var to_target: Vector2 = target.global_position - entity.global_position
 			if to_target.length() > 0.001:
@@ -44,9 +45,10 @@ func process_physics(delta: float) -> void:
 			critter.hitbox.position = entity.facing_direction.normalized() * hitbox_reach
 	else:
 		entity.move(Vector2.ZERO, delta)
+	var atk_spd: float = 1.0 + (entity.stats.attack_speed if entity.stats else 0.0)
 	if critter.hitbox:
-		critter.hitbox.monitoring = _timer >= windup_time
-	if _timer >= attack_cooldown:
+		critter.hitbox.monitoring = _timer * atk_spd >= windup_time
+	if _timer >= attack_cooldown / atk_spd:
 		if critter.hitbox:
 			critter.hitbox.monitoring = false
 		transition_requested.emit(&"Chase" if critter.pursuit_target() else &"Idle", {})

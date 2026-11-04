@@ -147,12 +147,18 @@ func _spawn_hitbox(def: AttackDefinition) -> HitboxComponent:
 	return instance
 
 ## 8-directional analog input. Returns a normalized-or-zero Vector2.
+## Suppressed while Ctrl is held so modified hotkeys (Ctrl+Shift+D, etc.)
+## don't leak through as movement.
 func get_move_input() -> Vector2:
+	if Input.is_key_pressed(KEY_CTRL):
+		return Vector2.ZERO
 	return Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
 ## True while the sprint key (Shift) is held. Raw input only — use
 ## can_sprint() for the "should we actually run" decision.
 func wants_to_sprint() -> bool:
+	if Input.is_key_pressed(KEY_CTRL):
+		return false
 	return Input.is_action_pressed("sprint")
 
 ## True when the sprint key is held AND the stamina pool has something
@@ -187,6 +193,25 @@ func play_swing_sound() -> void:
 		_swing_sounds.shuffle()
 		_swing_index = 0
 
+func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector2.ZERO, breakdown: Dictionary = {}) -> void:
+	if GameManager.god_mode:
+		super.take_damage(amount, source, knockback, breakdown)
+		return
+	var hp_before := health.current_health if health else 0.0
+	super.take_damage(amount, source, knockback, breakdown)
+	var hp_after := health.current_health if health else 0.0
+	if hp_before > hp_after:
+		_wear_equipped_gear()
+
+func _wear_equipped_gear() -> void:
+	for item: ItemBase in equipment.get_all_equipped():
+		if item is Armor:
+			(item as Armor).consume_durability()
+		elif item is Shield:
+			(item as Shield).consume_durability()
+		elif item is Weapon:
+			(item as Weapon).consume_durability()
+
 func flash_exhausted() -> void:
 	if not animated_sprite:
 		return
@@ -200,12 +225,18 @@ func _physics_process(delta: float) -> void:
 	if _axe_warn_cooldown > 0.0:
 		_axe_warn_cooldown -= delta
 	_update_axe_proximity()
+	if health and stats and not health.is_dead() and stats.regeneration > 0.0:
+		if health.current_health < health.max_health:
+			health.heal(stats.regeneration * delta)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("swap_weapons") and GameManager.state != GameManager.GameState.PAUSED:
+		equipment.swap_weapon_set()
+		get_viewport().set_input_as_handled()
+		return
 	if not GameManager.is_playing():
 		return
-	if event.is_action_pressed("swap_weapons"):
-		equipment.swap_weapon_set()
+	if event is InputEventKey and event.ctrl_pressed:
 		return
 	if event.is_action_pressed("interact"):
 		if not _interact_with_nearest():

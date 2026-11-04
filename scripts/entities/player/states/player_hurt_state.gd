@@ -13,11 +13,18 @@ static var _hurt_streams: Array[AudioStream] = [
 @export var knockback_decay: float = 600.0
 
 var _timer: float = 0.0
+var _active_sfx: AudioStreamPlayer2D = null
 
 func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 	_timer = 0.0
 	entity.play_animation("hurt")
 	_play_hurt_sfx()
+
+func exit() -> void:
+	if is_instance_valid(_active_sfx) and _active_sfx.playing:
+		_active_sfx.stop()
+		_active_sfx.queue_free()
+	_active_sfx = null
 
 func process_physics(delta: float) -> void:
 	_timer += delta
@@ -33,3 +40,4 @@ func _play_hurt_sfx() -> void:
 	entity.add_child(sfx)
 	sfx.finished.connect(sfx.queue_free)
 	sfx.play()
+	_active_sfx = sfx

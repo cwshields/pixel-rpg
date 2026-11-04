@@ -20,8 +20,12 @@ const _LOOSE_EQUIPMENT_PIECE_SCENE: PackedScene = preload("res://scenes/world/lo
 var target: Node2D = null
 var alert_target: Node2D = null
 
+const HEALTH_PER_LEVEL: float = 0.15
+const ATTACK_PER_LEVEL: float = 0.10
+
 func _ready() -> void:
 	super._ready()
+	_scale_to_player_level()
 	if alert_area:
 		alert_area.body_entered.connect(_on_body_entered_alert)
 		alert_area.body_exited.connect(_on_body_exited_alert)
@@ -89,3 +93,23 @@ func _launch_piece(sprite: Node2D) -> void:
 	piece.launch(
 		direction * randf_range(EQUIPMENT_FLING_SPEED.x, EQUIPMENT_FLING_SPEED.y),
 		randf_range(-EQUIPMENT_SPIN_RANGE, EQUIPMENT_SPIN_RANGE))
+
+func _scale_to_player_level() -> void:
+	var player_node := GameManager.player
+	if not player_node or not player_node is EntityBase:
+		return
+	var player_stats: StatsComponent = (player_node as EntityBase).stats
+	if not player_stats:
+		return
+	var lvl: int = player_stats.level
+	if lvl <= 1:
+		return
+	var health_mult: float = 1.0 + HEALTH_PER_LEVEL * (lvl - 1)
+	var attack_mult: float = 1.0 + ATTACK_PER_LEVEL * (lvl - 1)
+	if stats:
+		stats.level = lvl
+		stats.base_attack = stats.base_attack * attack_mult
+	if health:
+		health.set_max_health(health.max_health * health_mult, true)
+	if hitbox:
+		hitbox.damage = hitbox.damage * attack_mult

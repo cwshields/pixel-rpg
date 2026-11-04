@@ -101,7 +101,8 @@ static func cardinal_name(direction: Vector2) -> String:
 ## (e.g. sidestepping mid-attack while the swing stays committed).
 func move(direction: Vector2, delta: float, update_facing: bool = true) -> void:
 	var base_speed: float = sprint_speed if sprinting else move_speed
-	var target_speed: float = base_speed * (stats.speed_multiplier if stats else 1.0)
+	var ms_bonus: float = (stats.move_speed - 15.0) * 0.01 if stats else 0.0
+	var target_speed: float = base_speed * ((stats.speed_multiplier + ms_bonus) if stats else 1.0)
 	if direction != Vector2.ZERO:
 		if update_facing:
 			facing_direction = direction
@@ -193,17 +194,31 @@ func _direction_blocked(direction: Vector2, exclude: Array[RID]) -> bool:
 	shape_query.exclude = exclude
 	return not space_state.intersect_shape(shape_query, 1).is_empty()
 
-func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector2.ZERO) -> void:
+func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector2.ZERO, breakdown: Dictionary = {}) -> void:
 	if GameManager.god_mode and self == GameManager.player:
 		return
 	if stats and randf() < stats.dodge_chance:
 		return
-	var final_amount: float = stats.compute_incoming_damage(amount) if stats else amount
+	var bd: Dictionary = breakdown if not breakdown.is_empty() else {&"physical": amount}
+	var blocked := false
+	if stats and randf() < stats.block_chance:
+		blocked = true
+		for key: StringName in bd:
+			bd[key] = bd[key] * 0.5
+	var final_amount: float = stats.compute_incoming_damage(bd) if stats else amount
 	if health:
 		var was_invulnerable := health.is_invulnerable()
 		health.take_damage(final_amount, source)
-		if was_invulnerable and self == GameManager.player:
+		if not was_invulnerable and final_amount > 0.0:
+			DamageNumber.spawn(self, final_amount, bd.get(&"_crit", false))
+		if blocked and not was_invulnerable:
 			_play_blocked_hit_sfx()
+		elif was_invulnerable and self == GameManager.player:
+			_play_blocked_hit_sfx()
+	if source is EntityBase:
+		var attacker := source as EntityBase
+		if attacker.stats and attacker.stats.lifesteal > 0.0 and attacker.health:
+			attacker.health.heal(final_amount * attacker.stats.lifesteal)
 	if knockback != Vector2.ZERO:
 		velocity = knockback
 

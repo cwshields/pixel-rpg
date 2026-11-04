@@ -29,7 +29,8 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 		if to_target.length() > 0.001:
 			entity.facing_direction = to_target.normalized()
 	if enemy.hitbox:
-		enemy.hitbox.damage = enemy.stats.compute_outgoing_damage() if enemy.stats else enemy.hitbox.damage
+		if enemy.stats:
+			enemy.hitbox.damage_breakdown = enemy.stats.compute_outgoing_damage()
 		if is_nan(_hitbox_offset_x):
 			_hitbox_offset_x = absf(enemy.hitbox.position.x)
 			_hitbox_offset_y = enemy.hitbox.position.y
@@ -51,9 +52,10 @@ func process_physics(delta: float) -> void:
 			_position_hitbox(enemy)
 	else:
 		entity.move(Vector2.ZERO, delta)
+	var atk_spd: float = 1.0 + (entity.stats.attack_speed if entity.stats else 0.0)
 	if enemy.hitbox:
-		enemy.hitbox.monitoring = _timer >= windup_time
-	if _timer >= attack_cooldown:
+		enemy.hitbox.monitoring = _timer * atk_spd >= windup_time
+	if _timer >= attack_cooldown / atk_spd:
 		if enemy.hitbox:
 			enemy.hitbox.monitoring = false
 		transition_requested.emit(&"Chase" if enemy.pursuit_target() else &"Idle", {})
@@ -64,6 +66,9 @@ func exit() -> void:
 	if enemy.hitbox:
 		enemy.hitbox.monitoring = false
 		enemy.hitbox.rotation = 0.0
+	var attack_sound := entity.get_node_or_null("AttackSoundPlayer") as AudioStreamPlayer2D
+	if attack_sound and attack_sound.playing:
+		attack_sound.stop()
 
 func _position_hitbox(enemy: EnemyBase) -> void:
 	var cardinal := EntityBase.cardinal_name(entity.facing_direction)

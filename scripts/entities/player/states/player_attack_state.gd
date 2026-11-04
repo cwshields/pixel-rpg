@@ -17,7 +17,8 @@ func enter(_previous_state: StringName, _data: Dictionary = {}) -> void:
 		player.stamina.spend_attack()
 	player.face_toward_mouse()
 	if player.hitbox:
-		player.hitbox.damage = player.stats.compute_outgoing_damage() if player.stats else player.hitbox.damage
+		if player.stats:
+			player.hitbox.damage_breakdown = player.stats.compute_outgoing_damage()
 		player.hitbox.reset_hits()
 	var moving := player.get_move_input() != Vector2.ZERO
 	player.sprinting = moving and player.wants_to_sprint()
@@ -36,14 +37,16 @@ func process_physics(delta: float) -> void:
 	if moving != _was_moving or player.sprinting != _was_sprinting:
 		_apply_attack_visuals(player, moving)
 	_update_hitbox(player)
-	if _timer >= player.attack.duration:
+	var atk_spd: float = 1.0 + (player.stats.attack_speed if player.stats else 0.0)
+	if _timer >= player.attack.duration / atk_spd:
 		if Input.is_action_pressed("attack") and not player.is_mouse_over_gui() and player.can_attack():
 			_timer = 0.0
 			player.face_toward_mouse()
 			if player.stamina:
 				player.stamina.spend_attack()
 			if player.hitbox:
-				player.hitbox.damage = player.stats.compute_outgoing_damage() if player.stats else player.hitbox.damage
+				if player.stats:
+					player.hitbox.damage_breakdown = player.stats.compute_outgoing_damage()
 				player.hitbox.reset_hits()
 			_apply_attack_visuals(player, moving)
 			_update_hitbox(player)
@@ -58,16 +61,18 @@ func exit() -> void:
 		player.hitbox.deactivate()
 	if player.weapon_overlay:
 		player.weapon_overlay.hide_overlay()
+	if player.swing_sound_player and player.swing_sound_player.playing:
+		player.swing_sound_player.stop()
 
 func _update_hitbox(player: Player) -> void:
 	if not player.hitbox:
 		return
 	var frame: int = player.animated_sprite.frame if player.animated_sprite else 0
-	player.hitbox.update_pose(player.facing_direction, frame, player.attack.in_active_window(_timer))
-	# Directional layouts manage monitoring themselves; a plain single-shape
-	# hitbox still needs the time window applied here.
+	var atk_spd: float = 1.0 + (player.stats.attack_speed if player.stats else 0.0)
+	var scaled_time: float = _timer * atk_spd
+	player.hitbox.update_pose(player.facing_direction, frame, player.attack.in_active_window(scaled_time))
 	if not player.hitbox.has_directional_layout():
-		player.hitbox.monitoring = player.attack.in_active_window(_timer)
+		player.hitbox.monitoring = player.attack.in_active_window(scaled_time)
 
 ## Chooses the attack animation for the current movement state (called only
 ## when it changes). Sprinting tries "<animation>_run_<dir>", walking

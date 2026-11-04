@@ -59,7 +59,7 @@ max_health = 8.0
 
 [node name="HurtboxComponent" type="Area2D" parent="."]
 position = Vector2(0, 8)
-collision_layer = 4
+collision_layer = 16
 collision_mask = 0
 script = ExtResource("9")
 

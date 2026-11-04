@@ -36,12 +36,12 @@ func _ready() -> void:
 	blend_mode = PointLight2D.BLEND_MODE_ADD
 	shadow_enabled = false
 	color = color_warm
-	_base_energy = light_energy_night if _is_night() else light_energy_day
+	_base_energy = lerpf(light_energy_day, light_energy_night, _get_darkness_factor())
 	energy = _base_energy
 	_next_gust = randf_range(1.5, 4.0)
 
 func _process(delta: float) -> void:
-	var target := light_energy_night if _is_night() else light_energy_day
+	var target := lerpf(light_energy_day, light_energy_night, _get_darkness_factor())
 	_base_energy = move_toward(_base_energy, target, fade_speed * delta)
 
 	if not flicker_enabled or _base_energy <= 0.0:
@@ -86,12 +86,11 @@ func _process(delta: float) -> void:
 	var heat := clampf(inverse_lerp(-1.0, 1.0, flicker_val), 0.0, 1.0)
 	color = color_warm.lerp(color_hot, heat * 0.5 + _gust_strength * 0.3)
 
-func _is_night() -> bool:
+func _get_darkness_factor() -> float:
 	var dn = get_node_or_null("/root/DayNightCycle")
-	if dn:
-		var phase: String = dn.get_phase()
-		return phase == "night" or phase == "dusk"
-	return false
+	if dn and dn.has_method("get_darkness_factor"):
+		return dn.get_darkness_factor()
+	return 0.0
 
 func _rebuild_texture() -> void:
 	var grad := Gradient.new()
