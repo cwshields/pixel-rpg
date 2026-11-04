@@ -18,6 +18,9 @@ const CELL_SIZE := 40
 @onready var _inventory_grid: InventoryGrid = %Grid
 @onready var _trash: Button = %Trash
 @onready var _search: LineEdit = %Search
+@onready var _rarity: OptionButton = %Rarity
+@onready var _level: SpinBox = %Level
+@onready var _reroll: Button = %Reroll
 
 var _slot_style: StyleBoxTexture
 
@@ -28,7 +31,9 @@ func _ready() -> void:
 	super._ready()
 	_slot_style = InventoryGrid.make_slot_style()
 	_populate_items()
+	_setup_rarity_dropdown()
 	_search.text_changed.connect(_on_search_changed)
+	_reroll.pressed.connect(_on_reroll_pressed)
 	_trash.add_theme_stylebox_override("normal", _slot_style)
 	_trash.add_theme_stylebox_override("hover", _slot_style)
 	_trash.add_theme_stylebox_override("pressed", _slot_style)
@@ -50,8 +55,13 @@ func _on_close() -> void:
 	_inventory_grid.cancel_held_item()
 
 func _populate_items() -> void:
+	for child in _item_grid.get_children():
+		child.queue_free()
 	var items: Array[ItemBase] = []
-	_scan_items(ITEMS_DIR, items)
+	for id in ItemFactory.get_all_base_ids():
+		var base := ItemFactory.get_base(id)
+		if base:
+			items.append(base)
 	items.sort_custom(func(a: ItemBase, b: ItemBase) -> bool:
 		if a.category != b.category:
 			return a.category < b.category
@@ -59,23 +69,10 @@ func _populate_items() -> void:
 	for item in items:
 		_item_grid.add_child(_make_item_button(item))
 
-func _scan_items(path: String, out: Array[ItemBase]) -> void:
-	var dir := DirAccess.open(path)
-	if not dir:
-		push_warning("ItemSpawnerUI: couldn't open %s" % path)
-		return
-	dir.list_dir_begin()
-	var entry := dir.get_next()
-	while entry != "":
-		var full_path := path.path_join(entry)
-		if dir.current_is_dir():
-			_scan_items(full_path, out)
-		elif entry.ends_with(".tres"):
-			var res := load(full_path)
-			if res is ItemBase:
-				out.append(res)
-		entry = dir.get_next()
-	dir.list_dir_end()
+func repopulate() -> void:
+	_populate_items()
+	if _search:
+		_on_search_changed(_search.text)
 
 func _make_item_button(item: ItemBase) -> Button:
 	var btn := Button.new()
@@ -98,7 +95,48 @@ func _on_search_changed(query: String) -> void:
 func _on_item_gui_input(event: InputEvent, item: ItemBase) -> void:
 	if not event is InputEventMouseButton or not event.pressed:
 		return
+	var generated := _generate_item(item)
 	if event.button_index == MOUSE_BUTTON_LEFT:
-		_inventory_grid.pick_up_new(item, item.max_stack)
+		_inventory_grid.pick_up_new(generated, generated.max_stack)
 	elif event.button_index == MOUSE_BUTTON_RIGHT:
-		_inventory_grid.pick_up_new(item, 1)
+		_inventory_grid.pick_up_new(generated, 1)
+
+
+func _setup_rarity_dropdown() -> void:
+	_rarity.add_item("Common", ItemBase.Rarity.COMMON)
+	_rarity.add_item("Magic", ItemBase.Rarity.MAGIC)
+	_rarity.add_item("Rare", ItemBase.Rarity.RARE)
+	_rarity.add_item("Set", ItemBase.Rarity.SET)
+	_rarity.add_item("Unique", ItemBase.Rarity.UNIQUE)
+	_rarity.selected = 1
+	for i in _rarity.item_count:
+		var r: ItemBase.Rarity = _rarity.get_item_id(i) as ItemBase.Rarity
+		_rarity.set_item_metadata(i, ItemBase.RARITY_COLORS.get(r, Color.WHITE))
+	_rarity.item_selected.connect(_on_rarity_selected)
+	_update_rarity_color()
+
+
+func _on_rarity_selected(_index: int) -> void:
+	_update_rarity_color()
+
+
+func _update_rarity_color() -> void:
+	var color: Color = _rarity.get_item_metadata(_rarity.selected)
+	_rarity.add_theme_color_override("font_color", color)
+
+
+func _generate_item(base: ItemBase) -> ItemBase:
+	var rarity_id: int = _rarity.get_item_id(_rarity.selected)
+	var level := int(_level.value)
+	return ItemFactory.generate(base, level, rarity_id as ItemBase.Rarity)
+
+
+func _on_reroll_pressed() -> void:
+	var held: ItemBase = _inventory_grid.get_held_item()
+	if not held:
+		return
+	var level := int(_level.value)
+	var rarity_id: int = _rarity.get_item_id(_rarity.selected)
+	held.rarity = rarity_id as ItemBase.Rarity
+	held.affixes = AffixDB.roll_affixes_for(held, level)
+	_inventory_grid.refresh_held_tooltip()

@@ -9,10 +9,21 @@ extends MenuBase
 const _ACTIVE_COLOR := Color(0.92, 0.9, 0.84, 1)
 const _INACTIVE_COLOR := Color(0.75, 0.72, 0.65, 1)
 
+const DURABILITY_ICON := preload("res://assets/UI/inventory/icon_durability.png")
+const INVENTORY_ICON := preload("res://assets/UI/inventory/icon_inventory.png")
+const _ANVIL_SFX: AudioStream = preload("res://assets/SoundFX/UI/mug-sounds-anvil.mp3")
+
+const _ROW_BASE_COST := 200
+const _ROW_COST_MULT := 1.8
+
 var _active_npc: NPCBase = null
 var _shop_inventory: ShopInventory = null
 var _feedback_tween: Tween
 var _tab_buttons: Array[Button] = []
+var _repair_btn: Button
+var _repair_tooltip: Control
+var _expand_btn: Button
+var _expand_tooltip: Control
 
 @onready var _shop_grid: InventoryGrid = %ShopGrid
 @onready var _player_grid: InventoryGrid = %PlayerGrid
@@ -33,6 +44,8 @@ func _ready() -> void:
 	_weapons_tab.pressed.connect(_switch_shop_category.bind(&"weapons"))
 	_armor_tab.pressed.connect(_switch_shop_category.bind(&"armor"))
 	_misc_tab.pressed.connect(_switch_shop_category.bind(&"misc"))
+	_build_repair_button()
+	_build_expand_button()
 
 func setup_shop(npc: NPCBase) -> void:
 	_active_npc = npc
@@ -52,6 +65,7 @@ func _on_open() -> void:
 	_switch_shop_category(&"weapons")
 	_refresh_gold()
 	_refresh_charisma()
+	_refresh_expand_button()
 
 func _on_close() -> void:
 	_shop_grid.cancel_held_item()
@@ -237,3 +251,278 @@ func _show_feedback(text: String) -> void:
 	_feedback_tween.tween_interval(1.0)
 	_feedback_tween.tween_property(_feedback_label, "modulate:a", 0.0, 0.4)
 	_feedback_tween.tween_callback(func() -> void: _feedback_label.visible = false)
+
+# ---------------------------------------------------------------------------
+# Repair
+# ---------------------------------------------------------------------------
+
+func _build_repair_button() -> void:
+	var center_info := %CharismaLabel.get_parent()
+	if not center_info:
+		return
+
+	_repair_btn = Button.new()
+	_repair_btn.custom_minimum_size = Vector2(48, 48)
+	_repair_btn.icon = DURABILITY_ICON
+	_repair_btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_repair_btn.expand_icon = true
+	var btn_style := StyleBoxTexture.new()
+	btn_style.texture = load("res://assets/UI/rpg_hud/frame_button.png")
+	btn_style.texture_margin_left = 7.0
+	btn_style.texture_margin_top = 7.0
+	btn_style.texture_margin_right = 7.0
+	btn_style.texture_margin_bottom = 7.0
+	_repair_btn.add_theme_stylebox_override("normal", btn_style)
+	_repair_btn.add_theme_stylebox_override("hover", btn_style)
+	_repair_btn.add_theme_stylebox_override("pressed", btn_style)
+	var focus_style := StyleBoxEmpty.new()
+	_repair_btn.add_theme_stylebox_override("focus", focus_style)
+	_repair_btn.pressed.connect(_on_repair_pressed)
+	_repair_btn.mouse_entered.connect(_on_repair_hover.bind(true))
+	_repair_btn.mouse_exited.connect(_on_repair_hover.bind(false))
+	center_info.add_child(_repair_btn)
+
+	_repair_tooltip = Control.new()
+	_repair_tooltip.top_level = true
+	_repair_tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_repair_tooltip.visible = false
+
+	var bg := NinePatchRect.new()
+	bg.texture = preload("res://assets/UI/inventory/info_bg.png")
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		bg.set_patch_margin(side, 10)
+	bg.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_repair_tooltip.add_child(bg)
+
+	var border := NinePatchRect.new()
+	border.texture = preload("res://assets/UI/inventory/info_border.png")
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		border.set_patch_margin(side, 10)
+	border.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_repair_tooltip.add_child(border)
+
+	var label := Label.new()
+	label.name = "CostLabel"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color(0.894, 0.729, 0.522, 1))
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.06))
+	label.add_theme_constant_override("outline_size", 3)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.position = Vector2(10, 8)
+	_repair_tooltip.add_child(label)
+
+	add_child(_repair_tooltip)
+
+func _get_repair_cost() -> int:
+	var player: Player = GameManager.player
+	if not player:
+		return 0
+	var total := 0
+	for item: ItemBase in player.equipment.get_all_equipped():
+		total += _item_repair_cost(item)
+	for placed: Inventory.PlacedItem in player.inventory.items:
+		total += _item_repair_cost(placed.item)
+	return total
+
+func _item_repair_cost(item: ItemBase) -> int:
+	var dur := item._get_durability()
+	var max_dur := item._get_max_durability()
+	if max_dur <= 0 or dur >= max_dur:
+		return 0
+	var missing := max_dur - dur
+	var base_cost := maxf(1.0, item.value * 0.1)
+	return ceili(missing * base_cost / float(max_dur))
+
+func _repair_all_items() -> void:
+	var player: Player = GameManager.player
+	if not player:
+		return
+	for item: ItemBase in player.equipment.get_all_equipped():
+		_repair_item(item)
+	for placed: Inventory.PlacedItem in player.inventory.items:
+		_repair_item(placed.item)
+
+func _repair_item(item: ItemBase) -> void:
+	var max_dur := item._get_max_durability()
+	if max_dur > 0:
+		item._set_durability(max_dur)
+
+func _on_repair_pressed() -> void:
+	var player: Player = GameManager.player
+	if not player:
+		return
+	var cost := _get_repair_cost()
+	if cost <= 0:
+		_show_feedback("Nothing to repair!")
+		return
+	if player.gold < cost:
+		_show_feedback("Not enough gold!")
+		return
+	player.gold -= cost
+	Events.gold_changed.emit(player.gold)
+	_repair_all_items()
+	_refresh_gold()
+	_show_feedback("All gear repaired!")
+	_repair_tooltip.visible = false
+	var sfx := AudioStreamPlayer.new()
+	sfx.stream = _ANVIL_SFX
+	sfx.bus = &"Master"
+	add_child(sfx)
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()
+
+func _on_repair_hover(hovering: bool) -> void:
+	if not _repair_tooltip:
+		return
+	if hovering:
+		var label: Label = _repair_tooltip.get_node("CostLabel")
+		var cost := _get_repair_cost()
+		if cost > 0:
+			label.text = "Repair All\n%d gold" % cost
+		else:
+			label.text = "Repair All\nAll intact"
+		_position_tooltip_above(_repair_tooltip, _repair_btn)
+	else:
+		_repair_tooltip.visible = false
+
+# ---------------------------------------------------------------------------
+# Expand Inventory
+# ---------------------------------------------------------------------------
+
+func _build_expand_button() -> void:
+	var center_info := %CharismaLabel.get_parent()
+	if not center_info:
+		return
+
+	_expand_btn = Button.new()
+	_expand_btn.custom_minimum_size = Vector2(48, 48)
+	_expand_btn.icon = INVENTORY_ICON
+	_expand_btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_expand_btn.expand_icon = true
+	var btn_style := StyleBoxTexture.new()
+	btn_style.texture = load("res://assets/UI/rpg_hud/frame_button.png")
+	btn_style.texture_margin_left = 7.0
+	btn_style.texture_margin_top = 7.0
+	btn_style.texture_margin_right = 7.0
+	btn_style.texture_margin_bottom = 7.0
+	_expand_btn.add_theme_stylebox_override("normal", btn_style)
+	_expand_btn.add_theme_stylebox_override("hover", btn_style)
+	_expand_btn.add_theme_stylebox_override("pressed", btn_style)
+	var focus_style := StyleBoxEmpty.new()
+	_expand_btn.add_theme_stylebox_override("focus", focus_style)
+	_expand_btn.pressed.connect(_on_expand_pressed)
+	_expand_btn.mouse_entered.connect(_on_expand_hover.bind(true))
+	_expand_btn.mouse_exited.connect(_on_expand_hover.bind(false))
+	center_info.add_child(_expand_btn)
+
+	_expand_tooltip = Control.new()
+	_expand_tooltip.top_level = true
+	_expand_tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_expand_tooltip.visible = false
+
+	var bg := NinePatchRect.new()
+	bg.texture = preload("res://assets/UI/inventory/info_bg.png")
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		bg.set_patch_margin(side, 10)
+	bg.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_expand_tooltip.add_child(bg)
+
+	var border := NinePatchRect.new()
+	border.texture = preload("res://assets/UI/inventory/info_border.png")
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		border.set_patch_margin(side, 10)
+	border.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_expand_tooltip.add_child(border)
+
+	var label := Label.new()
+	label.name = "CostLabel"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color(0.894, 0.729, 0.522, 1))
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.06))
+	label.add_theme_constant_override("outline_size", 3)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.position = Vector2(10, 8)
+	_expand_tooltip.add_child(label)
+
+	add_child(_expand_tooltip)
+
+func _get_expand_cost() -> int:
+	var player: Player = GameManager.player
+	if not player:
+		return 0
+	var purchased := player.inventory.unlocked_rows - 5
+	return ceili(_ROW_BASE_COST * pow(_ROW_COST_MULT, purchased))
+
+func _refresh_expand_button() -> void:
+	if not _expand_btn:
+		return
+	var player: Player = GameManager.player
+	if not player:
+		_expand_btn.visible = false
+		return
+	_expand_btn.visible = player.inventory.unlocked_rows < player.inventory.height
+
+func _on_expand_pressed() -> void:
+	var player: Player = GameManager.player
+	if not player:
+		return
+	var inv := player.inventory
+	if inv.unlocked_rows >= inv.height:
+		_show_feedback("Inventory fully expanded!")
+		return
+	var cost := _get_expand_cost()
+	if player.gold < cost:
+		_show_feedback("Not enough gold!")
+		return
+	player.gold -= cost
+	Events.gold_changed.emit(player.gold)
+	inv.unlock_rows(inv.unlocked_rows + 1)
+	inv.changed.emit()
+	_player_grid.queue_redraw()
+	_refresh_gold()
+	_refresh_expand_button()
+	_expand_tooltip.visible = false
+	_show_feedback("+1 inventory row!")
+
+func _on_expand_hover(hovering: bool) -> void:
+	if not _expand_tooltip:
+		return
+	if hovering:
+		var label: Label = _expand_tooltip.get_node("CostLabel")
+		var player: Player = GameManager.player
+		if player and player.inventory.unlocked_rows < player.inventory.height:
+			label.text = "Expand Row\n%d gold" % _get_expand_cost()
+		else:
+			label.text = "Expand Row\nFully expanded"
+		_position_tooltip_above(_expand_tooltip, _expand_btn)
+	else:
+		_expand_tooltip.visible = false
+
+# ---------------------------------------------------------------------------
+# Shared tooltip positioning
+# ---------------------------------------------------------------------------
+
+func _position_tooltip_above(tooltip: Control, btn: Button) -> void:
+	var label: Label = tooltip.get_node("CostLabel")
+	var text_size := label.get_combined_minimum_size()
+	var padding := Vector2(20, 16)
+	tooltip.size = text_size + padding
+	var btn_rect := btn.get_global_rect()
+	var tip_x := btn_rect.position.x + btn_rect.size.x / 2.0 - tooltip.size.x / 2.0
+	var tip_y := btn_rect.position.y - tooltip.size.y - 6
+	var vp := get_viewport_rect().size
+	tip_x = clampf(tip_x, 2, vp.x - tooltip.size.x - 2)
+	if tip_y < 2:
+		tip_y = btn_rect.position.y + btn_rect.size.y + 6
+	tooltip.position = Vector2(tip_x, tip_y)
+	tooltip.visible = true

@@ -59,6 +59,7 @@ extends CanvasLayer
 @onready var _free_camera_button: Button = %FreeCameraButton
 @onready var _level_up_button: Button = %LevelUpButton
 @onready var _toggle_night_button: Button = %ToggleNightButton
+@onready var _reload_tres_button: Button = %ReloadTresButton
 @onready var _item_spawner_button: Button = %ItemSpawnerButton
 @onready var _hint: Label = %Hint
 
@@ -78,6 +79,7 @@ func _ready() -> void:
 	_free_camera_button.pressed.connect(_toggle_free_camera)
 	_level_up_button.pressed.connect(_level_up_player)
 	_toggle_night_button.pressed.connect(_toggle_night)
+	_reload_tres_button.pressed.connect(_reload_tres)
 	_item_spawner_button.pressed.connect(_toggle_item_spawner)
 	Events.entity_died.connect(_on_player_state_maybe_changed)
 	Events.health_changed.connect(func(entity: Node, _c: float, _m: float) -> void:
@@ -345,6 +347,15 @@ func _toggle_night() -> void:
 		dnc.cycle_time = dnc.day_duration + dnc.night_duration * 0.5
 	dnc._apply_tint()
 	_toggle_night_button.text = "Night: %s" % ("On" if dnc.is_night else "Off")
+
+# --- Reload .tres -----------------------------------------------------
+
+func _reload_tres() -> void:
+	ItemFactory.reload()
+	_reload_tres_button.text = "Reload .tres (%d)" % ItemFactory._registry.size()
+	var spawner := UIManager.get_screen(&"item_spawner")
+	if spawner and spawner is ItemSpawnerUI:
+		spawner.repopulate()
 
 # --- Item spawner -----------------------------------------------------
 

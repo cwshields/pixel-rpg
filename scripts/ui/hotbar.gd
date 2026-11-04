@@ -72,7 +72,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			select(_selected + step)
 			get_viewport().set_input_as_handled()
-	elif event is InputEventKey and event.pressed and not event.echo:
+	elif event is InputEventKey and event.pressed and not event.echo and not event.ctrl_pressed:
 		if event.keycode >= KEY_1 and event.keycode <= KEY_9:
 			var idx: int = event.keycode - KEY_1
 			if idx < _slots.size():

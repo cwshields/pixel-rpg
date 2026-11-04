@@ -122,6 +122,7 @@ func _try_equip(def: SlotDef) -> void:
 	if not Equipment.slot_accepts(def.slot, held):
 		return
 	var held_data := grid.take_held_item()
+	grid._play_place_sfx(held_data.item)
 	var previous: ItemBase = equipment.equip(def.slot, held_data.item)
 	if previous:
 		grid.pick_up_new(previous, 1)

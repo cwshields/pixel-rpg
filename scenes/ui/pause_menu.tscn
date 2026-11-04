@@ -94,9 +94,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -210.0
+offset_top = -230.0
 offset_right = 200.0
-offset_bottom = 210.0
+offset_bottom = 230.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -190,6 +190,17 @@ text = "100%"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Fullscreen"
+
+[node name="DamageNumbersCheck" type="CheckButton" parent="OptionsPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Damage Numbers"
+button_pressed = true
+
+[node name="HealthBarsCheck" type="CheckButton" parent="OptionsPanel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Health Bars"
 
 [node name="Spacer2" type="Control" parent="OptionsPanel/Layout" unique_id=1037650529]
 custom_minimum_size = Vector2(0, 8)

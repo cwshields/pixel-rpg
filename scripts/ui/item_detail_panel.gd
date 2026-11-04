@@ -1,6 +1,8 @@
 class_name ItemDetailPanel
 extends Control
 
+const BOOST_COLOR := Color(0.4, 0.7, 1.0)
+
 var _stat_values: Dictionary = {}
 
 @onready var _summary_vbox: VBoxContainer = %SummaryVBox
@@ -37,39 +39,81 @@ func _update_summary() -> void:
 	_exp_value.text = "%d/%d" % [s.current_xp, s.xp_for_next_level()] if s else "0/0"
 	_update_stat_points_badge(s)
 
-	_set_val("ConstitutionCell", "%d" % roundi(s.constitution))
-	_set_val("DamageCell", "%d" % roundi(s.attack))
-	_set_val("StrengthCell", "%d" % roundi(s.strength))
-	_set_val("DefenceCell", "%d" % roundi(s.defense))
-	_set_val("DexterityCell", "%d" % roundi(s.dexterity))
-	_set_val("BlockChanceCell", "%d%%" % roundi(s.block_chance * 100))
-	_set_val("CharismaCell", "%d" % roundi(s.charisma))
-	_set_val("AtkSpeedCell", "%.2f" % s.speed_multiplier)
-	_set_val("IntelligenceCell", "%d" % roundi(s.intelligence))
-	_set_val("MoveSpeedCell", "%d" % roundi(s.move_speed))
+	var m: float
 
-	_set_val("RegenerationCell", "%d" % roundi(s.regeneration))
-	_set_val("LifestealCell", "%d" % roundi(s.lifesteal))
-	_set_val("LuckCell", "%d%%" % roundi(s.luck))
+	m = s.get_modifier_total(&"constitution")
+	_set_val("ConstitutionCell", "%d" % roundi(s.constitution), m, _boost_tip(s.constitution - m, m))
+	m = s.get_modifier_total(&"attack")
+	_set_val("DamageCell", "%d" % roundi(s.attack), m, _boost_tip(s.attack - m, m))
+	m = s.get_modifier_total(&"strength")
+	_set_val("StrengthCell", "%d" % roundi(s.strength), m, _boost_tip(s.strength - m, m))
+	m = s.get_modifier_total(&"defense")
+	_set_val("DefenceCell", "%d" % roundi(s.defense), m, _boost_tip(s.defense - m, m))
+	m = s.get_modifier_total(&"dexterity")
+	_set_val("DexterityCell", "%d" % roundi(s.dexterity), m, _boost_tip(s.dexterity - m, m))
+	m = s.get_modifier_total(&"block_chance")
+	_set_val("BlockChanceCell", "%d%%" % roundi(s.block_chance * 100), m, _boost_tip(s.block_chance - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"charisma")
+	_set_val("CharismaCell", "%d" % roundi(s.charisma), m, _boost_tip(s.charisma - m, m))
+	m = s.get_modifier_total(&"attack_speed")
+	_set_val("AtkSpeedCell", "+%d%%" % roundi(s.attack_speed * 100), m, _boost_tip(s.attack_speed - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"intelligence")
+	_set_val("IntelligenceCell", "%d" % roundi(s.intelligence), m, _boost_tip(s.intelligence - m, m))
+	m = s.get_modifier_total(&"move_speed")
+	_set_val("MoveSpeedCell", "%d" % roundi(s.move_speed), m, _boost_tip(s.move_speed - m, m))
 
-	_set_val("FireResistCell", "%d" % roundi(s.fire_resist))
-	_set_val("IceResistCell", "%d" % roundi(s.ice_resist))
-	_set_val("PhysResistCell", "%d" % roundi(s.physical_resist))
-	_set_val("VenomResistCell", "%d" % roundi(s.venom_resist))
-	_set_val("LightningResistCell", "%d" % roundi(s.lightning_resist))
-	_set_val("HolyArcanaResistCell", "%d" % roundi(s.holy_arcana_resist))
+	m = s.get_modifier_total(&"regeneration")
+	_set_val("RegenerationCell", "%d" % roundi(s.regeneration), m, _boost_tip(s.regeneration - m, m))
+	m = s.get_modifier_total(&"lifesteal")
+	_set_val("LifestealCell", "%d%%" % roundi(s.lifesteal * 100), m, _boost_tip(s.lifesteal - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"luck")
+	_set_val("LuckCell", "%d%%" % roundi(s.luck), m, _boost_tip(s.luck - m, m, 1.0, "%"))
+	m = s.get_modifier_total(&"magic_find")
+	_set_val("MagicFindCell", "%d%%" % roundi(s.magic_find * 100), m, _boost_tip(s.magic_find - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"gold_find")
+	_set_val("GoldFindCell", "%d%%" % roundi(s.gold_find * 100), m, _boost_tip(s.gold_find - m, m, 100.0, "%"))
 
-	_set_val("FireDamageCell", "%d" % roundi(s.fire_damage))
-	_set_val("IceDamageCell", "%d" % roundi(s.ice_damage))
-	_set_val("EvasionCell", "%d" % roundi(s.evasion))
-	_set_val("VenomDamageCell", "%d" % roundi(s.venom_damage))
-	_set_val("LightningDamageCell", "%d" % roundi(s.lightning_damage))
-	_set_val("HolyArcanaDamageCell", "%d" % roundi(s.holy_arcana_damage))
+	m = s.get_modifier_total(&"fire_resist")
+	_set_val("FireResistCell", "%d%%" % roundi(s.fire_resist * 100), m, _boost_tip(s.fire_resist - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"ice_resist")
+	_set_val("IceResistCell", "%d%%" % roundi(s.ice_resist * 100), m, _boost_tip(s.ice_resist - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"physical_resist")
+	_set_val("PhysResistCell", "%d%%" % roundi(s.physical_resist * 100), m, _boost_tip(s.physical_resist - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"venom_resist")
+	_set_val("VenomResistCell", "%d%%" % roundi(s.venom_resist * 100), m, _boost_tip(s.venom_resist - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"lightning_resist")
+	_set_val("LightningResistCell", "%d%%" % roundi(s.lightning_resist * 100), m, _boost_tip(s.lightning_resist - m, m, 100.0, "%"))
+	m = s.get_modifier_total(&"holy_arcana_resist")
+	_set_val("HolyArcanaResistCell", "%d%%" % roundi(s.holy_arcana_resist * 100), m, _boost_tip(s.holy_arcana_resist - m, m, 100.0, "%"))
 
-func _set_val(cell_name: String, text: String) -> void:
+	m = s.get_modifier_total(&"fire_damage")
+	_set_val("FireDamageCell", "%d" % roundi(s.fire_damage), m, _boost_tip(s.fire_damage - m, m))
+	m = s.get_modifier_total(&"ice_damage")
+	_set_val("IceDamageCell", "%d" % roundi(s.ice_damage), m, _boost_tip(s.ice_damage - m, m))
+	m = s.get_modifier_total(&"evasion")
+	_set_val("EvasionCell", "%d" % roundi(s.evasion), m, _boost_tip(s.evasion - m, m))
+	m = s.get_modifier_total(&"venom_damage")
+	_set_val("VenomDamageCell", "%d" % roundi(s.venom_damage), m, _boost_tip(s.venom_damage - m, m))
+	m = s.get_modifier_total(&"lightning_damage")
+	_set_val("LightningDamageCell", "%d" % roundi(s.lightning_damage), m, _boost_tip(s.lightning_damage - m, m))
+	m = s.get_modifier_total(&"holy_arcana_damage")
+	_set_val("HolyArcanaDamageCell", "%d" % roundi(s.holy_arcana_damage), m, _boost_tip(s.holy_arcana_damage - m, m))
+
+func _boost_tip(base_raw: float, mod_raw: float, scale: float = 1.0, suffix: String = "") -> String:
+	return "Base: %d%s\nItems: +%d%s" % [roundi(base_raw * scale), suffix, roundi(mod_raw * scale), suffix]
+
+func _set_val(cell_name: String, text: String, modifier: float = 0.0, tooltip: String = "") -> void:
 	var lbl: Label = _stat_values.get(cell_name)
 	if lbl:
 		lbl.text = text
+		if modifier > 0.0:
+			lbl.add_theme_color_override("font_color", BOOST_COLOR)
+			lbl.mouse_filter = Control.MOUSE_FILTER_PASS
+			lbl.tooltip_text = tooltip
+		else:
+			lbl.remove_theme_color_override("font_color")
+			lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			lbl.tooltip_text = ""
 
 func refresh_summary() -> void:
 	if _summary_vbox:

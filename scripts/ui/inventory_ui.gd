@@ -38,6 +38,7 @@ func _on_open() -> void:
 	var player: Player = GameManager.player
 	if player:
 		grid.setup(player.inventory)
+		grid.quick_equip_handler = _quick_equip
 		if equip_panel:
 			equip_panel.setup(player.equipment, grid)
 		if hotbar_strip:
@@ -62,7 +63,9 @@ func _input(event: InputEvent) -> void:
 			search_input.release_focus()
 			get_viewport().set_input_as_handled()
 			return
-		if event is InputEventKey:
+		if event.is_action_pressed(&"swap_weapons"):
+			search_input.release_focus()
+		elif event is InputEventKey:
 			return
 	super._input(event)
 
@@ -96,6 +99,31 @@ func set_category(category: StringName) -> void:
 func _on_search_changed(text: String) -> void:
 	_search_text = text.strip_edges().to_lower()
 	_update_filter()
+
+func _quick_equip(placed: Inventory.PlacedItem) -> bool:
+	var player: Player = GameManager.player
+	if not player or not equip_panel or not equip_panel.equipment:
+		return false
+	var eq := equip_panel.equipment
+	var slot_id := eq.find_slot_for(placed.item)
+	if slot_id < 0:
+		return false
+	var slot: Equipment.Slot = slot_id as Equipment.Slot
+	var item := placed.item
+	var qty := placed.quantity
+	grid.inventory.remove_placed(placed)
+	grid._play_place_sfx(item)
+	var previous: ItemBase = eq.equip(slot, item)
+	if previous:
+		var placement := grid.inventory.find_free_placement(previous)
+		if not placement.is_empty():
+			grid.inventory.place_item(previous, placement.pos, placement.rotation, 1)
+		else:
+			grid.pick_up_new(previous, 1)
+	if info_panel:
+		info_panel.refresh_summary()
+	_refresh_header(player)
+	return true
 
 func _update_filter() -> void:
 	var cat_filter: Callable = _category_filters.get(_active_tab, Callable())

@@ -28,9 +28,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -162.0
-offset_top = -200.0
+offset_top = -240.0
 offset_right = 162.0
-offset_bottom = 200.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
@@ -60,8 +60,50 @@ layout_mode = 2
 placeholder_text = "Search..."
 clear_button_enabled = true
 
+[node name="MagicRoll" type="VBoxContainer" parent="Panel/Margin/HBox/Palette" unique_id=704870857]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="MagicLabel" type="Label" parent="Panel/Margin/HBox/Palette/MagicRoll" unique_id=1012351341]
+layout_mode = 2
+text = "Magic Roll"
+
+[node name="RarityRow" type="HBoxContainer" parent="Panel/Margin/HBox/Palette/MagicRoll" unique_id=1544852351]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="RarityLabel" type="Label" parent="Panel/Margin/HBox/Palette/MagicRoll/RarityRow" unique_id=638921707]
+layout_mode = 2
+text = "Rarity"
+
+[node name="Rarity" type="OptionButton" parent="Panel/Margin/HBox/Palette/MagicRoll/RarityRow" unique_id=257054635]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LevelRow" type="HBoxContainer" parent="Panel/Margin/HBox/Palette/MagicRoll" unique_id=1770770889]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LevelLabel" type="Label" parent="Panel/Margin/HBox/Palette/MagicRoll/LevelRow" unique_id=1313170496]
+layout_mode = 2
+text = "Level"
+
+[node name="Level" type="SpinBox" parent="Panel/Margin/HBox/Palette/MagicRoll/LevelRow" unique_id=1072074003]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 50.0
+value = 1.0
+
+[node name="Reroll" type="Button" parent="Panel/Margin/HBox/Palette/MagicRoll" unique_id=1464344904]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reroll Held Item"
+
 [node name="Scroll" type="ScrollContainer" parent="Panel/Margin/HBox/Palette" unique_id=1063922527]
-custom_minimum_size = Vector2(140, 320)
+custom_minimum_size = Vector2(140, 220)
 layout_mode = 2
 horizontal_scroll_mode = 0
 

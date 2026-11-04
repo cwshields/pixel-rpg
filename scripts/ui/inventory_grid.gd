@@ -54,8 +54,6 @@ const TT_VALUE_COLOR := Color(0.96, 0.94, 0.88, 1.0)
 const TT_OUTLINE_COLOR := Color(0.05, 0.04, 0.06)
 const REQ_LABEL_COLOR := Color(0.85, 0.35, 0.25, 1.0)
 const REQ_VALUE_COLOR := Color(0.96, 0.94, 0.88, 1.0)
-const HINT_COLOR := Color(0.6, 0.55, 0.5, 0.9)
-const MAX_COLLAPSED_AFFIXES := 5
 
 var inventory: Inventory
 ## When set, only items whose ItemBase passes this check are drawn and
@@ -79,7 +77,6 @@ var _hovered: Inventory.PlacedItem = null
 var _trash_highlighted := false
 
 var _tooltip_item: ItemBase
-var _tooltip_expanded: bool = false
 var _tooltip_external: bool = false
 var _cursor_tooltip: Control
 var _tooltip_vbox: VBoxContainer
@@ -92,6 +89,9 @@ var trash_control: Control = null
 ## Called with (InputEventMouseButton) before processing a left-click.
 ## Return true to consume the event (grid skips its own handling).
 var input_filter: Callable
+## Called with (Inventory.PlacedItem) on shift+left-click. Should handle
+## quick-equip and return true if the item was consumed.
+var quick_equip_handler: Callable
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -184,7 +184,6 @@ func show_external_tooltip(item: ItemBase) -> void:
 	if item:
 		_tooltip_external = true
 		_tooltip_item = item
-		_tooltip_expanded = false
 		_show_detail(item)
 	else:
 		_tooltip_external = false
@@ -194,7 +193,6 @@ func show_external_tooltip(item: ItemBase) -> void:
 func _clear_hover() -> void:
 	_hovered = null
 	_tooltip_item = null
-	_tooltip_expanded = false
 	_tooltip_external = false
 	_cursor_tooltip.visible = false
 	Events.inventory_item_hovered.emit(null)
@@ -220,17 +218,18 @@ func _on_inventory_changed() -> void:
 func _input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or not inventory:
 		return
-	if event is InputEventKey and event.keycode == KEY_ALT and _tooltip_item and _cursor_tooltip.visible:
-		var want_expanded: bool = (event as InputEventKey).pressed
-		if want_expanded != _tooltip_expanded:
-			_tooltip_expanded = want_expanded
-			_show_detail(_tooltip_item)
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
 			if input_filter.is_valid() and input_filter.call(mb):
 				get_viewport().set_input_as_handled()
 				return
+			if mb.shift_pressed and not _held_item and _hovered:
+				if quick_equip_handler.is_valid() and quick_equip_handler.call(_hovered):
+					_clear_hover()
+					_update_hover(get_local_mouse_position())
+					get_viewport().set_input_as_handled()
+					return
 			if not _held_item:
 				if _pick_up_at(get_local_mouse_position()):
 					get_viewport().set_input_as_handled()
@@ -290,7 +289,6 @@ func _update_hover(local_pos: Vector2) -> void:
 	if _hovered:
 		_tooltip_external = false
 		_tooltip_item = _hovered.item
-		_tooltip_expanded = false
 		_show_detail(_hovered.item)
 		Events.inventory_item_hovered.emit(_hovered.item)
 	elif not _tooltip_external:
@@ -478,9 +476,11 @@ func _held_target_pos() -> Vector2i:
 	return Vector2i(roundi(top_left.x / CELL_SIZE), roundi(top_left.y / CELL_SIZE))
 
 func _update_held_icon() -> void:
-	var dims := _shape_dims(inventory.get_rotated_cells(_held_item, _held_rotation))
+	var orig_dims := _shape_dims(_held_item.get_shape_cells())
 	_held_icon.texture = _held_item.icon
-	_held_icon.size = Vector2(dims) * CELL_SIZE
+	_held_icon.size = Vector2(orig_dims) * CELL_SIZE
+	_held_icon.pivot_offset = _held_icon.size / 2.0
+	_held_icon.rotation = _held_rotation * PI / 2.0
 
 func _placed_at(cell: Vector2i) -> Inventory.PlacedItem:
 	for placed in inventory.items:
@@ -524,6 +524,13 @@ func has_held_item() -> bool:
 
 func get_held_item() -> ItemBase:
 	return _held_item
+
+func refresh_held_tooltip() -> void:
+	if _held_item:
+		_update_held_icon()
+		_show_detail(_held_item)
+		_resize_tooltip()
+		_position_tooltip()
 
 func get_held_quantity() -> int:
 	return _held_quantity
@@ -575,7 +582,12 @@ func _draw_item(item: ItemBase, pos: Vector2i, rot: int, quantity: int) -> void:
 		draw_rect(Rect2(origin + Vector2(c) * CELL_SIZE, Vector2.ONE * CELL_SIZE), ITEM_FILL_COLOR, true)
 	draw_rect(Rect2(origin + Vector2.ONE, footprint - Vector2.ONE * 2), ITEM_OUTLINE_COLOR, false, 1.0)
 	if item.icon:
-		draw_texture_rect(item.icon, Rect2(origin + Vector2.ONE * 2, footprint - Vector2.ONE * 4), false)
+		var orig_footprint := Vector2(_shape_dims(item.get_shape_cells())) * CELL_SIZE
+		var padded := orig_footprint - Vector2.ONE * 4
+		var center := origin + footprint / 2.0
+		draw_set_transform(center, rot * PI / 2.0, Vector2.ONE)
+		draw_texture_rect(item.icon, Rect2(-padded / 2.0, padded), false)
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 	if quantity > 1:
 		var font := get_theme_default_font()
 		var font_size := 14
@@ -681,9 +693,9 @@ func _show_detail(item: ItemBase) -> void:
 
 	if item is Weapon:
 		var w := item as Weapon
-		if w.min_damage > 0.0 or w.max_damage > 0.0:
-			_tooltip_vbox.add_child(_tt_make_icon_label(DMG_ICON,
-				"%d-%d" % [roundi(w.min_damage), roundi(w.max_damage)], TT_VALUE_COLOR))
+		var dmg := w.get_display_damage_range()
+		_tooltip_vbox.add_child(_tt_make_icon_label(DMG_ICON,
+			"%d-%d" % [roundi(dmg.x), roundi(dmg.y)], TT_VALUE_COLOR))
 		if w.max_durability > 0:
 			_tooltip_vbox.add_child(_tt_make_icon_label(DURABILITY_ICON,
 				"%d/%d" % [w.durability, w.max_durability], TT_VALUE_COLOR))
@@ -693,6 +705,16 @@ func _show_detail(item: ItemBase) -> void:
 		var a := item as Armor
 		_tooltip_vbox.add_child(_tt_make_icon_label(ARMOR_ICON,
 			"%d" % roundi(a.defense), TT_VALUE_COLOR))
+		if a.max_durability > 0:
+			_tooltip_vbox.add_child(_tt_make_icon_label(DURABILITY_ICON,
+				"%d/%d" % [a.durability, a.max_durability], TT_VALUE_COLOR))
+	elif item is Shield:
+		var s := item as Shield
+		_tooltip_vbox.add_child(_tt_make_icon_label(ARMOR_ICON,
+			"%d" % roundi(s.defense), TT_VALUE_COLOR))
+		if s.max_durability > 0:
+			_tooltip_vbox.add_child(_tt_make_icon_label(DURABILITY_ICON,
+				"%d/%d" % [s.durability, s.max_durability], TT_VALUE_COLOR))
 
 	var affix_lines := item.get_affix_lines()
 	var magic_lines: Array[String] = []
@@ -706,12 +728,8 @@ func _show_detail(item: ItemBase) -> void:
 
 	if not magic_lines.is_empty():
 		_tooltip_vbox.add_child(_tt_make_spacer(6))
-		var visible_count := magic_lines.size() if _tooltip_expanded else mini(magic_lines.size(), MAX_COLLAPSED_AFFIXES)
-		for i in visible_count:
+		for i in magic_lines.size():
 			_tooltip_vbox.add_child(_tt_make_label(magic_lines[i], TT_FONT_SIZE, MAGIC_COLOR))
-		if not _tooltip_expanded and magic_lines.size() > MAX_COLLAPSED_AFFIXES:
-			_tooltip_vbox.add_child(_tt_make_spacer(4))
-			_tooltip_vbox.add_child(_tt_make_hold_alt_hint())
 
 	var has_reqs := item.required_level > 0 or item.required_strength > 0 or item.required_dexterity > 0
 	if has_reqs:
@@ -793,17 +811,6 @@ func _tt_make_spacer(h: float) -> Control:
 	spacer.custom_minimum_size.y = h
 	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return spacer
-
-func _tt_make_hold_alt_hint() -> RichTextLabel:
-	var rtl := RichTextLabel.new()
-	rtl.bbcode_enabled = true
-	rtl.fit_content = true
-	rtl.scroll_active = false
-	rtl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	rtl.add_theme_font_size_override("normal_font_size", TT_FONT_SIZE - 2)
-	rtl.add_theme_color_override("default_color", HINT_COLOR)
-	rtl.text = "... Hold [color=#e4e0d8][Alt][/color] to view more"
-	return rtl
 
 func _tt_make_icon_label(icon: Texture2D, text: String, color: Color) -> HBoxContainer:
 	var hbox := HBoxContainer.new()

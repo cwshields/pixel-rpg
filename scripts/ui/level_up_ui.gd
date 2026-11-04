@@ -11,6 +11,7 @@ const BG_COLOR := Color(0.06, 0.05, 0.08, 0.88)
 const PANEL_BG := Color(0.10, 0.09, 0.12, 0.95)
 const ROW_BG := Color(0.13, 0.12, 0.16, 0.8)
 const PENDING_COLOR := Color(0.45, 0.82, 0.45)
+const BOOST_COLOR := Color(0.4, 0.7, 1.0)
 
 const STAT_ICONS := {
 	&"strength": preload("res://assets/UI/inventory/stat_strength.png"),
@@ -33,7 +34,7 @@ const STAT_BENEFITS := {
 	&"constitution": "+2 Max Health, +1.5 Max Stamina, +0.2 Regen",
 	&"dexterity": "+0.01 Block, +0.005 Crit, +0.005 Speed, +0.2 Move Spd, +0.4 Evasion",
 	&"charisma": "Improves haggling and NPC favor",
-	&"intelligence": "+0.3 All Magic Dmg, +0.3 Luck, +2 Max Mana",
+	&"intelligence": "+0.3 All Magic Dmg, +0.15 Luck (Magic/Gold Find, slight Dodge), +2 Max Mana",
 }
 
 const STAT_TRADEOFFS := {
@@ -284,12 +285,22 @@ func _refresh() -> void:
 				&"charisma": base_val = s.charisma
 				&"intelligence": base_val = s.intelligence
 			var pend: int = _pending.get(attr, 0)
+			var mod: float = s.get_modifier_total(attr)
 			if pend > 0:
 				val_label.text = "%d (+%d)" % [roundi(base_val), pend]
 				val_label.add_theme_color_override("font_color", PENDING_COLOR)
+			elif mod > 0.0:
+				val_label.text = "%d" % roundi(base_val)
+				val_label.add_theme_color_override("font_color", BOOST_COLOR)
 			else:
 				val_label.text = "%d" % roundi(base_val)
 				val_label.add_theme_color_override("font_color", VALUE_COLOR)
+			if mod > 0.0:
+				val_label.mouse_filter = Control.MOUSE_FILTER_PASS
+				val_label.tooltip_text = "Base: %d\nItems: +%d" % [roundi(base_val - mod), roundi(mod)]
+			else:
+				val_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				val_label.tooltip_text = ""
 
 		var plus_btn: Button = _plus_buttons.get(attr)
 		if plus_btn:

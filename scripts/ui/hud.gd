@@ -54,6 +54,7 @@ func _ready() -> void:
 	Events.level_up.connect(_on_level_up)
 	Events.player_spawned.connect(_on_player_spawned)
 	Events.notification.connect(_flash_notification)
+	Events.ui_toggled.connect(_on_ui_toggled)
 	_push(&"health_fill", _health)
 	_push(&"stamina_fill", _stamina)
 	_push(&"mana_fill", _mana)
@@ -244,6 +245,9 @@ func _build_notification_label() -> void:
 	_notification_label.add_theme_constant_override("outline_size", 5)
 	_notification_label.modulate.a = 0.0
 	add_child(_notification_label)
+
+func _on_ui_toggled(_screen_name: StringName, _is_open: bool) -> void:
+	(%Bar as Control).visible = not UIManager.is_any_open()
 
 func _flash_notification(text: String) -> void:
 	if not _notification_label:
