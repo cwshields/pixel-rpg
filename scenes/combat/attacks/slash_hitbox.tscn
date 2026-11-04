@@ -28,7 +28,7 @@ size = Vector2(22, 16)
 
 [node name="SlashHitbox" type="Area2D"]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 28
 monitoring = false
 script = ExtResource("1")
 knockback_force = 150.0

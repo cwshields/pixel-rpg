@@ -16,6 +16,10 @@ extends Area2D
 ## the whole Area2D to face the target (enemy/critter hitboxes).
 
 @export var damage: float = 5.0
+## Per-element damage breakdown set by compute_outgoing_damage(). When
+## non-empty, passed through to the damage pipeline so resists apply
+## per element. When empty, `damage` is wrapped as all-physical.
+var damage_breakdown: Dictionary = {}
 @export var knockback_force: float = 150.0
 ## Whoever is dealing this damage. Set by the owning entity so hitboxes
 ## don't hurt their own source and so death credit/loot can be attributed.
@@ -118,4 +122,5 @@ func _on_area_entered(area: Area2D) -> void:
 	if source and source is Node2D and hurtbox.get_parent() is Node2D:
 		var away: Vector2 = hurtbox.get_parent().global_position - (source as Node2D).global_position
 		knockback = away.normalized() * knockback_force if away.length() > 0.0 else Vector2.ZERO
-	hurtbox.receive_hit(damage, source, knockback, self)
+	var bd: Dictionary = damage_breakdown if not damage_breakdown.is_empty() else {&"physical": damage}
+	hurtbox.receive_hit(damage, source, knockback, self, bd)

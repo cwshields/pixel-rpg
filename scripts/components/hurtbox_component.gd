@@ -9,11 +9,11 @@ signal hit_received(amount: float, source: Node)
 ## Leave empty to auto-look-up a sibling "HealthComponent" on the parent.
 @export var health_component_path: NodePath
 
-func receive_hit(amount: float, source: Node, knockback: Vector2 = Vector2.ZERO, hitbox: HitboxComponent = null) -> void:
+func receive_hit(amount: float, source: Node, knockback: Vector2 = Vector2.ZERO, hitbox: HitboxComponent = null, breakdown: Dictionary = {}) -> void:
 	hit_received.emit(amount, source)
 	var parent := get_parent()
 	if parent is EntityBase:
-		(parent as EntityBase).take_damage(amount, source, knockback)
+		(parent as EntityBase).take_damage(amount, source, knockback, breakdown)
 		return
 	var final_amount := amount
 	if parent and parent.has_method(&"filter_incoming_damage"):

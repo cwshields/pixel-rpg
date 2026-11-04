@@ -20,10 +20,10 @@ const VALID_ATTRIBUTES: Array[StringName] = [
 @export var base_intelligence: float = 5.0
 
 ## --- Combat base stats (still directly settable for enemies/NPCs) ---
-@export var base_attack: float = 5.0
+@export var base_attack: float = 2.0
 @export var base_defense: float = 0.0
 @export var base_speed_multiplier: float = 1.0
-@export_range(0.0, 1.0) var base_crit_chance: float = 0.05
+@export_range(0.0, 1.0) var base_crit_chance: float = 0.025
 
 ## {stat_name: {source_id: amount}}. Use add_modifier()/remove_modifier()
 ## rather than touching this directly so unrelated sources never clobber
@@ -51,7 +51,9 @@ var intelligence: float:
 ## --- Secondary / combat stats ---
 ## Strength drives attack.
 var attack: float:
-	get: return base_attack + _sum_modifiers(&"attack") + strength * 0.5
+	get:
+		var weapon_dmg := _sum_modifiers(&"attack")
+		return (weapon_dmg if weapon_dmg > 0.0 else base_attack) + strength * 0.5
 ## Strength drives defense; dexterity and intelligence slightly reduce it.
 var defense: float:
 	get: return base_defense + _sum_modifiers(&"defense") + strength * 0.3 - dexterity * 0.05 - intelligence * 0.1
@@ -61,9 +63,11 @@ var speed_multiplier: float:
 var crit_chance: float:
 	get: return base_crit_chance + _sum_modifiers(&"crit_chance") + dexterity * 0.005
 var dodge_chance: float:
-	get: return clampf(0.02 + (dexterity / 100.0) * 0.08 + _sum_modifiers(&"dodge_chance"), 0.0, 1.0)
+	get: return clampf(0.02 + (dexterity / 100.0) * 0.08 + evasion * 0.005 + _sum_modifiers(&"dodge_chance") + luck * 0.001, 0.0, 1.0)
 var block_chance: float:
 	get: return _sum_modifiers(&"block_chance") + dexterity * 0.01
+var attack_speed: float:
+	get: return _sum_modifiers(&"attack_speed")
 var move_speed: float:
 	get: return 15.0 + _sum_modifiers(&"move_speed") + dexterity * 0.2
 ## Dexterity increases evasion; strength decreases it.
@@ -77,7 +81,12 @@ var lifesteal: float:
 	get: return _sum_modifiers(&"lifesteal")
 ## Intelligence drives luck (moved from charisma).
 var luck: float:
-	get: return _sum_modifiers(&"luck") + intelligence * 0.3
+	get: return _sum_modifiers(&"luck") + intelligence * 0.15
+## Luck drives magic-find and gold-find — the treasure-hunting stats.
+var magic_find: float:
+	get: return _sum_modifiers(&"magic_find") + luck * 0.01
+var gold_find: float:
+	get: return _sum_modifiers(&"gold_find") + luck * 0.01
 ## Percentage bonus applied to outgoing damage (from affixes like "Honed").
 var damage_percent: float:
 	get: return _sum_modifiers(&"damage_percent")
@@ -102,7 +111,7 @@ var fire_resist: float:
 var ice_resist: float:
 	get: return _sum_modifiers(&"ice_resist")
 var physical_resist: float:
-	get: return _sum_modifiers(&"physical_resist") + strength * 0.3
+	get: return _sum_modifiers(&"physical_resist") + strength * 0.003
 var venom_resist: float:
 	get: return _sum_modifiers(&"venom_resist")
 var lightning_resist: float:
@@ -111,17 +120,28 @@ var holy_arcana_resist: float:
 	get: return _sum_modifiers(&"holy_arcana_resist")
 
 ## --- Elemental damage ---
-## Intelligence drives all magic damage.
+## Intelligence amplifies elemental damage from gear/affixes — it doesn't
+## create it from nothing, so a purely physical build deals zero magic.
 var fire_damage: float:
-	get: return _sum_modifiers(&"fire_damage") + intelligence * 0.3
+	get:
+		var base := _sum_modifiers(&"fire_damage")
+		return base + intelligence * 0.3 if base > 0.0 else 0.0
 var ice_damage: float:
-	get: return _sum_modifiers(&"ice_damage") + intelligence * 0.3
+	get:
+		var base := _sum_modifiers(&"ice_damage")
+		return base + intelligence * 0.3 if base > 0.0 else 0.0
 var venom_damage: float:
-	get: return _sum_modifiers(&"venom_damage") + intelligence * 0.3
+	get:
+		var base := _sum_modifiers(&"venom_damage")
+		return base + intelligence * 0.3 if base > 0.0 else 0.0
 var lightning_damage: float:
-	get: return _sum_modifiers(&"lightning_damage") + intelligence * 0.3
+	get:
+		var base := _sum_modifiers(&"lightning_damage")
+		return base + intelligence * 0.3 if base > 0.0 else 0.0
 var holy_arcana_damage: float:
-	get: return _sum_modifiers(&"holy_arcana_damage") + intelligence * 0.3
+	get:
+		var base := _sum_modifiers(&"holy_arcana_damage")
+		return base + intelligence * 0.3 if base > 0.0 else 0.0
 
 ## --- Modifier helpers ---
 
@@ -141,6 +161,9 @@ func remove_all_from_source(source_id: StringName) -> void:
 		_modifiers[stat].erase(source_id)
 	Events.stats_changed.emit(get_parent())
 
+func get_modifier_total(stat: StringName) -> float:
+	return _sum_modifiers(stat)
+
 func _sum_modifiers(stat: StringName) -> float:
 	if not _modifiers.has(stat):
 		return 0.0
@@ -151,14 +174,46 @@ func _sum_modifiers(stat: StringName) -> float:
 
 ## --- Combat ---
 
-func compute_incoming_damage(raw_damage: float) -> float:
-	return maxf(raw_damage - defense, 1.0)
+const ELEMENT_RESIST_MAP: Dictionary = {
+	&"fire": &"fire_resist",
+	&"ice": &"ice_resist",
+	&"venom": &"venom_resist",
+	&"lightning": &"lightning_resist",
+	&"holy_arcana": &"holy_arcana_resist",
+}
 
-func compute_outgoing_damage() -> float:
-	var dmg: float = attack * (1.0 + damage_percent)
-	if randf() < crit_chance:
-		dmg *= 2.0
-	return dmg
+func compute_incoming_damage(breakdown: Dictionary) -> float:
+	var total: float = 0.0
+	var phys: float = breakdown.get(&"physical", 0.0)
+	if phys > 0.0:
+		phys = maxf(phys - defense, 1.0) * (1.0 - clampf(physical_resist, 0.0, 1.0))
+	total += phys
+	for element: StringName in ELEMENT_RESIST_MAP:
+		var dmg: float = breakdown.get(element, 0.0)
+		if dmg > 0.0:
+			var resist_name: StringName = ELEMENT_RESIST_MAP[element]
+			total += dmg * (1.0 - clampf(get(resist_name), 0.0, 1.0))
+	return maxf(total, 1.0)
+
+func compute_outgoing_damage() -> Dictionary:
+	var is_crit := randf() < crit_chance
+	var mult: float = 2.0 if is_crit else 1.0
+	var result: Dictionary = {
+		&"physical": attack * (1.0 + damage_percent) * mult,
+	}
+	if is_crit:
+		result[&"_crit"] = true
+	if fire_damage > 0.0:
+		result[&"fire"] = fire_damage * mult
+	if ice_damage > 0.0:
+		result[&"ice"] = ice_damage * mult
+	if venom_damage > 0.0:
+		result[&"venom"] = venom_damage * mult
+	if lightning_damage > 0.0:
+		result[&"lightning"] = lightning_damage * mult
+	if holy_arcana_damage > 0.0:
+		result[&"holy_arcana"] = holy_arcana_damage * mult
+	return result
 
 ## --- Leveling ---
 
