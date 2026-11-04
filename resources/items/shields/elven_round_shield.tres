@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="Shield" format=3]
+[gd_resource type="Resource" script_class="Shield" format=3 uid="uid://c8wcf1yw51sak"]
 
-[ext_resource type="Script" path="res://scripts/items/shield.gd" id="d3180"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Elf/Elf_Weapon.png" id="49acb"]
+[ext_resource type="Texture2D" uid="uid://dv2l2h1i8tf1x" path="res://assets/Items/Weapons/Elf/Elf_Weapon.png" id="49acb"]
+[ext_resource type="Script" uid="uid://fdeid737s6nl" path="res://scripts/items/shield.gd" id="d3180"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0b67a"]
 atlas = ExtResource("49acb")

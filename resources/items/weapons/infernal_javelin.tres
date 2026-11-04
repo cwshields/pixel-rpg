@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://cee3axof7cjgo"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Fire Weapons/Fire Weapons.png" id="4ad59"]
+[ext_resource type="Texture2D" uid="uid://bmeksg7pu8fuf" path="res://assets/Items/Weapons/Fire Weapons/Fire Weapons.png" id="4ad59"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_96fc6"]
 atlas = ExtResource("4ad59")
@@ -20,3 +20,4 @@ value = 62
 category = 0
 class_affinity = 3
 weight = 3.0
+shape = ["#", "#", "#", "#"]

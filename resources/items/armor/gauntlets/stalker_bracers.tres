@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Armor" format=3]
+[gd_resource type="Resource" script_class="Armor" format=3 uid="uid://b85tpur6a5bu"]
 
-[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
-[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+[ext_resource type="Texture2D" uid="uid://c5v2rsjk3cygr" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+[ext_resource type="Script" uid="uid://nfocvp4pkad0" path="res://scripts/items/armor.gd" id="ec9dc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2a6d3"]
 atlas = ExtResource("6fb75")
-region = Rect2(140, 75, 17, 15)
+region = Rect2(130, 65, 28, 28)
 
 [resource]
 script = ExtResource("ec9dc")
@@ -16,7 +16,7 @@ display_name = "Stalker Bracers"
 icon = SubResource("AtlasTexture_2a6d3")
 value = 26
 category = 1
-class_affinity = 2
 rarity = 3
+class_affinity = 2
 weight = 0.7
-shape = PackedStringArray("##", "##")
+shape = ["##", "##"]

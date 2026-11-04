@@ -5,7 +5,8 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_96de1"]
 atlas = ExtResource("6891a")
-region = Rect2(223, 33, 34, 31)
+region = Rect2(224, 33, 32, 31)
+margin = Rect2(0, 0, 0, 1)
 
 [resource]
 script = ExtResource("ec9dc")
@@ -18,4 +19,4 @@ value = 34
 category = 1
 class_affinity = 2
 weight = 1.2
-shape = PackedStringArray("##", "##")
+shape = ["##", "##"]

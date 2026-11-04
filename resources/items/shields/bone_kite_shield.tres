@@ -17,3 +17,4 @@ icon = SubResource("AtlasTexture_3103a")
 value = 30
 category = 1
 weight = 2.6
+shape = ["##", "##"]

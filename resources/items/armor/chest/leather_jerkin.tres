@@ -1,15 +1,15 @@
-[gd_resource type="Resource" script_class="Armor" format=3]
+[gd_resource type="Resource" script_class="Armor" format=3 uid="uid://cxow5n0we438i"]
 
-[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
-[ext_resource type="Texture2D" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+[ext_resource type="Texture2D" uid="uid://cpfisbe5r6xac" path="res://assets/Items/Armor/Armor.png" id="8aaef"]
+[ext_resource type="Script" uid="uid://nfocvp4pkad0" path="res://scripts/items/armor.gd" id="ec9dc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_52ff2"]
 atlas = ExtResource("8aaef")
-region = Rect2(15, 102, 33, 35)
+region = Rect2(15, 102, 32, 35)
+margin = Rect2(0, 6, 0, 13)
 
 [resource]
 script = ExtResource("ec9dc")
-armor_slot = 1
 defense = 5.0
 id = &"leather_jerkin"
 display_name = "Leather Jerkin"
@@ -18,4 +18,4 @@ value = 40
 category = 1
 class_affinity = 2
 weight = 2.2
-shape = PackedStringArray("##", "##", "##")
+shape = ["##", "##", "##"]

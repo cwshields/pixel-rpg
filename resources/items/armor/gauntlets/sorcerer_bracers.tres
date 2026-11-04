@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Armor" format=3]
+[gd_resource type="Resource" script_class="Armor" format=3 uid="uid://dq8jevd53t351"]
 
-[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
-[ext_resource type="Texture2D" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+[ext_resource type="Texture2D" uid="uid://c5v2rsjk3cygr" path="res://assets/Items/Armor/Gauntlets.png" id="6fb75"]
+[ext_resource type="Script" uid="uid://nfocvp4pkad0" path="res://scripts/items/armor.gd" id="ec9dc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b5dfe"]
 atlas = ExtResource("6fb75")
-region = Rect2(139, 108, 17, 17)
+region = Rect2(130, 99, 28, 28)
 
 [resource]
 script = ExtResource("ec9dc")
@@ -16,7 +16,7 @@ display_name = "Sorcerer Bracers"
 icon = SubResource("AtlasTexture_b5dfe")
 value = 32
 category = 1
-class_affinity = 3
 rarity = 3
+class_affinity = 3
 weight = 0.55
-shape = PackedStringArray("##", "##")
+shape = ["##", "##"]

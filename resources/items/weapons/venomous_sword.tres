@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://uek58u0swc3i"]
+
+[ext_resource type="Texture2D" uid="uid://cdt8q5w8wk76y" path="res://assets/Items/Weapons/Poison/Poison Weapons.png" id="1_c6sxh"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="2_ubs8r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5747c"]
+atlas = ExtResource("1_c6sxh")
+region = Rect2(1, 1, 14, 48)
+
+[resource]
+script = ExtResource("2_ubs8r")
+weapon_type = 3
+damage = 7.0
+attack_speed = 0.7
+two_handed = true
+id = &"venomous_sword"
+display_name = "Venomous Sword"
+icon = SubResource("AtlasTexture_5747c")
+value = 50
+category = 0
+class_affinity = 2
+weight = 3.0

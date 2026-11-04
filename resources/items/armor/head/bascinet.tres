@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Armor" format=3]
+[gd_resource type="Resource" script_class="Armor" format=3 uid="uid://cqtknyagqxk5o"]
 
-[ext_resource type="Script" path="res://scripts/items/armor.gd" id="ec9dc"]
-[ext_resource type="Texture2D" path="res://assets/Items/Armor/helms.png" id="6891a"]
+[ext_resource type="Texture2D" uid="uid://dg1pji7isouyj" path="res://assets/Items/Armor/helms.png" id="6891a"]
+[ext_resource type="Script" uid="uid://nfocvp4pkad0" path="res://scripts/items/armor.gd" id="ec9dc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_be043"]
 atlas = ExtResource("6891a")
-region = Rect2(320, 0, 32, 33)
+region = Rect2(320, 0, 32, 32)
 
 [resource]
 script = ExtResource("ec9dc")
@@ -18,4 +18,3 @@ value = 18
 category = 1
 class_affinity = 1
 weight = 1.5
-shape = PackedStringArray("##", "##")
