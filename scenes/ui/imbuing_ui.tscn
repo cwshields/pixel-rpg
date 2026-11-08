@@ -1,0 +1,237 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/imbuing_ui.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://btxmccimnlvys" path="res://assets/UI/kit/panel.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dhahxm3jkgcww" path="res://assets/UI/rpg_hud/frame_button.png" id="3"]
+[ext_resource type="Script" uid="uid://bmc4f3f00bij" path="res://scripts/ui/inventory_grid.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ui/item_slot.gd" id="5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+texture = ExtResource("2")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn"]
+texture = ExtResource("3")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[node name="ImbuingUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1")
+screen_name = &"imbuing"
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0.45)
+
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(1500, 720)
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -750.0
+offset_top = -360.0
+offset_right = 750.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
+
+[node name="RootVBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TopBar" type="HBoxContainer" parent="Panel/RootVBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Panel/RootVBox/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.894, 0.729, 0.522, 1)
+theme_override_font_sizes/font_size = 20
+text = "Imbuing Station"
+
+[node name="FeedbackLabel" type="Label" parent="Panel/RootVBox/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+visible = false
+
+[node name="CloseBtn" type="Button" parent="Panel/RootVBox/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(36, 36)
+theme_override_colors/font_color = Color(0.92, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "X"
+
+[node name="Columns" type="HBoxContainer" parent="Panel/RootVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="DestructSide" type="VBoxContainer" parent="Panel/RootVBox/Columns"]
+layout_mode = 2
+custom_minimum_size = Vector2(220, 0)
+theme_override_constants/separation = 8
+
+[node name="DestructHeader" type="Label" parent="Panel/RootVBox/Columns/DestructSide"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "Destruct"
+
+[node name="DestructSlot" type="Control" parent="Panel/RootVBox/Columns/DestructSide"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(64, 64)
+script = ExtResource("5")
+
+[node name="DestructPreview" type="Label" parent="Panel/RootVBox/Columns/DestructSide"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.7, 0.68, 0.62, 1)
+theme_override_font_sizes/font_size = 11
+text = "Place an item to see
+what you'll gain."
+
+[node name="DestructBtn" type="Button" parent="Panel/RootVBox/Columns/DestructSide"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+theme_override_colors/font_color = Color(0.92, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+disabled = true
+text = "Destruct"
+
+[node name="WorkArea" type="VBoxContainer" parent="Panel/RootVBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="TargetHeader" type="Label" parent="Panel/RootVBox/Columns/WorkArea"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "Enchant / Manage"
+
+[node name="TargetSlot" type="Control" parent="Panel/RootVBox/Columns/WorkArea"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(72, 72)
+script = ExtResource("5")
+
+[node name="SlotsRow" type="HBoxContainer" parent="Panel/RootVBox/Columns/WorkArea"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="EssenceLabel" type="Label" parent="Panel/RootVBox/Columns/WorkArea/SlotsRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.58, 0.52, 1)
+theme_override_font_sizes/font_size = 10
+text = "Essence:"
+
+[node name="EssenceSlot" type="Control" parent="Panel/RootVBox/Columns/WorkArea/SlotsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(64, 64)
+script = ExtResource("5")
+
+[node name="CatalystLabel" type="Label" parent="Panel/RootVBox/Columns/WorkArea/SlotsRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.58, 0.52, 1)
+theme_override_font_sizes/font_size = 10
+text = "Catalyst:"
+
+[node name="CatalystSlot" type="Control" parent="Panel/RootVBox/Columns/WorkArea/SlotsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(64, 64)
+script = ExtResource("5")
+
+[node name="AffixHeader" type="Label" parent="Panel/RootVBox/Columns/WorkArea"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.68, 0.62, 1)
+theme_override_font_sizes/font_size = 13
+text = "Current Affixes"
+
+[node name="AffixScroll" type="ScrollContainer" parent="Panel/RootVBox/Columns/WorkArea"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 120)
+size_flags_vertical = 3
+
+[node name="AffixList" type="VBoxContainer" parent="Panel/RootVBox/Columns/WorkArea/AffixScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="LearnedHeader" type="Label" parent="Panel/RootVBox/Columns/WorkArea"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.68, 0.62, 1)
+theme_override_font_sizes/font_size = 13
+text = "Available (Learned)"
+
+[node name="LearnedScroll" type="ScrollContainer" parent="Panel/RootVBox/Columns/WorkArea"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 120)
+size_flags_vertical = 3
+
+[node name="LearnedList" type="VBoxContainer" parent="Panel/RootVBox/Columns/WorkArea/LearnedScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="PlayerSide" type="VBoxContainer" parent="Panel/RootVBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="PlayerHeader" type="Label" parent="Panel/RootVBox/Columns/PlayerSide"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "Your Inventory"
+
+[node name="PlayerGrid" type="Control" parent="Panel/RootVBox/Columns/PlayerSide"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+texture_filter = 1
+script = ExtResource("4")
