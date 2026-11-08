@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://b1kp60i5eotvc"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Fire Weapons/Fire Weapons.png" id="4ad59"]
+[ext_resource type="Texture2D" uid="uid://bmeksg7pu8fuf" path="res://assets/Items/Weapons/Fire Weapons/Fire Weapons.png" id="4ad59"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_68c71"]
 atlas = ExtResource("4ad59")
-region = Rect2(47, 15, 18, 66)
+region = Rect2(112, 0, 16, 48)
 
 [resource]
 script = ExtResource("37a1c")

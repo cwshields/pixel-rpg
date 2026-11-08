@@ -1,20 +1,20 @@
-[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://d2qyw7hn3fxy0"]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://cd026yfxg0k7p"]
 
 [ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
 [ext_resource type="Texture2D" uid="uid://drtfmef33yvry" path="res://assets/Items/Weapons/Bone/Bone.png" id="7192e"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_380b1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_01d62"]
 atlas = ExtResource("7192e")
-region = Rect2(31, 48, 18, 33)
+region = Rect2(96, 21, 16, 40)
 
 [resource]
 script = ExtResource("37a1c")
-weapon_type = 2
+weapon_type = 1
 damage = 6.0
-attack_speed = 0.8
-id = &"bone_hatchet"
-display_name = "Bone Hatchet"
-icon = SubResource("AtlasTexture_380b1")
+attack_speed = 1.5
+id = &"bone_stiletto"
+display_name = "Bone Stiletto"
+icon = SubResource("AtlasTexture_01d62")
 value = 35
 category = 0
 weight = 2.0

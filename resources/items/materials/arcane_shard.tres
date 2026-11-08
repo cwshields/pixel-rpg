@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CraftingMaterial" format=3]
+
+[ext_resource type="Script" uid="uid://cml0ycfyu4kx6" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Items/Resources.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shard"]
+atlas = ExtResource("1_atlas")
+region = Rect2(16, 0, 16, 16)
+
+[resource]
+script = ExtResource("1")
+material_type = 8
+rarity = 1
+id = &"arcane_shard"
+display_name = "Arcane Shard"
+description = "A concentrated fragment of magical energy, extracted from enchanted equipment. Used for moderate imbuing work."
+icon = SubResource("AtlasTexture_shard")
+max_stack = 99
+value = 10

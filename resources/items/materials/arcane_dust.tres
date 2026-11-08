@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CraftingMaterial" format=3]
+
+[ext_resource type="Script" uid="uid://cml0ycfyu4kx6" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Items/Resources.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dust"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("1")
+material_type = 8
+id = &"arcane_dust"
+display_name = "Arcane Dust"
+description = "Fine luminous powder released when magical items are destructed. The most basic imbuing reagent."
+icon = SubResource("AtlasTexture_dust")
+max_stack = 99
+value = 1

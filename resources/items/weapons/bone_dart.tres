@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://qq2b7h3lgml3"]
+
+[ext_resource type="Texture2D" uid="uid://drtfmef33yvry" path="res://assets/Items/Weapons/Bone/Bone.png" id="1_xa0jg"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="2_k8sso"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65430"]
+atlas = ExtResource("1_xa0jg")
+region = Rect2(19, 0, 8, 16)
+
+[resource]
+script = ExtResource("2_k8sso")
+weapon_type = 1
+damage = 5.5
+attack_speed = 1.5
+id = &"bone_dart"
+display_name = "Bone Dart"
+icon = SubResource("AtlasTexture_65430")
+value = 32
+category = 0
+weight = 2.0

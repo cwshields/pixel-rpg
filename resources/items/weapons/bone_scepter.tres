@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://clmlnpc0bvw2b"]
+
+[ext_resource type="Texture2D" uid="uid://drtfmef33yvry" path="res://assets/Items/Weapons/Bone/Bone.png" id="1_m1p5h"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="2_h0n34"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_049f5"]
+atlas = ExtResource("1_m1p5h")
+region = Rect2(80, 1, 28, 14)
+
+[resource]
+script = ExtResource("2_h0n34")
+weapon_type = 4
+damage = 5.5
+attack_speed = 0.9
+two_handed = true
+required_ammo_type = 0
+id = &"bone_scepter"
+display_name = "Bone Scepter"
+icon = SubResource("AtlasTexture_049f5")
+value = 32
+category = 0
+weight = 3.0

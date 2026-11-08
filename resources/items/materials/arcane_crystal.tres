@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CraftingMaterial" format=3]
+
+[ext_resource type="Script" uid="uid://cml0ycfyu4kx6" path="res://scripts/items/crafting_material.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0802sohutgkj" path="res://assets/Items/Resources.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crystal"]
+atlas = ExtResource("1_atlas")
+region = Rect2(32, 0, 16, 16)
+
+[resource]
+script = ExtResource("1")
+material_type = 8
+rarity = 2
+id = &"arcane_crystal"
+display_name = "Arcane Crystal"
+description = "A rare crystallized essence of pure magical energy. Required for powerful imbuing operations."
+icon = SubResource("AtlasTexture_crystal")
+max_stack = 99
+value = 50

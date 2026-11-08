@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://d2qyw7hn3fxy0"]
+
+[ext_resource type="Texture2D" uid="uid://drtfmef33yvry" path="res://assets/Items/Weapons/Bone/Bone.png" id="1_oqffe"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="2_lbhxj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_380b1"]
+atlas = ExtResource("1_oqffe")
+region = Rect2(31, 48, 18, 33)
+
+[resource]
+script = ExtResource("2_lbhxj")
+weapon_type = 2
+damage = 6.0
+attack_speed = 0.8
+id = &"bone_scythe"
+display_name = "Bone Scythe"
+icon = SubResource("AtlasTexture_380b1")
+value = 35
+category = 0
+weight = 2.0

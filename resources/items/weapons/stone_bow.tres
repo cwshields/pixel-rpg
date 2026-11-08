@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://cg5exsyh0guq4"]
+
+[ext_resource type="Texture2D" uid="uid://c6abdl30kf1tr" path="res://assets/Items/Weapons/Stone/Weapons.png" id="1_fvohn"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="2_4hy5n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56176"]
+atlas = ExtResource("1_fvohn")
+region = Rect2(132, 96, 16, 48)
+
+[resource]
+script = ExtResource("2_4hy5n")
+weapon_type = 4
+damage = 6.0
+attack_speed = 0.9
+two_handed = true
+required_ammo_type = 0
+id = &"stone_bow"
+display_name = "Stone Bow"
+icon = SubResource("AtlasTexture_56176")
+value = 32
+category = 0
+class_affinity = 1
+weight = 3.0

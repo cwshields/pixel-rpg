@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Weapon" format=3]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://bx5ewavs3roa7"]
 
-[ext_resource type="Script" path="res://scripts/items/weapon.gd" id="37a1c"]
-[ext_resource type="Texture2D" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
+[ext_resource type="Script" uid="uid://c0coumjvm873d" path="res://scripts/items/weapon.gd" id="37a1c"]
+[ext_resource type="Texture2D" uid="uid://ce20ag17ikqh0" path="res://assets/Items/Weapons/Rustic/Rustic.png" id="3558a"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_763dc"]
 atlas = ExtResource("3558a")
-region = Rect2(180, 39, 7, 26)
+region = Rect2(179, 39, 9, 26)
 
 [resource]
 script = ExtResource("37a1c")
@@ -19,3 +19,4 @@ icon = SubResource("AtlasTexture_763dc")
 value = 44
 category = 0
 weight = 3.0
+shape = ["#", "#"]
