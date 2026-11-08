@@ -4,7 +4,7 @@ extends ItemBase
 ## feathers, cloth, herbs, bones. Pure data — a crafting system would
 ## check `material_type`/`rarity` against a recipe's requirements.
 
-enum MaterialType { ORE, GEM, WOOD, LEATHER, FEATHER, CLOTH, HERB, BONE }
+enum MaterialType { ORE, GEM, WOOD, LEATHER, FEATHER, CLOTH, HERB, BONE, ESSENCE }
 
 @export var material_type: MaterialType = MaterialType.ORE
 

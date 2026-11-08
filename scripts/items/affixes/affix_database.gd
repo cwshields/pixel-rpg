@@ -11,6 +11,7 @@ const _T := ItemBase.Category.TOOL
 const _RS := ItemBase.Category.RUNE_STONE
 
 const _EQUIPPABLE: Array[ItemBase.Category] = [_W, _A, _R, _AM, _RS]
+const _DEFENSIVE: Array[ItemBase.Category] = [_A, _R, _AM, _RS]
 const _GEAR: Array[ItemBase.Category] = [_W, _A]
 const _ACCESSORIES: Array[ItemBase.Category] = [_R, _AM]
 const _WEAPONS: Array[ItemBase.Category] = [_W]
@@ -40,6 +41,10 @@ func _ready() -> void:
 	_register_combat_suffixes()
 	_register_utility_suffixes()
 	_register_elemental_suffixes()
+	_register_knockback_affixes()
+	_register_weapon_effect_affixes()
+	_register_armor_defensive_affixes()
+	_register_magic_effect_affixes()
 	_register_sets()
 
 
@@ -53,6 +58,14 @@ func get_affix(id: StringName) -> ItemAffix:
 
 func get_all_affixes() -> Array:
 	return _affixes.values()
+
+
+func get_affixes_for_category(category: ItemBase.Category) -> Array[ItemAffix]:
+	var result: Array[ItemAffix] = []
+	for affix: ItemAffix in _affixes.values():
+		if category in affix.categories:
+			result.append(affix)
+	return result
 
 
 func get_set(id: StringName) -> SetDefinition:
@@ -409,13 +422,13 @@ func _register_universal_prefixes() -> void:
 	_reg(&"pre_mystic", "Mystic", PRE,
 		{&"intelligence": Vector2(8, 13)}, _EQUIPPABLE, 28, 30, _AFF_SOR)
 
-	# --- Charisma ---
+	# --- Charisma (armor + accessories only) ---
 	_reg(&"pre_charming", "Charming", PRE,
-		{&"charisma": Vector2(1, 3)}, _EQUIPPABLE, 1, 100)
+		{&"charisma": Vector2(1, 3)}, _DEFENSIVE, 1, 100)
 	_reg(&"pre_eloquent", "Eloquent", PRE,
-		{&"charisma": Vector2(4, 7)}, _EQUIPPABLE, 12, 60)
+		{&"charisma": Vector2(4, 7)}, _DEFENSIVE, 12, 60)
 	_reg(&"pre_sovereign", "Sovereign", PRE,
-		{&"charisma": Vector2(8, 13)}, _EQUIPPABLE, 28, 30)
+		{&"charisma": Vector2(8, 13)}, _DEFENSIVE, 28, 30)
 
 
 # ---------------------------------------------------------------------------
@@ -425,27 +438,41 @@ func _register_universal_prefixes() -> void:
 func _register_life_mana_suffixes() -> void:
 	# --- Life ---
 	_reg(&"suf_jackal", "of the Jackal", SUF,
-		{&"max_health": Vector2(3, 8)}, _EQUIPPABLE, 1, 120)
+		{&"max_health": Vector2(3, 8)}, _DEFENSIVE, 1, 120)
 	_reg(&"suf_fox", "of the Fox", SUF,
-		{&"max_health": Vector2(9, 18)}, _EQUIPPABLE, 6, 100)
+		{&"max_health": Vector2(9, 18)}, _DEFENSIVE, 6, 100)
 	_reg(&"suf_wolf", "of the Wolf", SUF,
-		{&"max_health": Vector2(19, 30)}, _EQUIPPABLE, 14, 80)
+		{&"max_health": Vector2(19, 30)}, _DEFENSIVE, 14, 80)
 	_reg(&"suf_tiger", "of the Tiger", SUF,
-		{&"max_health": Vector2(31, 48)}, _EQUIPPABLE, 24, 55)
+		{&"max_health": Vector2(31, 48)}, _DEFENSIVE, 24, 55)
 	_reg(&"suf_mammoth", "of the Mammoth", SUF,
-		{&"max_health": Vector2(49, 72)}, _EQUIPPABLE, 36, 30)
+		{&"max_health": Vector2(49, 72)}, _DEFENSIVE, 36, 30)
 	_reg(&"suf_whale", "of the Whale", SUF,
-		{&"max_health": Vector2(73, 100)}, _EQUIPPABLE, 48, 15)
+		{&"max_health": Vector2(73, 100)}, _DEFENSIVE, 48, 15)
 
 	# --- Mana ---
 	_reg(&"suf_newt", "of the Newt", SUF,
-		{&"max_mana": Vector2(3, 8)}, _EQUIPPABLE, 1, 110, _AFF_SOR)
+		{&"max_mana": Vector2(3, 8)}, _DEFENSIVE, 1, 110, _AFF_SOR)
 	_reg(&"suf_serpent", "of the Serpent", SUF,
-		{&"max_mana": Vector2(9, 18)}, _EQUIPPABLE, 8, 85, _AFF_SOR)
+		{&"max_mana": Vector2(9, 18)}, _DEFENSIVE, 8, 85, _AFF_SOR)
 	_reg(&"suf_drake", "of the Drake", SUF,
-		{&"max_mana": Vector2(19, 32)}, _EQUIPPABLE, 18, 60, _AFF_SOR)
+		{&"max_mana": Vector2(19, 32)}, _DEFENSIVE, 18, 60, _AFF_SOR)
 	_reg(&"suf_dragon", "of the Dragon", SUF,
-		{&"max_mana": Vector2(33, 55)}, _EQUIPPABLE, 32, 30, _AFF_SOR)
+		{&"max_mana": Vector2(33, 55)}, _DEFENSIVE, 32, 30, _AFF_SOR)
+
+	# --- Stamina ---
+	_reg(&"suf_ant", "of the Ant", SUF,
+		{&"max_stamina": Vector2(3, 8)}, _DEFENSIVE, 1, 120, _AFF_WAR)
+	_reg(&"suf_hare", "of the Hare", SUF,
+		{&"max_stamina": Vector2(9, 18)}, _DEFENSIVE, 6, 100, _AFF_WAR)
+	_reg(&"suf_stag", "of the Stag", SUF,
+		{&"max_stamina": Vector2(19, 30)}, _DEFENSIVE, 14, 80, _AFF_WAR)
+	_reg(&"suf_bear", "of the Bear", SUF,
+		{&"max_stamina": Vector2(31, 48)}, _DEFENSIVE, 24, 55, _AFF_WAR)
+	_reg(&"suf_ox", "of the Ox", SUF,
+		{&"max_stamina": Vector2(49, 72)}, _DEFENSIVE, 36, 30, _AFF_WAR)
+	_reg(&"suf_titan", "of the Titan", SUF,
+		{&"max_stamina": Vector2(73, 100)}, _DEFENSIVE, 48, 15, _AFF_WAR)
 
 
 # ---------------------------------------------------------------------------
@@ -462,13 +489,13 @@ func _register_combat_suffixes() -> void:
 	_reg(&"suf_vampire", "of the Vampire", SUF,
 		{&"lifesteal": Vector2(0.07, 0.10)}, _wpn_acc, 30, 25)
 
-	# --- Regeneration ---
+	# --- Regeneration (armor + accessories only) ---
 	_reg(&"suf_mending", "of Mending", SUF,
-		{&"regeneration": Vector2(0.5, 1.5)}, _EQUIPPABLE, 1, 100)
+		{&"regeneration": Vector2(0.5, 1.5)}, _DEFENSIVE, 1, 100)
 	_reg(&"suf_restoration", "of Restoration", SUF,
-		{&"regeneration": Vector2(1.6, 3.0)}, _EQUIPPABLE, 14, 65)
+		{&"regeneration": Vector2(1.6, 3.0)}, _DEFENSIVE, 14, 65)
 	_reg(&"suf_renewal", "of Renewal", SUF,
-		{&"regeneration": Vector2(3.1, 5.0)}, _EQUIPPABLE, 28, 30)
+		{&"regeneration": Vector2(3.1, 5.0)}, _DEFENSIVE, 28, 30)
 
 	# --- Dodge (armor, accessories) ---
 	var _armor_acc: Array[ItemBase.Category] = [_A, _R, _AM]
@@ -485,13 +512,13 @@ func _register_combat_suffixes() -> void:
 	_reg(&"suf_deflection", "of Deflection", SUF,
 		{&"block_chance": Vector2(0.07, 0.12)}, _ARMOR, 20, 45, _AFF_WAR)
 
-	# --- Move speed ---
+	# --- Move speed (armor + accessories only) ---
 	_reg(&"suf_pacing", "of Pacing", SUF,
-		{&"move_speed": Vector2(0.5, 1.5)}, _EQUIPPABLE, 1, 100)
+		{&"move_speed": Vector2(0.5, 1.5)}, _DEFENSIVE, 1, 100)
 	_reg(&"suf_haste", "of Haste", SUF,
-		{&"move_speed": Vector2(1.6, 3.0)}, _EQUIPPABLE, 14, 60)
+		{&"move_speed": Vector2(1.6, 3.0)}, _DEFENSIVE, 14, 60)
 	_reg(&"suf_speed", "of Speed", SUF,
-		{&"move_speed": Vector2(3.1, 5.0)}, _EQUIPPABLE, 28, 30)
+		{&"move_speed": Vector2(3.1, 5.0)}, _DEFENSIVE, 28, 30)
 
 	# --- Evasion (armor, accessories) ---
 	_reg(&"suf_shadows", "of Shadows", SUF,
@@ -576,6 +603,227 @@ func _register_elemental_suffixes() -> void:
 #  Each set lists its member item IDs and tiered bonuses that activate when
 #  enough pieces are equipped. Add new sets here as items are authored.
 # ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+#  KNOCKBACK — weapon prefixes (outgoing) + armor suffixes (resistance)
+# ---------------------------------------------------------------------------
+
+func _register_knockback_affixes() -> void:
+	# --- Outgoing knockback (weapons only) ---
+	_reg(&"pre_pushing", "Pushing", PRE,
+		{&"knockback_bonus": Vector2(0.05, 0.12)}, _WEAPONS, 1, 100, _AFF_WAR)
+	_reg(&"pre_shoving", "Shoving", PRE,
+		{&"knockback_bonus": Vector2(0.13, 0.22)}, _WEAPONS, 14, 65, _AFF_WAR)
+	_reg(&"pre_staggering", "Staggering", PRE,
+		{&"knockback_bonus": Vector2(0.23, 0.35)}, _WEAPONS, 28, 35, _AFF_WAR)
+
+	# --- Knockback resistance (armor, rings, amulets, runes) ---
+	_reg(&"suf_stability", "of Stability", SUF,
+		{&"knockback_resist": Vector2(0.05, 0.12)}, _DEFENSIVE, 1, 100, _AFF_WAR)
+	_reg(&"suf_anchoring", "of Anchoring", SUF,
+		{&"knockback_resist": Vector2(0.13, 0.22)}, _DEFENSIVE, 14, 65, _AFF_WAR)
+	_reg(&"suf_fortress", "of the Fortress", SUF,
+		{&"knockback_resist": Vector2(0.23, 0.35)}, _DEFENSIVE, 28, 35, _AFF_WAR)
+
+
+# ---------------------------------------------------------------------------
+#  WEAPON EFFECTS — bleed, slow, petrify, charm, drain, reach, charge,
+#                   slashing/bludgeoning/piercing type bonuses
+# ---------------------------------------------------------------------------
+
+func _register_weapon_effect_affixes() -> void:
+	# --- Bleed (DoT on hit) ---
+	_reg(&"pre_jagged", "Jagged", PRE,
+		{&"bleed_damage": Vector2(1, 3)}, _WEAPONS, 1, 100, _AFF_WAR)
+	_reg(&"pre_serrated", "Serrated", PRE,
+		{&"bleed_damage": Vector2(4, 8)}, _WEAPONS, 12, 70, _AFF_WAR)
+	_reg(&"pre_rending", "Rending", PRE,
+		{&"bleed_damage": Vector2(9, 15)}, _WEAPONS, 25, 35, _AFF_WAR)
+
+	# --- Slow (chance to slow on hit) ---
+	_reg(&"suf_hindering", "of Hindering", SUF,
+		{&"slow_chance": Vector2(0.03, 0.07)}, _WEAPONS, 5, 90)
+	_reg(&"suf_crippling", "of Crippling", SUF,
+		{&"slow_chance": Vector2(0.08, 0.14)}, _WEAPONS, 18, 55)
+	_reg(&"suf_fettering", "of Fettering", SUF,
+		{&"slow_chance": Vector2(0.15, 0.22)}, _WEAPONS, 32, 25)
+
+	# --- Petrification (chance to petrify on hit) ---
+	_reg(&"pre_calcifying", "Calcifying", PRE,
+		{&"petrify_chance": Vector2(0.01, 0.03)}, _WEAPONS, 14, 60, _AFF_SOR)
+	_reg(&"pre_gorgons", "Gorgon's", PRE,
+		{&"petrify_chance": Vector2(0.04, 0.07)}, _WEAPONS, 28, 30, _AFF_SOR)
+	_reg(&"pre_medusas", "Medusa's", PRE,
+		{&"petrify_chance": Vector2(0.08, 0.12)}, _WEAPONS, 42, 12, _AFF_SOR)
+
+	# --- Charm (chance to charm on hit) ---
+	_reg(&"pre_beguiling", "Beguiling", PRE,
+		{&"charm_chance": Vector2(0.01, 0.03)}, _WEAPONS, 10, 65, _AFF_SOR)
+	_reg(&"pre_enthralling", "Enthralling", PRE,
+		{&"charm_chance": Vector2(0.04, 0.07)}, _WEAPONS, 24, 35, _AFF_SOR)
+	_reg(&"pre_mesmerizing", "Mesmerizing", PRE,
+		{&"charm_chance": Vector2(0.08, 0.12)}, _WEAPONS, 38, 15, _AFF_SOR)
+
+	# --- Drain (mana/stamina siphon on hit) ---
+	_reg(&"suf_siphoning", "of Siphoning", SUF,
+		{&"drain_amount": Vector2(1, 3)}, _WEAPONS, 8, 80, _AFF_SOR)
+	_reg(&"suf_devouring", "of Devouring", SUF,
+		{&"drain_amount": Vector2(4, 8)}, _WEAPONS, 20, 50, _AFF_SOR)
+	_reg(&"suf_consuming", "of Consuming", SUF,
+		{&"drain_amount": Vector2(9, 14)}, _WEAPONS, 34, 25, _AFF_SOR)
+
+	# --- Reach (weapon range bonus) ---
+	_reg(&"pre_lengthy", "Lengthy", PRE,
+		{&"reach_bonus": Vector2(0.05, 0.12)}, _WEAPONS, 1, 90, _AFF_RNG)
+	_reg(&"pre_elongated", "Elongated", PRE,
+		{&"reach_bonus": Vector2(0.13, 0.22)}, _WEAPONS, 14, 55, _AFF_RNG)
+	_reg(&"pre_farreaching", "Far-Reaching", PRE,
+		{&"reach_bonus": Vector2(0.23, 0.35)}, _WEAPONS, 28, 25, _AFF_RNG)
+
+	# --- Charge (bonus to charge attacks) ---
+	_reg(&"suf_momentum", "of Momentum", SUF,
+		{&"charge_bonus": Vector2(0.05, 0.12)}, _WEAPONS, 5, 90, _AFF_WAR)
+	_reg(&"suf_onslaught", "of Onslaught", SUF,
+		{&"charge_bonus": Vector2(0.13, 0.22)}, _WEAPONS, 18, 55, _AFF_WAR)
+	_reg(&"suf_rampage", "of Rampage", SUF,
+		{&"charge_bonus": Vector2(0.23, 0.35)}, _WEAPONS, 32, 25, _AFF_WAR)
+
+	# --- Slashing damage ---
+	_reg(&"pre_cleaving", "Cleaving", PRE,
+		{&"slash_damage": Vector2(1, 4)}, _WEAPONS, 1, 90, _AFF_WAR)
+	_reg(&"pre_slicing", "Slicing", PRE,
+		{&"slash_damage": Vector2(5, 10)}, _WEAPONS, 14, 60, _AFF_WAR)
+	_reg(&"pre_severing", "Severing", PRE,
+		{&"slash_damage": Vector2(11, 18)}, _WEAPONS, 28, 30, _AFF_WAR)
+
+	# --- Bludgeoning damage ---
+	_reg(&"pre_heavy", "Heavy", PRE,
+		{&"bludgeon_damage": Vector2(1, 4)}, _WEAPONS, 1, 90, _AFF_WAR)
+	_reg(&"pre_crushing", "Crushing", PRE,
+		{&"bludgeon_damage": Vector2(5, 10)}, _WEAPONS, 14, 60, _AFF_WAR)
+	_reg(&"pre_pulverizing", "Pulverizing", PRE,
+		{&"bludgeon_damage": Vector2(11, 18)}, _WEAPONS, 28, 30, _AFF_WAR)
+
+	# --- Piercing damage ---
+	_reg(&"pre_pointed", "Pointed", PRE,
+		{&"pierce_damage": Vector2(1, 4)}, _WEAPONS, 1, 90, _AFF_RNG)
+	_reg(&"pre_barbed", "Barbed", PRE,
+		{&"pierce_damage": Vector2(5, 10)}, _WEAPONS, 14, 60, _AFF_RNG)
+	_reg(&"pre_impaling", "Impaling", PRE,
+		{&"pierce_damage": Vector2(11, 18)}, _WEAPONS, 28, 30, _AFF_RNG)
+
+
+# ---------------------------------------------------------------------------
+#  ARMOR DEFENSIVE — parry, deflect, dampen, cooldown reduction, stealth,
+#                    weight reduction, elemental attunement, death defiance
+# ---------------------------------------------------------------------------
+
+func _register_armor_defensive_affixes() -> void:
+	# --- Parry (chance to parry, negating damage) ---
+	_reg(&"suf_parrying", "of Parrying", SUF,
+		{&"parry_chance": Vector2(0.02, 0.05)}, _DEFENSIVE, 5, 90, _AFF_WAR)
+	_reg(&"suf_riposte", "of Riposte", SUF,
+		{&"parry_chance": Vector2(0.06, 0.10)}, _DEFENSIVE, 18, 55, _AFF_WAR)
+	_reg(&"suf_duelist", "of the Duelist", SUF,
+		{&"parry_chance": Vector2(0.11, 0.16)}, _DEFENSIVE, 32, 25, _AFF_WAR)
+
+	# --- Deflect (chance to deflect projectiles) ---
+	_reg(&"suf_warding_shell", "of Deflecting", SUF,
+		{&"deflect_chance": Vector2(0.02, 0.05)}, _DEFENSIVE, 5, 90, _AFF_WAR)
+	_reg(&"suf_rebounding", "of Rebounding", SUF,
+		{&"deflect_chance": Vector2(0.06, 0.10)}, _DEFENSIVE, 18, 55, _AFF_WAR)
+	_reg(&"suf_aegis", "of the Aegis", SUF,
+		{&"deflect_chance": Vector2(0.11, 0.16)}, _DEFENSIVE, 32, 25, _AFF_WAR)
+
+	# --- Dampen (flat damage reduction %) ---
+	_reg(&"pre_cushioned", "Cushioned", PRE,
+		{&"dampen": Vector2(0.02, 0.05)}, _ARMOR, 5, 90, _AFF_WAR)
+	_reg(&"pre_padded", "Padded", PRE,
+		{&"dampen": Vector2(0.06, 0.10)}, _ARMOR, 18, 55, _AFF_WAR)
+	_reg(&"pre_dampened", "Dampened", PRE,
+		{&"dampen": Vector2(0.11, 0.18)}, _ARMOR, 32, 25, _AFF_WAR)
+
+	# --- Cooldown Reduction ---
+	_reg(&"suf_readiness", "of Readiness", SUF,
+		{&"cooldown_reduction": Vector2(0.03, 0.07)}, _DEFENSIVE, 8, 85, _AFF_RNG)
+	_reg(&"suf_alacrity", "of Alacrity", SUF,
+		{&"cooldown_reduction": Vector2(0.08, 0.14)}, _DEFENSIVE, 22, 50, _AFF_RNG)
+	_reg(&"suf_swiftness", "of Swiftness", SUF,
+		{&"cooldown_reduction": Vector2(0.15, 0.22)}, _DEFENSIVE, 36, 25, _AFF_RNG)
+
+	# --- Stealth ---
+	_reg(&"pre_quiet", "Quiet", PRE,
+		{&"stealth": Vector2(2, 5)}, _ARMOR, 5, 90, _AFF_RNG)
+	_reg(&"pre_hushed", "Hushed", PRE,
+		{&"stealth": Vector2(6, 12)}, _ARMOR, 18, 55, _AFF_RNG)
+	_reg(&"pre_invisible", "Invisible", PRE,
+		{&"stealth": Vector2(13, 22)}, _ARMOR, 32, 25, _AFF_RNG)
+
+	# --- Weight Reduction (reduces armor weight penalties) ---
+	_reg(&"pre_lightweight", "Lightweight", PRE,
+		{&"weight_reduction": Vector2(0.05, 0.12)}, _ARMOR, 1, 90, _AFF_RNG)
+	_reg(&"pre_featherweight", "Featherweight", PRE,
+		{&"weight_reduction": Vector2(0.13, 0.22)}, _ARMOR, 14, 55, _AFF_RNG)
+	_reg(&"pre_weightless", "Weightless", PRE,
+		{&"weight_reduction": Vector2(0.23, 0.35)}, _ARMOR, 28, 25, _AFF_RNG)
+
+	# --- Elemental Attunement (boosts all elemental effect strength) ---
+	_reg(&"suf_attunement", "of Attunement", SUF,
+		{&"elemental_attunement": Vector2(0.03, 0.07)}, _DEFENSIVE, 10, 80, _AFF_SOR)
+	_reg(&"suf_resonance", "of Resonance", SUF,
+		{&"elemental_attunement": Vector2(0.08, 0.14)}, _DEFENSIVE, 24, 50, _AFF_SOR)
+	_reg(&"suf_convergence", "of Convergence", SUF,
+		{&"elemental_attunement": Vector2(0.15, 0.22)}, _DEFENSIVE, 38, 25, _AFF_SOR)
+
+	# --- Death Defiance (chance to survive a lethal hit at 1 HP) ---
+	_reg(&"suf_last_stand", "of Last Stand", SUF,
+		{&"death_defiance": Vector2(0.03, 0.06)}, _DEFENSIVE, 20, 50, _AFF_WAR)
+	_reg(&"suf_undying", "of the Undying", SUF,
+		{&"death_defiance": Vector2(0.07, 0.12)}, _DEFENSIVE, 35, 25, _AFF_WAR)
+	_reg(&"suf_immortal", "of the Immortal", SUF,
+		{&"death_defiance": Vector2(0.13, 0.18)}, _DEFENSIVE, 46, 10, _AFF_WAR)
+
+
+# ---------------------------------------------------------------------------
+#  MAGIC EFFECTS — fear, taunt, berserk, blind (weapon + armor)
+# ---------------------------------------------------------------------------
+
+func _register_magic_effect_affixes() -> void:
+	var _wpn_armor: Array[ItemBase.Category] = [_W, _A]
+
+	# --- Fear (chance to fear enemies on hit / when hit) ---
+	_reg(&"pre_dreadful", "Dreadful", PRE,
+		{&"fear_chance": Vector2(0.02, 0.05)}, _WEAPONS, 8, 80, _AFF_SOR)
+	_reg(&"pre_terrifying", "Terrifying", PRE,
+		{&"fear_chance": Vector2(0.06, 0.10)}, _WEAPONS, 22, 45, _AFF_SOR)
+	_reg(&"pre_nightmarish", "Nightmarish", PRE,
+		{&"fear_chance": Vector2(0.11, 0.16)}, _WEAPONS, 36, 20, _AFF_SOR)
+
+	# --- Taunt (increased aggro generation) ---
+	_reg(&"suf_provoking", "of Provoking", SUF,
+		{&"taunt_bonus": Vector2(0.10, 0.25)}, _wpn_armor, 5, 90, _AFF_WAR)
+	_reg(&"suf_goading", "of Goading", SUF,
+		{&"taunt_bonus": Vector2(0.26, 0.50)}, _wpn_armor, 18, 55, _AFF_WAR)
+	_reg(&"suf_enraging", "of Enraging", SUF,
+		{&"taunt_bonus": Vector2(0.51, 0.80)}, _wpn_armor, 32, 25, _AFF_WAR)
+
+	# --- Berserk (bonus damage at low health) ---
+	_reg(&"pre_frenzied", "Frenzied", PRE,
+		{&"berserk_bonus": Vector2(0.05, 0.12)}, _wpn_armor, 10, 80, _AFF_WAR)
+	_reg(&"pre_bloodrage", "Bloodrage", PRE,
+		{&"berserk_bonus": Vector2(0.13, 0.22)}, _wpn_armor, 24, 45, _AFF_WAR)
+	_reg(&"pre_berserkers", "Berserker's", PRE,
+		{&"berserk_bonus": Vector2(0.23, 0.35)}, _wpn_armor, 38, 20, _AFF_WAR)
+
+	# --- Blind (chance to blind enemies on hit) ---
+	_reg(&"suf_dimming", "of Dimming", SUF,
+		{&"blind_chance": Vector2(0.02, 0.05)}, _WEAPONS, 8, 80, _AFF_SOR)
+	_reg(&"suf_blinding", "of Blinding", SUF,
+		{&"blind_chance": Vector2(0.06, 0.10)}, _WEAPONS, 22, 45, _AFF_SOR)
+	_reg(&"suf_oblivion", "of Oblivion", SUF,
+		{&"blind_chance": Vector2(0.11, 0.16)}, _WEAPONS, 36, 20, _AFF_SOR)
+
 
 func _register_sets() -> void:
 	# Warrior: heavy plate + iron weapons

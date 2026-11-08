@@ -42,6 +42,8 @@ func generate(base: ItemBase, level: int = 1, rarity_override = null) -> ItemBas
 		item.rarity = rarity_override as ItemBase.Rarity
 	else:
 		item.rarity = _roll_rarity(level)
+	if item is RuneStone and rarity_override == null and item.rarity < RUNE_MIN_RARITY:
+		item.rarity = RUNE_MIN_RARITY as ItemBase.Rarity
 	item.affixes = AffixDB.roll_affixes_for(item, level)
 	if item.rarity == ItemBase.Rarity.SET:
 		item.set_def = AffixDB.get_set_for_item(item.id)
@@ -51,7 +53,21 @@ func generate(base: ItemBase, level: int = 1, rarity_override = null) -> ItemBas
 func reload() -> void:
 	_registry.clear()
 	_scan_and_register(ITEMS_DIR, true)
-	print("[ItemFactory] Reloaded %d items from disk." % _registry.size())
+	var textures_reloaded: Dictionary = {}
+	for path: String in _registry.values():
+		var item := load(path) as ItemBase
+		if not item or not item.icon:
+			continue
+		var atlas_tex := item.icon as AtlasTexture
+		if not atlas_tex or not atlas_tex.atlas:
+			continue
+		var tex_path := atlas_tex.atlas.resource_path
+		if tex_path.is_empty() or textures_reloaded.has(tex_path):
+			continue
+		ResourceLoader.load(tex_path, "", ResourceLoader.CACHE_MODE_REPLACE)
+		textures_reloaded[tex_path] = true
+	print("[ItemFactory] Reloaded %d items, %d textures from disk." % [
+		_registry.size(), textures_reloaded.size()])
 
 
 func get_base(id: StringName) -> ItemBase:
@@ -118,11 +134,27 @@ func get_common_pool_bases() -> Array[ItemBase]:
 	return result
 
 
+## Extra rejection chance for rune stones from the common pool — most rolls
+## discard the rune and return null, making rune drops significantly rarer
+## than materials.
+const RUNE_REJECTION: float = 0.80
+## Minimum rarity floor for rune stone drops. Runes that would roll COMMON
+## are promoted to MAGIC so they almost always carry affixes. Plain (common)
+## runes will later be obtainable through Imbuing.
+const RUNE_MIN_RARITY: int = ItemBase.Rarity.MAGIC
+
 func roll_common_pool_item(level: int) -> ItemBase:
 	var bases := get_common_pool_bases()
 	if bases.is_empty():
 		return null
-	return generate(bases.pick_random(), level)
+	var base: ItemBase = bases.pick_random()
+	if base is RuneStone and randf() < RUNE_REJECTION:
+		return null
+	var item := generate(base, level)
+	if item is RuneStone and item.rarity < RUNE_MIN_RARITY:
+		item.rarity = RUNE_MIN_RARITY as ItemBase.Rarity
+		item.affixes = AffixDB.roll_affixes_for(item, level)
+	return item
 
 
 func _scan_and_register(dir_path: String, cache_bust: bool = false) -> void:
