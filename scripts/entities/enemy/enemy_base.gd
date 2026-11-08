@@ -85,14 +85,14 @@ func _break_loose_equipment() -> void:
 
 func _launch_piece(sprite: Node2D) -> void:
 	var piece: LooseEquipmentPiece = _LOOSE_EQUIPMENT_PIECE_SCENE.instantiate()
-	get_tree().current_scene.add_child(piece)
 	piece.global_position = sprite.global_position
 	piece.global_rotation = sprite.global_rotation
-	sprite.reparent(piece, true)
 	var direction := Vector2.RIGHT.rotated(randf_range(0.0, TAU))
-	piece.launch(
-		direction * randf_range(EQUIPMENT_FLING_SPEED.x, EQUIPMENT_FLING_SPEED.y),
-		randf_range(-EQUIPMENT_SPIN_RANGE, EQUIPMENT_SPIN_RANGE))
+	var vel := direction * randf_range(EQUIPMENT_FLING_SPEED.x, EQUIPMENT_FLING_SPEED.y)
+	var spin := randf_range(-EQUIPMENT_SPIN_RANGE, EQUIPMENT_SPIN_RANGE)
+	get_tree().current_scene.call_deferred(&"add_child", piece)
+	sprite.call_deferred(&"reparent", piece, true)
+	piece.call_deferred(&"launch", vel, spin)
 
 func _scale_to_player_level() -> void:
 	var player_node := GameManager.player

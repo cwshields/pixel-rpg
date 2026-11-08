@@ -106,5 +106,5 @@ func _rebuild_texture() -> void:
 	tex.fill = GradientTexture2D.FILL_RADIAL
 	tex.fill_from = Vector2(0.5, 0.5)
 	tex.fill_to = Vector2(1.0, 0.5)
-	texture = tex
+	set_deferred(&"texture", tex)
 	texture_scale = 1.0

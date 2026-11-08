@@ -204,7 +204,8 @@ func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector
 	if stats and randf() < stats.block_chance:
 		blocked = true
 		for key: StringName in bd:
-			bd[key] = bd[key] * 0.5
+			if bd[key] is float or bd[key] is int:
+				bd[key] = bd[key] * 0.5
 	var final_amount: float = stats.compute_incoming_damage(bd) if stats else amount
 	if health:
 		var was_invulnerable := health.is_invulnerable()
@@ -220,7 +221,10 @@ func take_damage(amount: float, source: Node = null, knockback: Vector2 = Vector
 		if attacker.stats and attacker.stats.lifesteal > 0.0 and attacker.health:
 			attacker.health.heal(final_amount * attacker.stats.lifesteal)
 	if knockback != Vector2.ZERO:
-		velocity = knockback
+		var resist := 0.0
+		if stats:
+			resist = stats.knockback_resist
+		velocity = knockback * (1.0 - resist)
 
 func _play_blocked_hit_sfx() -> void:
 	var sfx := AudioStreamPlayer2D.new()

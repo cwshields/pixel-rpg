@@ -101,8 +101,8 @@ func has_directional_layout() -> bool:
 func deactivate() -> void:
 	for key in _poses:
 		for pose in _poses[key]:
-			(pose.shape as CollisionShape2D).disabled = true
-	monitoring = false
+			(pose.shape as CollisionShape2D).set_deferred(&"disabled", true)
+	set_deferred(&"monitoring", false)
 
 ## Starts a fresh swing: targets hit by the previous one can be hit again.
 func reset_hits() -> void:
@@ -121,6 +121,10 @@ func _on_area_entered(area: Area2D) -> void:
 	var knockback: Vector2 = Vector2.ZERO
 	if source and source is Node2D and hurtbox.get_parent() is Node2D:
 		var away: Vector2 = hurtbox.get_parent().global_position - (source as Node2D).global_position
-		knockback = away.normalized() * knockback_force if away.length() > 0.0 else Vector2.ZERO
+		var base_kb := away.normalized() * knockback_force if away.length() > 0.0 else Vector2.ZERO
+		var bonus := 0.0
+		if source is EntityBase and source.stats:
+			bonus = source.stats.knockback_bonus
+		knockback = base_kb * (1.0 + bonus)
 	var bd: Dictionary = damage_breakdown if not damage_breakdown.is_empty() else {&"physical": damage}
 	hurtbox.receive_hit(damage, source, knockback, self, bd)

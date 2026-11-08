@@ -12,13 +12,13 @@ const _SCENE: PackedScene = preload("res://scenes/world/item_pickup.tscn")
 const DEFAULT_SCATTER: float = 8.0
 
 ## Global multiplier on every LootEntry's drop chance.
-const DROP_RATE_MULT: float = 0.55
+const DROP_RATE_MULT: float = 0.40
 ## Chance that an equipment drop is replaced by a common pool item instead.
-const EQUIPMENT_DILUTION: float = 0.50
+const EQUIPMENT_DILUTION: float = 0.30
 ## How many bonus common-pool rolls per drop_loot call (materials, runes).
-const BONUS_COMMON_ROLLS: int = 2
+const BONUS_COMMON_ROLLS: int = 1
 ## Per-roll chance for each bonus common-pool drop.
-const BONUS_COMMON_CHANCE: float = 0.35
+const BONUS_COMMON_CHANCE: float = 0.18
 
 @export var item: ItemBase
 @export var amount: int = 1
@@ -92,10 +92,10 @@ static func _spawn(
 		item: ItemBase, qty: int, origin: Vector2, scatter: float) -> void:
 	var pickup: ItemPickup = _SCENE.instantiate()
 	var tree := Engine.get_main_loop() as SceneTree
-	tree.current_scene.add_child(pickup)
-	pickup.global_position = origin + Vector2(
-		randf_range(-scatter, scatter), randf_range(-scatter, scatter))
 	pickup.setup(item, qty)
+	pickup.position = origin + Vector2(
+		randf_range(-scatter, scatter), randf_range(-scatter, scatter))
+	tree.current_scene.call_deferred(&"add_child", pickup)
 
 func setup(p_item: ItemBase, p_amount: int = 1) -> void:
 	item = p_item

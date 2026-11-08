@@ -73,6 +73,10 @@ var move_speed: float:
 ## Dexterity increases evasion; strength decreases it.
 var evasion: float:
 	get: return _sum_modifiers(&"evasion") + dexterity * 0.4 - strength * 0.15
+var knockback_bonus: float:
+	get: return _sum_modifiers(&"knockback_bonus")
+var knockback_resist: float:
+	get: return clampf(_sum_modifiers(&"knockback_resist"), 0.0, 0.95)
 
 ## --- Recovery & utility ---
 var regeneration: float:
@@ -98,11 +102,63 @@ var thorns: float:
 var max_health_bonus: float:
 	get: return constitution * 2.0 + _sum_modifiers(&"max_health")
 var max_stamina_bonus: float:
-	get: return constitution * 1.5
+	get: return constitution * 1.5 + _sum_modifiers(&"max_stamina")
 var max_mana_bonus: float:
 	get: return intelligence * 2.0 + _sum_modifiers(&"max_mana")
 var max_hunger_bonus: float:
 	get: return constitution * 1.0
+
+## --- Weapon proc / on-hit effects ---
+var bleed_damage: float:
+	get: return _sum_modifiers(&"bleed_damage")
+var slow_chance: float:
+	get: return clampf(_sum_modifiers(&"slow_chance"), 0.0, 0.5)
+var petrify_chance: float:
+	get: return clampf(_sum_modifiers(&"petrify_chance"), 0.0, 0.25)
+var charm_chance: float:
+	get: return clampf(_sum_modifiers(&"charm_chance"), 0.0, 0.25)
+var drain_amount: float:
+	get: return _sum_modifiers(&"drain_amount")
+var reach_bonus: float:
+	get: return _sum_modifiers(&"reach_bonus")
+var charge_bonus: float:
+	get: return _sum_modifiers(&"charge_bonus")
+
+## --- Physical damage type bonuses ---
+var slash_damage: float:
+	get: return _sum_modifiers(&"slash_damage")
+var bludgeon_damage: float:
+	get: return _sum_modifiers(&"bludgeon_damage")
+var pierce_damage: float:
+	get: return _sum_modifiers(&"pierce_damage")
+
+## --- Armor defensive stats ---
+var dampen: float:
+	get: return clampf(_sum_modifiers(&"dampen"), 0.0, 0.5)
+var parry_chance: float:
+	get: return clampf(_sum_modifiers(&"parry_chance"), 0.0, 0.35)
+var cooldown_reduction: float:
+	get: return clampf(_sum_modifiers(&"cooldown_reduction"), 0.0, 0.5)
+var stealth: float:
+	get: return _sum_modifiers(&"stealth")
+var weight_reduction: float:
+	get: return clampf(_sum_modifiers(&"weight_reduction"), 0.0, 0.5)
+var elemental_attunement: float:
+	get: return _sum_modifiers(&"elemental_attunement")
+var death_defiance: float:
+	get: return clampf(_sum_modifiers(&"death_defiance"), 0.0, 0.25)
+var deflect_chance: float:
+	get: return clampf(_sum_modifiers(&"deflect_chance"), 0.0, 0.35)
+
+## --- Magic effects (weapon or armor) ---
+var fear_chance: float:
+	get: return clampf(_sum_modifiers(&"fear_chance"), 0.0, 0.25)
+var taunt_bonus: float:
+	get: return _sum_modifiers(&"taunt_bonus")
+var berserk_bonus: float:
+	get: return _sum_modifiers(&"berserk_bonus")
+var blind_chance: float:
+	get: return clampf(_sum_modifiers(&"blind_chance"), 0.0, 0.25)
 
 ## --- Elemental resists ---
 ## Strength increases physical resist.
