@@ -26,6 +26,15 @@ func _ready() -> void:
 func get_category_inventory(category: StringName) -> ShopInventory:
 	return _category_inventories.get(category, shop_inventory)
 
+
+func regenerate_stock() -> void:
+	_category_inventories.clear()
+	_generate_category_stock(ItemBase.Category.WEAPON)
+	_generate_category_stock(ItemBase.Category.ARMOR)
+	_generate_misc_stock()
+	_add_exported_items()
+	shop_inventory = _category_inventories.get(&"weapons", ShopInventory.new())
+
 func _generate_category_stock(category: ItemBase.Category) -> void:
 	var bases := ItemFactory.get_bases_by_category(category)
 	if bases.is_empty():

@@ -11,7 +11,7 @@ const _INACTIVE_COLOR := Color(0.75, 0.72, 0.65, 1)
 
 const DURABILITY_ICON := preload("res://assets/UI/inventory/icon_durability.png")
 const INVENTORY_ICON := preload("res://assets/UI/inventory/icon_inventory.png")
-const _ANVIL_SFX: AudioStream = preload("res://assets/SoundFX/UI/mug-sounds-anvil.mp3")
+const _ANVIL_SFX: AudioStream = preload("res://assets/SoundFX/UI/repair-gear.mp3")
 
 const _ROW_BASE_COST := 200
 const _ROW_COST_MULT := 1.8
@@ -53,6 +53,7 @@ func setup_shop(npc: NPCBase) -> void:
 
 func _on_open() -> void:
 	UIManager.close_screen(&"inventory")
+	UIManager.close_screen(&"stash")
 	UIManager.close_screen(&"level_up")
 	UIManager.close_screen(&"item_spawner")
 	var player: Player = GameManager.player

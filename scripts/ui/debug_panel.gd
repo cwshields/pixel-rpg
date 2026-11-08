@@ -60,6 +60,7 @@ extends CanvasLayer
 @onready var _level_up_button: Button = %LevelUpButton
 @onready var _toggle_night_button: Button = %ToggleNightButton
 @onready var _reload_tres_button: Button = %ReloadTresButton
+@onready var _refresh_shop_button: Button = %RefreshShopButton
 @onready var _item_spawner_button: Button = %ItemSpawnerButton
 @onready var _hint: Label = %Hint
 
@@ -80,6 +81,7 @@ func _ready() -> void:
 	_level_up_button.pressed.connect(_level_up_player)
 	_toggle_night_button.pressed.connect(_toggle_night)
 	_reload_tres_button.pressed.connect(_reload_tres)
+	_refresh_shop_button.pressed.connect(_refresh_shop)
 	_item_spawner_button.pressed.connect(_toggle_item_spawner)
 	Events.entity_died.connect(_on_player_state_maybe_changed)
 	Events.health_changed.connect(func(entity: Node, _c: float, _m: float) -> void:
@@ -356,6 +358,24 @@ func _reload_tres() -> void:
 	var spawner := UIManager.get_screen(&"item_spawner")
 	if spawner and spawner is ItemSpawnerUI:
 		spawner.repopulate()
+	for node in get_tree().current_scene.find_children("*", "MerchantNPC", true, false):
+		(node as MerchantNPC).regenerate_stock()
+	var shop: ShopUI = UIManager.get_screen(&"shop") as ShopUI
+	if shop and shop.visible and shop._active_npc:
+		shop.setup_shop(shop._active_npc)
+		shop._switch_shop_category(&"weapons")
+
+# --- Refresh shop ------------------------------------------------------
+
+func _refresh_shop() -> void:
+	for node in get_tree().current_scene.find_children("*", "MerchantNPC", true, false):
+		var merchant := node as MerchantNPC
+		merchant._session_seed = hash(merchant.npc_name) ^ int(Time.get_unix_time_from_system())
+		merchant.regenerate_stock()
+	var shop: ShopUI = UIManager.get_screen(&"shop") as ShopUI
+	if shop and shop.visible and shop._active_npc:
+		shop.setup_shop(shop._active_npc)
+		shop._switch_shop_category(&"weapons")
 
 # --- Item spawner -----------------------------------------------------
 

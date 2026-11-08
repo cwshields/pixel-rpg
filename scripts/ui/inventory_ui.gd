@@ -33,6 +33,7 @@ var _search_text: String = ""
 
 func _on_open() -> void:
 	UIManager.close_screen(&"shop")
+	UIManager.close_screen(&"stash")
 	UIManager.close_screen(&"level_up")
 	UIManager.close_screen(&"item_spawner")
 	var player: Player = GameManager.player
