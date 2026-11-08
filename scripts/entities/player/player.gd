@@ -6,6 +6,7 @@ extends EntityBase
 
 var inventory: Inventory = Inventory.new(12, 9)
 var equipment: Equipment = Equipment.new()
+var affix_knowledge: AffixKnowledge = AffixKnowledge.new()
 var gold: int = 100
 
 const BASE_CARRY_WEIGHT := 80.0

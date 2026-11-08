@@ -65,6 +65,8 @@
 [ext_resource type="PackedScene" path="res://scenes/entities/enemy/tracker.tscn" id="83_es"]
 [ext_resource type="PackedScene" uid="uid://bax33xxp7wv1g" path="res://scenes/world/fireflies.tscn" id="fireflies"]
 [ext_resource type="PackedScene" uid="uid://c5d53qcuhid5e" path="res://scenes/entities/npc/merchant_peasant.tscn" id="merchant_peasant"]
+[ext_resource type="PackedScene" path="res://scenes/world/stash_chest.tscn" id="stash_chest"]
+[ext_resource type="PackedScene" path="res://scenes/world/imbuing_station.tscn" id="imbuing_station"]
 [ext_resource type="PackedScene" uid="uid://b5wrhol0b8hfj" path="res://scenes/world/trees/tree_large.tscn" id="tv_large"]
 [ext_resource type="PackedScene" uid="uid://bhhpmuo8st1pc" path="res://scenes/world/trees/tree_medium.tscn" id="tv_medium"]
 [ext_resource type="PackedScene" uid="uid://dhaj1cdp2b3g8" path="res://scenes/world/trees/tree_small_a.tscn" id="tv_small_a"]
@@ -83,9 +85,15 @@ position = Vector2(-437, 76)
 
 [node name="Merchant" parent="Entities" unique_id=244868271 instance=ExtResource("merchant_peasant")]
 z_index = 1
-position = Vector2(-50, -662)
+position = Vector2(-41, -663)
 shop_level = 1
 items_per_category = 20
+
+[node name="StashChest" parent="Entities" unique_id=774363569 instance=ExtResource("stash_chest")]
+position = Vector2(-155, -655)
+
+[node name="ImbuingStation" parent="Entities" instance=ExtResource("imbuing_station")]
+position = Vector2(-120, -655)
 
 [node name="Trees" type="Node2D" parent="." unique_id=775827253]
 y_sort_enabled = true

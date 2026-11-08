@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_ui.tscn" id="6_dlg"]
 [ext_resource type="PackedScene" path="res://scenes/ui/shop_ui.tscn" id="7_shop"]
 [ext_resource type="PackedScene" path="res://scenes/ui/level_up_ui.tscn" id="8_lvlup"]
+[ext_resource type="PackedScene" path="res://scenes/ui/stash_ui.tscn" id="9_stash"]
+[ext_resource type="PackedScene" path="res://scenes/ui/imbuing_ui.tscn" id="10_imbue"]
 
 [node name="UILayer" type="CanvasLayer" unique_id=79373571]
 
@@ -28,3 +30,7 @@ anchors_preset = 15
 [node name="ShopUI" parent="." instance=ExtResource("7_shop")]
 
 [node name="LevelUpUI" parent="." instance=ExtResource("8_lvlup")]
+
+[node name="StashUI" parent="." instance=ExtResource("9_stash")]
+
+[node name="ImbuingUI" parent="." instance=ExtResource("10_imbue")]

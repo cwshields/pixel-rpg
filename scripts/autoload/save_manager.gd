@@ -150,6 +150,7 @@ func save_game(slot_name: String = "") -> bool:
 		"timestamp": Time.get_datetime_string_from_system(),
 		"player": _serialize_player(player),
 		"world": _serialize_world(),
+		"stash": _serialize_stash(GameManager.stash),
 	}
 
 	_ensure_dir(_save_dir)
@@ -239,6 +240,7 @@ func apply_save() -> void:
 
 	_deserialize_player(player, data.get("player", {}))
 	_deserialize_world(data.get("world", {}))
+	_deserialize_stash(GameManager.stash, data.get("stash", {}))
 
 func delete_save(slot_name: String = "") -> void:
 	if slot_name.is_empty():
@@ -331,6 +333,7 @@ func _serialize_player(player: Player) -> Dictionary:
 	data["inventory"] = _serialize_inventory(player.inventory)
 	data["equipment"] = _serialize_equipment(player.equipment)
 	data["hotbar"] = _serialize_hotbar(player)
+	data["affix_knowledge"] = player.affix_knowledge.to_save_dict()
 
 	return data
 
@@ -357,6 +360,8 @@ func _deserialize_player(player: Player, data: Dictionary) -> void:
 	_deserialize_inventory(player.inventory, data.get("inventory", {}))
 	_deserialize_equipment(player, data.get("equipment", {}))
 	_deserialize_hotbar(player, data.get("hotbar", []))
+	if data.has("affix_knowledge"):
+		player.affix_knowledge = AffixKnowledge.from_save_dict(data["affix_knowledge"])
 
 	if player.health and data.has("health"):
 		var h: Dictionary = data["health"]
@@ -509,3 +514,24 @@ func _string_keys_to_dict(d: Dictionary) -> Dictionary:
 	for key: String in d:
 		result[StringName(key)] = int(d[key])
 	return result
+
+
+func _serialize_stash(stash: Stash) -> Dictionary:
+	var pages: Array[Dictionary] = []
+	for i in stash.page_count:
+		pages.append(_serialize_inventory(stash.get_page(i)))
+	return {
+		"page_count": stash.page_count,
+		"width": stash.width,
+		"height": stash.height,
+		"current_page": stash.get_current_page_index(),
+		"pages": pages,
+	}
+
+
+func _deserialize_stash(stash: Stash, data: Dictionary) -> void:
+	if data.is_empty():
+		return
+	var pages_data: Array = data.get("pages", [])
+	for i in mini(pages_data.size(), stash.page_count):
+		_deserialize_inventory(stash.get_page(i), pages_data[i])
